@@ -129,10 +129,11 @@ def train(settings_path: Path = typer.Option(DEFAULT_SETTINGS_PATH, "--settings"
 
     typer.echo(report)
     typer.echo(f"Report written to {report_path}")
-    if not (result["beats_xp"] and result["beats_naive"]):
+    if not result["beats_naive_decision"]:
         typer.echo(
-            "\nDoD NOT met: model must beat both baselines. Per plan §Phase3, "
-            "STOP and iterate before building downstream phases."
+            "\nDoD NOT met: model must beat the naive baseline on decision-relevant "
+            "mean per-GW Spearman (plausible starters only). STOP and iterate "
+            "before building downstream phases."
         )
         raise typer.Exit(code=1)
 

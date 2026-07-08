@@ -8,6 +8,7 @@ same DuckDB query/merge logic in two places.
 from __future__ import annotations
 
 import duckdb
+import numpy as np
 import pandas as pd
 
 FEATURE_COLUMNS = [
@@ -38,6 +39,24 @@ CATEGORICAL_COLUMNS = ["position", "price_band"]
 TARGET_COLUMNS = ["total_points", "minutes", "fpl_xp"]
 
 
+def _null_out_corrupted_xp_gameweeks(df: pd.DataFrame) -> pd.DataFrame:
+    """vaastav's `xP` column is entirely 0.0 for large stretches of 2025-26 (e.g.
+    GW7, GW10-23, GW25-28, GW30-37 — 83% of the season's rows) — a real upstream
+    data-quality gap, not FPL genuinely predicting zero expected points for an
+    entire gameweek (surrounding gameweeks and prior seasons run ~1.0-1.5 mean).
+    Any (season, gw) group whose mean fpl_xp is exactly 0 gets nulled out so it
+    reads as missing — LightGBM handles NaN natively — rather than a false
+    "nothing will happen this week" signal fed to the model, and so the xP
+    baseline in the validation report is scored only on gameweeks it actually has
+    data for instead of being dragged down by a data gap that has nothing to do
+    with FPL's prediction quality.
+    """
+    df = df.copy()
+    group_mean = df.groupby(["season", "gw"])["fpl_xp"].transform("mean")
+    df.loc[group_mean == 0, "fpl_xp"] = np.nan
+    return df
+
+
 def load_dataset(con: duckdb.DuckDBPyConnection, seasons: list[str]) -> pd.DataFrame:
     """features JOIN player_gw_history (for targets), restricted to `seasons`."""
     placeholders = ", ".join(["?"] * len(seasons))
@@ -55,6 +74,7 @@ def load_dataset(con: duckdb.DuckDBPyConnection, seasons: list[str]) -> pd.DataF
     df["promoted_team"] = df["promoted_team"].astype(bool)
     for col in CATEGORICAL_COLUMNS:
         df[col] = df[col].astype("category")
+    df = _null_out_corrupted_xp_gameweeks(df)
     return df
 
 
