@@ -13,6 +13,7 @@ import typer
 import yaml
 
 from fplscout import db
+from fplscout.features.build import write_features
 from fplscout.ingest import vaastav
 from fplscout.ingest.fpl_api import FplApiClient
 
@@ -43,8 +44,8 @@ def refresh(
     --raw: additionally snapshot a sample element-summary and (if team_id is
     configured) our entry endpoints to data/raw/ — no DuckDB writes.
 
-    (default): populate DuckDB from vaastav historical data (2021-22 .. 2025-26).
-    Idempotent — safe to re-run.
+    (default): populate DuckDB from vaastav historical data (2021-22 .. 2025-26)
+    and rebuild the feature store. Idempotent — safe to re-run.
     """
     settings = load_settings(settings_path)
     raw_cache_dir = REPO_ROOT / settings["paths"]["raw_cache"]
@@ -94,6 +95,11 @@ def refresh(
             f"  {s['season']}: {s['teams']} teams, {s['players']} players, "
             f"{s['fixtures']} fixtures, {s['gw_rows']} player-gw rows"
         )
+
+    typer.echo("Building feature store...")
+    n_features = write_features(con)
+    typer.echo(f"  {n_features} feature rows")
+
     con.close()
     typer.echo(f"DuckDB updated at {duckdb_path}")
 

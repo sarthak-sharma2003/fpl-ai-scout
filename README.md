@@ -12,8 +12,8 @@ only. No paid solvers, no paid hosting.
 |---|---|---|
 | 0 | Scaffold + FPL API client | ✅ done |
 | 1 | Data layer (DuckDB + historical loader) | ✅ done |
-| 2 | Feature store | ⏳ next |
-| 3 | Prediction models (minutes / team goals / points) | not started |
+| 2 | Feature store | ✅ done |
+| 3 | Prediction models (minutes / team goals / points) | ⏳ next — validation report is a review gate |
 | 4 | MILP optimizer | not started |
 | 5 | Chip planner | not started |
 | 6 | Backtest simulator (go/no-go gate) | not started |

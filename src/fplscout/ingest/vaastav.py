@@ -262,10 +262,10 @@ def load_season(con: duckdb.DuckDBPyConnection, client: VaastavClient, season: s
     gw_df["source"] = "vaastav"
 
     con.execute("DELETE FROM teams WHERE season = ?", [season])
-    con.execute("INSERT INTO teams SELECT * FROM teams_df")
+    con.execute("INSERT INTO teams BY NAME SELECT * FROM teams_df")
 
     con.execute("DELETE FROM fixtures WHERE season = ?", [season])
-    con.execute("INSERT INTO fixtures SELECT * FROM fixtures_df")
+    con.execute("INSERT INTO fixtures BY NAME SELECT * FROM fixtures_df")
 
     player_season_df = players_raw_df.copy()
     player_season_df["position"] = player_season_df["element_type"].map(POSITION_MAP)
@@ -273,14 +273,14 @@ def load_season(con: duckdb.DuckDBPyConnection, client: VaastavClient, season: s
         ["season", "element_id", "code", "team_id", "position", "web_name"]
     ]
     con.execute("DELETE FROM player_season WHERE season = ?", [season])
-    con.execute("INSERT INTO player_season SELECT * FROM player_season_df")
+    con.execute("INSERT INTO player_season BY NAME SELECT * FROM player_season_df")
 
     players_dim_df = players_raw_df[["code", "first_name", "second_name", "web_name"]].copy()
     players_dim_df["last_seen_season"] = season
     con.execute(
         """
         INSERT INTO players AS p
-        SELECT * FROM players_dim_df
+        BY NAME SELECT * FROM players_dim_df
         ON CONFLICT (code) DO UPDATE SET
             first_name = excluded.first_name,
             second_name = excluded.second_name,
@@ -307,7 +307,7 @@ def load_season(con: duckdb.DuckDBPyConnection, client: VaastavClient, season: s
         ]
     ]
     con.execute("DELETE FROM player_gw_history WHERE season = ?", [season])
-    con.execute("INSERT INTO player_gw_history SELECT * FROM gw_history_df")
+    con.execute("INSERT INTO player_gw_history BY NAME SELECT * FROM gw_history_df")
 
     return {
         "season": season,

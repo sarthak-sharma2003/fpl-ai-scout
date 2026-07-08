@@ -128,6 +128,68 @@ CREATE TABLE IF NOT EXISTS player_gw_history (
     PRIMARY KEY (season, code, fixture_id)
 );
 
+-- Feature store (Phase 2). One row per player_gw_history row it was derived from.
+-- Every rolling/team-form column is computed using ONLY rows strictly before this
+-- row's kickoff_time (see features/build.py) — no leakage by construction.
+CREATE TABLE IF NOT EXISTS features (
+    season TEXT NOT NULL,
+    gw INTEGER NOT NULL,
+    fixture_id INTEGER NOT NULL,
+    code BIGINT NOT NULL,
+    team_id INTEGER,
+    opponent_team_id INTEGER,
+    was_home BOOLEAN,
+    position TEXT,
+    kickoff_time TIMESTAMP,
+    value INTEGER,
+    price_band TEXT,
+    promoted_team BOOLEAN,
+
+    -- decayed rolling windows (3/5/10 games), computed over strictly prior games
+    roll3_points DOUBLE, roll5_points DOUBLE, roll10_points DOUBLE,
+    roll3_minutes DOUBLE, roll5_minutes DOUBLE, roll10_minutes DOUBLE,
+    roll3_xg DOUBLE, roll5_xg DOUBLE, roll10_xg DOUBLE,
+    roll3_xa DOUBLE, roll5_xa DOUBLE, roll10_xa DOUBLE,
+    roll3_xgi DOUBLE, roll5_xgi DOUBLE, roll10_xgi DOUBLE,
+    roll3_xgc DOUBLE, roll5_xgc DOUBLE, roll10_xgc DOUBLE,
+    roll3_bps DOUBLE, roll5_bps DOUBLE, roll10_bps DOUBLE,
+    roll3_saves DOUBLE, roll5_saves DOUBLE, roll10_saves DOUBLE,
+    roll3_goals_conceded DOUBLE, roll5_goals_conceded DOUBLE, roll10_goals_conceded DOUBLE,
+    roll3_defensive_contribution DOUBLE, roll5_defensive_contribution DOUBLE,
+    roll10_defensive_contribution DOUBLE,
+    roll3_cbit DOUBLE, roll5_cbit DOUBLE, roll10_cbit DOUBLE,
+    roll3_recoveries DOUBLE, roll5_recoveries DOUBLE, roll10_recoveries DOUBLE,
+    roll3_tackles DOUBLE, roll5_tackles DOUBLE, roll10_tackles DOUBLE,
+
+    -- per-90 (5-game window only, to control scope)
+    roll5_xg_per90 DOUBLE,
+    roll5_xa_per90 DOUBLE,
+    roll5_xgi_per90 DOUBLE,
+    roll5_bps_per90 DOUBLE,
+
+    -- share-of-team (5-game window): player rolling xG / team rolling xG, etc.
+    roll5_xg_share DOUBLE,
+    roll5_xa_share DOUBLE,
+    roll5_xgi_share DOUBLE,
+
+    -- fixture context
+    fdr INTEGER,
+    opponent_strength INTEGER,
+    rest_days INTEGER,
+    is_dgw BOOLEAN,
+
+    -- team form (from fixtures table, strictly prior matches)
+    team_roll5_goals_for DOUBLE,
+    team_roll5_goals_against DOUBLE,
+
+    -- leak-safe availability proxy (NOT the same as live status/chance_of_playing,
+    -- which are single-snapshot fields in historical data and would leak — see
+    -- features/build.py docstring)
+    roll5_started_share DOUBLE,
+
+    PRIMARY KEY (season, code, fixture_id)
+);
+
 -- Our own squad state (Phase 4). Empty until squad_state.py writes to it.
 CREATE TABLE IF NOT EXISTS our_entry (
     entry_id INTEGER PRIMARY KEY,
@@ -199,6 +261,7 @@ TABLES = [
     "fixtures",
     "gameweeks",
     "player_gw_history",
+    "features",
     "our_entry",
     "our_picks",
     "our_transfers",
