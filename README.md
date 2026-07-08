@@ -15,8 +15,8 @@ only. No paid solvers, no paid hosting.
 | 2 | Feature store | ✅ done |
 | 3 | Prediction models (minutes / team goals / points) | ✅ done — beats both baselines, see validation report |
 | 4 | MILP optimizer | ✅ done — golden-case tests, <2s solve at ~600-player scale |
-| 5 | Chip planner | ⏳ next |
-| 6 | Backtest simulator (go/no-go gate) | not started |
+| 5 | Chip planner | ✅ done |
+| 6 | Backtest simulator (go/no-go gate) | ⏳ next — hard stop for review |
 | 7 | API + build our own frontend | not started |
 | 8 | Automation + weekly ops | not started |
 | 9 | Season kickoff checklist | blocked until 26/27 game launches |
@@ -160,6 +160,16 @@ tests/            pytest suite; tests/fixtures/ holds recorded API payloads for 
   live picks (`reconcile()` — returns discrepancy warnings, doesn't
   auto-correct). Free transfers cap at 5, verified live in bootstrap-static's
   `game_config.rules.max_extra_free_transfers: 4` (+1 base).
+- **`decide/chip_planner.py` reads chip validity windows from the live API's
+  `chips` array at call time, never hardcoded** — grounding against the live
+  25/26 API (2026-07-08) showed bench boost/triple captain are valid from GW1
+  while wildcard/free hit only from GW2, a distinction a hardcoded "GW2-19"
+  window (the plan's own shorthand) would have missed entirely for two of the
+  four chips. DGW/BGW detection is a plain fixture-count groupby per plan §6.7.
+  Split into pure EV/scheduling functions (fully unit-tested, no solver calls)
+  and `evaluate_chip_windows()`, which does drive the optimizer across
+  candidate gameweeks — expensive, so Phase 6's backtest calls it once per GW
+  using projections it already has rather than a standalone horizon scan.
 
 ## Weekly ops runbook
 
