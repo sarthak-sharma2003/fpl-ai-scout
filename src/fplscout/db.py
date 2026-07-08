@@ -91,6 +91,12 @@ CREATE TABLE IF NOT EXISTS player_gw_history (
     was_home BOOLEAN,
     position TEXT,
     kickoff_time TIMESTAMP,
+    -- FPL's own pre-deadline expected-points prediction for this exact gameweek row
+    -- (vaastav `xP` column) — genuinely leak-safe, unlike the bootstrap-static
+    -- ep_next/status/penalties_order snapshot fields (see features/build.py
+    -- docstring). This is the baseline Phase 3 must beat, and per plan §6.8 also
+    -- a legitimate model input feature.
+    fpl_xp DOUBLE,
     minutes INTEGER,
     starts INTEGER,
     total_points INTEGER,

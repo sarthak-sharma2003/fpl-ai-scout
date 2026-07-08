@@ -105,10 +105,36 @@ def refresh(
 
 
 @app.command()
-def train() -> None:
-    """Train prediction models. Implemented in Phase 3."""
-    typer.echo("Not implemented yet — Phase 3 (models).")
-    raise typer.Exit(code=1)
+def train(settings_path: Path = typer.Option(DEFAULT_SETTINGS_PATH, "--settings")) -> None:
+    """Train minutes/team-goals/points models; write validation report.
+
+    Trains on 2021-22..2024-25, holds out 2025-26. Writes model pickles to
+    data/models/ and a markdown validation report to data/reports/.
+    """
+    from fplscout.models.train import render_report, run
+
+    settings = load_settings(settings_path)
+    duckdb_path = REPO_ROOT / settings["paths"]["duckdb"]
+    con = db.connect(duckdb_path)
+
+    typer.echo("Training minutes / team-goals / points models...")
+    result = run(con, models_dir=REPO_ROOT / "data" / "models")
+    con.close()
+
+    report = render_report(result)
+    reports_dir = REPO_ROOT / "data" / "reports"
+    reports_dir.mkdir(parents=True, exist_ok=True)
+    report_path = reports_dir / f"phase3_validation_{result['version']}.md"
+    report_path.write_text(report)
+
+    typer.echo(report)
+    typer.echo(f"Report written to {report_path}")
+    if not (result["beats_xp"] and result["beats_naive"]):
+        typer.echo(
+            "\nDoD NOT met: model must beat both baselines. Per plan §Phase3, "
+            "STOP and iterate before building downstream phases."
+        )
+        raise typer.Exit(code=1)
 
 
 @app.command()

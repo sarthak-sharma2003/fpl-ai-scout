@@ -166,6 +166,11 @@ class VaastavClient:
 
     def players_raw(self, season: str) -> pd.DataFrame:
         df = self._fetch_csv(f"{season}/players_raw.csv")
+        # element_type 5 = "Assistant Manager" (introduced 2024-25, e.g. Arteta,
+        # Emery) — a distinct novelty-chip entity, not a squad player. Out of scope
+        # (plan never models manager picks); excluded here so it can't leak into
+        # player_season/player_gw_history/features downstream.
+        df = df[df["element_type"] != 5]
         cols = ["id", "code", "first_name", "second_name", "web_name", "element_type", "team"]
         out = df[cols].copy()
         out.insert(0, "season", season)
@@ -193,6 +198,15 @@ class VaastavClient:
 
     def merged_gw(self, season: str) -> pd.DataFrame:
         df = self._fetch_csv(f"{season}/gws/merged_gw.csv")
+        # Same assistant-manager exclusion as players_raw() (position == "AM",
+        # 2024-25 only) — belt and suspenders, since this file is fetched
+        # independently. Also normalizes goalkeeper position label: vaastav uses
+        # "GK" in every season's merged_gw.csv except a handful of 2021-22 rows
+        # that say "GKP" — collapse to one canonical value ("GKP", matching the
+        # live API's current short_name) so position-grouped code doesn't
+        # silently split goalkeepers into two buckets.
+        df = df[df["position"] != "AM"].copy()
+        df["position"] = df["position"].replace({"GK": "GKP"})
         out = pd.DataFrame({"season": season, "gw": df["GW"], "fixture_id": df["fixture"]})
         out["element_id"] = df["element"]
         out["team_name"] = df["team"]
@@ -201,6 +215,9 @@ class VaastavClient:
         out["position"] = df["position"]
         out["kickoff_time"] = df["kickoff_time"]
         out["player_name"] = df["name"]
+        # vaastav's "xP" is FPL's own pre-deadline expected-points prediction for
+        # this exact gameweek row — genuinely leak-safe (see db.py comment).
+        out["fpl_xp"] = df["xP"] if "xP" in df.columns else pd.NA
         for col in GW_HISTORY_SOURCE_COLUMNS:
             out[col] = df[col] if col in df.columns else pd.NA
         return out
@@ -302,6 +319,7 @@ def load_season(con: duckdb.DuckDBPyConnection, client: VaastavClient, season: s
             "was_home",
             "position",
             "kickoff_time",
+            "fpl_xp",
             *GW_HISTORY_SOURCE_COLUMNS,
             "source",
         ]
