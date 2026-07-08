@@ -54,3 +54,22 @@ def test_predict_leaves_unmodeled_positions_as_nan(synthetic_dataset):
     preds = points.predict(models, df)
     gkp_preds = preds[preds["position"] == "GKP"]
     assert gkp_preds["ev_points"].isna().all()
+
+
+def test_independent_variant_excludes_fpl_xp(synthetic_dataset):
+    df = _with_model_features(synthetic_dataset)
+    assert "fpl_xp" not in points.INDEPENDENT_FEATURE_COLUMNS
+    assert "fpl_xp" in points.FULL_FEATURE_COLUMNS
+    models = points.train(df, feature_columns=points.INDEPENDENT_FEATURE_COLUMNS)
+    preds = points.predict(models, df, feature_columns=points.INDEPENDENT_FEATURE_COLUMNS)
+    assert not preds["ev_points"].isna().all()
+
+
+def test_feature_gain_by_column_shape(synthetic_dataset):
+    df = _with_model_features(synthetic_dataset)
+    models = points.train(df)
+    gain = points.feature_gain_by_column(models)
+    assert set(gain.columns) == {"position", "feature", "gain", "gain_share"}
+    for position in models:
+        sub = gain[gain["position"] == position]
+        assert abs(sub["gain_share"].sum() - 1.0) < 1e-6

@@ -16,6 +16,7 @@ from fplscout import db
 from fplscout.features.build import write_features
 from fplscout.ingest import vaastav
 from fplscout.ingest.fpl_api import FplApiClient
+from fplscout.ingest.health import check_ep_next_health
 
 app = typer.Typer(no_args_is_help=True, add_completion=False)
 
@@ -66,6 +67,18 @@ def refresh(
         client.fixtures(force_refresh=True)
         typer.echo(f"  OK — {len(client.fixtures())} fixtures")
 
+        ep_next_warnings = check_ep_next_health(bootstrap)
+        if ep_next_warnings:
+            typer.echo("  WARNING: ep_next looks degenerate:")
+            for warning in ep_next_warnings:
+                typer.echo(f"    - {warning}")
+            typer.echo(
+                "    The points model's FULL variant depends heavily on this "
+                "feature — see models/points.py."
+            )
+        else:
+            typer.echo("  ep_next distribution looks healthy.")
+
         if raw:
             sample_player_id = bootstrap.elements[0].id
             typer.echo(f"Fetching element-summary for sample player {sample_player_id}...")
@@ -106,10 +119,14 @@ def refresh(
 
 @app.command()
 def train(settings_path: Path = typer.Option(DEFAULT_SETTINGS_PATH, "--settings")) -> None:
-    """Train minutes/team-goals/points models; write validation report.
+    """Train minutes/team-goals/points models (full + xp-independent variants,
+    routed at inference time); write validation report.
 
-    Trains on 2021-22..2024-25, holds out 2025-26. Writes model pickles to
-    data/models/ and a markdown validation report to data/reports/.
+    Trains two backtest splits: primary (train 2021-22..2023-24, holdout
+    2024-25 — near-full xp coverage, the regime production runs in) and
+    secondary (train 2021-22..2024-25, holdout 2025-26 — xp-scarce stress
+    test). Writes model pickles to data/models/ and a markdown validation
+    report to data/reports/.
     """
     from fplscout.models.train import render_report, run
 
@@ -117,22 +134,23 @@ def train(settings_path: Path = typer.Option(DEFAULT_SETTINGS_PATH, "--settings"
     duckdb_path = REPO_ROOT / settings["paths"]["duckdb"]
     con = db.connect(duckdb_path)
 
-    typer.echo("Training minutes / team-goals / points models...")
+    typer.echo("Training minutes / team-goals / points (full + independent variants)...")
     result = run(con, models_dir=REPO_ROOT / "data" / "models")
     con.close()
 
     report = render_report(result)
     reports_dir = REPO_ROOT / "data" / "reports"
     reports_dir.mkdir(parents=True, exist_ok=True)
-    report_path = reports_dir / f"phase3_validation_{result['version']}.md"
+    report_path = reports_dir / f"phase3_validation_{result['primary']['version']}.md"
     report_path.write_text(report)
 
     typer.echo(report)
     typer.echo(f"Report written to {report_path}")
-    if not result["beats_naive_decision"]:
+    if not (result["beats_naive_decision"] and result["independent_beats_naive"]):
         typer.echo(
-            "\nDoD NOT met: model must beat the naive baseline on decision-relevant "
-            "mean per-GW Spearman (plausible starters only). STOP and iterate "
+            "\nDoD NOT met: both the routed model and the standalone independent "
+            "(no-xp) variant must clearly beat the naive baseline on the primary "
+            "split's decision-relevant mean per-GW Spearman. STOP and iterate "
             "before building downstream phases."
         )
         raise typer.Exit(code=1)

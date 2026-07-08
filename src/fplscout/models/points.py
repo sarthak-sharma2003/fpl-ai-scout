@@ -18,6 +18,18 @@ guessing upfront that it's necessary.
 
 Quantiles (q10/q90) trained directly on total_points with LightGBM's quantile
 objective, per plan §Phase3.8.
+
+Two variants, per review: `fpl_xp` (FPL's own ep_next/xP) carries 63-65% of total
+gain in the FULL variant's mean model — the model is largely "xP plus learned
+corrections". That's fine when xP is genuinely available (live production always
+has it from bootstrap-static), but vaastav's historical xP has real gaps (see
+dataset.py), and a model trained with xp as a dominant feature performs badly when
+that feature is amputated at inference time — worse than a model that never relied
+on it. `train_variant()` takes an explicit `feature_columns` list so callers
+(models/train.py) can train both a FULL variant (xp included) and an INDEPENDENT
+variant (xp excluded, importance forced onto rolling-form/team-goals/minutes
+features instead) from the same code path, then route between them per-row based on
+whether xp is actually available (train.py's `route_predictions`).
 """
 
 from __future__ import annotations
@@ -30,11 +42,19 @@ from fplscout.models.dataset import CATEGORICAL_COLUMNS, FEATURE_COLUMNS
 
 POSITIONS = ["GKP", "DEF", "MID", "FWD"]
 
-EXTRA_FEATURE_COLUMNS = [
+EXTRA_FEATURE_COLUMNS_WITH_XP = [
     "mins_p0", "mins_p1_59", "mins_p60_plus", "expected_minutes",
     "team_xg_for", "team_xg_against", "clean_sheet_prob", "fpl_xp",
 ]
-ALL_FEATURE_COLUMNS = FEATURE_COLUMNS + EXTRA_FEATURE_COLUMNS
+EXTRA_FEATURE_COLUMNS_NO_XP = [
+    c for c in EXTRA_FEATURE_COLUMNS_WITH_XP if c != "fpl_xp"
+]
+FULL_FEATURE_COLUMNS = FEATURE_COLUMNS + EXTRA_FEATURE_COLUMNS_WITH_XP
+INDEPENDENT_FEATURE_COLUMNS = FEATURE_COLUMNS + EXTRA_FEATURE_COLUMNS_NO_XP
+
+# Backwards-compatible aliases (Phase 3's original single-variant names).
+EXTRA_FEATURE_COLUMNS = EXTRA_FEATURE_COLUMNS_WITH_XP
+ALL_FEATURE_COLUMNS = FULL_FEATURE_COLUMNS
 
 MEAN_PARAMS = {
     "objective": "regression",
@@ -75,14 +95,20 @@ def add_model_features(
     return out
 
 
-def train(train_df: pd.DataFrame) -> dict[str, dict[str, lgb.Booster]]:
-    """Returns {position: {"mean": booster, "q10": booster, "q90": booster}}."""
+def train(
+    train_df: pd.DataFrame, feature_columns: list[str] = FULL_FEATURE_COLUMNS
+) -> dict[str, dict[str, lgb.Booster]]:
+    """Returns {position: {"mean": booster, "q10": booster, "q90": booster}}.
+
+    Pass `feature_columns=INDEPENDENT_FEATURE_COLUMNS` to train the xp-free
+    variant; defaults to the FULL (xp-included) variant for backward
+    compatibility with earlier Phase 3 call sites."""
     models: dict[str, dict[str, lgb.Booster]] = {}
     for position in POSITIONS:
         sub = train_df[train_df["position"] == position]
         if len(sub) < 50:
             continue
-        X = sub[ALL_FEATURE_COLUMNS]
+        X = sub[feature_columns]
         y = sub["total_points"]
         dataset = lgb.Dataset(
             X, label=y, categorical_feature=CATEGORICAL_COLUMNS, free_raw_data=False
@@ -98,7 +124,11 @@ def train(train_df: pd.DataFrame) -> dict[str, dict[str, lgb.Booster]]:
     return models
 
 
-def predict(models: dict[str, dict[str, lgb.Booster]], df: pd.DataFrame) -> pd.DataFrame:
+def predict(
+    models: dict[str, dict[str, lgb.Booster]],
+    df: pd.DataFrame,
+    feature_columns: list[str] = FULL_FEATURE_COLUMNS,
+) -> pd.DataFrame:
     out = df[["season", "gw", "fixture_id", "code", "position"]].copy()
     out["ev_points"] = np.nan
     out["q10_points"] = np.nan
@@ -107,8 +137,29 @@ def predict(models: dict[str, dict[str, lgb.Booster]], df: pd.DataFrame) -> pd.D
         mask = df["position"] == position
         if not mask.any():
             continue
-        X = df.loc[mask, ALL_FEATURE_COLUMNS]
+        X = df.loc[mask, feature_columns]
         out.loc[mask, "ev_points"] = position_models["mean"].predict(X)
         out.loc[mask, "q10_points"] = position_models["q10"].predict(X)
         out.loc[mask, "q90_points"] = position_models["q90"].predict(X)
     return out
+
+
+def feature_gain_by_column(models: dict[str, dict[str, lgb.Booster]]) -> pd.DataFrame:
+    """Per-position, per-feature total gain share for the mean model — used to
+    verify (or refute) claims like "fpl_xp carries 63-65% of gain"."""
+    rows = []
+    for position, position_models in models.items():
+        booster = position_models["mean"]
+        importances = booster.feature_importance(importance_type="gain")
+        names = booster.feature_name()
+        total = importances.sum()
+        for name, gain in zip(names, importances, strict=True):
+            rows.append(
+                {
+                    "position": position,
+                    "feature": name,
+                    "gain": float(gain),
+                    "gain_share": float(gain / total) if total > 0 else 0.0,
+                }
+            )
+    return pd.DataFrame(rows)
