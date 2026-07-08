@@ -1,7 +1,8 @@
 """fplscout CLI entrypoints: refresh | train | project | optimize | report | serve.
 
-Only `refresh` is implemented in Phase 0. The rest are stubs that name the phase
-that implements them, so `--help` always reflects the true state of the build.
+Only `refresh` is implemented (Phase 0: live-API schema check + raw snapshot; Phase 1:
+DuckDB population from vaastav historical data). The rest are stubs that name the
+phase that implements them, so `--help` always reflects the true state of the build.
 """
 
 from __future__ import annotations
@@ -11,6 +12,8 @@ from pathlib import Path
 import typer
 import yaml
 
+from fplscout import db
+from fplscout.ingest import vaastav
 from fplscout.ingest.fpl_api import FplApiClient
 
 app = typer.Typer(no_args_is_help=True, add_completion=False)
@@ -26,16 +29,22 @@ def load_settings(path: Path = DEFAULT_SETTINGS_PATH) -> dict:
 @app.command()
 def refresh(
     raw: bool = typer.Option(
-        False, "--raw", help="Snapshot raw API payloads to data/raw/ without touching DuckDB."
+        False,
+        "--raw",
+        help="Snapshot raw API payloads to data/raw/ only — skip the DuckDB historical load.",
     ),
     settings_path: Path = typer.Option(DEFAULT_SETTINGS_PATH, "--settings"),
 ) -> None:
-    """Pull fresh data from the FPL API.
+    """Refresh data.
 
-    --raw hits bootstrap-static, fixtures, a sample element-summary, and (if
-    team_id is configured) our entry endpoints, validating each against
-    fplscout.ingest.schemas and caching the result under data/raw/. Full
-    per-player element-summary ingestion into DuckDB is Phase 1.
+    Always does a live-API schema check (bootstrap-static + fixtures), which is
+    also our earliest warning of the 26/27 season-reset schema drift. Then either:
+
+    --raw: additionally snapshot a sample element-summary and (if team_id is
+    configured) our entry endpoints to data/raw/ — no DuckDB writes.
+
+    (default): populate DuckDB from vaastav historical data (2021-22 .. 2025-26).
+    Idempotent — safe to re-run.
     """
     settings = load_settings(settings_path)
     raw_cache_dir = REPO_ROOT / settings["paths"]["raw_cache"]
@@ -53,29 +62,40 @@ def refresh(
         )
 
         typer.echo("Fetching fixtures...")
-        fixtures = client.fixtures(force_refresh=True)
-        typer.echo(f"  OK — {len(fixtures)} fixtures")
+        client.fixtures(force_refresh=True)
+        typer.echo(f"  OK — {len(client.fixtures())} fixtures")
 
-        if not raw:
-            typer.echo("Refresh complete (schema validation only; pass --raw to snapshot).")
+        if raw:
+            sample_player_id = bootstrap.elements[0].id
+            typer.echo(f"Fetching element-summary for sample player {sample_player_id}...")
+            summary = client.element_summary(sample_player_id, force_refresh=True)
+            typer.echo(f"  OK — {len(summary.history)} history rows")
+
+            team_id = settings.get("team_id")
+            if team_id:
+                typer.echo(f"Fetching entry data for team {team_id}...")
+                client.entry(team_id, force_refresh=True)
+                client.entry_history(team_id, force_refresh=True)
+                client.entry_transfers(team_id, force_refresh=True)
+                typer.echo("  OK")
+            else:
+                typer.echo("team_id not set in config/settings.yaml — skipping entry endpoints.")
+
+            typer.echo(f"Raw snapshots written to {raw_cache_dir}")
             return
 
-        sample_player_id = bootstrap.elements[0].id
-        typer.echo(f"Fetching element-summary for sample player {sample_player_id}...")
-        summary = client.element_summary(sample_player_id, force_refresh=True)
-        typer.echo(f"  OK — {len(summary.history)} history rows")
-
-        team_id = settings.get("team_id")
-        if team_id:
-            typer.echo(f"Fetching entry data for team {team_id}...")
-            client.entry(team_id, force_refresh=True)
-            client.entry_history(team_id, force_refresh=True)
-            client.entry_transfers(team_id, force_refresh=True)
-            typer.echo("  OK")
-        else:
-            typer.echo("team_id not set in config/settings.yaml — skipping entry endpoints.")
-
-        typer.echo(f"Raw snapshots written to {raw_cache_dir}")
+    typer.echo("Loading historical data (vaastav/Fantasy-Premier-League)...")
+    duckdb_path = REPO_ROOT / settings["paths"]["duckdb"]
+    con = db.connect(duckdb_path)
+    db.init_schema(con)
+    summaries = vaastav.load_all_seasons(con, cache_dir=raw_cache_dir / "vaastav")
+    for s in summaries:
+        typer.echo(
+            f"  {s['season']}: {s['teams']} teams, {s['players']} players, "
+            f"{s['fixtures']} fixtures, {s['gw_rows']} player-gw rows"
+        )
+    con.close()
+    typer.echo(f"DuckDB updated at {duckdb_path}")
 
 
 @app.command()

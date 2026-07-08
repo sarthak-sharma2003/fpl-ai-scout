@@ -11,8 +11,8 @@ only. No paid solvers, no paid hosting.
 | Phase | What | Status |
 |---|---|---|
 | 0 | Scaffold + FPL API client | ✅ done |
-| 1 | Data layer (DuckDB + historical loader) | ⏳ next |
-| 2 | Feature store | not started |
+| 1 | Data layer (DuckDB + historical loader) | ✅ done |
+| 2 | Feature store | ⏳ next |
 | 3 | Prediction models (minutes / team goals / points) | not started |
 | 4 | MILP optimizer | not started |
 | 5 | Chip planner | not started |
@@ -28,10 +28,11 @@ python3 -m venv .venv
 source .venv/bin/activate
 pip install -e ".[dev]"
 
-# schema-validate + smoke-test every endpoint against the live API
-python -m fplscout.cli refresh --raw
-# or, once installed:
+# schema-validate + smoke-test every endpoint against the live API (no DB writes)
 fplscout refresh --raw
+
+# populate DuckDB from vaastav historical data (2021-22 .. 2025-26), idempotent
+fplscout refresh
 
 # run tests (no live network calls — uses recorded fixtures)
 pytest -q
@@ -44,9 +45,12 @@ ruff check src/ tests/
 
 ```
 config/           settings.yaml (team_id, horizon, decay...), rules.yaml (UI rules)
-data/             fpl.duckdb (gitignored) + raw/ JSON cache (gitignored)
+data/             fpl.duckdb (gitignored) + raw/ JSON + CSV cache (gitignored)
 src/fplscout/
-  ingest/         fpl_api.py (typed client), schemas.py (pydantic models), vaastav.py (Phase 1)
+  db.py           DuckDB connection + schema (players, teams, fixtures, gameweeks,
+                   player_gw_history, our_entry/picks/transfers, projections, recommendations)
+  ingest/         fpl_api.py (typed client), schemas.py (pydantic models),
+                   vaastav.py (historical loader, 2021-22 .. 2025-26)
   features/       feature store (Phase 2)
   models/         minutes / team_goals / points models (Phase 3)
   decide/         optimizer.py, rules_engine.py, chip_planner.py (Phase 4-5)
@@ -72,6 +76,15 @@ tests/            pytest suite; tests/fixtures/ holds recorded API payloads for 
   (`decide/squad_state.py`, Phase 4) rather than depending on the flaky
   login-walled `my-team` endpoint; it reconciles weekly against the public
   `entry/{id}/event/{gw}/picks/` endpoint instead.
+- **Cross-season player identity uses FPL's persistent `code` field**, not fuzzy
+  name matching. Every vaastav `players_raw.csv` carries both a per-season numeric
+  `id` (resets each season) and a `code` (stable forever — verified Salah/Haaland
+  across all 5 loaded seasons). `code` is the primary join key; name-based fuzzy
+  matching is only a fallback for rows an exact join can't resolve. See
+  `ingest/vaastav.py` module docstring for what else changed vs. the original plan
+  sketch after grounding against the real repo (`cleaned_merged_seasons.csv` is
+  stale — missing 2024-25/2025-26 — so every season loads from its own per-season
+  files instead).
 
 ## Weekly ops runbook
 
