@@ -1,0 +1,25 @@
+# fpl-ai-scout runtime settings.
+#
+# team_id is unknown until the 26/27 game launches and the team is registered
+# (see plan §9, §11). Everything in Phases 0-6 works without it.
+team_id: null
+mini_league_id: null
+
+paths:
+  duckdb: data/fpl.duckdb
+  raw_cache: data/raw
+
+api:
+  min_interval_seconds: 1.0
+  timeout_seconds: 15.0
+
+optimizer:
+  horizon_gws: 8
+  decay: 0.84
+  hit_cost: 4
+  # bench autosub EV weights by bench slot (1st, 2nd, 3rd sub priority)
+  bench_weights: [0.25, 0.15, 0.05]
+
+telegram:
+  bot_token: null
+  chat_id: null

@@ -1,0 +1,4 @@
+# User-defined rules from the UI Rules page (plan §7, Phase 7).
+# Empty until the Rules page and rules_engine.py exist (Phase 7) — placeholder now
+# so the file/schema location is fixed from day one.
+rules: []
