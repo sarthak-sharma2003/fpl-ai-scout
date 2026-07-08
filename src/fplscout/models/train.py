@@ -129,6 +129,38 @@ def route_predictions(
     return routed
 
 
+def project_gw(
+    minutes_model,
+    dc_model: team_goals.DixonColesModel,
+    full_models: dict,
+    independent_models: dict,
+    df: pd.DataFrame,
+    teams: pd.DataFrame,
+) -> tuple[pd.DataFrame, pd.DataFrame]:
+    """Given already-trained models, produce routed EV projections (full model
+    where fpl_xp is valid, independent otherwise) for the rows in `df` — typically
+    one gameweek's worth from `models.dataset.load_dataset()`. Factored out of
+    run_for_split() so Phase 5 (chip_planner) and Phase 6 (backtest simulator)
+    reuse the exact same per-GW prediction path instead of duplicating it.
+
+    Returns (routed_predictions, feature_augmented_df) — the second is useful to
+    callers that also need expected_minutes/mins_p60_plus/etc. (e.g. to compute
+    the decision-relevant subset) without re-deriving them.
+    """
+    mins_proba = minutes.predict_proba(minutes_model, df)
+    tg_lookup = _team_goals_lookup(dc_model, df, teams)
+    full_feat = points.add_model_features(df, mins_proba, tg_lookup)
+    full_preds = points.predict(
+        full_models, full_feat, feature_columns=points.FULL_FEATURE_COLUMNS
+    )
+    independent_preds = points.predict(
+        independent_models, full_feat, feature_columns=points.INDEPENDENT_FEATURE_COLUMNS
+    )
+    xp_valid_mask = full_feat["fpl_xp"].notna()
+    routed = route_predictions(full_preds, independent_preds, xp_valid_mask)
+    return routed, full_feat
+
+
 def _rmse(y_true: pd.Series, y_pred: pd.Series) -> float:
     mask = y_true.notna() & y_pred.notna()
     return float(np.sqrt(np.mean((y_true[mask] - y_pred[mask]) ** 2)))

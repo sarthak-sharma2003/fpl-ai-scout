@@ -14,8 +14,8 @@ only. No paid solvers, no paid hosting.
 | 1 | Data layer (DuckDB + historical loader) | ✅ done |
 | 2 | Feature store | ✅ done |
 | 3 | Prediction models (minutes / team goals / points) | ✅ done — beats both baselines, see validation report |
-| 4 | MILP optimizer | ⏳ next |
-| 5 | Chip planner | not started |
+| 4 | MILP optimizer | ✅ done — golden-case tests, <2s solve at ~600-player scale |
+| 5 | Chip planner | ⏳ next |
 | 6 | Backtest simulator (go/no-go gate) | not started |
 | 7 | API + build our own frontend | not started |
 | 8 | Automation + weekly ops | not started |
@@ -145,6 +145,21 @@ tests/            pytest suite; tests/fixtures/ holds recorded API payloads for 
   the points model's FULL-variant gain rides on that one externally-controlled
   field — a silent upstream break there is the single biggest model risk, per
   the review that also produced the independent/routed variants above.
+- **`decide/optimizer.py` solves one gameweek per call**, using horizon-collapsed
+  EV (`sum_t decay^t * ev[p][t]`, computed by the caller) rather than true
+  multi-period time-indexed variables — the plan's own sanctioned fallback for
+  keeping the solve fast. Verified: <2s at ~600-player scale (full wildcard
+  draft) and ~1.3s for a realistic single-transfer decision, both far under the
+  60s budget. Chip modes (`wildcard`/`free_hit`/`bench_boost`/`triple_captain`)
+  are solver re-runs with mode flags, not extra binary variables, per plan §7.
+  Bench has 4 slots (not the plan's literal 3): the backup goalkeeper doesn't
+  compete with the 3 outfield bench spots for autosub priority (FPL only
+  auto-subs a GK for a GK), so it gets ~0 weight in the objective outside
+  `bench_boost` mode. `decide/squad_state.py` tracks bank/free-transfers/squad
+  in the `our_entry`/`our_picks`/`our_transfers` tables and reconciles against
+  live picks (`reconcile()` — returns discrepancy warnings, doesn't
+  auto-correct). Free transfers cap at 5, verified live in bootstrap-static's
+  `game_config.rules.max_extra_free_transfers: 4` (+1 base).
 
 ## Weekly ops runbook
 
