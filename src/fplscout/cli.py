@@ -17,6 +17,7 @@ from fplscout.features.build import write_features
 from fplscout.ingest import vaastav
 from fplscout.ingest.fpl_api import FplApiClient
 from fplscout.ingest.health import archive_ep_next, check_ep_next_health
+from fplscout.ingest.vaastav import SEASONS as VAASTAV_SEASONS
 
 app = typer.Typer(no_args_is_help=True, add_completion=False)
 
@@ -26,6 +27,29 @@ DEFAULT_SETTINGS_PATH = REPO_ROOT / "config" / "settings.yaml"
 
 def load_settings(path: Path = DEFAULT_SETTINGS_PATH) -> dict:
     return yaml.safe_load(path.read_text())
+
+
+def _sync_gameweeks(con, bootstrap, season: str) -> int:
+    """Writes bootstrap.events (deadline_time, finished, average_entry_score) to
+    the `gameweeks` table for `season`. Real gap found while building publish.py:
+    the schema has always had this table but nothing ever wrote to it, so
+    dashboard.json's avg_points/deadline were silently always null. vaastav's
+    historical scrape has no equivalent columns, so this only ever populates the
+    season the live API currently represents — 2025-26 right now, pre-26/27-
+    launch, and 2026-27 once that season starts (see plan §9 kickoff checklist
+    for how `season` should be derived once vaastav adds a 2026-27 folder)."""
+    rows = [
+        (season, e.id, e.deadline_time, e.finished, e.average_entry_score)
+        for e in bootstrap.events
+    ]
+    con.executemany(
+        "INSERT INTO gameweeks (season, event, deadline_time, finished, average_entry_score) "
+        "VALUES (?, ?, ?, ?, ?) ON CONFLICT (season, event) DO UPDATE SET "
+        "deadline_time = excluded.deadline_time, finished = excluded.finished, "
+        "average_entry_score = excluded.average_entry_score",
+        rows,
+    )
+    return len(rows)
 
 
 @app.command()
@@ -86,6 +110,10 @@ def refresh(
         n_archived = archive_ep_next(con, bootstrap)
         typer.echo(f"  archived {n_archived} ep_next values to ep_next_archive")
 
+        current_season = VAASTAV_SEASONS[-1]
+        n_gws = _sync_gameweeks(con, bootstrap, current_season)
+        typer.echo(f"  synced {n_gws} gameweeks for {current_season}")
+
         if raw:
             sample_player_id = bootstrap.elements[0].id
             typer.echo(f"Fetching element-summary for sample player {sample_player_id}...")
@@ -133,7 +161,9 @@ def train(settings_path: Path = typer.Option(DEFAULT_SETTINGS_PATH, "--settings"
     Writes model pickles to data/models/ and a markdown validation report to
     data/reports/.
     """
-    from fplscout.models.train import render_report, run
+    import json
+
+    from fplscout.models.train import render_report, run, to_summary_dict
 
     settings = load_settings(settings_path)
     duckdb_path = REPO_ROOT / settings["paths"]["duckdb"]
@@ -148,6 +178,9 @@ def train(settings_path: Path = typer.Option(DEFAULT_SETTINGS_PATH, "--settings"
     reports_dir.mkdir(parents=True, exist_ok=True)
     report_path = reports_dir / f"phase3_validation_{result['primary']['version']}.md"
     report_path.write_text(report)
+    (reports_dir / "phase3_validation_latest.json").write_text(
+        json.dumps(to_summary_dict(result), indent=2)
+    )
 
     typer.echo(report)
     typer.echo(f"Report written to {report_path}")
@@ -171,7 +204,9 @@ def backtest(settings_path: Path = typer.Option(DEFAULT_SETTINGS_PATH, "--settin
     data doesn't have (see models/points.py); judge the totals against the
     real benchmarks the report prints instead.
     """
-    from fplscout.backtest.report import render_report
+    import json
+
+    from fplscout.backtest.report import render_report, to_summary_dict
     from fplscout.backtest.simulator import simulate_season
 
     settings = load_settings(settings_path)
@@ -201,21 +236,155 @@ def backtest(settings_path: Path = typer.Option(DEFAULT_SETTINGS_PATH, "--settin
     version = datetime.now(UTC).strftime("%Y%m%dT%H%M%SZ")
     report_path = reports_dir / f"phase6_backtest_{version}.md"
     report_path.write_text(report_text)
+    (reports_dir / "phase6_backtest_latest.json").write_text(
+        json.dumps(to_summary_dict([primary, secondary]), indent=2)
+    )
     typer.echo(f"Report written to {report_path}")
 
 
 @app.command()
-def project() -> None:
-    """Generate per-player, per-GW point projections. Implemented in Phase 3."""
-    typer.echo("Not implemented yet — Phase 3 (models).")
-    raise typer.Exit(code=1)
+def project(settings_path: Path = typer.Option(DEFAULT_SETTINGS_PATH, "--settings")) -> None:
+    """Train production models (all seasons, no holdout) and write per-player
+    projections for the latest available reference gameweek to the
+    `projections` table.
+
+    Pre-26/27-launch: there is no live "next gameweek" yet, so this projects
+    "as of" the most recently completed gameweek in the data (2025-26 GW38) —
+    see pipeline.py's module docstring. Once 26/27 starts, the reference point
+    becomes the real live next gameweek automatically.
+    """
+    from fplscout import pipeline
+
+    settings = load_settings(settings_path)
+    duckdb_path = REPO_ROOT / settings["paths"]["duckdb"]
+    con = db.connect(duckdb_path)
+
+    season, gw = pipeline.latest_reference_point(con)
+    typer.echo(f"Reference point: season={season}, gw={gw}")
+
+    typer.echo("Training production models on all available seasons...")
+    models = pipeline.train_production(con, models_dir=REPO_ROOT / "data" / "models")
+    typer.echo(f"  model_version={models.version}, trained on {models.train_seasons}")
+
+    typer.echo(f"Generating projections for {season} GW{gw}...")
+    out = pipeline.generate_projections(con, models, season, gw)
+    con.close()
+    typer.echo(f"  wrote {len(out)} projection rows (model_version={models.version})")
 
 
 @app.command()
-def optimize() -> None:
-    """Run the MILP optimizer over the current squad. Implemented in Phase 4."""
-    typer.echo("Not implemented yet — Phase 4 (optimizer).")
-    raise typer.Exit(code=1)
+def optimize(settings_path: Path = typer.Option(DEFAULT_SETTINGS_PATH, "--settings")) -> None:
+    """Run the MILP optimizer and write a recommendation to `recommendations`.
+
+    No real squad exists yet (team not registered until 26/27 launches — plan
+    §9/§11), so this runs in wildcard mode: an unconstrained "best possible
+    15" build rather than a transfer decision off a prior squad. Requires
+    `project` to have been run first (reads the latest `projections` row per
+    the same reference gameweek it computed).
+    """
+    import json
+    from datetime import UTC, datetime
+
+    from fplscout import pipeline
+    from fplscout.decide.optimizer import OptimizerInput, optimize as run_optimizer
+
+    settings = load_settings(settings_path)
+    duckdb_path = REPO_ROOT / settings["paths"]["duckdb"]
+    con = db.connect(duckdb_path)
+
+    season, gw = pipeline.latest_reference_point(con)
+    model_version = con.execute(
+        "SELECT model_version FROM projections WHERE season = ? AND gw = ? "
+        "ORDER BY generated_at DESC LIMIT 1",
+        [season, gw],
+    ).fetchone()
+    if model_version is None:
+        typer.echo("No projections found — run `fplscout project` first.")
+        raise typer.Exit(code=1)
+    model_version = model_version[0]
+
+    proj = con.execute(
+        "SELECT code, ev_points FROM projections "
+        "WHERE season = ? AND gw = ? AND model_version = ?",
+        [season, gw, model_version],
+    ).df()
+    roster = pipeline.roster_snapshot(con, season, gw)
+    models = pipeline.load_production_models(REPO_ROOT / "data" / "models", model_version)
+    total_ev = pipeline.total_ev_for_optimizer(con, models, season, gw, proj)
+    con.close()
+
+    total_ev_df = total_ev.rename("total_ev").reset_index().rename(columns={"index": "code"})
+    opt_input_df = roster.merge(total_ev_df, on="code", how="inner")
+    opt_input_df = opt_input_df.dropna(subset=["total_ev", "price", "position", "team_id"])
+
+    typer.echo(f"Optimizing over {len(opt_input_df)} players (wildcard mode)...")
+    result = run_optimizer(
+        OptimizerInput(
+            projections=opt_input_df[["code", "position", "team_id", "price", "total_ev"]],
+            current_squad=set(),
+            purchase_prices={},
+            bank=1000,
+            free_transfers=1,
+            chip_mode="wildcard",
+        )
+    )
+    if result.status != "Optimal":
+        typer.echo(f"Optimizer did not find an optimal solution: {result.status}")
+        raise typer.Exit(code=1)
+
+    con = db.connect(duckdb_path)
+    con.execute(
+        "INSERT INTO recommendations (season, gw, generated_at, squad, starting_xi, "
+        "captain_code, vice_captain_code, transfers, hits, chip, confidence) "
+        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+        [
+            season, gw, datetime.now(UTC),
+            json.dumps(sorted(result.squad)),
+            json.dumps(sorted(result.starting_xi)),
+            result.captain,
+            result.vice_captain,
+            json.dumps([]),
+            result.hits,
+            "wildcard",
+            None,
+        ],
+    )
+    con.close()
+    typer.echo(
+        f"  squad={len(result.squad)}, captain={result.captain}, "
+        f"objective={result.objective_value:.1f} — written to recommendations"
+    )
+
+
+@app.command()
+def publish(settings_path: Path = typer.Option(DEFAULT_SETTINGS_PATH, "--settings")) -> None:
+    """Render every §8 API-contract response to static JSON under
+    site/public/data/ (served at /data/*.json by the Vite app, dev and build
+    alike) — the fully-static GitHub Pages deploy (no backend server in
+    production; see README's static-site pivot). Requires `project` and
+    `optimize` to have run first.
+    """
+    from fplscout.publish import publish_all
+
+    settings = load_settings(settings_path)
+    duckdb_path = REPO_ROOT / settings["paths"]["duckdb"]
+    con = db.connect(duckdb_path)
+
+    written = publish_all(
+        con,
+        # site/public/ is Vite's static-asset convention: everything under it is
+        # served as-is at the root path, in both `vite dev` and the production
+        # build — so public/data/dashboard.json is reachable at /data/dashboard.json
+        # either way, no separate copy step needed.
+        site_data_dir=REPO_ROOT / "site" / "public" / "data",
+        reports_dir=REPO_ROOT / "data" / "reports",
+        rules_path=REPO_ROOT / "config" / "rules.yaml",
+    )
+    con.close()
+
+    for name, size in written.items():
+        typer.echo(f"  {name}: {size}")
+    typer.echo(f"Published to {REPO_ROOT / 'site' / 'public' / 'data'}")
 
 
 @app.command()

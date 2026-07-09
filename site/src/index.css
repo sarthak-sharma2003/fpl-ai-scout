@@ -1,0 +1,58 @@
+@import "tailwindcss";
+
+/* Pitch-night identity: not the benchmark mock's purple. Deep match-night
+   green/near-black with an emerald accent (the pitch) and amber for
+   captaincy/highlights (the armband) — original to this project. */
+:root {
+  --pitch-950: #06120d;
+  --pitch-900: #0a1a13;
+  --pitch-850: #0e2119;
+  --pitch-800: #13291f;
+  --pitch-700: #1c3a2c;
+  --pitch-line: #24493a;
+  --ink-100: #eef6f1;
+  --ink-300: #b7cabf;
+  --ink-500: #7f9689;
+  --emerald: #34d399;
+  --emerald-strong: #10b981;
+  --amber: #f5b942;
+  --rose: #f87171;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--pitch-950);
+  background-image:
+    radial-gradient(ellipse 900px 500px at 15% -10%, rgba(52, 211, 153, 0.10), transparent),
+    radial-gradient(ellipse 700px 500px at 100% 0%, rgba(245, 185, 66, 0.06), transparent);
+  color: var(--ink-100);
+  font-family: 'Space Grotesk', system-ui, 'Segoe UI', Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background: rgba(52, 211, 153, 0.35);
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--pitch-line);
+  border-radius: 999px;
+}

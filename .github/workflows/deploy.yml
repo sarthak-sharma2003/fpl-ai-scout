@@ -1,0 +1,81 @@
+name: Deploy site
+
+# The full static-site pipeline, per the plan's §8 + the static-hosting pivot:
+#   refresh (rebuild DuckDB from vaastav + live FPL API) → project (train +
+#   projections) → optimize (MILP → recommendation) → publish (§8 JSON to
+#   site/public/data) → build the Vite app → deploy to GitHub Pages.
+#
+# No production backend server: everything the site reads is a static JSON file
+# regenerated here and baked into the deployed bundle.
+on:
+  # Nightly refresh — 06:00 UTC, matching the plan's Phase 8 nightly_refresh.
+  schedule:
+    - cron: "0 6 * * *"
+  # Manual trigger — this is the target the planned v1.1 "Refresh Stats" button
+  # fires via workflow_dispatch (client-side GitHub API call, no backend).
+  workflow_dispatch:
+  # Redeploy when the site or pipeline code itself changes on main.
+  push:
+    branches: [main]
+    paths:
+      - "site/**"
+      - "src/fplscout/**"
+      - "config/**"
+      - ".github/workflows/deploy.yml"
+
+# One deploy at a time; a newer run supersedes an in-progress one.
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: pip
+      - name: Install pipeline
+        run: pip install -e .
+
+      - name: Refresh data (vaastav history + live FPL API)
+        run: fplscout refresh
+
+      - name: Project (train production models + write projections)
+        run: fplscout project
+
+      - name: Optimize (MILP → recommendation)
+        run: fplscout optimize
+
+      - name: Publish §8 JSON to site/public/data
+        run: fplscout publish
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: site/package-lock.json
+      - name: Build site
+        working-directory: site
+        run: |
+          npm ci
+          npm run build
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site/dist
+      - name: Deploy to GitHub Pages
+        id: deploy
+        uses: actions/deploy-pages@v4

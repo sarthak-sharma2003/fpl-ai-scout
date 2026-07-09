@@ -288,6 +288,30 @@ def run(con: duckdb.DuckDBPyConnection, models_dir: Path) -> dict:
     }
 
 
+def to_summary_dict(result: dict) -> dict:
+    """Structured counterpart to render_report(), for the static site's
+    analytics.json (publish.py)."""
+    def _split_summary(split: dict) -> dict:
+        overall = split["overall_decision"]
+        return {
+            "split_label": split["split_label"],
+            "version": split["version"],
+            "train_seasons": split["train_seasons"],
+            "holdout_season": split["holdout_season"],
+            "beats_naive": split["beats_naive"],
+            "model_mean_per_gw_spearman": overall["model"]["mean_per_gw_spearman"],
+            "naive_mean_per_gw_spearman": overall["naive"]["mean_per_gw_spearman"],
+            "model_rmse": overall["model"]["rmse"],
+            "naive_rmse": overall["naive"]["rmse"],
+        }
+
+    return {
+        "beats_naive_decision": result["beats_naive_decision"],
+        "primary": _split_summary(result["primary"]),
+        "secondary": _split_summary(result["secondary"]),
+    }
+
+
 def render_report(result: dict) -> str:
     def _bundle_row(label: str, b: dict) -> str:
         pooled = f"{b['pooled_spearman']:.3f}" if not np.isnan(b["pooled_spearman"]) else "n/a"

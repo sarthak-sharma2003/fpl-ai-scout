@@ -1,4 +1,48 @@
 # User-defined rules from the UI Rules page (plan §7, Phase 7).
-# Empty until the Rules page and rules_engine.py exist (Phase 7) — placeholder now
-# so the file/schema location is fixed from day one.
-rules: []
+# v1: read-only, edited by committing this file directly. v1.1 adds an in-app
+# editor that commits here via the GitHub API (see site/README or the plan's
+# v1.1 notes) — the shape below (id, title, body, enabled) is fixed now so that
+# swap-in is additive, not a rewrite.
+#
+# Seeded with the decision rules the pipeline actually enforces today (see the
+# cited source for each) rather than left empty, so the Rules page has real
+# content from day one instead of a blank placeholder.
+rules:
+  - id: hit-cost-margin
+    title: "Require a margin above the real -4 hit cost"
+    body: >
+      A transfer that needs a hit is only taken when its horizon EV gain clears
+      the real -4/hit cost plus a fixed safety margin (decision-time bar: -6),
+      to damp single-gameweek EV noise into transfer churn. The actual score
+      always deducts the real -4 per hit regardless of this margin.
+    enabled: true
+    source: "src/fplscout/backtest/simulator.py DECISION_HIT_COST"
+  - id: horizon-8gw-decay
+    title: "Rank transfers on an 8-gameweek decayed horizon, not one GW"
+    body: >
+      Every player's EV is a decay-weighted sum (decay=0.84) over the next 8
+      gameweeks' real fixtures (opponent, venue, DGW/BGW), not just next GW's
+      score, so a great next fixture doesn't outweigh a bad run right after it.
+    enabled: true
+    source: "src/fplscout/models/horizon.py build_horizon_ev"
+  - id: max-3-per-club
+    title: "Never hold more than 3 players from one club"
+    body: "Real FPL squad-composition rule, enforced as a hard constraint in the optimizer."
+    enabled: true
+    source: "src/fplscout/decide/optimizer.py DEFAULT_MAX_PER_CLUB"
+  - id: chip-windows-from-live-api
+    title: "Chip validity windows are read live, never hardcoded"
+    body: >
+      Which gameweeks each chip (wildcard, free hit, bench boost, triple
+      captain) is usable in is fetched from the FPL API's own chips array at
+      run time, since these windows have changed between seasons before.
+    enabled: true
+    source: "src/fplscout/decide/chip_planner.py chip_windows_from_bootstrap_chips"
+  - id: real-selling-price-rule
+    title: "Sell price = purchase price + floor(profit / 2)"
+    body: >
+      Transfers respect FPL's actual sell-on rule (half of any profit, rounded
+      down; a loss sells at current value with no extra penalty) — not a
+      simplified "sell at current price" assumption.
+    enabled: true
+    source: "src/fplscout/decide/optimizer.py _selling_price"

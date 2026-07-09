@@ -21,6 +21,34 @@ REAL_2025_26_AVERAGE_MANAGER = 1895  # summed live bootstrap-static average_entr
 PLAN_STATED_TARGET = 2400
 
 
+def to_summary_dict(results: list[SeasonResult]) -> dict:
+    """Structured counterpart to render_report(), for the static site's
+    analytics.json (publish.py) — avoids re-running the (expensive, full
+    season-replay) backtest just to read numbers already computed."""
+    seasons = []
+    for r in results:
+        total_hits = sum(g.hits for g in r.gw_results)
+        chips = [{"gw": g.gw, "chip": g.chip_used} for g in r.gw_results if g.chip_used]
+        seasons.append(
+            {
+                "season": r.season,
+                "train_seasons": r.train_seasons,
+                "total_points": round(r.total_points),
+                "total_hits": total_hits,
+                "chips_used": chips,
+                "gw_scores": [
+                    {"gw": g.gw, "score": round(g.gw_score), "hits": g.hits}
+                    for g in r.gw_results
+                ],
+            }
+        )
+    return {
+        "seasons": seasons,
+        "plan_stated_target": PLAN_STATED_TARGET,
+        "real_2025_26_average_manager": REAL_2025_26_AVERAGE_MANAGER,
+    }
+
+
 def render_report(results: list[SeasonResult]) -> str:
     lines = [
         "# Phase 6 backtest report",
