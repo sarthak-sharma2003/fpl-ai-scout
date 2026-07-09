@@ -1,4 +1,4 @@
-# FPL AI Scout
+# Xabi's Long-Xo
 
 Local-first system that predicts FPL points and optimizes squad/transfer/captain/chip
 decisions for one team, 2026/27 season. Full build plan: [`FPL_AI_SCOUT_PLAN.md`](FPL_AI_SCOUT_PLAN.md).

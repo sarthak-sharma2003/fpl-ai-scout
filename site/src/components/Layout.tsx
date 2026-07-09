@@ -15,10 +15,10 @@ function Logo() {
   return (
     <div className="flex items-center gap-2">
       <div className="grid h-8 w-8 place-items-center rounded-lg bg-gradient-to-br from-emerald-400 to-emerald-600 text-[var(--pitch-950)] font-bold text-sm">
-        FS
+        XL
       </div>
       <span className="font-semibold tracking-tight text-[var(--ink-100)]">
-        FPL AI Scout
+        Xabi's Long-Xo
       </span>
     </div>
   );
