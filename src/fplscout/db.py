@@ -258,6 +258,24 @@ CREATE TABLE IF NOT EXISTS recommendations (
     confidence DOUBLE,
     PRIMARY KEY (season, gw, generated_at)
 );
+
+-- Our own archive of bootstrap-static's live ep_next, one row per player per
+-- refresh — effective immediately (plan review directive), NOT waiting for
+-- 26/27 launch. vaastav's historical xP is confirmed post-match-contaminated
+-- (scraped after each gameweek ends — see models/points.py); values WE fetch
+-- pre-deadline don't have that problem, because we control when we fetch them.
+-- Once this archive is deep enough to train/validate on, ep_next can be
+-- legitimately reintroduced as a model feature — something vaastav's data can
+-- never support no matter how it's post-processed, since the timing problem is
+-- in how it was collected, not how it's used afterward.
+CREATE TABLE IF NOT EXISTS ep_next_archive (
+    snapshot_time TIMESTAMP NOT NULL,
+    code BIGINT NOT NULL,
+    element_id INTEGER NOT NULL,
+    gw INTEGER,
+    ep_next DOUBLE,
+    PRIMARY KEY (snapshot_time, code)
+);
 """
 
 TABLES = [
@@ -273,6 +291,7 @@ TABLES = [
     "our_transfers",
     "projections",
     "recommendations",
+    "ep_next_archive",
 ]
 
 

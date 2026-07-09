@@ -19,7 +19,6 @@ from fplscout.models.train import (
     _spearman,
     _team_goals_lookup,
     project_gw,
-    route_predictions,
     train_test_split_by_season,
 )
 
@@ -54,33 +53,6 @@ def test_spearman_too_few_points_is_nan():
     y_true = pd.Series([1.0])
     y_pred = pd.Series([1.0])
     assert np.isnan(_spearman(y_true, y_pred))
-
-
-def test_route_predictions_picks_full_where_valid_independent_otherwise():
-    full = pd.DataFrame(
-        {"ev_points": [10.0, 20.0, 30.0], "q10_points": [5.0] * 3, "q90_points": [15.0] * 3}
-    )
-    independent = pd.DataFrame(
-        {"ev_points": [1.0, 2.0, 3.0], "q10_points": [0.5] * 3, "q90_points": [1.5] * 3}
-    )
-    mask = pd.Series([True, False, True])
-    routed = route_predictions(full, independent, mask)
-    assert routed["ev_points"].tolist() == [10.0, 2.0, 30.0]
-
-
-def test_route_predictions_preserves_index_alignment():
-    full = pd.DataFrame(
-        {"ev_points": [10.0, 20.0], "q10_points": [5.0, 5.0], "q90_points": [15.0, 15.0]},
-        index=[7, 9],
-    )
-    independent = pd.DataFrame(
-        {"ev_points": [1.0, 2.0], "q10_points": [0.5, 0.5], "q90_points": [1.5, 1.5]},
-        index=[7, 9],
-    )
-    mask = pd.Series([False, True], index=[7, 9])
-    routed = route_predictions(full, independent, mask)
-    assert routed.loc[7, "ev_points"] == 1.0
-    assert routed.loc[9, "ev_points"] == 20.0
 
 
 def _mock_season(season: str) -> None:
@@ -134,22 +106,17 @@ def test_project_gw_end_to_end_on_real_fixture_data(loaded_con):
     mins_proba = minutes.predict_proba(minutes_model, train_df)
     tg_lookup = _team_goals_lookup(dc_model, train_df, teams)
     train_full = points.add_model_features(train_df, mins_proba, tg_lookup)
-    full_models = points.train(train_full, feature_columns=points.FULL_FEATURE_COLUMNS)
-    independent_models = points.train(
-        train_full, feature_columns=points.INDEPENDENT_FEATURE_COLUMNS
-    )
+    points_models = points.train(train_full)
 
-    routed, feat = project_gw(
-        minutes_model, dc_model, full_models, independent_models, target_df, teams
-    )
-    assert len(routed) == len(target_df)
-    assert list(routed.columns) == [
+    preds, feat = project_gw(minutes_model, dc_model, points_models, target_df, teams)
+    assert len(preds) == len(target_df)
+    assert list(preds.columns) == [
         "season", "gw", "fixture_id", "code", "position",
         "ev_points", "q10_points", "q90_points",
     ]
     # this fixture is deliberately tiny (~35 rows across 4 positions), well under
     # points.train()'s 50-row-per-position minimum, so no position model actually
-    # trains -- routed[ev_points] being all-NaN here is correct, documented
+    # trains -- preds[ev_points] being all-NaN here is correct, documented
     # behavior (see test_points.py::test_predict_leaves_unmodeled_positions_as_nan),
     # not a bug. The real assertion is that the plumbing runs end to end without
     # error and returns the right shape; realistic non-NaN coverage is already

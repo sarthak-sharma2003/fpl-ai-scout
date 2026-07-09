@@ -1,41 +1,28 @@
-"""Training harness + validation report — plan §Phase3 DoD, corrected per review.
+"""Training harness + validation report — plan §Phase3 DoD.
 
-Two rounds of review correction are folded in here, both real bugs caught before
-they reached Phase 4, not hypotheticals:
+History of corrections folded in here (each caught a real bug, not a hypothetical
+— see git log for the full trail):
 
-Round 1 (pooled-Spearman + xP-nulling): pooled Spearman over the whole holdout is
-dominated by "can you tell reserves from starters" (~61% of rows are 0-minute
-players) — replaced by mean per-GW Spearman on a decision-relevant subset
-(plausible starters: expected minutes >= 45 or P(60+) >= 0.5).
+Round 1 (pooled-Spearman): pooled Spearman over the whole holdout is dominated by
+"can you tell reserves from starters" (~61% of rows are 0-minute players) —
+replaced by mean per-GW Spearman on a decision-relevant subset (plausible
+starters: expected minutes >= 45 or P(60+) >= 0.5), across all 38 gameweeks.
 
-Round 2 (xP dependency + season choice): the points model's FULL variant (xp
-included) turned out to carry 63-65% of total gain on `fpl_xp` — the model is
-mostly "xP plus learned corrections". That's fine when xP is genuinely available
-(always true in live production), but scoring it on gameweeks where xP had to be
-nulled (see dataset.py) amputates its dominant feature, which is worse than a model
-that never depended on it. Two structural fixes:
+Round 2 (xP is confirmed leaky, not just occasionally missing): vaastav's own
+README documents that `xP` is scraped from bootstrap-static's `ep_this` *after*
+each gameweek ends, with an empirically observed same-GW correlation to actual
+points the README itself calls "unusually high for a genuinely pre-match
+feature". An earlier pass here trained two variants (fpl_xp included vs excluded)
+and routed between them, treating xP as merely *sometimes unavailable*. That
+diagnosis was wrong — the feature is contaminated where it IS available too. It
+has been removed entirely from historical training (models/points.py,
+models/dataset.py). There is one model now, not a "full vs independent" choice.
+The xP baseline comparison is gone from this report for the same reason; the
+naive 5-GW-average baseline remains valid and is the only baseline reported.
 
-1. Train a second, INDEPENDENT variant per position with `fpl_xp` excluded
-   entirely (models/points.py: FULL_FEATURE_COLUMNS vs INDEPENDENT_FEATURE_COLUMNS),
-   forcing feature importance onto rolling-form/Dixon-Coles/minutes signals.
-2. Route per-row: FULL model's prediction where xp is valid that gameweek,
-   INDEPENDENT model's prediction where it's missing (`route_predictions`).
-
-Measured honestly (`routing_value_check` in the report, isolated to exactly the
-gameweeks xp was nulled): routing is close to a wash against just using FULL with
-xp=NaN — LightGBM routes missing values to a learned default child per split, so
-"amputated FULL" isn't naive, it's already fairly robust. Primary split: independent
-edges it (0.319 vs 0.290 mean per-GW Spearman); secondary: they're within noise
-(0.231 vs 0.233). Routing is kept anyway because it protects against a different,
-and arguably scarier, failure mode that missing-value handling can't touch: xp being
-*present but wrong* (frozen, corrupted, or otherwise degenerate without going null)
-— exactly what ingest/health.py's ep_next check is watching for, and the reason the
-router exists as an automatic fallback rather than a measured backtest win.
-
-The primary backtest season swaps from 2025-26 (11/38 valid-xP gameweeks) to
-2024-25 (35/38 valid) — 2024-25 actually exercises the near-full-xP-coverage
-regime production will run in; 2025-26 becomes the second, deliberately harder
-sample (plan always wanted two seasons; this just changes which one is primary).
+The primary backtest season is 2024-25 (train on 2021-22..2023-24); 2025-26
+(train on 2021-22..2024-25) is the second sample, per the plan's own requirement
+to validate on two seasons.
 """
 
 from __future__ import annotations
@@ -117,48 +104,28 @@ def _naive_5gw_average(con: duckdb.DuckDBPyConnection, season: str) -> pd.DataFr
     return df[["code", "fixture_id", "naive_baseline"]]
 
 
-def route_predictions(
-    full_preds: pd.DataFrame, independent_preds: pd.DataFrame, xp_valid_mask: pd.Series
-) -> pd.DataFrame:
-    """Per-row: FULL model's prediction where `xp_valid_mask` is True, INDEPENDENT
-    model's otherwise. All three must share the same index (true of points.predict()
-    output, which preserves the input df's index)."""
-    routed = independent_preds.copy()
-    cols = ["ev_points", "q10_points", "q90_points"]
-    routed.loc[xp_valid_mask, cols] = full_preds.loc[xp_valid_mask, cols]
-    return routed
-
-
 def project_gw(
     minutes_model,
     dc_model: team_goals.DixonColesModel,
-    full_models: dict,
-    independent_models: dict,
+    points_models: dict,
     df: pd.DataFrame,
     teams: pd.DataFrame,
 ) -> tuple[pd.DataFrame, pd.DataFrame]:
-    """Given already-trained models, produce routed EV projections (full model
-    where fpl_xp is valid, independent otherwise) for the rows in `df` — typically
-    one gameweek's worth from `models.dataset.load_dataset()`. Factored out of
-    run_for_split() so Phase 5 (chip_planner) and Phase 6 (backtest simulator)
-    reuse the exact same per-GW prediction path instead of duplicating it.
+    """Given already-trained models, produce EV projections for the rows in `df`
+    — typically one gameweek's worth from `models.dataset.load_dataset()`.
+    Factored out of run_for_split() so Phase 5 (chip_planner) and Phase 6
+    (backtest simulator) reuse the exact same per-GW prediction path instead of
+    duplicating it.
 
-    Returns (routed_predictions, feature_augmented_df) — the second is useful to
-    callers that also need expected_minutes/mins_p60_plus/etc. (e.g. to compute
-    the decision-relevant subset) without re-deriving them.
+    Returns (predictions, feature_augmented_df) — the second is useful to
+    callers that also need expected_minutes/mins_p60_plus/etc. without
+    re-deriving them.
     """
     mins_proba = minutes.predict_proba(minutes_model, df)
     tg_lookup = _team_goals_lookup(dc_model, df, teams)
-    full_feat = points.add_model_features(df, mins_proba, tg_lookup)
-    full_preds = points.predict(
-        full_models, full_feat, feature_columns=points.FULL_FEATURE_COLUMNS
-    )
-    independent_preds = points.predict(
-        independent_models, full_feat, feature_columns=points.INDEPENDENT_FEATURE_COLUMNS
-    )
-    xp_valid_mask = full_feat["fpl_xp"].notna()
-    routed = route_predictions(full_preds, independent_preds, xp_valid_mask)
-    return routed, full_feat
+    feat = points.add_model_features(df, mins_proba, tg_lookup)
+    preds = points.predict(points_models, feat)
+    return preds, feat
 
 
 def _rmse(y_true: pd.Series, y_pred: pd.Series) -> float:
@@ -202,13 +169,7 @@ def _compare_columns(df: pd.DataFrame, actual_col: str, pred_cols: dict[str, str
     return {name: _metric_bundle(df, actual_col, col) for name, col in pred_cols.items()}
 
 
-PRED_COLS = {
-    "independent": "ev_points_independent",
-    "full": "ev_points_full",
-    "routed": "ev_points_routed",
-    "xp": "fpl_xp",
-    "naive": "naive_baseline",
-}
+PRED_COLS = {"model": "ev_points", "naive": "naive_baseline"}
 
 
 def _beats(challenger: dict, baseline: dict) -> bool:
@@ -248,29 +209,15 @@ def run_for_split(
     train_full = points.add_model_features(train_df, train_mins_proba, train_tg_lookup)
     holdout_full = points.add_model_features(holdout_df, holdout_mins_proba, holdout_tg_lookup)
 
-    full_models = points.train(train_full, feature_columns=points.FULL_FEATURE_COLUMNS)
-    independent_models = points.train(
-        train_full, feature_columns=points.INDEPENDENT_FEATURE_COLUMNS
-    )
-
-    full_preds = points.predict(
-        full_models, holdout_full, feature_columns=points.FULL_FEATURE_COLUMNS
-    )
-    independent_preds = points.predict(
-        independent_models, holdout_full, feature_columns=points.INDEPENDENT_FEATURE_COLUMNS
-    )
-    xp_valid_mask = holdout_full["fpl_xp"].notna()
-    routed_preds = route_predictions(full_preds, independent_preds, xp_valid_mask)
-
-    gain_share = points.feature_gain_by_column(full_models)
+    points_models = points.train(train_full)
+    preds = points.predict(points_models, holdout_full)
+    gain_share = points.feature_gain_by_column(points_models)
 
     holdout_eval = holdout_full[
-        ["code", "gw", "fixture_id", "position", "total_points", "fpl_xp",
+        ["code", "gw", "fixture_id", "position", "total_points",
          "expected_minutes", "mins_p60_plus"]
     ].copy()
-    holdout_eval["ev_points_full"] = full_preds["ev_points"]
-    holdout_eval["ev_points_independent"] = independent_preds["ev_points"]
-    holdout_eval["ev_points_routed"] = routed_preds["ev_points"]
+    holdout_eval["ev_points"] = preds["ev_points"]
     naive = _naive_5gw_average(con, holdout_season)
     holdout_eval = holdout_eval.merge(naive, on=["code", "fixture_id"], how="left")
 
@@ -288,20 +235,6 @@ def run_for_split(
         by_position_decision[position] = (
             _compare_columns(sub, "total_points", PRED_COLS) if len(sub) > 0 else None
         )
-
-    # The routing question, isolated: on exactly the gameweeks where xp was
-    # nulled, is a from-scratch independent model actually better than full
-    # model's native handling of a missing feature? (LightGBM routes missing
-    # values to a learned default child per split, so "full with xp=NaN" isn't
-    # naive — it may already be fairly robust.)
-    xp_invalid_mask_decision = ~xp_valid_mask.reindex(holdout_decision.index)
-    holdout_xp_invalid = holdout_decision[xp_invalid_mask_decision]
-    routing_value_check = _compare_columns(
-        holdout_xp_invalid,
-        "total_points",
-        {"full_amputated": "ev_points_full", "independent": "ev_points_independent",
-         "naive": "naive_baseline"},
-    )
 
     # minutes-model calibration: predicted P(60+) bucket vs realized 60+ rate
     holdout_df = holdout_df.copy()
@@ -321,19 +254,11 @@ def run_for_split(
         pickle.dump(minutes_model, f)
     with open(models_dir / f"{prefix}_team_goals.pkl", "wb") as f:
         pickle.dump(dc_model, f)
-    with open(models_dir / f"{prefix}_points_full.pkl", "wb") as f:
-        pickle.dump(full_models, f)
-    with open(models_dir / f"{prefix}_points_independent.pkl", "wb") as f:
-        pickle.dump(independent_models, f)
+    with open(models_dir / f"{prefix}_points.pkl", "wb") as f:
+        pickle.dump(points_models, f)
 
     elapsed = time.time() - t0
-    # Primary go/no-go gate: routed variant must clearly beat naive on
-    # decision-relevant mean-per-GW Spearman.
-    beats_naive = _beats(overall_decision["routed"], overall_decision["naive"])
-    # Directive 1's own gate: the INDEPENDENT variant alone (no xp, no routing)
-    # must also clearly beat naive — proves the model has real value that isn't
-    # just "xp with extra steps".
-    independent_beats_naive = _beats(overall_decision["independent"], overall_decision["naive"])
+    beats_naive = _beats(overall_decision["model"], overall_decision["naive"])
 
     return {
         "split_label": split_label,
@@ -342,13 +267,10 @@ def run_for_split(
         "holdout_season": holdout_season,
         "overall_decision": overall_decision,
         "by_position_decision": by_position_decision,
-        "routing_value_check": routing_value_check,
-        "n_xp_invalid_gws": routing_value_check["full_amputated"]["n_gameweeks"],
         "gain_share": gain_share,
         "calibration": calibration,
         "elapsed_seconds": elapsed,
         "beats_naive": beats_naive,
-        "independent_beats_naive": independent_beats_naive,
     }
 
 
@@ -363,7 +285,6 @@ def run(con: duckdb.DuckDBPyConnection, models_dir: Path) -> dict:
         "primary": primary,
         "secondary": secondary,
         "beats_naive_decision": primary["beats_naive"],
-        "independent_beats_naive": primary["independent_beats_naive"],
     }
 
 
@@ -383,28 +304,22 @@ def render_report(result: dict) -> str:
         return [
             "| | n rows | n GWs | RMSE | Mean per-GW Spearman | Pooled Spearman |",
             "|---|---|---|---|---|---|",
-            _bundle_row("**Independent (no xp)**", compare["independent"]),
-            _bundle_row("**Full (xp included)**", compare["full"]),
-            _bundle_row("**Routed (production)**", compare["routed"]),
-            _bundle_row("FPL `xP` baseline", compare["xp"]),
+            _bundle_row("**Model**", compare["model"]),
             _bundle_row("Naive 5-GW average", compare["naive"]),
         ]
 
     def _gain_table(gain_share: pd.DataFrame) -> list[str]:
-        lines = ["| Position | Top feature | Gain share |", "|---|---|---|"]
+        lines = ["| Position | Top 3 features by gain share |", "|---|---|"]
         for position in ("GKP", "DEF", "MID", "FWD"):
             sub = gain_share[gain_share["position"] == position].sort_values(
                 "gain_share", ascending=False
             )
             if len(sub) == 0:
                 continue
-            top = sub.iloc[0]
-            xp_row = sub[sub["feature"] == "fpl_xp"]
-            xp_share = f"{xp_row.iloc[0]['gain_share']:.1%}" if len(xp_row) > 0 else "n/a"
-            lines.append(
-                f"| {position} | {top['feature']} ({top['gain_share']:.1%}) "
-                f"| fpl_xp: {xp_share} |"
+            top3 = ", ".join(
+                f"{row['feature']} ({row['gain_share']:.1%})" for _, row in sub.head(3).iterrows()
             )
+            lines.append(f"| {position} | {top3} |")
         return lines
 
     def _render_split(split: dict) -> list[str]:
@@ -419,26 +334,7 @@ def render_report(result: dict) -> str:
             "",
             *_comparison_table(split["overall_decision"]),
             "",
-            f"**Routed beats naive:** {'YES' if split['beats_naive'] else 'NO'}  ",
-            f"**Independent (no xp) alone beats naive:** "
-            f"{'YES' if split['independent_beats_naive'] else 'NO'}",
-            "",
-            "### Is routing actually earning its keep?",
-            "",
-            f"Isolated to exactly the {split['n_xp_invalid_gws']} gameweeks where xp was",
-            "nulled: does a from-scratch independent model actually beat full model's",
-            "native handling of a missing feature? (LightGBM routes missing values to a",
-            "learned default child per split, so \"full with xp=NaN\" isn't naive — it",
-            "may already be fairly robust.) This determines whether routing is pulling",
-            "its weight or is close to a wash:",
-            "",
-            "| | n rows | n GWs | RMSE | Mean per-GW Spearman | Pooled Spearman |",
-            "|---|---|---|---|---|---|",
-            _bundle_row(
-                "**Full, xp amputated**", split["routing_value_check"]["full_amputated"]
-            ),
-            _bundle_row("**Independent**", split["routing_value_check"]["independent"]),
-            _bundle_row("Naive 5-GW average", split["routing_value_check"]["naive"]),
+            f"**Beats naive:** {'YES' if split['beats_naive'] else 'NO'}",
             "",
             "### By position",
             "",
@@ -453,7 +349,7 @@ def render_report(result: dict) -> str:
                 lines += _comparison_table(compare)
             lines.append("")
         lines += [
-            "### Feature gain share (FULL variant) — is it really \"xp plus corrections\"?",
+            "### Feature gain share",
             "",
             *_gain_table(split["gain_share"]),
             "",
@@ -469,20 +365,18 @@ def render_report(result: dict) -> str:
     lines = [
         "# Phase 3 validation report",
         "",
-        "Two variants trained per position: **independent** (fpl_xp excluded — forces",
-        "importance onto rolling-form/Dixon-Coles/minutes features) and **full** (fpl_xp",
-        "included). **routed** uses full's prediction where fpl_xp is valid that",
-        "gameweek and independent's prediction otherwise — this is what production runs.",
+        "One model per position (no `fpl_xp` — see models/points.py docstring for",
+        "why it was removed entirely from historical training, not merely made",
+        "optional). Naive 5-GW average is the only baseline reported; the `xP`",
+        "comparison from earlier reports is void (the column was confirmed",
+        "post-match-contaminated in vaastav's historical data).",
         "",
-        "Two backtest splits: **primary** (2024-25 holdout, 35/38 gameweeks have valid",
-        "xp — the near-full-coverage regime production actually runs in) and",
-        "**secondary** (2025-26 holdout, only 11/38 valid — a deliberately harder,",
-        "xp-scarce stress test).",
+        "Two backtest splits: **primary** (2024-25 holdout, train on 2021-22..",
+        "2023-24) and **secondary** (2025-26 holdout, train on 2021-22..2024-25) —",
+        "the plan's own requirement to validate on two seasons.",
         "",
         f"**Gate result — primary split beats naive:** "
-        f"{'YES' if result['beats_naive_decision'] else 'NO'}  ",
-        f"**Gate result — independent variant alone beats naive:** "
-        f"{'YES' if result['independent_beats_naive'] else 'NO'}",
+        f"{'YES' if result['beats_naive_decision'] else 'NO'}",
         "",
         *_render_split(result["primary"]),
         "",

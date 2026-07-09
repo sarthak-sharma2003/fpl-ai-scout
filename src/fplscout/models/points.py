@@ -19,17 +19,19 @@ guessing upfront that it's necessary.
 Quantiles (q10/q90) trained directly on total_points with LightGBM's quantile
 objective, per plan §Phase3.8.
 
-Two variants, per review: `fpl_xp` (FPL's own ep_next/xP) carries 63-65% of total
-gain in the FULL variant's mean model — the model is largely "xP plus learned
-corrections". That's fine when xP is genuinely available (live production always
-has it from bootstrap-static), but vaastav's historical xP has real gaps (see
-dataset.py), and a model trained with xp as a dominant feature performs badly when
-that feature is amputated at inference time — worse than a model that never relied
-on it. `train_variant()` takes an explicit `feature_columns` list so callers
-(models/train.py) can train both a FULL variant (xp included) and an INDEPENDENT
-variant (xp excluded, importance forced onto rolling-form/team-goals/minutes
-features instead) from the same code path, then route between them per-row based on
-whether xp is actually available (train.py's `route_predictions`).
+`fpl_xp` (vaastav's `xP` column) is NOT a feature here, and this is not the same
+"independent variant" hedge from an earlier pass. vaastav's own README documents
+that `xP` is scraped from bootstrap-static's `ep_this` *after* each gameweek ends,
+with an empirically observed same-GW correlation to actual points (~0.40) the
+README itself calls "unusually high for a genuinely pre-match feature" — i.e. the
+column is confirmed post-match-contaminated for a meaningful fraction of rows, not
+merely "sometimes missing" (the earlier, wrong diagnosis). A model trained on it
+was measuring near-oracle hindsight, not predictive skill (this is what actually
+produced a 2024-25 backtest total, 3,591 pts, that exceeds the real-world all-time
+FPL season record). There is no FULL variant anymore; this is the only model.
+Live-fetched ep_next/ep_this (see ingest/health.py's archiving) does not have this
+problem — it's fetched pre-deadline by us — and can be legitimately reintroduced
+as a feature once enough of our own archived history exists to train on.
 """
 
 from __future__ import annotations
@@ -42,19 +44,11 @@ from fplscout.models.dataset import CATEGORICAL_COLUMNS, FEATURE_COLUMNS
 
 POSITIONS = ["GKP", "DEF", "MID", "FWD"]
 
-EXTRA_FEATURE_COLUMNS_WITH_XP = [
+EXTRA_FEATURE_COLUMNS = [
     "mins_p0", "mins_p1_59", "mins_p60_plus", "expected_minutes",
-    "team_xg_for", "team_xg_against", "clean_sheet_prob", "fpl_xp",
+    "team_xg_for", "team_xg_against", "clean_sheet_prob",
 ]
-EXTRA_FEATURE_COLUMNS_NO_XP = [
-    c for c in EXTRA_FEATURE_COLUMNS_WITH_XP if c != "fpl_xp"
-]
-FULL_FEATURE_COLUMNS = FEATURE_COLUMNS + EXTRA_FEATURE_COLUMNS_WITH_XP
-INDEPENDENT_FEATURE_COLUMNS = FEATURE_COLUMNS + EXTRA_FEATURE_COLUMNS_NO_XP
-
-# Backwards-compatible aliases (Phase 3's original single-variant names).
-EXTRA_FEATURE_COLUMNS = EXTRA_FEATURE_COLUMNS_WITH_XP
-ALL_FEATURE_COLUMNS = FULL_FEATURE_COLUMNS
+ALL_FEATURE_COLUMNS = FEATURE_COLUMNS + EXTRA_FEATURE_COLUMNS
 
 MEAN_PARAMS = {
     "objective": "regression",
@@ -96,13 +90,9 @@ def add_model_features(
 
 
 def train(
-    train_df: pd.DataFrame, feature_columns: list[str] = FULL_FEATURE_COLUMNS
+    train_df: pd.DataFrame, feature_columns: list[str] = ALL_FEATURE_COLUMNS
 ) -> dict[str, dict[str, lgb.Booster]]:
-    """Returns {position: {"mean": booster, "q10": booster, "q90": booster}}.
-
-    Pass `feature_columns=INDEPENDENT_FEATURE_COLUMNS` to train the xp-free
-    variant; defaults to the FULL (xp-included) variant for backward
-    compatibility with earlier Phase 3 call sites."""
+    """Returns {position: {"mean": booster, "q10": booster, "q90": booster}}."""
     models: dict[str, dict[str, lgb.Booster]] = {}
     for position in POSITIONS:
         sub = train_df[train_df["position"] == position]
@@ -127,7 +117,7 @@ def train(
 def predict(
     models: dict[str, dict[str, lgb.Booster]],
     df: pd.DataFrame,
-    feature_columns: list[str] = FULL_FEATURE_COLUMNS,
+    feature_columns: list[str] = ALL_FEATURE_COLUMNS,
 ) -> pd.DataFrame:
     out = df[["season", "gw", "fixture_id", "code", "position"]].copy()
     out["ev_points"] = np.nan
@@ -145,8 +135,7 @@ def predict(
 
 
 def feature_gain_by_column(models: dict[str, dict[str, lgb.Booster]]) -> pd.DataFrame:
-    """Per-position, per-feature total gain share for the mean model — used to
-    verify (or refute) claims like "fpl_xp carries 63-65% of gain"."""
+    """Per-position, per-feature total gain share for the mean model."""
     rows = []
     for position, position_models in models.items():
         booster = position_models["mean"]

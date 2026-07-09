@@ -37,7 +37,6 @@ def synthetic_dataset():
     df["total_points"] = np.clip(
         roll5_points * (df["actual_minutes"] >= 60) + rng.normal(0, 1, size=n), 0, None
     )
-    df["fpl_xp"] = df["total_points"] + rng.normal(0, 1, size=n)
     df["season"] = "2099-00"
     df["gw"] = rng.integers(1, 39, size=n)
     df["fixture_id"] = np.arange(n)

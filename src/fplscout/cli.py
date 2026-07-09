@@ -16,7 +16,7 @@ from fplscout import db
 from fplscout.features.build import write_features
 from fplscout.ingest import vaastav
 from fplscout.ingest.fpl_api import FplApiClient
-from fplscout.ingest.health import check_ep_next_health
+from fplscout.ingest.health import archive_ep_next, check_ep_next_health
 
 app = typer.Typer(no_args_is_help=True, add_completion=False)
 
@@ -39,11 +39,15 @@ def refresh(
 ) -> None:
     """Refresh data.
 
-    Always does a live-API schema check (bootstrap-static + fixtures), which is
-    also our earliest warning of the 26/27 season-reset schema drift. Then either:
+    Always does a live-API schema check (bootstrap-static + fixtures) — our
+    earliest warning of the 26/27 season-reset schema drift — and archives the
+    current ep_next snapshot to ep_next_archive (effective immediately, not
+    waiting for 26/27: values we fetch pre-deadline don't have vaastav's
+    post-match-contamination problem, since we control when we fetch them — see
+    ingest/health.py). Then either:
 
     --raw: additionally snapshot a sample element-summary and (if team_id is
-    configured) our entry endpoints to data/raw/ — no DuckDB writes.
+    configured) our entry endpoints to data/raw/ — no further DuckDB writes.
 
     (default): populate DuckDB from vaastav historical data (2021-22 .. 2025-26)
     and rebuild the feature store. Idempotent — safe to re-run.
@@ -52,6 +56,10 @@ def refresh(
     raw_cache_dir = REPO_ROOT / settings["paths"]["raw_cache"]
     min_interval = settings["api"]["min_interval_seconds"]
     timeout = settings["api"]["timeout_seconds"]
+
+    duckdb_path = REPO_ROOT / settings["paths"]["duckdb"]
+    con = db.connect(duckdb_path)
+    db.init_schema(con)
 
     with FplApiClient(
         cache_dir=raw_cache_dir, min_interval=min_interval, timeout=timeout
@@ -72,12 +80,11 @@ def refresh(
             typer.echo("  WARNING: ep_next looks degenerate:")
             for warning in ep_next_warnings:
                 typer.echo(f"    - {warning}")
-            typer.echo(
-                "    The points model's FULL variant depends heavily on this "
-                "feature — see models/points.py."
-            )
         else:
             typer.echo("  ep_next distribution looks healthy.")
+
+        n_archived = archive_ep_next(con, bootstrap)
+        typer.echo(f"  archived {n_archived} ep_next values to ep_next_archive")
 
         if raw:
             sample_player_id = bootstrap.elements[0].id
@@ -95,13 +102,11 @@ def refresh(
             else:
                 typer.echo("team_id not set in config/settings.yaml — skipping entry endpoints.")
 
+            con.close()
             typer.echo(f"Raw snapshots written to {raw_cache_dir}")
             return
 
     typer.echo("Loading historical data (vaastav/Fantasy-Premier-League)...")
-    duckdb_path = REPO_ROOT / settings["paths"]["duckdb"]
-    con = db.connect(duckdb_path)
-    db.init_schema(con)
     summaries = vaastav.load_all_seasons(con, cache_dir=raw_cache_dir / "vaastav")
     for s in summaries:
         typer.echo(
@@ -119,14 +124,14 @@ def refresh(
 
 @app.command()
 def train(settings_path: Path = typer.Option(DEFAULT_SETTINGS_PATH, "--settings")) -> None:
-    """Train minutes/team-goals/points models (full + xp-independent variants,
-    routed at inference time); write validation report.
+    """Train minutes/team-goals/points models; write validation report.
 
-    Trains two backtest splits: primary (train 2021-22..2023-24, holdout
-    2024-25 — near-full xp coverage, the regime production runs in) and
-    secondary (train 2021-22..2024-25, holdout 2025-26 — xp-scarce stress
-    test). Writes model pickles to data/models/ and a markdown validation
-    report to data/reports/.
+    No `fpl_xp` feature (vaastav's `xP` is confirmed post-match-contaminated —
+    see models/points.py docstring). Trains two backtest splits: primary (train
+    2021-22..2023-24, holdout 2024-25) and secondary (train 2021-22..2024-25,
+    holdout 2025-26) — the plan's own requirement to validate on two seasons.
+    Writes model pickles to data/models/ and a markdown validation report to
+    data/reports/.
     """
     from fplscout.models.train import render_report, run
 
@@ -134,7 +139,7 @@ def train(settings_path: Path = typer.Option(DEFAULT_SETTINGS_PATH, "--settings"
     duckdb_path = REPO_ROOT / settings["paths"]["duckdb"]
     con = db.connect(duckdb_path)
 
-    typer.echo("Training minutes / team-goals / points (full + independent variants)...")
+    typer.echo("Training minutes / team-goals / points models...")
     result = run(con, models_dir=REPO_ROOT / "data" / "models")
     con.close()
 
@@ -146,14 +151,57 @@ def train(settings_path: Path = typer.Option(DEFAULT_SETTINGS_PATH, "--settings"
 
     typer.echo(report)
     typer.echo(f"Report written to {report_path}")
-    if not (result["beats_naive_decision"] and result["independent_beats_naive"]):
+    if not result["beats_naive_decision"]:
         typer.echo(
-            "\nDoD NOT met: both the routed model and the standalone independent "
-            "(no-xp) variant must clearly beat the naive baseline on the primary "
-            "split's decision-relevant mean per-GW Spearman. STOP and iterate "
-            "before building downstream phases."
+            "\nDoD NOT met: model must clearly beat the naive baseline on the "
+            "primary split's decision-relevant mean per-GW Spearman. STOP and "
+            "iterate before building downstream phases."
         )
         raise typer.Exit(code=1)
+
+
+@app.command()
+def backtest(settings_path: Path = typer.Option(DEFAULT_SETTINGS_PATH, "--settings")) -> None:
+    """Full-season replay — plan §Phase6 go/no-go gate.
+
+    Runs both required samples (2024-25 primary, 2025-26 secondary), each
+    training fresh on seasons strictly before the replayed one. Writes a
+    markdown report to data/reports/. Does not gate on the plan's stated 2400
+    figure — that bar assumed a legitimate ep_next feature that historical
+    data doesn't have (see models/points.py); judge the totals against the
+    real benchmarks the report prints instead.
+    """
+    from fplscout.backtest.report import render_report
+    from fplscout.backtest.simulator import simulate_season
+
+    settings = load_settings(settings_path)
+    duckdb_path = REPO_ROOT / settings["paths"]["duckdb"]
+    con = db.connect(duckdb_path)
+
+    typer.echo("Replaying 2024-25 (primary)...")
+    primary = simulate_season(
+        con, season="2024-25", train_seasons=["2021-22", "2022-23", "2023-24"]
+    )
+    typer.echo(f"  {primary.total_points:.0f} pts")
+
+    typer.echo("Replaying 2025-26 (secondary)...")
+    secondary = simulate_season(
+        con,
+        season="2025-26",
+        train_seasons=["2021-22", "2022-23", "2023-24", "2024-25"],
+    )
+    typer.echo(f"  {secondary.total_points:.0f} pts")
+    con.close()
+
+    report_text = render_report([primary, secondary])
+    reports_dir = REPO_ROOT / "data" / "reports"
+    reports_dir.mkdir(parents=True, exist_ok=True)
+    from datetime import UTC, datetime
+
+    version = datetime.now(UTC).strftime("%Y%m%dT%H%M%SZ")
+    report_path = reports_dir / f"phase6_backtest_{version}.md"
+    report_path.write_text(report_text)
+    typer.echo(f"Report written to {report_path}")
 
 
 @app.command()

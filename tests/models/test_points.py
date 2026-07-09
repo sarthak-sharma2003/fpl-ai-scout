@@ -56,13 +56,11 @@ def test_predict_leaves_unmodeled_positions_as_nan(synthetic_dataset):
     assert gkp_preds["ev_points"].isna().all()
 
 
-def test_independent_variant_excludes_fpl_xp(synthetic_dataset):
-    df = _with_model_features(synthetic_dataset)
-    assert "fpl_xp" not in points.INDEPENDENT_FEATURE_COLUMNS
-    assert "fpl_xp" in points.FULL_FEATURE_COLUMNS
-    models = points.train(df, feature_columns=points.INDEPENDENT_FEATURE_COLUMNS)
-    preds = points.predict(models, df, feature_columns=points.INDEPENDENT_FEATURE_COLUMNS)
-    assert not preds["ev_points"].isna().all()
+def test_fpl_xp_is_not_a_feature():
+    """vaastav's `xP` is confirmed post-match-contaminated (see module docstring)
+    and must never be trainable on again for historical data."""
+    assert "fpl_xp" not in points.ALL_FEATURE_COLUMNS
+    assert "fpl_xp" not in points.EXTRA_FEATURE_COLUMNS
 
 
 def test_feature_gain_by_column_shape(synthetic_dataset):

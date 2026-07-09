@@ -1,17 +1,24 @@
 """Live-data health checks — plan §Phase3 review follow-up.
 
-`fpl_xp`/`ep_next` carries 63-65% of total gain in the points model's FULL variant
-(see models/points.py). Production always has this feature available from
-bootstrap-static, but if FPL's own `ep_next` ever goes degenerate mid-season (all
-zero, all null, or otherwise nonsensical), that's silently the single biggest risk
-to model quality — worse than a scraping outage, because nothing else fails loudly.
-Checked healthy live 2026-07-08: per-position means ranged 0.68-1.31 (element_type
-1=GKP .. 4=FWD); vaastav's own historical xP outages (see models/dataset.py) showed
-entire-gameweek means going to exactly 0.0, so that's the specific failure shape to
-watch for.
+`ep_next` is not currently a model feature (vaastav's historical `xP` — the same
+underlying FPL field, `ep_this` — was found to be scraped post-gameweek and
+confirmed post-match-contaminated; see models/points.py). This check exists for
+when we resume accumulating our own pre-deadline `ep_next` snapshots (ingest/
+health.py's archiving, effective from GW1 of 26/27): live-fetched values don't have
+vaastav's timing problem, but if FPL's own `ep_next` ever goes degenerate mid-season
+(all zero, all null, or otherwise nonsensical), that would silently corrupt our own
+archive the same way — worse than a scraping outage, because nothing else fails
+loudly. Checked healthy live 2026-07-08: per-position means ranged 0.68-1.31
+(element_type 1=GKP .. 4=FWD); vaastav's historical `xP` outages (see models/
+dataset.py's git history) showed entire-gameweek means going to exactly 0.0, so
+that's the specific failure shape to watch for.
 """
 
 from __future__ import annotations
+
+from datetime import UTC, datetime
+
+import duckdb
 
 from fplscout.ingest.schemas import BootstrapStatic
 
@@ -54,3 +61,33 @@ def check_ep_next_health(bootstrap: BootstrapStatic) -> list[str]:
         )
 
     return warnings
+
+
+def archive_ep_next(con: duckdb.DuckDBPyConnection, bootstrap: BootstrapStatic) -> int:
+    """Persists one row per player with a parseable ep_next to ep_next_archive,
+    timestamped now. Effective immediately (plan review directive) — not waiting
+    for the 26/27 season to start, so the archive is already accumulating by the
+    time there's a real gameweek to validate against. Returns rows written."""
+    next_event = next((e for e in bootstrap.events if e.is_next), None)
+    gw = next_event.id if next_event is not None else None
+    snapshot_time = datetime.now(UTC)
+
+    rows = []
+    for element in bootstrap.elements:
+        if element.ep_next is None:
+            continue
+        try:
+            value = float(element.ep_next)
+        except ValueError:
+            continue
+        rows.append((snapshot_time, element.code, element.id, gw, value))
+
+    if not rows:
+        return 0
+
+    con.executemany(
+        "INSERT INTO ep_next_archive (snapshot_time, code, element_id, gw, ep_next) "
+        "VALUES (?, ?, ?, ?, ?) ON CONFLICT (snapshot_time, code) DO NOTHING",
+        rows,
+    )
+    return len(rows)
