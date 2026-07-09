@@ -286,7 +286,8 @@ def optimize(settings_path: Path = typer.Option(DEFAULT_SETTINGS_PATH, "--settin
     from datetime import UTC, datetime
 
     from fplscout import pipeline
-    from fplscout.decide.optimizer import OptimizerInput, optimize as run_optimizer
+    from fplscout.decide.optimizer import OptimizerInput
+    from fplscout.decide.optimizer import optimize as run_optimizer
 
     settings = load_settings(settings_path)
     duckdb_path = REPO_ROOT / settings["paths"]["duckdb"]

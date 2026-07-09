@@ -23,7 +23,7 @@ import pandas as pd
 import yaml
 
 from fplscout import pipeline
-from fplscout.decide.optimizer import DEFAULT_HIT_COST, OptimizerInput, top_alternative_moves
+from fplscout.decide.optimizer import DEFAULT_HIT_COST, top_alternative_moves
 
 
 def _reference_frame(con: duckdb.DuckDBPyConnection, season: str, gw: int) -> pd.DataFrame:
@@ -53,6 +53,12 @@ def _reference_frame(con: duckdb.DuckDBPyConnection, season: str, gw: int) -> pd
         """,
         [season, gw, season, gw, season],
     ).df()
+
+
+def _round_or_none(value, digits: int) -> float | None:
+    """round(value, digits) unless it's NaN/None — FPL projection frames carry
+    NaN for players with no valid projection, and JSON has no NaN."""
+    return round(float(value), digits) if pd.notna(value) else None
 
 
 def _player_card(row: pd.Series) -> dict:
@@ -95,6 +101,7 @@ def _confidence(ref: pd.DataFrame, starting_xi: set[int]) -> float:
 
 def build_dashboard(con: duckdb.DuckDBPyConnection, season: str, gw: int) -> dict:
     ref = _reference_frame(con, season, gw)
+    is_live = _is_live(con, season, gw)
     rec = con.execute(
         "SELECT * FROM recommendations WHERE season = ? AND gw = ? "
         "ORDER BY generated_at DESC LIMIT 1",
@@ -111,7 +118,7 @@ def build_dashboard(con: duckdb.DuckDBPyConnection, season: str, gw: int) -> dic
 
     if len(rec) == 0:
         return {
-            "gw": gw, "season": season, "is_live": _is_live(con, season, gw),
+            "gw": gw, "season": season, "is_live": is_live,
             "deadline": deadline_row[0].isoformat() if deadline_row and deadline_row[0] else None,
             "avg_points": avg_points, "our_points": None, "overall_rank": None,
             "mini_league": None,
@@ -146,8 +153,9 @@ def build_dashboard(con: duckdb.DuckDBPyConnection, season: str, gw: int) -> dic
     if captain_row is not None and pd.notna(captain_row["ev_points"]):
         our_points += captain_row["ev_points"]  # captain's extra multiplier share
 
+    hits = rec["hits"][0]
     return {
-        "gw": gw, "season": season, "is_live": _is_live(con, season, gw),
+        "gw": gw, "season": season, "is_live": is_live,
         "deadline": deadline_row[0].isoformat() if deadline_row and deadline_row[0] else None,
         "avg_points": avg_points,
         "our_points": round(float(our_points), 1) if pd.notna(our_points) else None,
@@ -155,11 +163,12 @@ def build_dashboard(con: duckdb.DuckDBPyConnection, season: str, gw: int) -> dic
         "mini_league": None,
         "insight": {
             "text": (
-                f"Showing {season} GW{gw} (last completed gameweek) — 26/27 hasn't "
-                "launched yet, so this is a demo projection, not a live entry."
-                if not _is_live(con, season, gw) else "Live recommendation for the upcoming gameweek."
+                "Live recommendation for the upcoming gameweek."
+                if is_live
+                else f"Showing {season} GW{gw} (last completed gameweek) — 26/27 "
+                "hasn't launched yet, so this is a demo projection, not a live entry."
             ),
-            "transfer_summary": f"{rec['hits'][0]} hit(s) taken" if rec["hits"][0] else "No hits taken",
+            "transfer_summary": f"{hits} hit(s) taken" if hits else "No hits taken",
             "captain": captain_row["web_name"] if captain_row is not None else None,
         },
         "bench_order": bench_order,
@@ -191,7 +200,11 @@ def build_transfers(con: duckdb.DuckDBPyConnection, season: str, gw: int) -> dic
     # transfer-in/out comparison needs a genuine prior squad (squad_state),
     # which doesn't exist pre-26/27-launch — this is the closest honest
     # approximation using only real projections, not fabricated deltas.
-    purchase_prices = {int(c): int(p) for c, p in zip(ref["code"], ref["price"]) if c in squad}
+    purchase_prices = {
+        int(c): int(p)
+        for c, p in zip(ref["code"], ref["price"], strict=True)
+        if c in squad
+    }
     moves = top_alternative_moves(
         proj_for_optimizer, current_squad=squad, purchase_prices=purchase_prices,
         bank=0, free_transfers=1, hit_cost=DEFAULT_HIT_COST, n=5,
@@ -205,8 +218,8 @@ def build_transfers(con: duckdb.DuckDBPyConnection, season: str, gw: int) -> dic
             "in": _player_card(in_row),
             "compare": {
                 "position": m.position,
-                "out_ev": round(float(out_row["ev_points"]), 2) if pd.notna(out_row["ev_points"]) else None,
-                "in_ev": round(float(in_row["ev_points"]), 2) if pd.notna(in_row["ev_points"]) else None,
+                "out_ev": _round_or_none(out_row["ev_points"], 2),
+                "in_ev": _round_or_none(in_row["ev_points"], 2),
             },
             "net_ev": round(m.net_ev, 2),
         })
@@ -237,22 +250,21 @@ def build_fixtures(con: duckdb.DuckDBPyConnection, season: str, gw: int, horizon
         "SELECT team_id, code, name, short_name FROM teams WHERE season = ?", [season]
     ).df()
 
-    long = pd.concat([
-        fixtures.rename(columns={"team_h": "team_id", "team_a": "opponent_id",
-                                  "team_h_difficulty": "fdr"})[["gw", "team_id", "opponent_id", "fdr"]]
-        .assign(was_home=True),
-        fixtures.rename(columns={"team_a": "team_id", "team_h": "opponent_id",
-                                  "team_a_difficulty": "fdr"})[["gw", "team_id", "opponent_id", "fdr"]]
-        .assign(was_home=False),
-    ], ignore_index=True)
+    cols = ["gw", "team_id", "opponent_id", "fdr"]
+    home = fixtures.rename(
+        columns={"team_h": "team_id", "team_a": "opponent_id", "team_h_difficulty": "fdr"}
+    )[cols].assign(was_home=True)
+    away = fixtures.rename(
+        columns={"team_a": "team_id", "team_h": "opponent_id", "team_a_difficulty": "fdr"}
+    )[cols].assign(was_home=False)
+    long = pd.concat([home, away], ignore_index=True)
     dgw_counts = long.groupby(["gw", "team_id"]).size().reset_index(name="n")
     long = long.merge(dgw_counts, on=["gw", "team_id"], how="left")
-    short_by_id = dict(zip(teams["team_id"], teams["short_name"]))
+    short_by_id = dict(zip(teams["team_id"], teams["short_name"], strict=False))
 
     out = []
     for _, team in teams.iterrows():
         team_fixtures = long[long["team_id"] == team["team_id"]].sort_values("gw")
-        playing_gws = set(team_fixtures["gw"])
         ticker = []
         for g in range(start_gw, gw + 1):
             rows = team_fixtures[team_fixtures["gw"] == g]
@@ -261,8 +273,10 @@ def build_fixtures(con: duckdb.DuckDBPyConnection, season: str, gw: int, horizon
                 continue
             for _, r in rows.iterrows():
                 ticker.append({
-                    "gw": g, "opponent": short_by_id.get(r["opponent_id"], "?"),
-                    "was_home": bool(r["was_home"]), "fdr": int(r["fdr"]) if pd.notna(r["fdr"]) else None,
+                    "gw": g,
+                    "opponent": short_by_id.get(r["opponent_id"], "?"),
+                    "was_home": bool(r["was_home"]),
+                    "fdr": int(r["fdr"]) if pd.notna(r["fdr"]) else None,
                     "is_dgw": bool(r["n"] >= 2),
                 })
         out.append({
@@ -381,7 +395,8 @@ def publish_all(
     dict of {filename: bytes_written} for the CLI to echo."""
     season, gw = pipeline.latest_reference_point(con)
     ref = _reference_frame(con, season, gw)
-    model_version = ref["model_version"].dropna().iloc[0] if ref["model_version"].notna().any() else None
+    versions = ref["model_version"].dropna()
+    model_version = versions.iloc[0] if len(versions) else None
 
     site_data_dir.mkdir(parents=True, exist_ok=True)
     players_dir = site_data_dir / "players"

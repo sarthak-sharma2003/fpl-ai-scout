@@ -167,7 +167,12 @@ def generate_projections(
         "DELETE FROM projections WHERE season = ? AND gw = ? AND model_version = ?",
         [season, gw, models.version],
     )
-    con.execute("INSERT INTO projections BY NAME SELECT * FROM rows_df")
+    # register explicitly rather than relying on DuckDB's implicit replacement
+    # scan of local variable names (which linters can't see, and which breaks if
+    # this is ever refactored into a helper where `rows_df` isn't in scope).
+    con.register("projection_rows", rows_df)
+    con.execute("INSERT INTO projections BY NAME SELECT * FROM projection_rows")
+    con.unregister("projection_rows")
     return out
 
 
