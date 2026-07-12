@@ -47,6 +47,12 @@ class OptimizerInput:
     free_transfers: int
     chip_mode: str | None = None
     hit_cost: int = DEFAULT_HIT_COST
+    # EV charge per transfer made (free ones included): a banked free transfer
+    # has option value next week, so even a "free" move isn't free. 0 = old
+    # behavior. Ignored under wildcard/free_hit (those don't consume FTs).
+    transfer_penalty: float = 0.0
+    # hard cap on hits taken in one gameweek (None = uncapped, old behavior)
+    max_hits: int | None = None
     max_per_club: int = DEFAULT_MAX_PER_CLUB
     bench_weights: tuple[float, float, float] = BENCH_WEIGHTS
     time_limit_seconds: float = 30.0
@@ -124,6 +130,12 @@ def optimize(inp: OptimizerInput) -> OptimizationResult:
         )
         + pulp.lpSum(bench_gk_weight * ev[c] * bench_gk[c] for c in codes)
         - inp.hit_cost * hits
+        - (
+            0.0
+            if inp.chip_mode in ("wildcard", "free_hit")
+            else inp.transfer_penalty
+        )
+        * pulp.lpSum(buy[c] for c in codes)
     )
 
     # squad composition
@@ -179,6 +191,8 @@ def optimize(inp: OptimizerInput) -> OptimizationResult:
         prob += hits == 0
     else:
         prob += hits >= total_buys - inp.free_transfers
+        if inp.max_hits is not None:
+            prob += hits <= inp.max_hits
 
     # budget: cost of squad <= bank + proceeds from sold players + value already
     # tied up in retained players (retained players' current price counts as

@@ -193,6 +193,14 @@ CREATE TABLE IF NOT EXISTS features (
     -- features/build.py docstring)
     roll5_started_share DOUBLE,
 
+    -- prior-season aggregates joined on persistent `code` (season cold-start;
+    -- a full prior season is strictly past relative to any current-season row)
+    prev_season_minutes DOUBLE,
+    prev_season_points_per90 DOUBLE,
+    prev_season_xgi_per90 DOUBLE,
+    prev_season_starts_share DOUBLE,
+    played_prev_season BOOLEAN,
+
     PRIMARY KEY (season, code, fixture_id)
 );
 
@@ -303,3 +311,14 @@ def connect(db_path: Path | str) -> duckdb.DuckDBPyConnection:
 
 def init_schema(con: duckdb.DuckDBPyConnection) -> None:
     con.execute(SCHEMA_SQL)
+    # migrations for DBs created before these columns existed (CREATE TABLE IF
+    # NOT EXISTS won't add columns to an existing table); the data itself is
+    # backfilled by the next `fplscout refresh` feature rebuild
+    for name, dtype in [
+        ("prev_season_minutes", "DOUBLE"),
+        ("prev_season_points_per90", "DOUBLE"),
+        ("prev_season_xgi_per90", "DOUBLE"),
+        ("prev_season_starts_share", "DOUBLE"),
+        ("played_prev_season", "BOOLEAN"),
+    ]:
+        con.execute(f"ALTER TABLE features ADD COLUMN IF NOT EXISTS {name} {dtype}")

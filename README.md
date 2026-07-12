@@ -224,6 +224,21 @@ tests/            pytest suite; tests/fixtures/ holds recorded API payloads for 
     the points model's week-to-week predictions for an unchanged player still
     move more than real-world stability would justify, an open question this
     build doesn't resolve.
+  - **26/27-prep update (2026-07-12):** transfer churn controls
+    (`transfer_penalty=1.5`/transfer + `max_hits=1`/GW in
+    `backtest/simulator.py`) and season cold-start features (`prev_season_*`
+    in `features/build.py`, joined on persistent `code`) are in. A tuning
+    sweep on 2024-25 only (grid + honest read in `data/reports/p0a_sweep.md`)
+    showed season totals are insensitive to the transfer controls within
+    ±60 pts of decision-path noise — the "over-trading bleeds 100-200 pts"
+    hypothesis was rejected; the old hits were roughly EV-neutral. One-shot
+    2025-26 validation: 1,543 pts / 17 hits (vs 1,601 / 65 before) —
+    total-neutral, ~4x less churn, slightly better model-level Spearman/RMSE
+    on both splits, and the 26/27 GW1 draft no longer runs on all-NaN form.
+    The remaining gap to ~2,000 is prediction quality, not decision logic;
+    the live-only levers are the open workstreams (issues #1-#4:
+    availability overlay, live per-GW ingestion, in-season DC refit, q90
+    captaincy).
 
 ## Weekly ops runbook
 

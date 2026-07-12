@@ -244,6 +244,38 @@ def build_features(con: duckdb.DuckDBPyConnection) -> pd.DataFrame:
         axis=1,
     )
 
+    # prior-season aggregates joined on the persistent `code` (season cold-start):
+    # rolling windows deliberately reset each season, so without these every
+    # player opens a season on all-NaN form and a new signing is invisible until
+    # ~GW5. A full prior season is strictly in the past relative to every row of
+    # the current season — leak-safe by construction. "Previous" means the
+    # previous *loaded* season (same convention as promoted_team above).
+    season_totals = gw.groupby(["code", "season"], as_index=False).agg(
+        prev_season_minutes=("minutes", "sum"),
+        _points=("total_points", "sum"),
+        _xgi=("expected_goal_involvements", "sum"),
+        _starts=("starts", "sum"),
+    )
+    next_season = {prev: cur for cur, prev in season_prev.items()}
+    season_totals["season"] = season_totals["season"].map(next_season)
+    season_totals = season_totals.dropna(subset=["season"])
+    mins = season_totals["prev_season_minutes"]
+    # per-90 rates are noise below ~5 full games; keep raw minutes either way
+    with np.errstate(invalid="ignore", divide="ignore"):
+        season_totals["prev_season_points_per90"] = np.where(
+            mins >= 450, season_totals["_points"] / mins * 90, np.nan
+        )
+        season_totals["prev_season_xgi_per90"] = np.where(
+            mins >= 450, season_totals["_xgi"] / mins * 90, np.nan
+        )
+    season_totals["prev_season_starts_share"] = season_totals["_starts"] / 38.0
+    season_totals["played_prev_season"] = True
+    season_totals = season_totals.drop(columns=["_points", "_xgi", "_starts"])
+    features = features.merge(season_totals, on=["code", "season"], how="left")
+    features["played_prev_season"] = (
+        features["played_prev_season"].astype("boolean").fillna(False).astype(bool)
+    )
+
     features["price_band"] = _price_band(features["value"])
 
     output_cols = [
@@ -255,6 +287,8 @@ def build_features(con: duckdb.DuckDBPyConnection) -> pd.DataFrame:
         "fdr", "opponent_strength", "rest_days", "is_dgw",
         "team_roll5_goals_for", "team_roll5_goals_against",
         "roll5_started_share",
+        "prev_season_minutes", "prev_season_points_per90", "prev_season_xgi_per90",
+        "prev_season_starts_share", "played_prev_season",
     ]
     return features[output_cols]
 

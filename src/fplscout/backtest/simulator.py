@@ -69,6 +69,17 @@ INITIAL_BUDGET = 1000  # £100.0m
 # 6 = a fixed 50% buffer over the true cost, chosen once and left alone.
 DECISION_HIT_COST = 6
 
+# Over-trading controls (P0-A). The backtest was taking ~2 hits/week (73 and 65
+# hits/season) chasing week-to-week EV noise. `TRANSFER_PENALTY` charges every
+# transfer (free ones included) the option value of the banked free transfer it
+# consumes; `MAX_HITS_PER_GW` hard-caps paid transfers per gameweek. The 2024-25
+# sweep (data/reports/p0a_sweep.md) showed season totals are NOT sensitive to
+# these within ±60pts of decision-path noise — so the values below are chosen on
+# priors (published FT option-value estimates of ~1-2 pts; good managers take
+# 5-10 hits/season, the cap lands us ~22-25), not on the sweep's noisy argmax.
+TRANSFER_PENALTY = 1.5
+MAX_HITS_PER_GW: int | None = 1
+
 
 @dataclass
 class SimGwResult:
@@ -152,12 +163,28 @@ def _selling_price(now_price: int, purchase_price: int) -> int:
     return purchase_price + (now_price - purchase_price) // 2
 
 
-def simulate_season(
+@dataclass
+class PreparedSeason:
+    """Everything simulate_season needs that does NOT depend on optimizer
+    config — trained models' projections, horizon EVs, actuals, universe.
+    Computing this dominates a replay's runtime, so parameter sweeps prepare
+    once and replay many times."""
+
+    season: str
+    train_seasons: list[str]
+    ev_by_gw: pd.DataFrame
+    horizon_ev_by_gw: dict[int, pd.Series]
+    position_by_code: dict[int, str]
+    actual: dict[int, pd.DataFrame]
+    universe: dict[int, pd.DataFrame]
+    max_gw: int
+
+
+def prepare_season(
     con: duckdb.DuckDBPyConnection,
     season: str,
     train_seasons: list[str],
-    use_chips: bool = True,
-) -> SeasonResult:
+) -> PreparedSeason:
     train_df = load_dataset(con, train_seasons)
     target_df = load_dataset(con, [season])
 
@@ -190,6 +217,31 @@ def simulate_season(
     actual = _actual_by_gw(con, season)
     universe = _player_universe_by_gw(con, season)
     max_gw = int(target_df["gw"].max())
+
+    return PreparedSeason(
+        season=season, train_seasons=train_seasons, ev_by_gw=ev_by_gw,
+        horizon_ev_by_gw=horizon_ev_by_gw, position_by_code=position_by_code,
+        actual=actual, universe=universe, max_gw=max_gw,
+    )
+
+
+def simulate_season(
+    con: duckdb.DuckDBPyConnection,
+    season: str,
+    train_seasons: list[str],
+    use_chips: bool = True,
+    transfer_penalty: float = TRANSFER_PENALTY,
+    max_hits: int | None = MAX_HITS_PER_GW,
+    prepared: PreparedSeason | None = None,
+) -> SeasonResult:
+    if prepared is None:
+        prepared = prepare_season(con, season, train_seasons)
+    ev_by_gw = prepared.ev_by_gw
+    horizon_ev_by_gw = prepared.horizon_ev_by_gw
+    position_by_code = prepared.position_by_code
+    actual = prepared.actual
+    universe = prepared.universe
+    max_gw = prepared.max_gw
 
     chip_plan: list[chip_planner.ChipRecommendation] = []
     chips_available = {"wildcard": 2, "bboost": 2, "3xc": 2}
@@ -236,6 +288,8 @@ def simulate_season(
             free_transfers=free_transfers,
             chip_mode="wildcard" if is_initial_draft else chip_mode,
             hit_cost=DECISION_HIT_COST,
+            transfer_penalty=transfer_penalty,
+            max_hits=max_hits,
         )
         opt_result = optimize(opt_input)
         if opt_result.status != "Optimal":

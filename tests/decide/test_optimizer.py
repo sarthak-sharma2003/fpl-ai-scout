@@ -227,6 +227,57 @@ def test_free_transfer_used_without_hit_when_ev_gain_is_small_but_positive():
     assert 99 in result.squad
 
 
+def test_transfer_penalty_blocks_marginal_free_transfer():
+    """Same ev-gain-of-3 candidate and a free transfer available — but with
+    transfer_penalty=4 the banked FT's option value outweighs the gain, so the
+    optimizer should hold."""
+    squad15 = _hit_test_squad()
+    candidate = _player(99, "FWD", 16, 40, 28)
+    universe = pd.DataFrame(squad15 + [candidate])
+    current_squad = {p["code"] for p in squad15}
+
+    inp = OptimizerInput(
+        projections=universe,
+        current_squad=current_squad,
+        purchase_prices={p["code"]: p["price"] for p in squad15},
+        bank=0,
+        free_transfers=1,
+        chip_mode=None,
+        transfer_penalty=4.0,
+    )
+    result = optimize(inp)
+    assert result.status == "Optimal"
+    assert 99 not in result.squad
+    assert result.transfers_in == set()
+
+
+def test_max_hits_caps_paid_transfers():
+    """Two candidates each with ev gain 10 (>> hit_cost) and zero free
+    transfers: uncapped the optimizer takes 2 hits, with max_hits=1 it may take
+    only one."""
+    squad15 = _hit_test_squad()
+    candidates = [_player(98, "FWD", 16, 40, 35), _player(99, "FWD", 17, 40, 35)]
+    universe = pd.DataFrame(squad15 + candidates)
+    current_squad = {p["code"] for p in squad15}
+
+    base = dict(
+        projections=universe,
+        current_squad=current_squad,
+        purchase_prices={p["code"]: p["price"] for p in squad15},
+        bank=0,
+        free_transfers=0,
+        chip_mode=None,
+    )
+    uncapped = optimize(OptimizerInput(**base))
+    assert uncapped.status == "Optimal"
+    assert uncapped.hits == 2
+
+    capped = optimize(OptimizerInput(**base, max_hits=1))
+    assert capped.status == "Optimal"
+    assert capped.hits == 1
+    assert len(capped.transfers_in & {98, 99}) == 1
+
+
 def test_formation_flexes_when_fifth_midfielder_outprojects_third_forward():
     """A fixed 15-man squad (2 GKP/5 DEF/5 MID/3 FWD) where the 5th midfielder
     has higher ev than the weakest forward — the XI should start all 5

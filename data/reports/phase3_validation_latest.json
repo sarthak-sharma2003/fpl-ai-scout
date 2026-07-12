@@ -2,7 +2,7 @@
   "beats_naive_decision": true,
   "primary": {
     "split_label": "primary",
-    "version": "20260709T013257Z",
+    "version": "20260712T235005Z",
     "train_seasons": [
       "2021-22",
       "2022-23",
@@ -10,14 +10,14 @@
     ],
     "holdout_season": "2024-25",
     "beats_naive": true,
-    "model_mean_per_gw_spearman": 0.25919761506196964,
-    "naive_mean_per_gw_spearman": 0.21754427585691188,
-    "model_rmse": 3.022918129489472,
-    "naive_rmse": 3.209614326919413
+    "model_mean_per_gw_spearman": 0.2658801591992351,
+    "naive_mean_per_gw_spearman": 0.22587229816056767,
+    "model_rmse": 3.014284043536204,
+    "naive_rmse": 3.1957317909798375
   },
   "secondary": {
     "split_label": "secondary",
-    "version": "20260709T013326Z",
+    "version": "20260712T235034Z",
     "train_seasons": [
       "2021-22",
       "2022-23",
@@ -26,9 +26,9 @@
     ],
     "holdout_season": "2025-26",
     "beats_naive": true,
-    "model_mean_per_gw_spearman": 0.21773112295877473,
-    "naive_mean_per_gw_spearman": 0.142832846293308,
-    "model_rmse": 3.114988617320804,
-    "naive_rmse": 3.367281175098953
+    "model_mean_per_gw_spearman": 0.2181174218932087,
+    "naive_mean_per_gw_spearman": 0.1491223966458424,
+    "model_rmse": 3.111877339014905,
+    "naive_rmse": 3.366582852802535
   }
 }

@@ -41,6 +41,8 @@ FEATURE_COLUMNS = [
     "fdr", "opponent_strength", "rest_days", "is_dgw",
     "team_roll5_goals_for", "team_roll5_goals_against",
     "roll5_started_share",
+    "prev_season_minutes", "prev_season_points_per90", "prev_season_xgi_per90",
+    "prev_season_starts_share", "played_prev_season",
     "value", "price_band", "promoted_team", "position",
 ]
 
@@ -64,6 +66,7 @@ def load_dataset(con: duckdb.DuckDBPyConnection, seasons: list[str]) -> pd.DataF
     ).df()
     df["is_dgw"] = df["is_dgw"].astype(bool)
     df["promoted_team"] = df["promoted_team"].astype(bool)
+    df["played_prev_season"] = df["played_prev_season"].astype(bool)
     for col in CATEGORICAL_COLUMNS:
         df[col] = df[col].astype("category")
     return df

@@ -152,6 +152,33 @@ def test_promoted_team_flag(loaded_con):
         assert not liverpool_rows["promoted_team"].any()
 
 
+def test_prev_season_features_match_hand_computed_aggregate(loaded_con):
+    """Salah (code 118748) appears in both loaded seasons: his 2025-26 rows must
+    carry his full prior-loaded-season aggregate, recomputed here from raw
+    player_gw_history. His prior-season rows themselves (no season before them
+    in the data) must have played_prev_season=False and NaN aggregates."""
+    features = build_features(loaded_con)
+    raw = loaded_con.execute(
+        "SELECT SUM(minutes) AS m, SUM(total_points) AS p "
+        "FROM player_gw_history WHERE code = 118748 AND season = '2021-22'"
+    ).df().iloc[0]
+
+    current = features[(features["code"] == 118748) & (features["season"] == "2025-26")]
+    assert len(current) > 0
+    assert current["played_prev_season"].all()
+    assert (current["prev_season_minutes"] == raw["m"]).all()
+    if raw["m"] >= 450:
+        expected_per90 = raw["p"] / raw["m"] * 90
+        assert np.allclose(current["prev_season_points_per90"], expected_per90)
+    else:
+        # below the 450-minute floor per-90 rates are suppressed as noise
+        assert current["prev_season_points_per90"].isna().all()
+
+    first_season = features[(features["code"] == 118748) & (features["season"] == "2021-22")]
+    assert not first_season["played_prev_season"].any()
+    assert first_season["prev_season_minutes"].isna().all()
+
+
 def test_write_features_persists_to_duckdb(loaded_con):
     n = write_features(loaded_con)
     assert n > 0
