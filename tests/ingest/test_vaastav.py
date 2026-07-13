@@ -53,6 +53,25 @@ def test_load_two_seasons_end_to_end(con, tmp_path):
 
 
 @respx.mock
+def test_name_backfill_reaches_status_created_null_season_row(con, tmp_path):
+    """The live status sync (cli._sync_player_status) can insert a `players`
+    row for a code vaastav hasn't scraped yet — NULL name, NULL
+    last_seen_season. When vaastav later loads that code, its ON CONFLICT
+    guard (`last_seen_season >=` comparison, NULL -> false) used to skip the
+    backfill permanently; the IS NULL branch must accept it."""
+    con.execute("INSERT INTO players (code, status) VALUES (118748, 'a')")
+    _mock_season("2021-22")
+    vaastav.load_all_seasons(con, cache_dir=tmp_path / "raw", seasons=["2021-22"])
+
+    name, season, status = con.execute(
+        "SELECT second_name, last_seen_season, status FROM players WHERE code = 118748"
+    ).fetchone()
+    assert name == "Salah"
+    assert season == "2021-22"
+    assert status == "a"  # backfill must not clobber the live status column
+
+
+@respx.mock
 def test_salah_code_is_stable_across_seasons(con, tmp_path):
     """Plan §Phase1 DoD: ID-mapping spot check — Salah traced across seasons."""
     _mock_season("2021-22")

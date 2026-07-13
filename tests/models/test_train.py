@@ -124,6 +124,37 @@ def test_project_gw_end_to_end_on_real_fixture_data(loaded_con):
     assert "expected_minutes" in feat.columns
 
 
+def test_project_gw_availability_factor_zeroes_out_expected_minutes(loaded_con):
+    """A code with a monkeypatched availability_factor of 0.0 (ruled out) must
+    get ~0 expected_minutes back — the core acceptance check for issue #1's
+    availability overlay. Backtest/training callers never pass this arg, so
+    their output is untouched (see project_gw's default None)."""
+    train_df = load_dataset(loaded_con, ["2021-22"])
+    target_df = load_dataset(loaded_con, ["2025-26"])
+
+    minutes_model = minutes.train(train_df)
+    fixtures = loaded_con.execute("SELECT * FROM fixtures WHERE season = '2021-22'").df()
+    teams = loaded_con.execute("SELECT season, team_id, code FROM teams").df()
+    dc_model = team_goals.fit(fixtures, teams)
+
+    mins_proba = minutes.predict_proba(minutes_model, train_df)
+    tg_lookup = _team_goals_lookup(dc_model, train_df, teams)
+    train_full = points.add_model_features(train_df, mins_proba, tg_lookup)
+    points_models = points.train(train_full)
+
+    ruled_out_code = int(target_df["code"].iloc[0])
+    factor = dict.fromkeys(target_df["code"].unique(), 1.0)
+    factor[ruled_out_code] = 0.0
+
+    _, feat = project_gw(
+        minutes_model, dc_model, points_models, target_df, teams,
+        availability_factor=factor,
+    )
+    ruled_out_rows = feat[feat["code"] == ruled_out_code]
+    assert (ruled_out_rows["expected_minutes"] == 0.0).all()
+    assert (ruled_out_rows["mins_p0"] == 1.0).all()
+
+
 def test_compare_columns_returns_one_bundle_per_predictor():
     df = pd.DataFrame(
         {

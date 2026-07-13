@@ -110,6 +110,22 @@ def latest_reference_point(con: duckdb.DuckDBPyConnection) -> tuple[str, int]:
     return row[0], row[1]
 
 
+def live_availability_factor(con: duckdb.DuckDBPyConnection) -> dict[int, float]:
+    """code -> live availability factor read from `players`' bootstrap-static
+    snapshot (see `fplscout refresh` / models/minutes.py::apply_availability).
+    Inference-only — never touches training data."""
+    rows = con.execute(
+        "SELECT code, status, chance_of_playing_next_round FROM players"
+    ).fetchall()
+    factor = {}
+    for code, status, chance in rows:
+        if chance is not None:
+            factor[code] = chance / 100.0
+        else:
+            factor[code] = 1.0 if status == "a" else 0.0
+    return factor
+
+
 def generate_projections(
     con: duckdb.DuckDBPyConnection,
     models: ProductionModels,
@@ -123,7 +139,8 @@ def generate_projections(
     teams = con.execute("SELECT season, team_id, code FROM teams WHERE season = ?", [season]).df()
 
     preds, feat = project_gw(
-        models.minutes_model, models.dc_model, models.points_models, target_df, teams
+        models.minutes_model, models.dc_model, models.points_models, target_df, teams,
+        availability_factor=live_availability_factor(con),
     )
     # preds and feat share target_df's row order/length exactly (project_gw derives
     # both from it without reordering) — positional concat, not a merge on `code`,
@@ -218,7 +235,7 @@ def total_ev_for_optimizer(
         return horizon.build_horizon_ev(
             models.minutes_model, models.dc_model, models.points_models,
             base_rows, fixtures, teams, decision_gw=gw, horizon=HORIZON, decay=DECAY,
-            max_gw=max_gw,
+            max_gw=max_gw, availability_factor=live_availability_factor(con),
         )
     decay_sum = sum(DECAY**h for h in range(HORIZON))
     return (projections.set_index("code")["ev_points"] * decay_sum).rename("total_ev")

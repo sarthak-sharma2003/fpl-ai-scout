@@ -110,6 +110,7 @@ def project_gw(
     points_models: dict,
     df: pd.DataFrame,
     teams: pd.DataFrame,
+    availability_factor: dict[int, float] | None = None,
 ) -> tuple[pd.DataFrame, pd.DataFrame]:
     """Given already-trained models, produce EV projections for the rows in `df`
     — typically one gameweek's worth from `models.dataset.load_dataset()`.
@@ -117,11 +118,19 @@ def project_gw(
     (backtest simulator) reuse the exact same per-GW prediction path instead of
     duplicating it.
 
+    `availability_factor`: optional code -> live availability factor (see
+    models/minutes.py::apply_availability). Only the live pipeline passes
+    this; backtest/training callers leave it None, which skips the overlay
+    entirely and keeps their output byte-identical to before this existed.
+
     Returns (predictions, feature_augmented_df) — the second is useful to
     callers that also need expected_minutes/mins_p60_plus/etc. without
     re-deriving them.
     """
     mins_proba = minutes.predict_proba(minutes_model, df)
+    if availability_factor is not None:
+        factor = df["code"].map(availability_factor).fillna(1.0).to_numpy()
+        mins_proba = minutes.apply_availability(mins_proba, factor)
     tg_lookup = _team_goals_lookup(dc_model, df, teams)
     feat = points.add_model_features(df, mins_proba, tg_lookup)
     preds = points.predict(points_models, feat)

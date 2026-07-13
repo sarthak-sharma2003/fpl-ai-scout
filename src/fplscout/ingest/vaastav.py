@@ -303,7 +303,8 @@ def load_season(con: duckdb.DuckDBPyConnection, client: VaastavClient, season: s
             second_name = excluded.second_name,
             web_name = excluded.web_name,
             last_seen_season = excluded.last_seen_season
-        WHERE excluded.last_seen_season >= p.last_seen_season
+        WHERE p.last_seen_season IS NULL
+           OR excluded.last_seen_season >= p.last_seen_season
         """
     )
 

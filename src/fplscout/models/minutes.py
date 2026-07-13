@@ -44,3 +44,18 @@ def expected_minutes(proba: np.ndarray) -> np.ndarray:
     """Point estimate: midpoints of each bucket (0, 30, 90), weighted by P."""
     midpoints = np.array([0.0, 30.0, 90.0])
     return proba @ midpoints
+
+
+def apply_availability(proba: np.ndarray, factor: np.ndarray) -> np.ndarray:
+    """Inference-time-only overlay: scales P(1-59)/P(60+) by a per-row live
+    availability factor (1.0 = fully expected to play, 0.0 = ruled out),
+    folding the removed mass back into P(0). factor of all-ones is a no-op.
+
+    Never call this on training data — live status/chance_of_playing is a
+    single "now" snapshot, not per-GW history, and would leak (see
+    features/build.py docstring)."""
+    factor = np.asarray(factor, dtype=float).reshape(-1, 1)
+    out = proba.copy()
+    out[:, 1:] = proba[:, 1:] * factor
+    out[:, 0] = 1.0 - out[:, 1] - out[:, 2]
+    return out

@@ -9,6 +9,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
+import pandas as pd
 import typer
 import yaml
 
@@ -50,6 +51,33 @@ def _sync_gameweeks(con, bootstrap, season: str) -> int:
         rows,
     )
     return len(rows)
+
+
+def _sync_player_status(con, bootstrap) -> int:
+    """Persists bootstrap-static's live status/news/chance_of_playing_next_round
+    to `players` — pipeline.py's inference-time availability overlay (issue #1)
+    reads this. Live-only snapshot, never a training feature (see db.py).
+
+    May insert a code vaastav hasn't scraped yet (e.g. a new signing right
+    after the 26/27 launch) with NULL name/last_seen_season; vaastav's
+    name-backfill upsert explicitly accepts the NULL case (see the IS NULL
+    branch of its ON CONFLICT guard in ingest/vaastav.py), so ordering
+    relative to the historical load is a nicety, not a correctness rule."""
+    status_df = pd.DataFrame(
+        [
+            (e.code, e.status, e.news, e.chance_of_playing_next_round)
+            for e in bootstrap.elements
+        ],
+        columns=["code", "status", "news", "chance_of_playing_next_round"],
+    )
+    con.execute(
+        "INSERT INTO players AS p (code, status, news, chance_of_playing_next_round) "
+        "SELECT * FROM status_df "
+        "ON CONFLICT (code) DO UPDATE SET status = excluded.status, "
+        "news = excluded.news, "
+        "chance_of_playing_next_round = excluded.chance_of_playing_next_round"
+    )
+    return len(status_df)
 
 
 @app.command()
@@ -141,6 +169,9 @@ def refresh(
             f"  {s['season']}: {s['teams']} teams, {s['players']} players, "
             f"{s['fixtures']} fixtures, {s['gw_rows']} player-gw rows"
         )
+
+    n_status = _sync_player_status(con, bootstrap)
+    typer.echo(f"  synced live status for {n_status} players")
 
     typer.echo("Building feature store...")
     n_features = write_features(con)

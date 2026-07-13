@@ -37,7 +37,15 @@ CREATE TABLE IF NOT EXISTS players (
     first_name TEXT,
     second_name TEXT,
     web_name TEXT,
-    last_seen_season TEXT
+    last_seen_season TEXT,
+    -- Live-only snapshot from the most recent `fplscout refresh` (bootstrap-static).
+    -- NEVER a training feature: historical status is a single end-of-season
+    -- snapshot, not per-GW-as-of-deadline history (see features/build.py
+    -- docstring). Consumed only by pipeline.py's inference-time availability
+    -- overlay (models/minutes.py::apply_availability).
+    status TEXT,
+    news TEXT,
+    chance_of_playing_next_round INTEGER
 );
 
 -- (season, element_id) -> code mapping, plus season-scoped attributes (team,
@@ -322,3 +330,9 @@ def init_schema(con: duckdb.DuckDBPyConnection) -> None:
         ("played_prev_season", "BOOLEAN"),
     ]:
         con.execute(f"ALTER TABLE features ADD COLUMN IF NOT EXISTS {name} {dtype}")
+    for name, dtype in [
+        ("status", "TEXT"),
+        ("news", "TEXT"),
+        ("chance_of_playing_next_round", "INTEGER"),
+    ]:
+        con.execute(f"ALTER TABLE players ADD COLUMN IF NOT EXISTS {name} {dtype}")

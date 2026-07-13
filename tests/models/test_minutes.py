@@ -30,3 +30,22 @@ def test_higher_roll5_minutes_predicts_higher_p60(synthetic_dataset):
     p60_low = minutes.predict_proba(model, low)[:, 2].mean()
     p60_high = minutes.predict_proba(model, high)[:, 2].mean()
     assert p60_high > p60_low
+
+
+def test_apply_availability_factor_of_one_is_a_noop():
+    proba = np.array([[0.1, 0.2, 0.7], [0.3, 0.3, 0.4]])
+    out = minutes.apply_availability(proba, np.array([1.0, 1.0]))
+    assert np.allclose(out, proba)
+
+
+def test_apply_availability_factor_of_zero_forces_zero_minutes():
+    proba = np.array([[0.1, 0.2, 0.7]])
+    out = minutes.apply_availability(proba, np.array([0.0]))
+    assert np.allclose(out, [[1.0, 0.0, 0.0]])
+
+
+def test_apply_availability_partial_factor_scales_and_renormalizes():
+    proba = np.array([[0.0, 0.2, 0.8]])
+    out = minutes.apply_availability(proba, np.array([0.5]))
+    assert np.allclose(out, [[0.5, 0.1, 0.4]])
+    assert np.allclose(out.sum(axis=1), 1.0)

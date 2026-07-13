@@ -112,11 +112,19 @@ def build_horizon_ev(
     horizon: int,
     decay: float,
     max_gw: int,
+    availability_factor: dict[int, float] | None = None,
 ) -> pd.Series:
     """base_rows: this season's leak-safe feature rows AT decision_gw only (one
     per player) — the frozen "how good is this player right now" snapshot.
     Returns code -> total_ev, decay-summed across up to `horizon` future
-    gameweeks with real per-gameweek fixture context swapped in."""
+    gameweeks with real per-gameweek fixture context swapped in.
+
+    `availability_factor`: optional code -> live availability factor (see
+    models/minutes.py::apply_availability). Fades linearly back to 1.0 by
+    h=4 steps ahead (an injured player may return within the horizon) —
+    # ponytail: naive linear fade, upgrade path is parsing return dates from
+    `news`. Only the live pipeline passes this; backtest callers leave it
+    None and get byte-identical output to before this existed."""
     if len(base_rows) == 0:
         return pd.Series(dtype=float)
 
@@ -183,6 +191,12 @@ def build_horizon_ev(
         own_proba = base_mins_proba[orig_row_idx]
         pos_avg = np.array([position_avg_proba[p] for p in merged["position"]])
         widened_proba = (1 - widen) * own_proba + widen * pos_avg
+
+        if availability_factor is not None:
+            factor0 = merged["code"].map(availability_factor).fillna(1.0).to_numpy()
+            factor_h = factor0 + (1 - factor0) * min(1.0, h / 4)
+            widened_proba = minutes.apply_availability(widened_proba, factor_h)
+
         merged["mins_p0"] = widened_proba[:, 0]
         merged["mins_p1_59"] = widened_proba[:, 1]
         merged["mins_p60_plus"] = widened_proba[:, 2]
