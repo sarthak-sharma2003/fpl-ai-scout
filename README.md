@@ -2,6 +2,9 @@
 
 Local-first system that predicts FPL points and optimizes squad/transfer/captain/chip
 decisions for one team, 2026/27 season. Full build plan: [`FPL_AI_SCOUT_PLAN.md`](FPL_AI_SCOUT_PLAN.md).
+**Working on this repo? Read [`ROADMAP_2627.md`](ROADMAP_2627.md) first** — current
+state, invariants (leak/tuning discipline), review protocol for delegated issues,
+and the season-kickoff runbook.
 
 $0 spent on data: free FPL API + free historical data (vaastav/Fantasy-Premier-League)
 only. No paid solvers, no paid hosting.
