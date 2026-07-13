@@ -447,10 +447,38 @@ def publish(settings_path: Path = typer.Option(DEFAULT_SETTINGS_PATH, "--setting
 
 
 @app.command()
-def report() -> None:
-    """Generate the weekly 'DO THIS' report. Implemented in Phase 8."""
-    typer.echo("Not implemented yet — Phase 8 (automation).")
-    raise typer.Exit(code=1)
+def report(
+    settings_path: Path = typer.Option(DEFAULT_SETTINGS_PATH, "--settings"),
+    skip_pipeline: bool = typer.Option(
+        False,
+        "--skip-pipeline",
+        help="Render from existing projections/recommendations instead of "
+        "re-running project -> optimize -> publish first.",
+    ),
+) -> None:
+    """The weekly one-command op (plan §8): project -> optimize -> publish,
+    then render the 'DO THIS' markdown sheet to data/reports/ and stdout.
+    Run `fplscout refresh` first on a real gameweek (it's the network step)."""
+    from fplscout import pipeline
+    from fplscout.report.weekly import render_weekly
+
+    if not skip_pipeline:
+        project(settings_path=settings_path)
+        optimize(settings_path=settings_path)
+        publish(settings_path=settings_path)
+
+    settings = load_settings(settings_path)
+    con = db.connect(REPO_ROOT / settings["paths"]["duckdb"])
+    season, gw = pipeline.latest_reference_point(con)
+    sheet = render_weekly(con, season, gw)
+    con.close()
+
+    reports_dir = REPO_ROOT / "data" / "reports"
+    reports_dir.mkdir(parents=True, exist_ok=True)
+    out_path = reports_dir / f"weekly_{season}_gw{gw}.md"
+    out_path.write_text(sheet)
+    typer.echo(sheet)
+    typer.echo(f"Written to {out_path}")
 
 
 @app.command()

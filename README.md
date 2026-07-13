@@ -20,9 +20,9 @@ only. No paid solvers, no paid hosting.
 | 4 | MILP optimizer | ✅ done — golden-case tests, <2s solve at ~600-player scale |
 | 5 | Chip planner | ✅ done |
 | 6 | Backtest simulator (go/no-go gate) | ✅ done — see honest results below; both seasons currently below the plan's 2,400 target |
-| 7 | API + build our own frontend | ⏳ next |
-| 8 | Automation + weekly ops | not started |
-| 9 | Season kickoff checklist | blocked until 26/27 game launches |
+| 7 | Static site pipeline + React frontend | ✅ done — `fplscout publish` renders site/public/data/, Pages deploy |
+| 8 | Automation + weekly ops | ✅ done — `fplscout report` one-command weekly op, daily season-reset watcher, runbook below |
+| 9 | Season kickoff checklist | ready — `ROADMAP_2627.md` §5, fires the day the API resets |
 
 ## Quickstart
 
@@ -258,4 +258,18 @@ tests/            pytest suite; tests/fixtures/ holds recorded API payloads for 
 
 ## Weekly ops runbook
 
-Not written yet — lands in Phase 8 once automation exists.
+Once the 26/27 season is live, after each gameweek finishes:
+
+```bash
+fplscout refresh   # network step: ingests the finished GW + live status (~15 min first run)
+fplscout report    # everything else: project -> optimize -> publish -> "DO THIS" sheet
+```
+
+`report` retrains production models (fresh data every week), writes projections
+and a recommendation for the NEXT deadline's gameweek, publishes the static
+site data, and prints/writes the markdown decision sheet
+(`data/reports/weekly_<season>_gw<N>.md`). `--skip-pipeline` re-renders the
+sheet without recomputing. Season kickoff (the day the FPL API resets to
+26/27 — a daily 9am scheduled check alerts on it): follow `ROADMAP_2627.md` §5,
+which is this runbook plus the one-time schema-drift and team-registration
+steps.
