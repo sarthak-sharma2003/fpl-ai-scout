@@ -67,7 +67,7 @@ src/fplscout/
   backtest/       season replay simulator (Phase 6)
   api/            FastAPI backend (Phase 7)
   report/         weekly "DO THIS" report generator (Phase 8)
-  cli.py          fplscout refresh|train|project|optimize|report|serve
+  cli.py          fplscout refresh|train|backtest|project|optimize|publish|report
 frontend/         our React app, original design (Phase 7)
 tests/            pytest suite; tests/fixtures/ holds recorded API payloads for offline tests
 ```

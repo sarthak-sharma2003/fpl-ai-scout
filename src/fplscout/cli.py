@@ -1,4 +1,4 @@
-"""fplscout CLI entrypoints: refresh | train | project | optimize | report | serve.
+"""fplscout CLI entrypoints: refresh | train | backtest | project | optimize | publish | report.
 
 Only `refresh` is implemented (Phase 0: live-API schema check + raw snapshot; Phase 1:
 DuckDB population from vaastav historical data). The rest are stubs that name the
