@@ -15,7 +15,7 @@ import yaml
 
 from fplscout import db
 from fplscout.features.build import write_features
-from fplscout.ingest import vaastav
+from fplscout.ingest import live_gw, vaastav
 from fplscout.ingest.fpl_api import FplApiClient
 from fplscout.ingest.health import archive_ep_next, check_ep_next_health
 from fplscout.ingest.vaastav import SEASONS as VAASTAV_SEASONS
@@ -101,8 +101,11 @@ def refresh(
     --raw: additionally snapshot a sample element-summary and (if team_id is
     configured) our entry endpoints to data/raw/ — no further DuckDB writes.
 
-    (default): populate DuckDB from vaastav historical data (2021-22 .. 2025-26)
-    and rebuild the feature store. Idempotent — safe to re-run.
+    (default): populate DuckDB from vaastav historical data (2021-22 .. 2025-26);
+    additionally, if the live API's current season isn't one vaastav covers yet
+    (26/27+), ingest that season's finished gameweeks directly from the FPL API
+    (ingest/live_gw.py) — no vaastav dependency once that season starts. Then
+    rebuild the feature store. Idempotent — safe to re-run.
     """
     settings = load_settings(settings_path)
     raw_cache_dir = REPO_ROOT / settings["paths"]["raw_cache"]
@@ -124,8 +127,8 @@ def refresh(
         )
 
         typer.echo("Fetching fixtures...")
-        client.fixtures(force_refresh=True)
-        typer.echo(f"  OK — {len(client.fixtures())} fixtures")
+        fixtures = client.fixtures(force_refresh=True)
+        typer.echo(f"  OK — {len(fixtures)} fixtures")
 
         ep_next_warnings = check_ep_next_health(bootstrap)
         if ep_next_warnings:
@@ -138,7 +141,7 @@ def refresh(
         n_archived = archive_ep_next(con, bootstrap)
         typer.echo(f"  archived {n_archived} ep_next values to ep_next_archive")
 
-        current_season = VAASTAV_SEASONS[-1]
+        current_season = live_gw.derive_current_season(bootstrap)
         n_gws = _sync_gameweeks(con, bootstrap, current_season)
         typer.echo(f"  synced {n_gws} gameweeks for {current_season}")
 
@@ -161,6 +164,21 @@ def refresh(
             con.close()
             typer.echo(f"Raw snapshots written to {raw_cache_dir}")
             return
+
+        if current_season not in VAASTAV_SEASONS:
+            # 26/27+ only — vaastav has no folder for it yet (issue #2). ~15 min
+            # the first time (one element-summary call per player at the
+            # client's <=1 req/s throttle); near-instant on reruns within the
+            # element-summary cache TTL.
+            typer.echo(f"Ingesting live per-GW data for {current_season} (no vaastav coverage)...")
+            live_summary = live_gw.sync_current_season(
+                con, client, bootstrap, fixtures, current_season
+            )
+            typer.echo(
+                f"  {live_summary['season']}: {live_summary['teams']} teams, "
+                f"{live_summary['fixtures']} fixtures, {live_summary['players']} players, "
+                f"{live_summary['gw_rows']} player-gw rows"
+            )
 
     typer.echo("Loading historical data (vaastav/Fantasy-Premier-League)...")
     summaries = vaastav.load_all_seasons(con, cache_dir=raw_cache_dir / "vaastav")
