@@ -14,8 +14,16 @@ operational continuation and supersedes it where they disagree.
 | #1 availability overlay | 39aa0ed | live status/chance scales minutes probas at inference only |
 | #2 live per-GW ingestion | 5875c75 | `ingest/live_gw.py`, activates automatically for seasons vaastav doesn't cover |
 
-Open: issue #3 (in-season Dixon-Coles refit), issue #4 (q90 captaincy), and
-issue #5 (upcoming-GW projection path — **the critical one**, see §4).
+Update 2026-07-13: issues #3, #4 and #5 are DONE (implemented in-session rather
+than delegated — user call). §3's review protocols and §4's design are kept for
+the record; they were followed. Honest holdout result for #3+#4: 2025-26
+one-shot 1,552 pts / 14 hits vs 1,543 before — the +349 tuning-season gain did
+not transfer; total-neutral on unseen data, shipped on principle (drift
+tracking; armband priced at current-GW value; vice-captain no longer
+solver-arbitrary). See `data/reports/p1_captaincy_sweep.md`. Nothing is open;
+the system is mechanically ready for the 26/27 reset — next action is §5's
+kickoff runbook the day the API flips, then §7's backlog (own-archive ep_next
+first).
 
 Backtest reality (full grids in `data/reports/p0a_sweep.md`, regenerable):
 2024-25 ≈ 1,512-1,578 pts; 2025-26 validation 1,543 pts / 17 hits. Real

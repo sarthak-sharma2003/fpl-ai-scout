@@ -335,7 +335,7 @@ def optimize(settings_path: Path = typer.Option(DEFAULT_SETTINGS_PATH, "--settin
     from datetime import UTC, datetime
 
     from fplscout import pipeline
-    from fplscout.decide.optimizer import OptimizerInput
+    from fplscout.decide.optimizer import CAPTAIN_Q90_WEIGHT, OptimizerInput
     from fplscout.decide.optimizer import optimize as run_optimizer
 
     settings = load_settings(settings_path)
@@ -354,10 +354,15 @@ def optimize(settings_path: Path = typer.Option(DEFAULT_SETTINGS_PATH, "--settin
     model_version = model_version[0]
 
     proj = con.execute(
-        "SELECT code, ev_points FROM projections "
+        "SELECT code, ev_points, q90_points FROM projections "
         "WHERE season = ? AND gw = ? AND model_version = ?",
         [season, gw, model_version],
     ).df()
+    # captain score: current-GW mean/q90 blend (issue #4), same rule as the backtest
+    proj["cap_ev"] = (
+        (1 - CAPTAIN_Q90_WEIGHT) * proj["ev_points"]
+        + CAPTAIN_Q90_WEIGHT * proj["q90_points"]
+    )
     roster = pipeline.roster_snapshot(con, season, gw)
     models = pipeline.load_production_models(REPO_ROOT / "data" / "models", model_version)
     total_ev = pipeline.total_ev_for_optimizer(con, models, season, gw, proj)
@@ -365,12 +370,16 @@ def optimize(settings_path: Path = typer.Option(DEFAULT_SETTINGS_PATH, "--settin
 
     total_ev_df = total_ev.rename("total_ev").reset_index().rename(columns={"index": "code"})
     opt_input_df = roster.merge(total_ev_df, on="code", how="inner")
+    opt_input_df = opt_input_df.merge(proj[["code", "cap_ev"]], on="code", how="left")
+    opt_input_df["cap_ev"] = opt_input_df["cap_ev"].fillna(0.0)
     opt_input_df = opt_input_df.dropna(subset=["total_ev", "price", "position", "team_id"])
 
     typer.echo(f"Optimizing over {len(opt_input_df)} players (wildcard mode)...")
     result = run_optimizer(
         OptimizerInput(
-            projections=opt_input_df[["code", "position", "team_id", "price", "total_ev"]],
+            projections=opt_input_df[
+                ["code", "position", "team_id", "price", "total_ev", "cap_ev"]
+            ],
             current_squad=set(),
             purchase_prices={},
             bank=1000,

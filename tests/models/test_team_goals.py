@@ -76,3 +76,54 @@ def test_clean_sheet_prob_in_valid_range():
     cs_home, cs_away = model.clean_sheet_prob(1, 2)
     assert 0 <= cs_home <= 1
     assert 0 <= cs_away <= 1
+
+
+def test_refit_with_target_excludes_decision_gw_and_later_results():
+    """Leak rule (issue #3): refit at decision gw g must produce IDENTICAL
+    parameters whether or not gw >= g results exist in the target-season frame —
+    the event < g filter provably excludes them."""
+    from fplscout.models.team_goals import refit_with_target
+
+    train = _make_fixtures()
+    target_past = pd.DataFrame(
+        [
+            {
+                "season": "2024-25", "fixture_id": 1000 + i, "event": 1,
+                "kickoff_time": pd.Timestamp("2024-08-17"),
+                "team_h": 2, "team_a": 3, "team_h_score": 3, "team_a_score": 0,
+            }
+            for i in range(3)
+        ]
+    )
+    # a gw-2 result that a decision AT gw 2 must not see, plus an unplayed gw-3
+    # fixture (NaN scores) that fit() must drop regardless
+    target_future = pd.DataFrame(
+        [
+            {
+                "season": "2024-25", "fixture_id": 2000, "event": 2,
+                "kickoff_time": pd.Timestamp("2024-08-24"),
+                "team_h": 3, "team_a": 2, "team_h_score": 9, "team_a_score": 0,
+            },
+            {
+                "season": "2024-25", "fixture_id": 2001, "event": 3,
+                "kickoff_time": pd.Timestamp("2024-08-31"),
+                "team_h": 2, "team_a": 3, "team_h_score": None, "team_a_score": None,
+            },
+        ]
+    )
+    teams = pd.concat(
+        [_make_teams(), _make_teams().assign(season="2024-25")], ignore_index=True
+    )
+
+    with_future = refit_with_target(
+        train, pd.concat([target_past, target_future], ignore_index=True), teams, before_gw=2
+    )
+    without_future = refit_with_target(train, target_past, teams, before_gw=2)
+
+    assert with_future.attack == without_future.attack
+    assert with_future.defense == without_future.defense
+    assert with_future.home_advantage == without_future.home_advantage
+
+    # sanity: the past gw-1 results DID move the fit vs. train-only
+    train_only = fit(train, teams)
+    assert with_future.attack[2] != train_only.attack[2]

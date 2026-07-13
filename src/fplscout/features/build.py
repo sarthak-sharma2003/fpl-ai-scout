@@ -159,6 +159,51 @@ def _price_band(value: pd.Series) -> pd.Series:
     return pd.cut(value, bins=bins, labels=labels).astype(str)
 
 
+def _upcoming_universe(con: duckdb.DuckDBPyConnection) -> pd.DataFrame:
+    """One outcome-less row per (player, fixture) for the next UNFINISHED
+    gameweek of the live season (issue #5): the rows `project`/`optimize` need
+    to decide the upcoming deadline, which player_gw_history can't provide
+    because the gameweek hasn't been played.
+
+    Concatenated onto the played frame BEFORE the rolling computation, so the
+    existing .shift(1) machinery yields exactly the right leak-safe form for
+    them (all-NaN rolling + prev_season_* at a fresh season's GW1; real rolling
+    form mid-season) — no new leak surface, the rows carry no outcomes at all.
+
+    Gate: the `gameweeks` table (bootstrap events, synced by refresh) has an
+    unfinished event. Fully-finished seasons — every historical/backtest DB —
+    have none, so this returns empty and behavior is byte-identical there.
+    Player universe/prices come from `player_season`, populated for the live
+    season by ingest/live_gw.py from bootstrap (value = now_cost)."""
+    nxt = con.execute(
+        "SELECT season, MIN(event) FROM gameweeks WHERE NOT finished "
+        "GROUP BY season ORDER BY season DESC LIMIT 1"
+    ).fetchone()
+    if nxt is None:
+        return pd.DataFrame()
+    season, event = nxt
+    fixtures = con.execute(
+        "SELECT season, fixture_id, event AS gw, kickoff_time, team_h, team_a "
+        "FROM fixtures WHERE season = ? AND event = ? AND NOT finished",
+        [season, event],
+    ).df()
+    players = con.execute(
+        "SELECT season, element_id, code, team_id, position, value "
+        "FROM player_season WHERE season = ? AND value IS NOT NULL",
+        [season],
+    ).df()
+    if len(fixtures) == 0 or len(players) == 0:
+        return pd.DataFrame()
+
+    cols = ["season", "fixture_id", "gw", "kickoff_time", "team_id", "opponent_team_id"]
+    home = fixtures.rename(columns={"team_h": "team_id", "team_a": "opponent_team_id"})
+    home = home[cols].assign(was_home=True)
+    away = fixtures.rename(columns={"team_a": "team_id", "team_h": "opponent_team_id"})
+    away = away[cols].assign(was_home=False)
+    team_fixtures = pd.concat([home, away], ignore_index=True)
+    return players.merge(team_fixtures, on=["season", "team_id"], how="inner")
+
+
 def build_features(con: duckdb.DuckDBPyConnection) -> pd.DataFrame:
     gw = con.execute(
         """
@@ -172,6 +217,15 @@ def build_features(con: duckdb.DuckDBPyConnection) -> pd.DataFrame:
         ORDER BY code, season, kickoff_time, fixture_id
         """
     ).df()
+
+    # upcoming-GW synthetic rows (issue #5): outcome columns become NaN on
+    # concat; re-sort restores _build_player_rolling's ordering contract
+    upcoming = _upcoming_universe(con)
+    if len(upcoming) > 0:
+        gw = pd.concat([gw, upcoming], ignore_index=True)
+        gw = gw.sort_values(["code", "season", "kickoff_time", "fixture_id"]).reset_index(
+            drop=True
+        )
 
     teams = con.execute(
         "SELECT season, team_id, strength FROM teams"

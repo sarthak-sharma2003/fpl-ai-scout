@@ -51,14 +51,22 @@ CATEGORICAL_COLUMNS = ["position", "price_band"]
 TARGET_COLUMNS = ["total_points", "minutes"]
 
 
-def load_dataset(con: duckdb.DuckDBPyConnection, seasons: list[str]) -> pd.DataFrame:
-    """features JOIN player_gw_history (for targets), restricted to `seasons`."""
+def load_dataset(
+    con: duckdb.DuckDBPyConnection, seasons: list[str], require_targets: bool = True
+) -> pd.DataFrame:
+    """features JOIN player_gw_history (for targets), restricted to `seasons`.
+
+    require_targets=False LEFT JOINs instead, keeping upcoming-GW synthetic
+    feature rows (issue #5) that have no played history row — prediction-only
+    callers (the live pipeline) use this; training callers keep the inner join
+    since they need targets."""
     placeholders = ", ".join(["?"] * len(seasons))
+    join = "JOIN" if require_targets else "LEFT JOIN"
     df = con.execute(
         f"""
         SELECT f.*, h.total_points, h.minutes AS actual_minutes
         FROM features f
-        JOIN player_gw_history h
+        {join} player_gw_history h
           ON f.season = h.season AND f.code = h.code AND f.fixture_id = h.fixture_id
         WHERE f.season IN ({placeholders})
         """,

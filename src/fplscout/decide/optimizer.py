@@ -34,6 +34,10 @@ BENCH_WEIGHTS = (0.25, 0.15, 0.05)  # 3 outfield bench slots, per plan §7
 BENCH_GK_WEIGHT = 0.0
 DEFAULT_HIT_COST = 4
 DEFAULT_MAX_PER_CLUB = 3
+# q90 blend weight for the captain score (issue #4): cap_ev = (1-w)*mean + w*q90,
+# current-GW only. Swept on 2024-25 (see data/reports/p1_captaincy_sweep.md),
+# validated once on 2025-26.
+CAPTAIN_Q90_WEIGHT = 0.5
 
 CHIP_MODES = {None, "wildcard", "free_hit", "bench_boost", "triple_captain"}
 
@@ -89,6 +93,10 @@ def optimize(inp: OptimizerInput) -> OptimizationResult:
     df = inp.projections.set_index("code", drop=False)
     codes = list(df.index)
     ev = df["total_ev"].to_dict()
+    # Captain score (issue #4): the armband pays out THIS gameweek only, so its
+    # marginal value is a current-GW number (optionally q90-blended for ceiling),
+    # not the horizon-collapsed total_ev. Optional column; absent -> old behavior.
+    cap_score = df["cap_ev"].to_dict() if "cap_ev" in df.columns else ev
     price = df["price"].to_dict()
     position = df["position"].to_dict()
     team = df["team_id"].to_dict()
@@ -120,8 +128,19 @@ def optimize(inp: OptimizerInput) -> OptimizationResult:
 
     bench_gk = {c: squad[c] - xi[c] - bench1[c] - bench2[c] - bench3[c] for c in codes}
 
+    # vice term: small weight so the vice is the NEXT-best captain candidate
+    # rather than solver-arbitrary (it had no objective term at all before —
+    # and autosub promotes the vice when the captain blanks, so arbitrary was
+    # a real cost). 0.1 ~ rough P(captain plays 0 minutes); small enough to
+    # never distort squad/XI choice.
+    VICE_WEIGHT = 0.1
     prob += (
-        pulp.lpSum(ev[c] * (xi[c] + cap_extra * cap[c]) for c in codes)
+        pulp.lpSum(
+            ev[c] * xi[c]
+            + cap_extra * cap_score[c] * cap[c]
+            + VICE_WEIGHT * cap_score[c] * vice[c]
+            for c in codes
+        )
         + pulp.lpSum(
             bench_weights[0] * ev[c] * bench1[c]
             + bench_weights[1] * ev[c] * bench2[c]

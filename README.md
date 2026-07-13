@@ -242,6 +242,19 @@ tests/            pytest suite; tests/fixtures/ holds recorded API payloads for 
     the live-only levers are the open workstreams (issues #1-#4:
     availability overlay, live per-GW ingestion, in-season DC refit, q90
     captaincy).
+  - **All five 26/27-prep issues are now closed (2026-07-13).** #1 availability
+    overlay, #2 live ingestion, #3 in-season Dixon-Coles refit, #4 ceiling
+    captaincy (current-GW `cap_ev`, q90 weight 0.5, plus a real vice-captain
+    objective term — the vice was solver-arbitrary before), #5 upcoming-GW
+    projection path (synthetic feature rows for the next unplayed gameweek, so
+    `project`/`optimize` can decide a deadline that hasn't happened — including
+    26/27 GW1). Captaincy sweep: `data/reports/p1_captaincy_sweep.md`. Honest
+    holdout validation of #3+#4 together: 2025-26 one-shot 1,552 pts / 14 hits
+    (vs 1,543 before) — the +349 tuning-season gain did not transfer;
+    total-neutral on unseen data, shipped on principle not on a points claim.
+    The system is now mechanically ready for the 26/27 reset end to end:
+    refresh → ingest → features (incl. upcoming GW) → train → project →
+    optimize → publish.
 
 ## Weekly ops runbook
 

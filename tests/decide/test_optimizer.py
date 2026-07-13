@@ -227,6 +227,46 @@ def test_free_transfer_used_without_hit_when_ev_gain_is_small_but_positive():
     assert 99 in result.squad
 
 
+def test_cap_ev_column_picks_captain_and_vice_by_ceiling_not_total_ev():
+    """Two players with equal total_ev but different cap_ev: the armband (and
+    vice) must follow cap_ev. Omitting the column falls back to total_ev."""
+    squad15 = _hit_test_squad()
+    universe = pd.DataFrame(squad15)
+    # total_ev: 21 dominates (100). cap_ev: reverse it — 22 is the ceiling pick,
+    # 23 second — captain must become 22, vice 23.
+    universe["cap_ev"] = universe["total_ev"]
+    universe.loc[universe["code"] == 21, "cap_ev"] = 1.0
+    universe.loc[universe["code"] == 22, "cap_ev"] = 50.0
+    universe.loc[universe["code"] == 23, "cap_ev"] = 40.0
+    current_squad = {p["code"] for p in squad15}
+
+    inp = OptimizerInput(
+        projections=universe,
+        current_squad=current_squad,
+        purchase_prices={p["code"]: p["price"] for p in squad15},
+        bank=0,
+        free_transfers=0,
+        chip_mode=None,
+    )
+    result = optimize(inp)
+    assert result.status == "Optimal"
+    assert result.captain == 22
+    assert result.vice_captain == 23
+    assert 21 in result.starting_xi  # still the best XI player by total_ev
+
+    no_col = optimize(
+        OptimizerInput(
+            projections=universe.drop(columns=["cap_ev"]),
+            current_squad=current_squad,
+            purchase_prices={p["code"]: p["price"] for p in squad15},
+            bank=0,
+            free_transfers=0,
+            chip_mode=None,
+        )
+    )
+    assert no_col.captain == 21  # falls back to total_ev
+
+
 def test_transfer_penalty_blocks_marginal_free_transfer():
     """Same ev-gain-of-3 candidate and a free transfer available — but with
     transfer_penalty=4 the banked FT's option value outweighs the gain, so the

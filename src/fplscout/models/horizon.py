@@ -220,9 +220,17 @@ def build_horizon_ev_all_gws(
     season: str,
     horizon: int,
     decay: float,
+    refit_train_fixtures: pd.DataFrame | None = None,
+    refit_teams: pd.DataFrame | None = None,
 ) -> dict[int, pd.Series]:
     """Convenience wrapper for the backtest simulator: precomputes fixtures/teams
-    once and returns {decision_gw: total_ev_series} for every gw in the season."""
+    once and returns {decision_gw: total_ev_series} for every gw in the season.
+
+    If `refit_train_fixtures`/`refit_teams` are given, the Dixon-Coles model is
+    refit per decision gw on those training fixtures plus the target season's
+    finished fixtures strictly before that gw (team_goals.refit_with_target) —
+    in-season strength drift tracking, ~1.2s/fit. Otherwise `dc_model` is used
+    as-is for every gw (old behavior)."""
     season_df = load_dataset(con, [season])
     fixtures = con.execute(
         "SELECT * FROM fixtures WHERE season = ?", [season]
@@ -234,9 +242,14 @@ def build_horizon_ev_all_gws(
 
     result = {}
     for gw in range(1, max_gw + 1):
+        gw_dc_model = dc_model
+        if refit_train_fixtures is not None:
+            gw_dc_model = team_goals.refit_with_target(
+                refit_train_fixtures, fixtures, refit_teams, before_gw=gw
+            )
         base_rows = season_df[season_df["gw"] == gw]
         result[gw] = build_horizon_ev(
-            minutes_model, dc_model, points_models, base_rows, fixtures, teams,
+            minutes_model, gw_dc_model, points_models, base_rows, fixtures, teams,
             decision_gw=gw, horizon=horizon, decay=decay, max_gw=max_gw,
         )
     return result

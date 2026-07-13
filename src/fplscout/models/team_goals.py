@@ -105,6 +105,22 @@ def _neg_log_likelihood(
     return -float(np.sum(ll * weights))
 
 
+def refit_with_target(
+    train_fixtures: pd.DataFrame,
+    target_fixtures: pd.DataFrame,
+    teams: pd.DataFrame,
+    before_gw: int,
+) -> DixonColesModel:
+    """In-season refit: training fixtures plus the target season's fixtures
+    strictly BEFORE `before_gw` (leak rule — a decision at gw g happens at the
+    deadline, before any gw-g match kicks off). fit() itself drops rows without
+    final scores, so postponed/unplayed pre-gw fixtures are excluded too. Time
+    decay then weights the freshest included matches highest automatically
+    (as_of defaults to the latest included kickoff)."""
+    past = target_fixtures[target_fixtures["event"] < before_gw]
+    return fit(pd.concat([train_fixtures, past], ignore_index=True), teams)
+
+
 def fit(
     fixtures: pd.DataFrame, teams: pd.DataFrame, as_of: pd.Timestamp | None = None
 ) -> DixonColesModel:

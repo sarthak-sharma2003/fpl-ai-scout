@@ -49,7 +49,7 @@ import pandas as pd
 
 from fplscout.backtest.autosub import apply_autosubs
 from fplscout.decide import chip_planner
-from fplscout.decide.optimizer import OptimizerInput, optimize
+from fplscout.decide.optimizer import CAPTAIN_Q90_WEIGHT, OptimizerInput, optimize
 from fplscout.models import horizon, minutes, points, team_goals
 from fplscout.models.dataset import load_dataset
 from fplscout.models.train import _team_goals_lookup, project_gw
@@ -204,13 +204,17 @@ def prepare_season(
     preds, target_feat = project_gw(minutes_model, dc_model, points_models, target_df, teams)
     ev_by_gw = target_feat[["gw", "code", "fixture_id"]].copy()
     ev_by_gw["ev_points"] = preds["ev_points"]
+    ev_by_gw["q90_points"] = preds["q90_points"]
 
     # Leak-safe multi-step forecast for the transfer decision's total_ev (see
     # models/horizon.py): freezes player-form at each decision gw, swaps in the
     # real fixture context per target gw. Separate from ev_by_gw above, which
     # stays a single-current-gw projection used for chip planning only.
     horizon_ev_by_gw = horizon.build_horizon_ev_all_gws(
-        con, minutes_model, dc_model, points_models, season, horizon=HORIZON, decay=DECAY
+        con, minutes_model, dc_model, points_models, season, horizon=HORIZON, decay=DECAY,
+        # in-season Dixon-Coles refit (issue #3): per decision gw, refit on the
+        # train fixtures plus target-season matches finished before that gw
+        refit_train_fixtures=fixtures, refit_teams=teams,
     )
 
     position_by_code = dict(zip(target_df["code"], target_df["position"], strict=False))
@@ -232,6 +236,7 @@ def simulate_season(
     use_chips: bool = True,
     transfer_penalty: float = TRANSFER_PENALTY,
     max_hits: int | None = MAX_HITS_PER_GW,
+    captain_q90_weight: float = CAPTAIN_Q90_WEIGHT,
     prepared: PreparedSeason | None = None,
 ) -> SeasonResult:
     if prepared is None:
@@ -260,6 +265,16 @@ def simulate_season(
         gw_universe = universe[gw].copy()
         horizon_ev = horizon_ev_by_gw.get(gw, pd.Series(dtype=float))
         gw_universe["total_ev"] = gw_universe["code"].map(horizon_ev).fillna(0.0)
+        # captain score is CURRENT-gw only (armband pays this week), optionally
+        # q90-blended for ceiling — issue #4. DGW fixtures sum, matching the
+        # optimizer's treatment of total_ev.
+        gw_preds = ev_by_gw[ev_by_gw["gw"] == gw]
+        cap_base = gw_preds.groupby("code")[["ev_points", "q90_points"]].sum()
+        cap_ev = (
+            (1 - captain_q90_weight) * cap_base["ev_points"]
+            + captain_q90_weight * cap_base["q90_points"]
+        )
+        gw_universe["cap_ev"] = gw_universe["code"].map(cap_ev).fillna(0.0)
         gw_universe["price"] = gw_universe["price"].astype(int)
 
         is_initial_draft = gw == 1

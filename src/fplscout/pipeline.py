@@ -45,14 +45,24 @@ class ProductionModels:
 
 
 def train_production(con: duckdb.DuckDBPyConnection, models_dir: Path) -> ProductionModels:
-    """Trains on every available season — no holdout, this is for real use."""
-    train_df = load_dataset(con, ALL_SEASONS)
+    """Trains on every available season — no holdout, this is for real use.
+
+    Seasons are derived from the DB, not hardcoded, so once live ingestion
+    (ingest/live_gw.py) writes 26/27 rows, weekly retraining picks them up
+    automatically. Same for the Dixon-Coles fit: ALL finished fixtures in the
+    DB, current season included — `project` retrains on every run, so this IS
+    the in-season refit (issue #3) for the live path; time decay already
+    weights the freshest matches highest."""
+    seasons = [
+        r[0]
+        for r in con.execute(
+            "SELECT DISTINCT season FROM player_gw_history ORDER BY season"
+        ).fetchall()
+    ]
+    train_df = load_dataset(con, seasons)
     minutes_model = minutes.train(train_df)
 
-    fixtures = con.execute(
-        f"SELECT * FROM fixtures WHERE season IN ({', '.join(['?'] * len(ALL_SEASONS))})",
-        ALL_SEASONS,
-    ).df()
+    fixtures = con.execute("SELECT * FROM fixtures").df()
     teams = con.execute("SELECT season, team_id, code FROM teams").df()
     dc_model = team_goals.fit(fixtures, teams)
 
@@ -75,7 +85,7 @@ def train_production(con: duckdb.DuckDBPyConnection, models_dir: Path) -> Produc
         dc_model=dc_model,
         points_models=points_models,
         version=version,
-        train_seasons=ALL_SEASONS,
+        train_seasons=seasons,
     )
 
 
@@ -99,9 +109,19 @@ def load_production_models(models_dir: Path, version: str) -> ProductionModels:
 
 
 def latest_reference_point(con: duckdb.DuckDBPyConnection) -> tuple[str, int]:
-    """(season, gw) of the most recently completed gameweek across all loaded
-    data — the "as of" point projections are generated from until a real live
-    26/27 gameweek exists."""
+    """(season, gw) projections should target.
+
+    Live season in progress (an unfinished event in `gameweeks`): the NEXT
+    unplayed gameweek — the deadline actually being decided. Feature rows for
+    it exist as upcoming-GW synthetic rows (issue #5, features/build.py).
+    Otherwise (every season in the DB fully played — the pre-26/27 demo state):
+    the most recently completed gameweek, as before."""
+    live = con.execute(
+        "SELECT season, MIN(event) FROM gameweeks WHERE NOT finished "
+        "GROUP BY season ORDER BY season DESC LIMIT 1"
+    ).fetchone()
+    if live is not None:
+        return live[0], live[1]
     row = con.execute(
         "SELECT season, MAX(gw) FROM player_gw_history "
         "WHERE season = (SELECT MAX(season) FROM player_gw_history) "
@@ -134,7 +154,7 @@ def generate_projections(
 ) -> pd.DataFrame:
     """Single-gameweek projection at (season, gw), written to the `projections`
     table. Returns the projection DataFrame (code, ev_points, q10/q90, position)."""
-    season_df = load_dataset(con, [season])
+    season_df = load_dataset(con, [season], require_targets=False)
     target_df = season_df[season_df["gw"] == gw]
     teams = con.execute("SELECT season, team_id, code FROM teams WHERE season = ?", [season]).df()
 
@@ -195,16 +215,17 @@ def generate_projections(
 
 def roster_snapshot(con: duckdb.DuckDBPyConnection, season: str, gw: int) -> pd.DataFrame:
     """code, position, team_id, price, web_name as of (season, gw) — the
-    optimizer's player universe. `price` and `position` come from
-    player_gw_history/player_season at that exact gameweek (real prices then),
-    not today's live prices, since (season, gw) may not be the live gameweek."""
+    optimizer's player universe. Reads the `features` table rather than
+    player_gw_history so it also works for an UNPLAYED upcoming gameweek
+    (issue #5's synthetic rows, priced from live now_cost); for played
+    gameweeks the two are equivalent, since features derive from history."""
     return con.execute(
         """
-        SELECT h.code, h.position, h.team_id, h.value AS price, p.web_name
-        FROM player_gw_history h
-        JOIN players p ON p.code = h.code
-        WHERE h.season = ? AND h.gw = ?
-        QUALIFY ROW_NUMBER() OVER (PARTITION BY h.code ORDER BY h.fixture_id) = 1
+        SELECT f.code, f.position, f.team_id, f.value AS price, p.web_name
+        FROM features f
+        JOIN players p ON p.code = f.code
+        WHERE f.season = ? AND f.gw = ?
+        QUALIFY ROW_NUMBER() OVER (PARTITION BY f.code ORDER BY f.fixture_id) = 1
         """,
         [season, gw],
     ).df()
@@ -226,7 +247,7 @@ def total_ev_for_optimizer(
         "SELECT MAX(event) FROM fixtures WHERE season = ?", [season]
     ).fetchone()[0]
     if max_gw is not None and max_gw > gw:
-        season_df = load_dataset(con, [season])
+        season_df = load_dataset(con, [season], require_targets=False)
         base_rows = season_df[season_df["gw"] == gw]
         fixtures = con.execute("SELECT * FROM fixtures WHERE season = ?", [season]).df()
         teams = con.execute(

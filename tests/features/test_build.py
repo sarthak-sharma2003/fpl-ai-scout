@@ -186,6 +186,125 @@ def test_write_features_persists_to_duckdb(loaded_con):
     assert count == n
 
 
+def _stage_upcoming_gw(con) -> int:
+    """Simulate a live season in progress: one unfinished gameweek after the
+    last played one, with a fixture involving Salah's team, and live prices in
+    player_season (vaastav populates it with NULL value; live_gw fills value)."""
+    next_gw = (
+        con.execute(
+            "SELECT MAX(gw) + 1 FROM player_gw_history WHERE season = '2025-26'"
+        ).fetchone()[0]
+    )
+    salah_team = con.execute(
+        "SELECT team_id FROM player_gw_history WHERE code = 118748 AND season = '2025-26' LIMIT 1"
+    ).fetchone()[0]
+    opponent = con.execute(
+        "SELECT team_id FROM teams WHERE season = '2025-26' AND team_id != ? LIMIT 1",
+        [salah_team],
+    ).fetchone()[0]
+    con.execute(
+        "INSERT INTO gameweeks (season, event, finished) VALUES ('2025-26', ?, false)",
+        [next_gw],
+    )
+    con.execute(
+        "INSERT INTO fixtures (season, fixture_id, event, kickoff_time, team_h, team_a, "
+        "team_h_difficulty, team_a_difficulty, finished) "
+        "VALUES ('2025-26', 99999, ?, TIMESTAMP '2026-08-15 14:00:00', ?, ?, 3, 4, false)",
+        [next_gw, salah_team, opponent],
+    )
+    con.execute("UPDATE player_season SET value = 130 WHERE season = '2025-26'")
+    return next_gw
+
+
+def test_upcoming_gw_synthetic_rows_have_leak_safe_form_and_live_price(loaded_con):
+    """Issue #5: an unplayed next gameweek must get feature rows whose rolling
+    form equals exactly what the played rows produce (recomputed by hand here),
+    priced from player_season.value, with prev-season aggregates attached."""
+    next_gw = _stage_upcoming_gw(loaded_con)
+    features = build_features(loaded_con)
+
+    salah = features[
+        (features["code"] == 118748)
+        & (features["season"] == "2025-26")
+        & (features["gw"] == next_gw)
+    ]
+    assert len(salah) == 1, "exactly one synthetic row for Salah's single fixture"
+    row = salah.iloc[0]
+
+    played_points = loaded_con.execute(
+        "SELECT total_points FROM player_gw_history "
+        "WHERE code = 118748 AND season = '2025-26' ORDER BY kickoff_time, fixture_id"
+    ).df()["total_points"].to_numpy(dtype=float)
+    expected_roll5 = _weighted_mean(played_points[-5:], decay=0.8)
+    assert np.isclose(row["roll5_points"], expected_roll5)
+
+    assert row["value"] == 130  # live now_cost, not a stale history price
+    assert row["fdr"] == 3  # home-team difficulty from the staged fixture
+    assert row["was_home"]
+    assert not np.isnan(row["prev_season_minutes"])  # cold-start join still applies
+
+
+def test_upcoming_rows_excluded_from_training_included_for_prediction(loaded_con):
+    """Training's inner join must drop target-less synthetic rows; the live
+    pipeline's require_targets=False must keep them."""
+    from fplscout.models.dataset import load_dataset
+
+    next_gw = _stage_upcoming_gw(loaded_con)
+    write_features(loaded_con)
+
+    train_df = load_dataset(loaded_con, ["2025-26"])
+    predict_df = load_dataset(loaded_con, ["2025-26"], require_targets=False)
+    assert (train_df["gw"] == next_gw).sum() == 0
+    assert (predict_df["gw"] == next_gw).sum() > 0
+    assert predict_df[predict_df["gw"] == next_gw]["total_points"].isna().all()
+
+
+def test_project_gw_end_to_end_on_upcoming_synthetic_rows(loaded_con):
+    """Issue #5 acceptance: models trained on history produce finite EV
+    projections for the UNPLAYED next gameweek's synthetic rows."""
+    from fplscout.models import minutes, points, team_goals
+    from fplscout.models.dataset import load_dataset
+    from fplscout.models.train import _team_goals_lookup, project_gw
+
+    next_gw = _stage_upcoming_gw(loaded_con)
+    write_features(loaded_con)
+
+    train_df = load_dataset(loaded_con, ["2021-22"])
+    minutes_model = minutes.train(train_df)
+    fixtures = loaded_con.execute("SELECT * FROM fixtures WHERE season = '2021-22'").df()
+    teams = loaded_con.execute("SELECT season, team_id, code FROM teams").df()
+    dc_model = team_goals.fit(fixtures, teams)
+    mins_proba = minutes.predict_proba(minutes_model, train_df)
+    tg_lookup = _team_goals_lookup(dc_model, train_df, teams)
+    points_models = points.train(
+        points.add_model_features(train_df, mins_proba, tg_lookup),
+        min_rows=1,  # toy fixture has <50 rows/position; production keeps 50
+    )
+
+    predict_df = load_dataset(loaded_con, ["2025-26"], require_targets=False)
+    target_df = predict_df[predict_df["gw"] == next_gw]
+    assert len(target_df) > 0
+    preds, _ = project_gw(minutes_model, dc_model, points_models, target_df, teams)
+    assert np.isfinite(preds["ev_points"]).all()
+    assert np.isfinite(preds["q90_points"]).all()
+
+
+def test_latest_reference_point_targets_next_unplayed_gw(loaded_con):
+    """Issue #5: with a live season in progress the reference point is the
+    upcoming deadline's gameweek, not the last completed one."""
+    from fplscout import pipeline
+
+    season, gw = pipeline.latest_reference_point(loaded_con)
+    last_played = loaded_con.execute(
+        "SELECT MAX(gw) FROM player_gw_history WHERE season = '2025-26'"
+    ).fetchone()[0]
+    assert (season, gw) == ("2025-26", last_played)  # no unfinished gw -> old behavior
+
+    next_gw = _stage_upcoming_gw(loaded_con)
+    season, gw = pipeline.latest_reference_point(loaded_con)
+    assert (season, gw) == ("2025-26", next_gw)
+
+
 def test_price_band_buckets():
     values = pd.Series([40, 50, 60, 80, 100])
     bands = _price_band(values)

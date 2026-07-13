@@ -121,6 +121,34 @@ def _sync_players_dim(
     )
 
 
+def _sync_player_season(
+    con: duckdb.DuckDBPyConnection, bootstrap: BootstrapStatic, season: str
+) -> int:
+    """(season, element_id) -> code/team/position/price from bootstrap — the
+    player universe for upcoming-GW synthetic feature rows (issue #5), which
+    can't come from player_gw_history because the gameweek hasn't been played.
+    `value` is bootstrap's now_cost (tenths of a million), i.e. the current
+    live price — exactly right for a decision about the upcoming deadline."""
+    df = pd.DataFrame(
+        [
+            {
+                "season": season,
+                "element_id": e.id,
+                "code": e.code,
+                "team_id": e.team,
+                "position": POSITION_MAP[e.element_type],
+                "web_name": e.web_name,
+                "value": e.now_cost,
+            }
+            for e in bootstrap.elements
+            if e.element_type != ASSISTANT_MANAGER_ELEMENT_TYPE
+        ]
+    )
+    con.execute("DELETE FROM player_season WHERE season = ?", [season])
+    con.execute("INSERT INTO player_season BY NAME SELECT * FROM df")
+    return len(df)
+
+
 def sync_current_season(
     con: duckdb.DuckDBPyConnection,
     client: FplApiClient,
@@ -137,6 +165,7 @@ def sync_current_season(
     n_teams = _sync_teams(con, bootstrap, season)
     n_fixtures = _sync_fixtures(con, fixtures, season)
     _sync_players_dim(con, bootstrap, season)
+    _sync_player_season(con, bootstrap, season)
 
     fixture_finished = {f.id: f.finished for f in fixtures}
     fixture_teams = {f.id: (f.team_h, f.team_a) for f in fixtures}

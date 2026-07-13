@@ -90,13 +90,17 @@ def add_model_features(
 
 
 def train(
-    train_df: pd.DataFrame, feature_columns: list[str] = ALL_FEATURE_COLUMNS
+    train_df: pd.DataFrame,
+    feature_columns: list[str] = ALL_FEATURE_COLUMNS,
+    min_rows: int = 50,
 ) -> dict[str, dict[str, lgb.Booster]]:
-    """Returns {position: {"mean": booster, "q10": booster, "q90": booster}}."""
+    """Returns {position: {"mean": booster, "q10": booster, "q90": booster}}.
+    Positions with fewer than min_rows training rows are skipped (their
+    predictions come back NaN); tests with tiny fixtures lower it."""
     models: dict[str, dict[str, lgb.Booster]] = {}
     for position in POSITIONS:
         sub = train_df[train_df["position"] == position]
-        if len(sub) < 50:
+        if len(sub) < min_rows:
             continue
         X = sub[feature_columns]
         y = sub["total_points"]

@@ -57,6 +57,10 @@ CREATE TABLE IF NOT EXISTS player_season (
     team_id INTEGER,
     position TEXT,
     web_name TEXT,
+    -- current price (tenths of a million), populated from bootstrap now_cost by
+    -- ingest/live_gw.py for the live season only (NULL for vaastav-loaded
+    -- seasons) — prices upcoming-GW synthetic feature rows (issue #5)
+    value INTEGER,
     PRIMARY KEY (season, element_id)
 );
 
@@ -336,3 +340,4 @@ def init_schema(con: duckdb.DuckDBPyConnection) -> None:
         ("chance_of_playing_next_round", "INTEGER"),
     ]:
         con.execute(f"ALTER TABLE players ADD COLUMN IF NOT EXISTS {name} {dtype}")
+    con.execute("ALTER TABLE player_season ADD COLUMN IF NOT EXISTS value INTEGER")
