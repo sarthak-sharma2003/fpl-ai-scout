@@ -481,12 +481,5 @@ def report(
     typer.echo(f"Written to {out_path}")
 
 
-@app.command()
-def serve() -> None:
-    """Run the FastAPI backend. Implemented in Phase 7."""
-    typer.echo("Not implemented yet — Phase 7 (API).")
-    raise typer.Exit(code=1)
-
-
 if __name__ == "__main__":
     app()
