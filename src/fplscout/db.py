@@ -318,7 +318,14 @@ TABLES = [
 def connect(db_path: Path | str) -> duckdb.DuckDBPyConnection:
     db_path = Path(db_path)
     db_path.parent.mkdir(parents=True, exist_ok=True)
-    return duckdb.connect(str(db_path))
+    con = duckdb.connect(str(db_path))
+    # schema + migrations are idempotent; running them on every connect means
+    # every CLI command works on any DB vintage, not just ones that ran
+    # `refresh` since the last schema change (project/optimize/publish never
+    # called init_schema and broke on pre-migration DBs — real bug, caught by
+    # a smoke run, not hypothetical)
+    init_schema(con)
+    return con
 
 
 def init_schema(con: duckdb.DuckDBPyConnection) -> None:
