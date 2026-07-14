@@ -1,35 +1,35 @@
-"""Provisional 26/27 GW1 draft from the REAL released fixture list, before the
-FPL game launches.
+"""Provisional 26/27 from the REAL released fixture calendar, before the FPL
+game launches.
 
-Usage: provisional_2627.py <espn_fixtures.html> <real_db> <scratch_db>
+    parse  <espn_fixtures.html> <fixtures.json>   one-off: article -> JSON
+    inject <fixtures.json> <duckdb_path>          fabricate 2026-27 in the DB
 
-Parses ESPN's 2026-27 fixture article (full 380 fixtures, date headers +
-"Home v Away time" lines), fabricates the 2026-27 season in a scratch copy of
-the DB — real opponents/calendar, 25/26 end prices as stand-ins, promoted
-teams with synthetic codes (Dixon-Coles falls back to its relegation-zone
-average for them) — and runs the full chain to a DO THIS sheet.
+`inject` is what the nightly deploy runs (between refresh and project): it
+fabricates teams/fixtures/gameweeks/player_season for 2026-27 — real
+opponents/calendar, 25/26 end prices as stand-in now_cost, promoted teams with
+synthetic codes (the Dixon-Coles fallback covers them) — then rebuilds the
+feature store so the normal project -> optimize -> publish chain targets a
+provisional GW1. It NO-OPS once the real 26/27 exists in the DB (live_gw has
+synced fixtures for it), so launch day needs no workflow change. Delete this
+script after launch.
 
-Provisional by nature: no summer transfers, no real prices, no promoted-team
-players. Superseded the day the FPL API resets (live_gw overwrites 2026-27
-wholesale). Delete this script after launch.
+The parser self-heals ESPN omissions (the article lists 378 of 380 fixtures):
+in a double round-robin each pairing appears once per direction, so a short
+matchweek's absent teams uniquely identify the missing fixtures.
 """
 
 import json
 import re
-import shutil
 import sys
 from datetime import datetime
 from html import unescape
 from pathlib import Path
 
-from fplscout import db, pipeline
-from fplscout.decide.optimizer import OptimizerInput, optimize
-from fplscout.features.build import write_features
-from fplscout.report.weekly import render_weekly
+import duckdb
 
 SEASON = "2026-27"
 
-# ESPN's long names -> vaastav/FPL short names in our teams table
+# ESPN's long names -> vaastav/FPL names in our teams table
 NAME_MAP = {
     "Arsenal": "Arsenal", "Aston Villa": "Aston Villa", "Bournemouth": "Bournemouth",
     "Brentford": "Brentford", "Brighton and Hove Albion": "Brighton",
@@ -41,7 +41,7 @@ NAME_MAP = {
     # promoted for 26/27 — not in any prior season's teams table
     "Coventry City": "Coventry", "Hull City": "Hull", "Ipswich Town": "Ipswich",
 }
-PROMOTED = {"Coventry", "Hull", "Ipswich"}
+PROMOTED_SHORT = {"Coventry": "COV", "Hull": "HUL", "Ipswich": "IPS"}
 
 
 def parse_espn(html_path: Path) -> list[dict]:
@@ -68,12 +68,9 @@ def parse_espn(html_path: Path) -> list[dict]:
                 fixtures.append(
                     {"home": NAME_MAP[home], "away": NAME_MAP[away], "kickoff": current_date}
                 )
-    # ESPN's article omits a couple of fixtures outright (378 lines at time of
-    # writing — Arsenal v Everton and Man City v Aston Villa never appear). A
-    # double round-robin makes omissions uniquely inferable: group the parsed
-    # sequence greedily into matchweeks (new round when a team would repeat);
-    # any 9-fixture round names the two absent teams, and the orientation is
-    # whichever direction doesn't already exist elsewhere in the list.
+
+    # group into matchweeks greedily (new round when a team would repeat), then
+    # infer any omitted fixtures from each short round's absent teams
     rounds: list[list[dict]] = [[]]
     for f in fixtures:
         used = {t for x in rounds[-1] for t in (x["home"], x["away"])}
@@ -86,8 +83,6 @@ def parse_espn(html_path: Path) -> list[dict]:
     seen_pairings = {(f["home"], f["away"]) for f in fixtures}
     for gw, rnd in enumerate(rounds, start=1):
         absent = sorted(all_teams - {t for f in rnd for t in (f["home"], f["away"])})
-        # pair up absent teams: the missing fixture is the (home, away) direction
-        # that appears nowhere in the article while its reverse does
         while absent:
             t = absent.pop(0)
             partner = next(
@@ -103,34 +98,37 @@ def parse_espn(html_path: Path) -> list[dict]:
         assert len(rnd) == 10, f"round {gw} has {len(rnd)} fixtures"
         for f in rnd:
             f["gw"] = gw
-    assert sum(len(r) for r in rounds) == 380
-    return [f for rnd in rounds for f in rnd]
+    flat = [f for rnd in rounds for f in rnd]
+    assert len(flat) == 380
+    return flat
 
 
-def main() -> None:
-    espn_html, src_db, scratch_db = Path(sys.argv[1]), Path(sys.argv[2]), Path(sys.argv[3])
-    fixtures = parse_espn(espn_html)
-    print(f"parsed {len(fixtures)} fixtures, GW1 opens {fixtures[0]['kickoff']:%Y-%m-%d}")
-
-    shutil.copyfile(src_db, scratch_db)
-    con = db.connect(scratch_db)
+def inject(con: duckdb.DuckDBPyConnection, fixtures: list[dict]) -> bool:
+    """Fabricates 2026-27 in `con` and rebuilds features. Returns False (no-op)
+    if the real 2026-27 already exists — i.e. the FPL API has reset and
+    live_gw synced genuine fixtures — so the deploy step is launch-day-safe."""
+    existing = con.execute(
+        "SELECT COUNT(*) FROM fixtures WHERE season = ?", [SEASON]
+    ).fetchone()[0]
+    if existing:
+        print(f"{SEASON} fixtures already in DB (real season live) — skipping injection")
+        return False
 
     prev = {
-        name: (team_id, code, strength) for name, team_id, code, strength in con.execute(
-            "SELECT name, team_id, code, strength FROM teams WHERE season = '2025-26'"
+        name: (code, short, strength) for name, code, short, strength in con.execute(
+            "SELECT name, code, short_name, strength FROM teams WHERE season = '2025-26'"
         ).fetchall()
     }
     team_rows, name_to_id = [], {}
     next_id, next_code = 1, 90001
     for name in sorted({f["home"] for f in fixtures}):
         if name in prev:
-            _, code, strength = prev[name]
+            code, short, strength = prev[name]
         else:
-            assert name in PROMOTED, f"unknown non-promoted team {name}"
-            code, strength = next_code, 2  # weakest FPL strength band
+            code, short, strength = next_code, PROMOTED_SHORT[name], 2
             next_code += 1
         name_to_id[name] = next_id
-        team_rows.append((SEASON, next_id, code, name, name[:3].upper(), strength))
+        team_rows.append((SEASON, next_id, code, name, short, strength))
         next_id += 1
     con.executemany(
         "INSERT INTO teams (season, team_id, code, name, short_name, strength) "
@@ -148,10 +146,8 @@ def main() -> None:
     first_kick = {f["gw"]: f["kickoff"] for f in reversed(fixtures)}
     con.executemany(
         "INSERT INTO gameweeks (season, event, deadline_time, finished) VALUES (?, ?, ?, false)",
-        [(SEASON, gw, first_kick[gw], ) for gw in range(1, 39)],
+        [(SEASON, gw, first_kick[gw]) for gw in range(1, 39)],
     )
-    # player universe: 25/26 players whose CLUB survived into 26/27, remapped to
-    # the new team ids; last known 25/26 price as the stand-in now_cost
     con.execute(
         """
         INSERT INTO player_season (season, element_id, code, team_id, position, web_name, value)
@@ -169,44 +165,37 @@ def main() -> None:
     )
     con.execute(f"UPDATE player_season SET value = 45 WHERE season = '{SEASON}' AND value IS NULL")
 
+    from fplscout.features.build import write_features
+
     n = write_features(con)
-    season, gw = pipeline.latest_reference_point(con)
-    print(f"features {n} rows; reference point {season} GW{gw}")
-    assert (season, gw) == (SEASON, 1)
+    synth = con.execute(
+        "SELECT COUNT(*) FROM features WHERE season = ?", [SEASON]
+    ).fetchone()[0]
+    print(f"injected provisional {SEASON}: 380 fixtures, {len(team_rows)} teams; "
+          f"features rebuilt ({n} rows, {synth} for {SEASON} GW1)")
+    return True
 
-    models = pipeline.train_production(con, models_dir=scratch_db.parent / "models")
-    proj = pipeline.generate_projections(con, models, season, gw)
-    roster = pipeline.roster_snapshot(con, season, gw)
-    total_ev = pipeline.total_ev_for_optimizer(con, models, season, gw, proj)
-    opt_df = roster.merge(
-        total_ev.rename("total_ev").reset_index().rename(columns={"index": "code"}),
-        on="code", how="inner",
-    ).merge(proj[["code", "ev_points", "q90_points"]], on="code", how="left")
-    opt_df["cap_ev"] = 0.5 * opt_df["ev_points"] + 0.5 * opt_df["q90_points"]
-    opt_df = opt_df.dropna(subset=["total_ev", "price", "position", "team_id"])
-    opt_df["price"] = opt_df["price"].astype(int)
 
-    result = optimize(
-        OptimizerInput(
-            projections=opt_df[["code", "position", "team_id", "price", "total_ev", "cap_ev"]],
-            current_squad=set(), purchase_prices={}, bank=1000, free_transfers=1,
-            chip_mode="wildcard",
-        )
-    )
-    assert result.status == "Optimal", result.status
-    con.execute(
-        "INSERT INTO recommendations (season, gw, generated_at, squad, starting_xi, "
-        "captain_code, vice_captain_code, transfers, hits, chip, confidence) "
-        "VALUES (?, ?, now(), ?, ?, ?, ?, '[]', 0, 'wildcard', NULL)",
-        [season, gw, json.dumps(sorted(result.squad)), json.dumps(sorted(result.starting_xi)),
-         result.captain, result.vice_captain],
-    )
-    print()
-    print("PROVISIONAL 26/27 GW1 DRAFT — real fixtures, stand-in prices,")
-    print("no summer transfers. Superseded at FPL launch.")
-    print()
-    print(render_weekly(con, season, gw))
-    con.close()
+def main() -> None:
+    cmd = sys.argv[1]
+    if cmd == "parse":
+        fixtures = parse_espn(Path(sys.argv[2]))
+        payload = [
+            {**f, "kickoff": f["kickoff"].isoformat()} for f in fixtures
+        ]
+        Path(sys.argv[3]).write_text(json.dumps(payload, indent=1))
+        print(f"wrote {len(payload)} fixtures to {sys.argv[3]}")
+    elif cmd == "inject":
+        fixtures = [
+            {**f, "kickoff": datetime.fromisoformat(f["kickoff"])}
+            for f in json.loads(Path(sys.argv[2]).read_text())
+        ]
+        assert len(fixtures) == 380
+        con = duckdb.connect(sys.argv[3])
+        inject(con, fixtures)
+        con.close()
+    else:
+        raise SystemExit(f"unknown command {cmd!r} (parse|inject)")
 
 
 if __name__ == "__main__":

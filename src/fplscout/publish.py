@@ -29,6 +29,10 @@ from fplscout.decide.optimizer import DEFAULT_HIT_COST, top_alternative_moves
 def _reference_frame(con: duckdb.DuckDBPyConnection, season: str, gw: int) -> pd.DataFrame:
     """One row per player with a projection at (season, gw): identity, price,
     team, and the latest model_version's EV/quantile/probability outputs."""
+    # identity/price come from `features` (not player_gw_history) so this also
+    # works for an UNPLAYED reference gameweek (upcoming-GW synthetic rows,
+    # issue #5 / provisional 26/27); equivalent for played gameweeks since
+    # features derive from history.
     return con.execute(
         """
         WITH latest AS (
@@ -43,9 +47,9 @@ def _reference_frame(con: duckdb.DuckDBPyConnection, season: str, gw: int) -> pd
             r.price, l.ev_points, l.q10_points, l.q90_points, l.ev_minutes,
             l.p_appearance, l.p_60_plus, l.p_clean_sheet, l.model_version
         FROM (SELECT DISTINCT code, position, team_id, price FROM (
-                SELECT h.code, h.position, h.team_id, h.value AS price,
-                       ROW_NUMBER() OVER (PARTITION BY h.code ORDER BY h.fixture_id) AS rn2
-                FROM player_gw_history h WHERE h.season = ? AND h.gw = ?
+                SELECT f.code, f.position, f.team_id, f.value AS price,
+                       ROW_NUMBER() OVER (PARTITION BY f.code ORDER BY f.fixture_id) AS rn2
+                FROM features f WHERE f.season = ? AND f.gw = ?
               ) WHERE rn2 = 1) r
         JOIN players p ON p.code = r.code
         LEFT JOIN teams t ON t.season = ? AND t.team_id = r.team_id
@@ -79,6 +83,30 @@ def _is_live(con: duckdb.DuckDBPyConnection, season: str, gw: int) -> bool:
     return max_gw is not None and max_gw > gw
 
 
+def _season_state(con: duckdb.DuckDBPyConnection, season: str, gw: int) -> str:
+    """'live'        — future fixtures AND real played rows: a season underway.
+    'provisional' — future fixtures but ZERO played rows: the fabricated
+                    pre-launch 26/27 (scripts/provisional_2627.py) — real
+                    calendar, stand-in prices, no summer transfers.
+    'demo'        — no future fixtures: idling on the last finished season."""
+    if not _is_live(con, season, gw):
+        return "demo"
+    played = con.execute(
+        "SELECT COUNT(*) FROM player_gw_history WHERE season = ?", [season]
+    ).fetchone()[0]
+    return "live" if played else "provisional"
+
+
+STATE_TEXT = {
+    "live": "Live recommendation for the upcoming gameweek.",
+    "provisional": (
+        "PROVISIONAL 2026-27 GW1 preview — real released fixture calendar, but "
+        "stand-in end-of-25/26 prices, no summer transfers, and no promoted-team "
+        "players. Regenerates with real data the day the FPL game launches."
+    ),
+}
+
+
 def _confidence(ref: pd.DataFrame, starting_xi: set[int]) -> float:
     """0-100 display number, per plan §8's "document the formula, don't fake it".
 
@@ -101,7 +129,8 @@ def _confidence(ref: pd.DataFrame, starting_xi: set[int]) -> float:
 
 def build_dashboard(con: duckdb.DuckDBPyConnection, season: str, gw: int) -> dict:
     ref = _reference_frame(con, season, gw)
-    is_live = _is_live(con, season, gw)
+    state = _season_state(con, season, gw)
+    is_live = state == "live"
     rec = con.execute(
         "SELECT * FROM recommendations WHERE season = ? AND gw = ? "
         "ORDER BY generated_at DESC LIMIT 1",
@@ -118,7 +147,7 @@ def build_dashboard(con: duckdb.DuckDBPyConnection, season: str, gw: int) -> dic
 
     if len(rec) == 0:
         return {
-            "gw": gw, "season": season, "is_live": is_live,
+            "gw": gw, "season": season, "is_live": is_live, "state": state,
             "deadline": deadline_row[0].isoformat() if deadline_row and deadline_row[0] else None,
             "avg_points": avg_points, "our_points": None, "overall_rank": None,
             "mini_league": None,
@@ -155,18 +184,17 @@ def build_dashboard(con: duckdb.DuckDBPyConnection, season: str, gw: int) -> dic
 
     hits = rec["hits"][0]
     return {
-        "gw": gw, "season": season, "is_live": is_live,
+        "gw": gw, "season": season, "is_live": is_live, "state": state,
         "deadline": deadline_row[0].isoformat() if deadline_row and deadline_row[0] else None,
         "avg_points": avg_points,
         "our_points": round(float(our_points), 1) if pd.notna(our_points) else None,
         "overall_rank": None,
         "mini_league": None,
         "insight": {
-            "text": (
-                "Live recommendation for the upcoming gameweek."
-                if is_live
-                else f"Showing {season} GW{gw} (last completed gameweek) — 26/27 "
-                "hasn't launched yet, so this is a demo projection, not a live entry."
+            "text": STATE_TEXT.get(
+                state,
+                f"Showing {season} GW{gw} (last completed gameweek) — 26/27 "
+                "hasn't launched yet, so this is a demo projection, not a live entry.",
             ),
             "transfer_summary": f"{hits} hit(s) taken" if hits else "No hits taken",
             "captain": captain_row["web_name"] if captain_row is not None else None,
@@ -238,13 +266,21 @@ def build_transfers(con: duckdb.DuckDBPyConnection, season: str, gw: int) -> dic
 
 
 def build_fixtures(con: duckdb.DuckDBPyConnection, season: str, gw: int, horizon: int = 8) -> dict:
-    """No future fixtures exist for a finished season (see module docstring) —
-    shows the trailing `horizon` gameweeks' ticker instead, clearly flagged."""
-    start_gw = max(1, gw - horizon + 1)
+    """Fixture ticker. With future fixtures (live/provisional season): the
+    UPCOMING `horizon` gameweeks from `gw`. Finished season (demo): the
+    trailing window instead, clearly flagged."""
+    state = _season_state(con, season, gw)
+    if state == "demo":
+        start_gw, end_gw = max(1, gw - horizon + 1), gw
+    else:
+        max_gw = con.execute(
+            "SELECT MAX(event) FROM fixtures WHERE season = ?", [season]
+        ).fetchone()[0]
+        start_gw, end_gw = gw, min(max_gw, gw + horizon - 1)
     fixtures = con.execute(
         "SELECT event AS gw, team_h, team_a, team_h_difficulty, team_a_difficulty "
         "FROM fixtures WHERE season = ? AND event BETWEEN ? AND ?",
-        [season, start_gw, gw],
+        [season, start_gw, end_gw],
     ).df()
     teams = con.execute(
         "SELECT team_id, code, name, short_name FROM teams WHERE season = ?", [season]
@@ -266,7 +302,7 @@ def build_fixtures(con: duckdb.DuckDBPyConnection, season: str, gw: int, horizon
     for _, team in teams.iterrows():
         team_fixtures = long[long["team_id"] == team["team_id"]].sort_values("gw")
         ticker = []
-        for g in range(start_gw, gw + 1):
+        for g in range(start_gw, end_gw + 1):
             rows = team_fixtures[team_fixtures["gw"] == g]
             if len(rows) == 0:
                 ticker.append({"gw": g, "is_bgw": True})
@@ -285,12 +321,18 @@ def build_fixtures(con: duckdb.DuckDBPyConnection, season: str, gw: int, horizon
         })
 
     return {
-        "reference_gw": gw, "horizon": horizon, "is_live": _is_live(con, season, gw),
-        "note": (
-            "26/27 fixtures aren't published yet — showing the trailing "
-            f"{horizon} gameweeks of {season} instead."
-            if not _is_live(con, season, gw) else None
-        ),
+        "reference_gw": gw, "horizon": horizon, "is_live": state == "live",
+        "state": state,
+        "note": {
+            "demo": (
+                "26/27 fixtures aren't loaded yet — showing the trailing "
+                f"{horizon} gameweeks of {season} instead."
+            ),
+            "provisional": (
+                "Real released 2026-27 calendar (provisional pre-launch preview)."
+            ),
+            "live": None,
+        }[state],
         "teams": out,
     }
 
@@ -327,7 +369,7 @@ def build_signals(con: duckdb.DuckDBPyConnection, season: str, gw: int) -> dict:
         ]
 
     return {
-        "gw": gw, "is_live": _is_live(con, season, gw),
+        "gw": gw, "is_live": _season_state(con, season, gw) == "live",
         "price_risers": _rows_to_cards(risers),
         "price_fallers": _rows_to_cards(fallers),
         "injury_news": [],
