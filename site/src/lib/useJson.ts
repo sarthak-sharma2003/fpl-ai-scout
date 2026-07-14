@@ -14,7 +14,11 @@ export function useJson<T>(path: string): Loadable<T> {
   useEffect(() => {
     let cancelled = false;
     setState({ status: 'loading' });
-    fetch(`${import.meta.env.BASE_URL}data/${path}`)
+    // no-cache = always revalidate with the server (304 when unchanged, fresh
+    // bytes when the nightly deploy republished). Without this the browser
+    // serves the JSON from its own cache for the file's max-age=600 and the
+    // site looks stale for up to 10 min after a redeploy.
+    fetch(`${import.meta.env.BASE_URL}data/${path}`, { cache: 'no-cache' })
       .then((res) => {
         if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
         return res.json() as Promise<T>;

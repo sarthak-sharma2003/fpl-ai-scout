@@ -22,7 +22,7 @@ only. No paid solvers, no paid hosting.
 | 6 | Backtest simulator (go/no-go gate) | ✅ done — see honest results below; both seasons currently below the plan's 2,400 target |
 | 7 | Static site pipeline + React frontend | ✅ done — `fplscout publish` renders site/public/data/, Pages deploy |
 | 8 | Automation + weekly ops | ✅ done — `fplscout report` one-command weekly op, daily season-reset watcher, runbook below |
-| 9 | Season kickoff checklist | ready — `ROADMAP_2627.md` §5, fires the day the API resets |
+| 9 | Season kickoff checklist | ready — `ROADMAP_2627.md` §5, waiting for FPL data to go from API to pipeline |
 
 ## Quickstart
 
