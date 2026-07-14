@@ -162,6 +162,18 @@ player's minutes — fixed, regression-tested), which is why it exists.
 Re-run after any pipeline change before the reset:
 `python scripts/dress_rehearsal.py data/fpl.duckdb /tmp/rehearsal.duckdb`
 
+**Provisional GW1 draft from the REAL released fixture list** (2026-07-14):
+`scripts/provisional_2627.py <espn_fixtures.html> data/fpl.duckdb /tmp/prov.duckdb`
+parses ESPN's published 26/27 calendar (article id 49082662; the parser
+self-heals ESPN's own omissions — it inferred GW8 Arsenal v Everton and
+Aston Villa v Man City from the round-robin structure), fabricates the season
+with real opponents, and emits a provisional draft: stand-in end-of-25/26
+prices, no summer transfers, promoted teams (Coventry, Hull, Ipswich) known
+to the calendar but playerless. First output captained Haaland (8.3 EV) and
+triple-stacked Arsenal's defense for the GW1 home fixture vs promoted
+Coventry — the horizon model visibly consuming real fixtures. Superseded at
+FPL launch; delete the script after.
+
 The daily 9am scheduled task `fpl-2627-season-reset-check` alerts on the flip
 (manual check: bootstrap-static's first event deadline year becomes 2026).
 Then, in order:
