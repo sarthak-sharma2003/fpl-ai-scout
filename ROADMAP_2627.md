@@ -158,9 +158,9 @@ GWs, all-unfinished fixtures, live prices) ran the full chain offline —
 features (841 synthetic GW1 rows) → train → project (841 finite EVs) →
 optimize (legal 15, 100.0m, Haaland captained at 8.5 EV) → DO THIS sheet.
 The rehearsal caught a real bug (NULL availability status zeroed every
-player's minutes — fixed, regression-tested), which is why it exists. Script:
-re-runnable from the session scratchpad pattern; rehearse again after any
-pipeline change before the reset.
+player's minutes — fixed, regression-tested), which is why it exists.
+Re-run after any pipeline change before the reset:
+`python scripts/dress_rehearsal.py data/fpl.duckdb /tmp/rehearsal.duckdb`
 
 The daily 9am scheduled task `fpl-2627-season-reset-check` alerts on the flip
 (manual check: bootstrap-static's first event deadline year becomes 2026).
