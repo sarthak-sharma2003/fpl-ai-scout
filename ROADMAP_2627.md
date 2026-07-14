@@ -153,6 +153,15 @@ availability overlay gets ~0).
 
 ## 5. Season-kickoff runbook (the day the API flips to 26/27)
 
+**Dress-rehearsed 2026-07-14 and PASSED**: a fabricated 2026-27 (zero played
+GWs, all-unfinished fixtures, live prices) ran the full chain offline —
+features (841 synthetic GW1 rows) → train → project (841 finite EVs) →
+optimize (legal 15, 100.0m, Haaland captained at 8.5 EV) → DO THIS sheet.
+The rehearsal caught a real bug (NULL availability status zeroed every
+player's minutes — fixed, regression-tested), which is why it exists. Script:
+re-runnable from the session scratchpad pattern; rehearse again after any
+pipeline change before the reset.
+
 The daily 9am scheduled task `fpl-2627-season-reset-check` alerts on the flip
 (manual check: bootstrap-static's first event deadline year becomes 2026).
 Then, in order:

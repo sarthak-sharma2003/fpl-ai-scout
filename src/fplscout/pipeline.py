@@ -141,8 +141,14 @@ def live_availability_factor(con: duckdb.DuckDBPyConnection) -> dict[int, float]
     for code, status, chance in rows:
         if chance is not None:
             factor[code] = chance / 100.0
+        elif status is None or status == "a":
+            # NULL status = never synced (refresh hasn't run since the column
+            # existed): no information means NO adjustment, not "ruled out".
+            # Treating NULL as 0 silently zeroed every player's minutes — a
+            # real bug caught by the season-kickoff dress rehearsal.
+            factor[code] = 1.0
         else:
-            factor[code] = 1.0 if status == "a" else 0.0
+            factor[code] = 0.0
     return factor
 
 

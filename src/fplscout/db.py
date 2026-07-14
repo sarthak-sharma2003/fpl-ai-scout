@@ -45,7 +45,11 @@ CREATE TABLE IF NOT EXISTS players (
     -- overlay (models/minutes.py::apply_availability).
     status TEXT,
     news TEXT,
-    chance_of_playing_next_round INTEGER
+    chance_of_playing_next_round INTEGER,
+    -- 1 = first-choice penalty taker. Info-only (shown in the DO THIS sheet):
+    -- FPL xG already includes penalty xG, so established takers are priced
+    -- into the model via rolling features; a flat EV bump would double-count.
+    penalties_order INTEGER
 );
 
 -- (season, element_id) -> code mapping, plus season-scoped attributes (team,
@@ -345,6 +349,7 @@ def init_schema(con: duckdb.DuckDBPyConnection) -> None:
         ("status", "TEXT"),
         ("news", "TEXT"),
         ("chance_of_playing_next_round", "INTEGER"),
+        ("penalties_order", "INTEGER"),
     ]:
         con.execute(f"ALTER TABLE players ADD COLUMN IF NOT EXISTS {name} {dtype}")
     con.execute("ALTER TABLE player_season ADD COLUMN IF NOT EXISTS value INTEGER")

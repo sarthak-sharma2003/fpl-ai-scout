@@ -65,17 +65,19 @@ def _sync_player_status(con, bootstrap) -> int:
     relative to the historical load is a nicety, not a correctness rule."""
     status_df = pd.DataFrame(
         [
-            (e.code, e.status, e.news, e.chance_of_playing_next_round)
+            (e.code, e.status, e.news, e.chance_of_playing_next_round, e.penalties_order)
             for e in bootstrap.elements
         ],
-        columns=["code", "status", "news", "chance_of_playing_next_round"],
+        columns=["code", "status", "news", "chance_of_playing_next_round", "penalties_order"],
     )
     con.execute(
-        "INSERT INTO players AS p (code, status, news, chance_of_playing_next_round) "
+        "INSERT INTO players AS p "
+        "(code, status, news, chance_of_playing_next_round, penalties_order) "
         "SELECT * FROM status_df "
         "ON CONFLICT (code) DO UPDATE SET status = excluded.status, "
         "news = excluded.news, "
-        "chance_of_playing_next_round = excluded.chance_of_playing_next_round"
+        "chance_of_playing_next_round = excluded.chance_of_playing_next_round, "
+        "penalties_order = excluded.penalties_order"
     )
     return len(status_df)
 

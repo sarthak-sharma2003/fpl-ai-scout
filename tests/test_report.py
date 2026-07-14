@@ -15,6 +15,8 @@ def test_render_weekly_names_captain_and_sections():
         "INSERT INTO players (code, web_name) VALUES (?, ?)",
         [(c, f"Player{c}") for c in squad],
     )
+    con.execute("UPDATE players SET penalties_order = 1 WHERE code = 8")
+    con.execute("UPDATE players SET status = 'd', news = 'Knock - 75% chance' WHERE code = 13")
     con.executemany(
         "INSERT INTO features (season, code, fixture_id, gw, position) VALUES "
         "('2026-27', ?, ?, 1, ?)",
@@ -29,8 +31,9 @@ def test_render_weekly_names_captain_and_sections():
     )
 
     sheet = render_weekly(con, "2026-27", 1)
-    assert "**Captain:** Player8 [MID]" in sheet
+    assert "**Captain:** Player8 [MID] ⚽PK" in sheet
     assert "**Vice:** Player9 [MID]" in sheet
+    assert "Player13 [FWD] ⚠D (Knock - 75% chance)" in sheet
     assert "## Starting XI" in sheet and "## Bench" in sheet
     assert "Player2 [GKP]" in sheet  # backup GK on the bench
     assert "chip: **wildcard**" in sheet

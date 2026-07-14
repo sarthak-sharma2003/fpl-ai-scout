@@ -25,10 +25,11 @@ def render_weekly(con: duckdb.DuckDBPyConnection, season: str, gw: int) -> str:
 
     placeholders = ", ".join(["?"] * len(squad))
     players = {
-        code: (name, position, ev)
-        for code, name, position, ev in con.execute(
+        row[0]: row[1:]
+        for row in con.execute(
             f"""
-            SELECT p.code, p.web_name, ps.position, proj.ev_points
+            SELECT p.code, p.web_name, ps.position, proj.ev_points,
+                   p.status, p.news, p.penalties_order
             FROM players p
             LEFT JOIN (
                 SELECT DISTINCT code, position FROM features WHERE season = ?
@@ -41,11 +42,20 @@ def render_weekly(con: duckdb.DuckDBPyConnection, season: str, gw: int) -> str:
             [season, season, gw, *squad],
         ).fetchall()
     }
+    UNKNOWN = ("?", "?", None, None, None, None)
 
     def line(code: int) -> str:
-        name, position, ev = players.get(code, (f"code {code}", "?", None))
+        name, position, ev, status, news, pens = players.get(code, (f"code {code}", *UNKNOWN[1:]))
         ev_txt = f" ({ev:.1f} EV)" if ev is not None else ""
-        return f"{name} [{position}]{ev_txt}"
+        # info flags for the human sanity-check: PK = first-choice penalty
+        # taker (already priced into xG, shown for awareness); a non-'a'
+        # status with its news is a "look at this before confirming" marker
+        flags = ""
+        if pens == 1:
+            flags += " ⚽PK"
+        if status is not None and status != "a":
+            flags += f" ⚠{status.upper()}" + (f" ({news})" if news else "")
+        return f"{name} [{position}]{ev_txt}{flags}"
 
     def by_position(codes) -> list[int]:
         def key(c: int) -> int:
