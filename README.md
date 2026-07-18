@@ -273,3 +273,5 @@ sheet without recomputing. Season kickoff (the day the FPL API resets to
 26/27 — a daily 9am scheduled check alerts on it): follow `ROADMAP_2627.md` §5,
 which is this runbook plus the one-time schema-drift and team-registration
 steps.
+
+Good morning ☀️
