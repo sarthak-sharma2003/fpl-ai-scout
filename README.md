@@ -274,4 +274,4 @@ sheet without recomputing. Season kickoff (the day the FPL API resets to
 which is this runbook plus the one-time schema-drift and team-registration
 steps.
 
-Good morning ☀️
+Good morning ☀️ (2026-07-17)
