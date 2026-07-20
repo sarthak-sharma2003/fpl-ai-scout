@@ -1,0 +1,14 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "site",
+      "runtimeExecutable": "sh",
+      "runtimeArgs": [
+        "-c",
+        "cd /Users/sarthaksharma/Desktop/fpl-ai-scout/site && ./node_modules/.bin/vite --port 5173 --strictPort"
+      ],
+      "port": 5173
+    }
+  ]
+}

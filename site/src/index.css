@@ -1,22 +1,38 @@
 @import "tailwindcss";
 
-/* Pitch-night identity: not the benchmark mock's purple. Deep match-night
-   green/near-black with an emerald accent (the pitch) and amber for
-   captaincy/highlights (the armband) — original to this project. */
-:root {
-  --pitch-950: #06120d;
-  --pitch-900: #0a1a13;
-  --pitch-850: #0e2119;
-  --pitch-800: #13291f;
-  --pitch-700: #1c3a2c;
-  --pitch-line: #24493a;
-  --ink-100: #eef6f1;
-  --ink-300: #b7cabf;
-  --ink-500: #7f9689;
-  --emerald: #34d399;
-  --emerald-strong: #10b981;
-  --amber: #f5b942;
-  --rose: #f87171;
+/* ——— Xabi's Long-Xo identity ———
+   A floodlit pitch at night, not a SaaS panel. The base is a green-black
+   (never neutral black); the single loud voice is VOLT — linesman-flag,
+   high-vis, floodlight glare — reserved for the model's own numbers and
+   active states. Amber is the armband/warning family, rose is threat.
+   Position hues (GKP/DEF/MID/FWD) follow one consistent system site-wide.
+   Type: Barlow Condensed = scoreboard/broadcast display, Space Grotesk =
+   body, Space Mono = data labels, eyebrows, machine talk. */
+@theme {
+  --font-display: "Barlow Condensed", "Space Grotesk", system-ui, sans-serif;
+  --font-sans: "Space Grotesk", system-ui, "Segoe UI", Roboto, sans-serif;
+  --font-mono: "Space Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --color-pitch-950: #071410;
+  --color-pitch-900: #0b1b14;
+  --color-pitch-850: #0e2017;
+  --color-pitch-800: #132a1f;
+  --color-pitch-700: #1b3829;
+  --color-line: #21402f;
+
+  --color-ink-100: #edf5ef;
+  --color-ink-300: #a9c3b3;
+  --color-ink-500: #6f8f7d;
+
+  --color-volt: #d4f34b;
+  --color-volt-deep: #a9cc2b;
+  --color-armband: #f0b23e;
+  --color-danger: #f7708c;
+
+  --color-gkp: #f5a524;
+  --color-def: #4cc2f1;
+  --color-mid: #3ddbb4;
+  --color-fwd: #f7708c;
 }
 
 * {
@@ -31,18 +47,20 @@ body,
 
 body {
   margin: 0;
-  background: var(--pitch-950);
+  background-color: var(--color-pitch-950);
+  /* two floodlight cones from the top corners, then night */
   background-image:
-    radial-gradient(ellipse 900px 500px at 15% -10%, rgba(52, 211, 153, 0.10), transparent),
-    radial-gradient(ellipse 700px 500px at 100% 0%, rgba(245, 185, 66, 0.06), transparent);
-  color: var(--ink-100);
-  font-family: 'Space Grotesk', system-ui, 'Segoe UI', Roboto, sans-serif;
+    radial-gradient(ellipse 850px 420px at 10% -6%, rgba(212, 243, 75, 0.055), transparent 62%),
+    radial-gradient(ellipse 850px 420px at 90% -6%, rgba(212, 243, 75, 0.04), transparent 62%);
+  background-repeat: no-repeat;
+  color: var(--color-ink-100);
+  font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 ::selection {
-  background: rgba(52, 211, 153, 0.35);
+  background: rgba(212, 243, 75, 0.3);
 }
 
 ::-webkit-scrollbar {
@@ -53,6 +71,21 @@ body {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: var(--pitch-line);
+  background: var(--color-line);
   border-radius: 999px;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-volt);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

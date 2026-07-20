@@ -174,6 +174,15 @@ triple-stacked Arsenal's defense for the GW1 home fixture vs promoted
 Coventry — the horizon model visibly consuming real fixtures. Superseded at
 FPL launch; delete the script after.
 
+**Update 2026-07-20:** the runbook below is now automated as **`fplscout
+kickoff`** — refresh → project → optimize → preflight → publish → DO THIS
+sheet, with the schema-drift loudness of step 1/2 built in (it stops and
+prints exactly what to fix, and is safe to re-run until it passes). Every
+publish is gated by `fplscout preflight` (legality/availability/EV/freshness
+— see `src/fplscout/preflight.py`); the dress rehearsal ends by asserting the
+rehearsal draft passes it. The manual steps below remain as the explanation
+of what kickoff does and the fallback if it stops.
+
 The daily 9am scheduled task `fpl-2627-season-reset-check` alerts on the flip
 (manual check: bootstrap-static's first event deadline year becomes 2026).
 Then, in order:
@@ -199,6 +208,14 @@ Then, in order:
 6. Register the actual FPL team, put its `team_id` in `config/settings.yaml`,
    and after GW1's deadline run `decide/squad_state.py`'s reconcile path so
    the tracked squad matches reality.
+7. When the mini-league is created, put its id in `mini_league_id`
+   (settings.yaml). From then on `refresh` also syncs rival squads, chips and
+   standings (`ingest/league.py` — dormant until configured), and the site's
+   League page (ownership, differentials, our-model EV of every rival squad)
+   plus chips usage tracking populate automatically. This is intel for the
+   human — it deliberately does NOT feed the optimizer (§7.6 stands:
+   differential-chasing optimizes rank variance, not points; in an 8-manager
+   league points decide it).
 
 ## 6. Weekly in-season loop (until Phase 8 automates it)
 
@@ -214,7 +231,11 @@ reconcile squad state. Total runtime is dominated by the element-summary sweep.
    model improvement (the contaminated version carried 60%+ of feature gain;
    the clean version will carry a real fraction of that). Needs a joinable
    (season, gw, code, ep_next_as_of_deadline) view + retrain + the usual two-split
-   validation.
+   validation. **Precondition solved 2026-07-20:** the archive now survives the
+   nightly deploy's ephemeral runner via git-tracked `data/ep_next_archive.csv`
+   (two-way synced in every refresh, committed by deploy.yml) — before this fix
+   every CI snapshot was silently discarded and the archive could never have
+   reached training depth.
 2. **Penalty/set-piece overlay** — live `penalties_order` as an inference-time
    EV bump (like availability). Low effort, modest win; FPL xG already includes
    penalties historically so the model isn't fully blind, but the taker's

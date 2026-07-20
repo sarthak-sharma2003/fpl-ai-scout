@@ -1,94 +1,115 @@
 import type { ReactNode } from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
-import { HomeIcon, SwapIcon, CalendarIcon, BoltIcon, ChartIcon, ListIcon } from './icons';
+import { useJson } from '../lib/useJson';
+import type { Analytics } from '../types';
 
 const NAV = [
-  { to: '/', label: 'Dashboard', icon: HomeIcon, end: true },
-  { to: '/transfers', label: 'Transfers', icon: SwapIcon },
-  { to: '/fixtures', label: 'Fixtures', icon: CalendarIcon },
-  { to: '/signals', label: 'Signals', icon: BoltIcon },
-  { to: '/analytics', label: 'Analytics', icon: ChartIcon },
-  { to: '/rules', label: 'Rules', icon: ListIcon },
+  { to: '/', label: 'Dashboard', end: true },
+  { to: '/players', label: 'Players' },
+  { to: '/fixtures', label: 'Fixtures' },
+  { to: '/chips', label: 'Chips' },
+  { to: '/league', label: 'League' },
+  { to: '/transfers', label: 'Transfers' },
+  { to: '/signals', label: 'Signals' },
+  { to: '/analytics', label: 'Analytics' },
+  { to: '/rules', label: 'Rules' },
 ];
 
-function Logo() {
+function Wordmark() {
   return (
-    <div className="flex items-center gap-2">
-      <div className="grid h-8 w-8 place-items-center rounded-lg bg-gradient-to-br from-emerald-400 to-emerald-600 text-[var(--pitch-950)] font-bold text-sm">
-        XL
-      </div>
-      <span className="font-semibold tracking-tight text-[var(--ink-100)]">
-        Xabi's Long-Xo
+    <NavLink to="/" className="block shrink-0 leading-none" aria-label="Xabi's Long-Xo — home">
+      <span className="font-display text-[22px] font-bold uppercase italic leading-none tracking-tight text-ink-100">
+        Xabi's&nbsp;<span className="text-volt">Long-Xo</span>
       </span>
-    </div>
+      <span className="mt-1 block font-mono text-[8px] uppercase tracking-[0.34em] text-ink-500">
+        FPL 26/27 war room
+      </span>
+    </NavLink>
+  );
+}
+
+function navClass({ isActive }: { isActive: boolean }) {
+  return `flex items-center whitespace-nowrap border-b-2 px-2.5 pb-2 pt-2.5 font-mono text-[11px] font-bold uppercase tracking-[0.14em] transition-colors md:pb-0 md:pt-0 ${
+    isActive
+      ? 'border-volt text-volt'
+      : 'border-transparent text-ink-500 hover:text-ink-100'
+  }`;
+}
+
+function Footer() {
+  // One fetch per session (Layout persists across routes); powers the
+  // "model vX" stamp without every page threading it through.
+  const analytics = useJson<Analytics>('analytics.json');
+  const version = analytics.status === 'ready' ? analytics.data.model_version : null;
+  return (
+    <footer className="border-t border-line px-4 py-4 md:px-8">
+      <p className="mx-auto flex max-w-6xl flex-wrap items-center gap-x-2 gap-y-1 font-mono text-[10px] uppercase tracking-[0.16em] text-ink-500">
+        <span className="text-ink-300">Xabi's Long-Xo</span>
+        <span aria-hidden>·</span>
+        <span>model {version ?? '—'}</span>
+        <span aria-hidden>·</span>
+        <span>updated nightly</span>
+        <span aria-hidden>·</span>
+        <span>$0-budget build</span>
+      </p>
+    </footer>
   );
 }
 
 export default function Layout() {
   return (
-    <div className="min-h-screen flex flex-col">
-      {/* Desktop / tablet top nav */}
-      <header className="hidden md:flex sticky top-0 z-20 items-center justify-between border-b border-[var(--pitch-line)] bg-[var(--pitch-950)]/90 backdrop-blur px-6 py-3">
-        <Logo />
-        <nav className="flex items-center gap-1">
+    <div className="flex min-h-screen flex-col">
+      <header className="sticky top-0 z-20 border-b border-line bg-pitch-950/90 backdrop-blur">
+        <div className="mx-auto flex max-w-6xl items-stretch justify-between gap-6 px-4 md:px-8">
+          <div className="py-2.5 md:py-3">
+            <Wordmark />
+          </div>
+          {/* Desktop nav: broadcast-ticker tabs, volt underline on air */}
+          <nav className="hidden items-stretch overflow-x-auto md:flex">
+            {NAV.map(({ to, label, end }) => (
+              <NavLink key={to} to={to} end={end} className={navClass}>
+                {label}
+              </NavLink>
+            ))}
+          </nav>
+        </div>
+        {/* Mobile nav: scrollable strip under the wordmark */}
+        <nav className="flex overflow-x-auto border-t border-line/60 px-2 md:hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {NAV.map(({ to, label, end }) => (
-            <NavLink
-              key={to}
-              to={to}
-              end={end}
-              className={({ isActive }) =>
-                `rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
-                  isActive
-                    ? 'bg-emerald-500/15 text-emerald-300'
-                    : 'text-[var(--ink-300)] hover:text-[var(--ink-100)] hover:bg-white/5'
-                }`
-              }
-            >
+            <NavLink key={to} to={to} end={end} className={navClass}>
               {label}
             </NavLink>
           ))}
         </nav>
       </header>
 
-      {/* Mobile top bar (logo only — nav lives at the bottom, thumb reach) */}
-      <header className="md:hidden sticky top-0 z-20 flex items-center justify-between border-b border-[var(--pitch-line)] bg-[var(--pitch-950)]/90 backdrop-blur px-4 py-3">
-        <Logo />
-      </header>
-
-      <main className="flex-1 px-4 py-5 md:px-8 md:py-8 pb-24 md:pb-8 max-w-5xl w-full mx-auto">
+      <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-6 md:px-8 md:py-8">
         <Outlet />
       </main>
 
-      {/* Mobile bottom nav — this is where deadline-day decisions get checked */}
-      <nav className="md:hidden fixed bottom-0 inset-x-0 z-20 border-t border-[var(--pitch-line)] bg-[var(--pitch-950)]/95 backdrop-blur">
-        <div className="grid grid-cols-6">
-          {NAV.map(({ to, label, icon: Icon, end }) => (
-            <NavLink
-              key={to}
-              to={to}
-              end={end}
-              className={({ isActive }) =>
-                `flex flex-col items-center gap-0.5 py-2.5 text-[10px] font-medium ${
-                  isActive ? 'text-emerald-300' : 'text-[var(--ink-500)]'
-                }`
-              }
-            >
-              <Icon className="h-5 w-5" />
-              {label}
-            </NavLink>
-          ))}
-        </div>
-      </nav>
+      <Footer />
     </div>
   );
 }
 
-export function PageHeader({ title, subtitle, right }: { title: string; subtitle?: ReactNode; right?: ReactNode }) {
+export function PageHeader({
+  title,
+  subtitle,
+  right,
+}: {
+  title: string;
+  subtitle?: ReactNode;
+  right?: ReactNode;
+}) {
   return (
-    <div className="flex items-start justify-between mb-5">
-      <div>
-        <h1 className="text-2xl font-semibold tracking-tight text-[var(--ink-100)]">{title}</h1>
-        {subtitle && <p className="text-sm text-[var(--ink-500)] mt-1">{subtitle}</p>}
+    <div className="mb-6 flex flex-wrap items-end justify-between gap-x-6 gap-y-3">
+      <div className="min-w-0">
+        <h1 className="font-display text-[34px] font-bold uppercase leading-none tracking-tight text-ink-100 md:text-[40px]">
+          {title}
+        </h1>
+        {subtitle && (
+          <p className="mt-1.5 max-w-2xl text-[13px] leading-relaxed text-ink-500">{subtitle}</p>
+        )}
       </div>
       {right}
     </div>

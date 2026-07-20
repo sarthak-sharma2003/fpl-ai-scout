@@ -36,3 +36,13 @@ export function useJson<T>(path: string): Loadable<T> {
 
   return state;
 }
+
+/** Merges two loadables into one, so pages fetching two files (e.g. the
+ * dashboard needing dashboard.json + transfers.json) still write a single
+ * DataGate. Errors win over loading; ready only when both are. */
+export function combine<A, B>(a: Loadable<A>, b: Loadable<B>): Loadable<[A, B]> {
+  if (a.status === 'error') return a;
+  if (b.status === 'error') return b;
+  if (a.status === 'loading' || b.status === 'loading') return { status: 'loading' };
+  return { status: 'ready', data: [a.data, b.data] };
+}

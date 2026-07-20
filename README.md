@@ -67,8 +67,9 @@ src/fplscout/
   backtest/       season replay simulator (Phase 6)
   api/            FastAPI backend (Phase 7)
   report/         weekly "DO THIS" report generator (Phase 8)
-  cli.py          fplscout refresh|train|backtest|project|optimize|publish|report
-frontend/         our React app, original design (Phase 7)
+  preflight.py    sanity gate: FPL legality, availability flags, EV sanity, freshness
+  cli.py          fplscout refresh|train|backtest|project|optimize|preflight|publish|report|kickoff
+site/             our React app (Vite + Tailwind), fully static, GitHub Pages
 tests/            pytest suite; tests/fixtures/ holds recorded API payloads for offline tests
 ```
 
@@ -269,7 +270,25 @@ fplscout report    # everything else: project -> optimize -> publish -> "DO THIS
 and a recommendation for the NEXT deadline's gameweek, publishes the static
 site data, and prints/writes the markdown decision sheet
 (`data/reports/weekly_<season>_gw<N>.md`). `--skip-pipeline` re-renders the
-sheet without recomputing. Season kickoff (the day the FPL API resets to
-26/27 — a daily 9am scheduled check alerts on it): follow `ROADMAP_2627.md` §5,
-which is this runbook plus the one-time schema-drift and team-registration
-steps.
+sheet without recomputing.
+
+Every publish is gated by **`fplscout preflight`** — FPL legality (squad shape,
+3-per-club, budget), availability flags on starters, EV sanity, projection
+freshness, deadline clock. A FAIL blocks the publish (`--force` to override
+while debugging); run it standalone any time before trusting a recommendation.
+
+Season kickoff (the day the FPL API resets to 26/27 — a daily 9am scheduled
+check alerts on it) is one command, safe to re-run until it passes:
+
+```bash
+fplscout kickoff   # refresh -> project -> optimize -> preflight -> publish -> DO THIS
+```
+
+On schema drift (expected at reset) it stops with the exact runbook step;
+details in `ROADMAP_2627.md` §5. Once the mini-league exists, set `team_id`
+and `mini_league_id` in `config/settings.yaml` — refresh then also syncs rival
+squads/chips, and the site's League page (standings, ownership, differentials,
+our-model EV of every rival squad) plus chip usage tracking light up
+automatically. Pre-deadline snapshots of FPL's own `ep_next` accumulate in
+git-tracked `data/ep_next_archive.csv` (committed by the nightly deploy) until
+the archive is deep enough to become a model feature (backlog §7.1).

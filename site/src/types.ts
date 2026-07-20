@@ -1,20 +1,32 @@
-// Mirrors the plan's §8 API contract shapes exactly, as produced by
-// publish.py — so a future dynamic backend swap-in changes only the fetch
-// transport, not these types.
+// Mirrors the shapes produced by publish.py exactly — so a future dynamic
+// backend swap-in changes only the fetch transport, not these types.
+
+export type Position = 'GKP' | 'DEF' | 'MID' | 'FWD';
+
+/** Availability warning attached to a player when the API flags them. */
+export interface AvailabilityFlag {
+  status: string;
+  news: string | null;
+  chance: number | null;
+}
 
 export interface PlayerCard {
   code: number;
   name: string;
   team: string | null;
-  position: 'GKP' | 'DEF' | 'MID' | 'FWD';
+  position: Position;
   price: number | null;
   ev: number | null;
+  flag?: AvailabilityFlag;
+  pk?: boolean;
 }
 
 export interface Dashboard {
   gw: number;
   season: string;
   is_live: boolean;
+  /** 'live' | 'provisional' (pre-launch preview) | 'demo' */
+  state: string;
   deadline: string | null;
   avg_points: number | null;
   our_points: number | null;
@@ -25,7 +37,9 @@ export interface Dashboard {
     transfer_summary: string | null;
     captain: string | null;
   };
-  bench_order: { name: string; team: string | null; ev: number }[];
+  captain_code: number | null;
+  vice_captain_code: number | null;
+  bench_order: PlayerCard[];
   pitch: {
     gk: PlayerCard[];
     def: PlayerCard[];
@@ -64,6 +78,7 @@ export interface FixturesResponse {
   reference_gw: number;
   horizon: number;
   is_live: boolean;
+  state?: string;
   note: string | null;
   teams: {
     code: number;
@@ -95,6 +110,9 @@ export interface Rule {
   title: string;
   body: string;
   enabled: boolean;
+  /** absent = enforced by the pipeline; 'strategy' = playbook, not code */
+  kind?: string;
+  source?: string;
 }
 
 export interface SplitSummary {
@@ -109,12 +127,17 @@ export interface SplitSummary {
   naive_rmse: number;
 }
 
+export interface ChipUse {
+  chip: string;
+  gw: number;
+}
+
 export interface BacktestSeason {
   season: string;
   train_seasons: string[];
   total_points: number;
   total_hits: number;
-  chips_used: { gw: number; chip: string }[];
+  chips_used: ChipUse[];
   gw_scores: { gw: number; score: number; hits: number }[];
 }
 
@@ -132,11 +155,14 @@ export interface Analytics {
   } | null;
 }
 
+// ——— projections.json ———
+
 export interface PlayerProjection {
   code: number;
   name: string;
-  position: string;
+  position: Position;
   team: string | null;
+  price: number;
   ev_points: number;
   q10_points: number | null;
   q90_points: number | null;
@@ -145,4 +171,104 @@ export interface PlayerProjection {
   p_60_plus: number | null;
   p_clean_sheet: number | null;
   model_version: string;
+  flag?: AvailabilityFlag;
+  pk?: boolean;
+}
+
+export interface Projections {
+  season: string;
+  gw: number;
+  players: PlayerProjection[];
+}
+
+// ——— chips.json ———
+
+/** bboost weeks carry bench_ev; 3xc weeks carry name/extra_ev/q90. */
+export interface ChipThisWeek {
+  bench_ev?: number;
+  name?: string;
+  extra_ev?: number;
+  q90?: number;
+}
+
+export interface ChipInfo {
+  chip: string;
+  chip_id: number;
+  start_gw: number;
+  stop_gw: number;
+  available: boolean;
+  used_gw: number | null;
+  active_now: boolean;
+  this_week: ChipThisWeek | null;
+  guidance: string;
+}
+
+export interface RadarEntry {
+  gw: number;
+  dgw_teams: string[];
+  bgw_teams: string[];
+}
+
+export interface ChipsResponse {
+  season: string;
+  reference_gw: number;
+  configured: boolean;
+  note: string | null;
+  chips: ChipInfo[];
+  dgw_bgw_radar: RadarEntry[];
+  radar_note: string | null;
+}
+
+// ——— league.json ———
+
+export interface SquadPlayer extends PlayerCard {
+  /** 0 = benched, 1 = starts, 2 = captain (3 with triple captain) */
+  multiplier: number;
+  is_captain: boolean;
+}
+
+export interface LeagueEntry {
+  entry_id: number;
+  entry_name: string;
+  player_name: string;
+  rank: number;
+  last_rank: number;
+  total: number;
+  event_total: number;
+  is_us: boolean;
+  chips_used: ChipUse[];
+  bank: number | null;
+  team_value: number | null;
+  projected_next_ev: number | null;
+  captain: SquadPlayer | null;
+  squad: SquadPlayer[];
+}
+
+export interface OwnershipRow {
+  code: number;
+  name: string;
+  team: string | null;
+  position: Position;
+  price: number | null;
+  ev: number | null;
+  owned_by: string[];
+  n_owned: number;
+  n_captained: number;
+  we_own: boolean;
+}
+
+export interface LeagueResponse {
+  configured: boolean;
+  note?: string | null;
+  league?: { id: number; name: string; fetched_at: string };
+  our_entry_id?: number;
+  our_squad_source?: string;
+  picks_gw?: number;
+  projection_gw?: number;
+  standings?: LeagueEntry[];
+  ownership?: OwnershipRow[];
+  differentials?: {
+    our_edges: (PlayerCard & { n_owned: number })[];
+    threats: OwnershipRow[];
+  };
 }

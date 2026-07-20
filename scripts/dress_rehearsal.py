@@ -12,6 +12,7 @@ from pathlib import Path
 from fplscout import db, pipeline
 from fplscout.decide.optimizer import OptimizerInput, optimize
 from fplscout.features.build import write_features
+from fplscout.preflight import has_failures, render_findings, run_preflight
 from fplscout.report.weekly import render_weekly
 
 SRC = Path(sys.argv[1])
@@ -19,6 +20,14 @@ SCRATCH = Path(sys.argv[2])
 
 shutil.copyfile(SRC, SCRATCH)
 con = db.connect(SCRATCH)
+
+# the source DB may already carry a provisional/live 2026-27 (e.g. from
+# scripts/provisional_2627.py) — the rehearsal fabricates its own; start clean
+for table in (
+    "teams", "fixtures", "gameweeks", "player_season", "player_gw_history",
+    "features", "projections", "recommendations",
+):
+    con.execute(f"DELETE FROM {table} WHERE season = '2026-27'")
 
 # --- fabricate 2026-27 exactly as live_gw.sync_current_season would leave it ---
 con.execute("""
@@ -105,5 +114,11 @@ con.execute(
      result.captain, result.vice_captain],
 )
 print(render_weekly(con, season, gw))
+
+# the same gate `fplscout publish`/`kickoff` runs — a rehearsal that produces a
+# draft preflight would refuse is a failed rehearsal
+findings = run_preflight(con, season, gw)
+print(render_findings(findings), flush=True)
+assert not has_failures(findings), "preflight FAILed the rehearsal draft"
 con.close()
 print("DRESS REHEARSAL PASSED", flush=True)

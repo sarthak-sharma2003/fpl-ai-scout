@@ -1,32 +1,48 @@
 import type { PlayerCard } from '../types';
+import { FlagMark, PkMark, Roundel } from './ui';
 
-const POSITION_COLOR: Record<string, string> = {
-  GKP: 'text-amber-300',
-  DEF: 'text-sky-300',
-  MID: 'text-emerald-300',
-  FWD: 'text-rose-300',
+const POS_STRIPE: Record<string, string> = {
+  GKP: 'bg-gkp',
+  DEF: 'bg-def',
+  MID: 'bg-mid',
+  FWD: 'bg-fwd',
 };
 
-export default function PlayerChip({ player, captain = false }: { player: PlayerCard; captain?: boolean }) {
+/** A player card on the pitch: position stripe (the shirt), name, club·price,
+ * EV in the model's voice, armband roundel and flag/PK marks when present.
+ * Width comes from the wrapper so pitch rows and the bench can size it. */
+export default function PitchCard({
+  player,
+  badge,
+}: {
+  player: PlayerCard;
+  badge?: 'C' | 'V';
+}) {
   return (
-    <div className="flex flex-col items-center gap-1 rounded-xl bg-[var(--pitch-900)]/80 ring-1 ring-[var(--pitch-line)] px-2.5 py-2 min-w-[84px]">
-      <div className="flex items-center gap-1">
-        <span className={`text-[10px] font-bold uppercase ${POSITION_COLOR[player.position] ?? 'text-[var(--ink-300)]'}`}>
-          {player.position}
-        </span>
-        {captain && (
-          <span className="grid h-3.5 w-3.5 place-items-center rounded-full bg-amber-400 text-[8px] font-bold text-[var(--pitch-950)]">
-            C
-          </span>
-        )}
+    <div className="relative w-full">
+      {badge && (
+        <div className="absolute -right-1.5 -top-1.5 z-10">
+          <Roundel kind={badge} />
+        </div>
+      )}
+      <div className="flex flex-col items-center overflow-hidden rounded-md bg-pitch-950/85 ring-1 ring-white/10">
+        <div className={`h-[3px] w-full ${POS_STRIPE[player.position] ?? 'bg-ink-500'}`} />
+        <div className="w-full px-1 pb-1.5 pt-1 text-center">
+          <p className="truncate text-[11px] font-semibold leading-tight text-ink-100 md:text-xs">
+            {player.name}
+          </p>
+          <p className="font-mono text-[8px] uppercase tracking-wide text-ink-500 md:text-[9px]">
+            {player.team ?? '—'} · {player.price != null ? player.price.toFixed(1) : '—'}
+          </p>
+          <div className="mt-0.5 flex items-center justify-center gap-1">
+            <span className="font-display text-[17px] font-semibold leading-none text-volt">
+              {player.ev != null ? player.ev.toFixed(1) : '—'}
+            </span>
+            {player.flag && <FlagMark flag={player.flag} />}
+            {player.pk && <PkMark />}
+          </div>
+        </div>
       </div>
-      <span className="text-xs font-semibold text-[var(--ink-100)] text-center leading-tight">
-        {player.name}
-      </span>
-      <span className="text-[10px] text-[var(--ink-500)]">{player.team ?? '—'}</span>
-      <span className="text-xs font-semibold text-emerald-300 tabular-nums">
-        {player.ev != null ? player.ev.toFixed(1) : '—'}
-      </span>
     </div>
   );
 }

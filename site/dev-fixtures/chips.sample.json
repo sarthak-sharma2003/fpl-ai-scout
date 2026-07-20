@@ -1,0 +1,127 @@
+{
+ "season": "2026-27",
+ "reference_gw": 4,
+ "configured": true,
+ "note": null,
+ "chips": [
+  {
+   "chip": "wildcard",
+   "chip_id": 1,
+   "start_gw": 2,
+   "stop_gw": 19,
+   "available": false,
+   "used_gw": 3,
+   "active_now": true,
+   "this_week": null,
+   "guidance": "(see chips.json produced by fplscout publish for the real copy)"
+  },
+  {
+   "chip": "wildcard",
+   "chip_id": 2,
+   "start_gw": 20,
+   "stop_gw": 38,
+   "available": true,
+   "used_gw": null,
+   "active_now": false,
+   "this_week": null,
+   "guidance": "(see chips.json produced by fplscout publish for the real copy)"
+  },
+  {
+   "chip": "freehit",
+   "chip_id": 3,
+   "start_gw": 2,
+   "stop_gw": 19,
+   "available": true,
+   "used_gw": null,
+   "active_now": true,
+   "this_week": null,
+   "guidance": "(see chips.json produced by fplscout publish for the real copy)"
+  },
+  {
+   "chip": "freehit",
+   "chip_id": 4,
+   "start_gw": 20,
+   "stop_gw": 38,
+   "available": true,
+   "used_gw": null,
+   "active_now": false,
+   "this_week": null,
+   "guidance": "(see chips.json produced by fplscout publish for the real copy)"
+  },
+  {
+   "chip": "bboost",
+   "chip_id": 5,
+   "start_gw": 1,
+   "stop_gw": 19,
+   "available": true,
+   "used_gw": null,
+   "active_now": true,
+   "this_week": {
+    "bench_ev": 8.9
+   },
+   "guidance": "(see chips.json produced by fplscout publish for the real copy)"
+  },
+  {
+   "chip": "bboost",
+   "chip_id": 6,
+   "start_gw": 20,
+   "stop_gw": 38,
+   "available": true,
+   "used_gw": null,
+   "active_now": false,
+   "this_week": {
+    "bench_ev": 8.9
+   },
+   "guidance": "(see chips.json produced by fplscout publish for the real copy)"
+  },
+  {
+   "chip": "3xc",
+   "chip_id": 7,
+   "start_gw": 1,
+   "stop_gw": 19,
+   "available": true,
+   "used_gw": null,
+   "active_now": true,
+   "this_week": {
+    "name": "Haaland",
+    "extra_ev": 8.29,
+    "q90": 13.85
+   },
+   "guidance": "(see chips.json produced by fplscout publish for the real copy)"
+  },
+  {
+   "chip": "3xc",
+   "chip_id": 8,
+   "start_gw": 20,
+   "stop_gw": 38,
+   "available": true,
+   "used_gw": null,
+   "active_now": false,
+   "this_week": {
+    "name": "Haaland",
+    "extra_ev": 8.29,
+    "q90": 13.85
+   },
+   "guidance": "(see chips.json produced by fplscout publish for the real copy)"
+  }
+ ],
+ "dgw_bgw_radar": [
+  {
+   "gw": 7,
+   "dgw_teams": [
+    "ARS",
+    "MCI"
+   ],
+   "bgw_teams": []
+  },
+  {
+   "gw": 12,
+   "dgw_teams": [],
+   "bgw_teams": [
+    "CHE",
+    "EVE"
+   ]
+  }
+ ],
+ "radar_note": "Doubles/blanks emerge from postponements during the season."
+}
