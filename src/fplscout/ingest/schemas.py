@@ -625,3 +625,68 @@ class Transfer(BaseModel):
     entry: int
     event: int
     time: datetime
+
+
+# ---------------------------------------------------------------------------
+# leagues-classic/{league_id}/standings/ — mini-league rival intel
+# ---------------------------------------------------------------------------
+
+
+class LeagueInfo(BaseModel):
+    model_config = STRICT
+
+    id: int
+    name: str
+    created: str
+    closed: bool
+    max_entries: int | None = None
+    league_type: str
+    scoring: str
+    admin_entry: int | None = None
+    start_event: int
+    code_privacy: str
+    has_cup: bool
+    cup_league: int | None = None
+    rank: int | None = None
+
+
+class LeagueStandingRow(BaseModel):
+    model_config = STRICT
+
+    id: int
+    event_total: int
+    player_name: str
+    rank: int
+    last_rank: int
+    rank_sort: int
+    total: int
+    entry: int
+    entry_name: str
+    has_played: bool
+    club_badge_src: str | None = None
+
+
+class LeagueStandingsPage(BaseModel):
+    model_config = STRICT
+
+    has_next: bool
+    page: int
+    results: list[LeagueStandingRow]
+
+
+class LeagueNewEntries(BaseModel):
+    # never consumed; shape churns with FPL's invite flow — don't let it break syncs
+    model_config = LENIENT
+
+    has_next: bool
+    page: int
+    results: list[dict] = []
+
+
+class LeagueStandings(BaseModel):
+    model_config = STRICT
+
+    new_entries: LeagueNewEntries
+    last_updated_data: datetime | None = None
+    league: LeagueInfo
+    standings: LeagueStandingsPage

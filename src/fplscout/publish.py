@@ -45,7 +45,8 @@ def _reference_frame(con: duckdb.DuckDBPyConnection, season: str, gw: int) -> pd
         SELECT
             r.code, p.web_name, r.position, r.team_id, t.short_name AS team_short,
             r.price, l.ev_points, l.q10_points, l.q90_points, l.ev_minutes,
-            l.p_appearance, l.p_60_plus, l.p_clean_sheet, l.model_version
+            l.p_appearance, l.p_60_plus, l.p_clean_sheet, l.model_version,
+            p.status, p.news, p.chance_of_playing_next_round, p.penalties_order
         FROM (SELECT DISTINCT code, position, team_id, price FROM (
                 SELECT f.code, f.position, f.team_id, f.value AS price,
                        ROW_NUMBER() OVER (PARTITION BY f.code ORDER BY f.fixture_id) AS rn2
@@ -66,7 +67,7 @@ def _round_or_none(value, digits: int) -> float | None:
 
 
 def _player_card(row: pd.Series) -> dict:
-    return {
+    card = {
         "code": int(row["code"]),
         "name": row["web_name"],
         "team": row.get("team_short"),
@@ -74,6 +75,20 @@ def _player_card(row: pd.Series) -> dict:
         "price": round(row["price"] / 10, 1) if pd.notna(row["price"]) else None,
         "ev": round(row["ev_points"], 2) if pd.notna(row["ev_points"]) else None,
     }
+    # availability/penalty flags, only when noteworthy (keeps cards lean)
+    status = row.get("status")
+    if pd.notna(status) and status != "a":
+        card["flag"] = {
+            "status": status,
+            "news": row["news"] if pd.notna(row.get("news")) else None,
+            "chance": (
+                int(row["chance_of_playing_next_round"])
+                if pd.notna(row.get("chance_of_playing_next_round")) else None
+            ),
+        }
+    if pd.notna(row.get("penalties_order")) and row.get("penalties_order") == 1:
+        card["pk"] = True
+    return card
 
 
 def _is_live(con: duckdb.DuckDBPyConnection, season: str, gw: int) -> bool:
@@ -167,7 +182,7 @@ def build_dashboard(con: duckdb.DuckDBPyConnection, season: str, gw: int) -> dic
     bench_gk = bench[bench["position"] == "GKP"]
     bench_outfield = bench[bench["position"] != "GKP"].sort_values("ev_points", ascending=False)
     bench_order = [
-        {"name": r["web_name"], "team": r["team_short"], "ev": round(r["ev_points"], 2)}
+        _player_card(r)
         for _, r in pd.concat([bench_outfield, bench_gk]).iterrows()
         if pd.notna(r["ev_points"])
     ]
@@ -199,6 +214,10 @@ def build_dashboard(con: duckdb.DuckDBPyConnection, season: str, gw: int) -> dic
             "transfer_summary": f"{hits} hit(s) taken" if hits else "No hits taken",
             "captain": captain_row["web_name"] if captain_row is not None else None,
         },
+        "captain_code": int(captain_code) if pd.notna(captain_code) else None,
+        "vice_captain_code": (
+            int(rec["vice_captain_code"][0]) if pd.notna(rec["vice_captain_code"][0]) else None
+        ),
         "bench_order": bench_order,
         "pitch": pitch,
     }
@@ -380,15 +399,375 @@ def build_signals(con: duckdb.DuckDBPyConnection, season: str, gw: int) -> dict:
     }
 
 
+CHIP_GUIDANCE = {
+    "wildcard": (
+        "Rebuilds the whole squad; value scales with how many dead spots you have. "
+        "Elite pattern: first wildcard GW4-9 once real form separates from summer "
+        "prices, second around the season's fixture swings. Don't burn it to fix "
+        "one player — that's what transfers are for."
+    ),
+    "freehit": (
+        "One-week loan squad. Save it for the biggest blank gameweek (most teams "
+        "without a fixture) or a freak double you can't otherwise exploit; typical "
+        "value 10-25 pts over a patched squad. Firing it on an ordinary week wastes "
+        "almost all of that."
+    ),
+    "bboost": (
+        "Scores your bench for one week. Play it on a double gameweek where all "
+        "four bench players have two fixtures — a well-set BB returns 15-25 pts. "
+        "The optimizer's bench EV below is the honest this-week number; compare it "
+        "against that 15+ bar before burning the chip."
+    ),
+    "3xc": (
+        "One extra captain multiple. Best case: a premium captain with two friendly "
+        "fixtures in a double gameweek (uplift = one full extra captain score). The "
+        "this-week number below is exactly what you'd gain over a normal armband."
+    ),
+    "manager": (
+        "Assistant-manager chip (if this season runs it): follow the API window; "
+        "value hinges on that season's specific scoring rules — check before using."
+    ),
+}
+
+
+def build_chips(
+    con: duckdb.DuckDBPyConnection,
+    season: str,
+    gw: int,
+    our_entry_id: int | None = None,
+    horizon: int = 12,
+) -> dict:
+    """Chip windows (live from the API, never hardcoded), our usage state, the
+    honest this-week observables per chip, and the DGW/BGW radar the timing
+    decisions actually hinge on. Wildcard/free-hit deltas need an in-season
+    prior squad (squad_state) — until then they're presented as guidance only."""
+    windows = con.execute(
+        "SELECT chip_id, chip, number, start_event, stop_event FROM chip_windows "
+        "WHERE season = ? ORDER BY chip, start_event",
+        [season],
+    ).df()
+
+    used_by_window: dict[int, int] = {}
+    if our_entry_id is not None and len(windows):
+        used = con.execute(
+            "SELECT gw, active_chip FROM rival_gw "
+            "WHERE season = ? AND entry_id = ? AND active_chip IS NOT NULL",
+            [season, our_entry_id],
+        ).fetchall()
+        for used_gw, chip_name in used:
+            match = windows[
+                (windows["chip"] == chip_name)
+                & (windows["start_event"] <= used_gw)
+                & (windows["stop_event"] >= used_gw)
+            ]
+            if len(match):
+                used_by_window[int(match["chip_id"].iloc[0])] = used_gw
+
+    # this-week observables from the latest recommendation
+    ref = _reference_frame(con, season, gw)
+    ref_by_code = ref.set_index("code", drop=False)
+    rec = con.execute(
+        "SELECT squad, starting_xi, captain_code FROM recommendations "
+        "WHERE season = ? AND gw = ? ORDER BY generated_at DESC LIMIT 1",
+        [season, gw],
+    ).fetchone()
+    bench_ev = captain_card = None
+    if rec is not None:
+        squad, xi, captain = set(json.loads(rec[0])), set(json.loads(rec[1])), rec[2]
+        bench = ref_by_code[ref_by_code["code"].isin(squad - xi)]
+        if bench["ev_points"].notna().any():
+            bench_ev = round(float(bench["ev_points"].sum(skipna=True)), 1)
+        if captain is not None and captain in ref_by_code.index:
+            cap = ref_by_code.loc[captain]
+            captain_card = {
+                "name": cap["web_name"],
+                "extra_ev": _round_or_none(cap["ev_points"], 1),
+                "q90": _round_or_none(cap["q90_points"], 1),
+            }
+
+    this_week = {
+        "bboost": {"bench_ev": bench_ev},
+        "3xc": captain_card,
+        "wildcard": None,  # needs an in-season prior squad to price a delta
+        "freehit": None,
+    }
+
+    chips_out = []
+    for _, w in windows.iterrows():
+        chip_id = int(w["chip_id"])
+        chips_out.append({
+            "chip": w["chip"],
+            "chip_id": chip_id,
+            "start_gw": int(w["start_event"]) if pd.notna(w["start_event"]) else None,
+            "stop_gw": int(w["stop_event"]) if pd.notna(w["stop_event"]) else None,
+            "available": chip_id not in used_by_window,
+            "used_gw": used_by_window.get(chip_id),
+            "active_now": (
+                pd.notna(w["start_event"]) and pd.notna(w["stop_event"])
+                and int(w["start_event"]) <= gw <= int(w["stop_event"])
+            ),
+            "this_week": this_week.get(w["chip"]),
+            "guidance": CHIP_GUIDANCE.get(w["chip"], ""),
+        })
+
+    # DGW/BGW radar over the upcoming horizon — the thing chip timing hinges on
+    all_teams = con.execute(
+        "SELECT team_id, short_name FROM teams WHERE season = ?", [season]
+    ).df()
+    short_by_id = dict(zip(all_teams["team_id"], all_teams["short_name"], strict=False))
+    counts = con.execute(
+        """
+        SELECT event AS gw, team_id, COUNT(*) AS n FROM (
+            SELECT event, team_h AS team_id FROM fixtures WHERE season = ?
+            UNION ALL
+            SELECT event, team_a AS team_id FROM fixtures WHERE season = ?
+        ) GROUP BY event, team_id
+        """,
+        [season, season],
+    ).df()
+    radar = []
+    for g in range(gw, gw + horizon):
+        gw_counts = counts[counts["gw"] == g]
+        if len(gw_counts) == 0:
+            continue  # beyond the loaded calendar
+        dgw = sorted(
+            short_by_id.get(t, str(t))
+            for t in gw_counts.loc[gw_counts["n"] >= 2, "team_id"]
+        )
+        bgw = sorted(
+            short_by_id.get(t, str(t))
+            for t in set(short_by_id) - set(gw_counts["team_id"])
+        )
+        if dgw or bgw:
+            radar.append({"gw": g, "dgw_teams": dgw, "bgw_teams": bgw})
+
+    return {
+        "season": season,
+        "reference_gw": gw,
+        "configured": bool(len(windows)),
+        "note": (
+            None if len(windows) else
+            "Chip windows sync from the live API at refresh — populated once the "
+            "season's bootstrap is ingested."
+        ),
+        "chips": chips_out,
+        "dgw_bgw_radar": radar,
+        "radar_note": (
+            "Doubles/blanks emerge from postponements during the season — an empty "
+            "radar early on is normal. Chip weeks are usually decided by this table."
+        ),
+    }
+
+
+def build_league(
+    con: duckdb.DuckDBPyConnection, season: str, gw: int, our_entry_id: int | None = None
+) -> dict:
+    """Mini-league rival intel: standings, each rival's squad scored with OUR
+    model's EV for the upcoming reference gw, chip usage, and the coverage/
+    differential picture vs. our squad. Approximation stated in-line: rival
+    squads are their last post-deadline picks — their upcoming transfers are
+    unknowable pre-deadline."""
+    standings = con.execute(
+        "SELECT * FROM league_standings ORDER BY rank"
+    ).df()
+    if len(standings) == 0:
+        return {
+            "configured": False,
+            "note": (
+                "No mini-league synced. Set mini_league_id in config/settings.yaml "
+                "(the number in the league's FPL URL) and run `fplscout refresh`."
+            ),
+        }
+
+    picks_gw_row = con.execute(
+        "SELECT MAX(gw) FROM rival_picks WHERE season = ?", [season]
+    ).fetchone()
+    picks_gw = picks_gw_row[0] if picks_gw_row else None
+
+    ev = con.execute(
+        """
+        WITH latest AS (
+            SELECT *, ROW_NUMBER() OVER (PARTITION BY code ORDER BY generated_at DESC) AS rn
+            FROM projections WHERE season = ? AND gw = ?
+        )
+        SELECT l.code, l.ev_points, p.web_name, ps.position, ps.team_id, ps.value,
+               t.short_name AS team_short
+        FROM latest l
+        JOIN players p ON p.code = l.code
+        LEFT JOIN (
+            SELECT DISTINCT code, position, team_id, value FROM (
+                SELECT code, position, team_id, value,
+                       ROW_NUMBER() OVER (PARTITION BY code ORDER BY fixture_id) AS rn2
+                FROM features WHERE season = ? AND gw = ?
+            ) WHERE rn2 = 1
+        ) ps ON ps.code = l.code
+        LEFT JOIN teams t ON t.season = ? AND t.team_id = ps.team_id
+        WHERE l.rn = 1
+        """,
+        [season, gw, season, gw, season],
+    ).df().set_index("code", drop=False)
+
+    def card(code: int) -> dict:
+        if code not in ev.index:
+            return {"code": int(code) if pd.notna(code) else None, "name": None,
+                    "team": None, "position": None, "price": None, "ev": None}
+        r = ev.loc[code]
+        return {
+            "code": int(code), "name": r["web_name"], "team": r["team_short"],
+            "position": r["position"],
+            "price": round(r["value"] / 10, 1) if pd.notna(r["value"]) else None,
+            "ev": _round_or_none(r["ev_points"], 2),
+        }
+
+    chips = con.execute(
+        "SELECT entry_id, gw, active_chip FROM rival_gw "
+        "WHERE season = ? AND active_chip IS NOT NULL ORDER BY gw",
+        [season],
+    ).df()
+    latest_state = con.execute(
+        "SELECT entry_id, bank, team_value FROM rival_gw WHERE season = ? AND gw = "
+        "(SELECT MAX(gw) FROM rival_gw WHERE season = ?)",
+        [season, season],
+    ).df().set_index("entry_id") if picks_gw else pd.DataFrame()
+
+    picks = con.execute(
+        "SELECT entry_id, code, multiplier, is_captain FROM rival_picks "
+        "WHERE season = ? AND gw = ?",
+        [season, picks_gw],
+    ).df() if picks_gw else pd.DataFrame(columns=["entry_id", "code", "multiplier", "is_captain"])
+
+    # our squad: real synced picks when our entry is in the league; otherwise the
+    # latest recommendation (pre-launch preview / not-yet-configured fallback)
+    our_codes: set[int] = set()
+    ours_source = None
+    if our_entry_id is not None and picks_gw and (picks["entry_id"] == our_entry_id).any():
+        our_codes = set(picks.loc[picks["entry_id"] == our_entry_id, "code"].dropna().astype(int))
+        ours_source = "synced picks"
+    else:
+        rec = con.execute(
+            "SELECT squad FROM recommendations WHERE season = ? AND gw = ? "
+            "ORDER BY generated_at DESC LIMIT 1",
+            [season, gw],
+        ).fetchone()
+        if rec:
+            our_codes = set(json.loads(rec[0]))
+            ours_source = "latest recommendation"
+
+    out_standings = []
+    for _, s in standings.iterrows():
+        entry_id = int(s["entry_id"])
+        entry_picks = picks[picks["entry_id"] == entry_id] if picks_gw else pd.DataFrame()
+        squad_cards, captain_card, next_ev = [], None, None
+        if len(entry_picks):
+            next_ev = 0.0
+            for _, p in entry_picks.iterrows():
+                c = card(p["code"]) if pd.notna(p["code"]) else card(-1)
+                c["multiplier"] = int(p["multiplier"])
+                c["is_captain"] = bool(p["is_captain"])
+                squad_cards.append(c)
+                if p["is_captain"]:
+                    captain_card = c
+                if p["multiplier"] >= 1 and c["ev"] is not None:
+                    next_ev += c["ev"] * (2 if p["is_captain"] else 1)
+            next_ev = round(next_ev, 1)
+        entry_chips = chips[chips["entry_id"] == entry_id]
+        out_standings.append({
+            "entry_id": entry_id,
+            "entry_name": s["entry_name"],
+            "player_name": s["player_name"],
+            "rank": int(s["rank"]) if pd.notna(s["rank"]) else None,
+            "last_rank": int(s["last_rank"]) if pd.notna(s["last_rank"]) else None,
+            "total": int(s["total"]) if pd.notna(s["total"]) else None,
+            "event_total": int(s["event_total"]) if pd.notna(s["event_total"]) else None,
+            "is_us": our_entry_id is not None and entry_id == our_entry_id,
+            "chips_used": [
+                {"chip": c["active_chip"], "gw": int(c["gw"])} for _, c in entry_chips.iterrows()
+            ],
+            "bank": (
+                round(latest_state.loc[entry_id, "bank"] / 10, 1)
+                if len(latest_state) and entry_id in latest_state.index
+                and pd.notna(latest_state.loc[entry_id, "bank"]) else None
+            ),
+            "team_value": (
+                round(latest_state.loc[entry_id, "team_value"] / 10, 1)
+                if len(latest_state) and entry_id in latest_state.index
+                and pd.notna(latest_state.loc[entry_id, "team_value"]) else None
+            ),
+            "projected_next_ev": next_ev,
+            "captain": captain_card,
+            "squad": squad_cards,
+        })
+
+    ownership, differentials = [], {"our_edges": [], "threats": []}
+    if picks_gw:
+        rival_picks_only = picks[picks["entry_id"] != our_entry_id] if our_entry_id else picks
+        n_rivals = rival_picks_only["entry_id"].nunique()
+        name_by_entry = dict(
+            zip(standings["entry_id"].astype(int), standings["entry_name"], strict=False)
+        )
+        grouped = rival_picks_only.dropna(subset=["code"]).groupby("code")
+        for code, g in grouped:
+            code = int(code)
+            c = card(code)
+            c.update({
+                "owned_by": sorted(name_by_entry.get(int(e), str(e)) for e in g["entry_id"]),
+                "n_owned": int(g["entry_id"].nunique()),
+                "n_captained": int(g["is_captain"].sum()),
+                "we_own": code in our_codes,
+            })
+            ownership.append(c)
+        ownership.sort(key=lambda c: (-c["n_owned"], -(c["ev"] or 0)))
+
+        owned_count = {c["code"]: c["n_owned"] for c in ownership}
+        our_cards = [card(code) for code in our_codes]
+        differentials["our_edges"] = sorted(
+            [
+                {**c, "n_owned": owned_count.get(c["code"], 0)}
+                for c in our_cards
+                if owned_count.get(c["code"], 0) <= max(1, n_rivals // 4)
+            ],
+            key=lambda c: -(c["ev"] or 0),
+        )[:8]
+        differentials["threats"] = [
+            c for c in ownership
+            if not c["we_own"] and c["n_owned"] >= 2
+        ][:8]
+
+    return {
+        "configured": True,
+        "note": (
+            None if picks_gw else
+            "League synced but no post-deadline picks exist yet — squads, ownership "
+            "and differentials appear after GW1's deadline."
+        ),
+        "league": {
+            "id": int(standings["league_id"].iloc[0]),
+            "name": standings["league_name"].iloc[0],
+            "fetched_at": str(standings["fetched_at"].iloc[0]),
+        },
+        "our_entry_id": our_entry_id,
+        "our_squad_source": ours_source,
+        "picks_gw": picks_gw,
+        "projection_gw": gw,
+        "standings": out_standings,
+        "ownership": ownership[:60],
+        "differentials": differentials,
+    }
+
+
 def build_rules(rules_path: Path) -> list[dict]:
     data = yaml.safe_load(rules_path.read_text()) or {"rules": []}
-    return [
-        {
+    out = []
+    for r in data.get("rules", []):
+        item = {
             "id": r["id"], "title": r["title"], "body": r["body"].strip(),
             "enabled": r.get("enabled", True),
         }
-        for r in data.get("rules", [])
-    ]
+        for optional in ("source", "kind"):
+            if r.get(optional):
+                item[optional] = r[optional]
+        out.append(item)
+    return out
 
 
 def build_analytics(reports_dir: Path, model_version: str | None) -> dict:
@@ -412,9 +791,10 @@ def build_player_projections(ref: pd.DataFrame) -> dict[int, dict]:
     for _, r in ref.iterrows():
         if pd.isna(r["ev_points"]):
             continue
-        out[int(r["code"])] = {
+        entry = {
             "code": int(r["code"]), "name": r["web_name"], "position": r["position"],
             "team": r["team_short"],
+            "price": round(r["price"] / 10, 1) if pd.notna(r["price"]) else None,
             "ev_points": round(r["ev_points"], 2),
             "q10_points": round(r["q10_points"], 2) if pd.notna(r["q10_points"]) else None,
             "q90_points": round(r["q90_points"], 2) if pd.notna(r["q90_points"]) else None,
@@ -424,6 +804,18 @@ def build_player_projections(ref: pd.DataFrame) -> dict[int, dict]:
             "p_clean_sheet": round(r["p_clean_sheet"], 3) if pd.notna(r["p_clean_sheet"]) else None,
             "model_version": r["model_version"],
         }
+        if pd.notna(r.get("status")) and r["status"] != "a":
+            entry["flag"] = {
+                "status": r["status"],
+                "news": r["news"] if pd.notna(r.get("news")) else None,
+                "chance": (
+                    int(r["chance_of_playing_next_round"])
+                    if pd.notna(r.get("chance_of_playing_next_round")) else None
+                ),
+            }
+        if pd.notna(r.get("penalties_order")) and r["penalties_order"] == 1:
+            entry["pk"] = True
+        out[int(r["code"])] = entry
     return out
 
 
@@ -432,6 +824,7 @@ def publish_all(
     site_data_dir: Path,
     reports_dir: Path,
     rules_path: Path,
+    our_entry_id: int | None = None,
 ) -> dict[str, int]:
     """Writes every §8-shaped JSON file to site_data_dir. Returns a summary
     dict of {filename: bytes_written} for the CLI to echo."""
@@ -449,6 +842,8 @@ def publish_all(
         "transfers.json": build_transfers(con, season, gw),
         "fixtures.json": build_fixtures(con, season, gw),
         "signals.json": build_signals(con, season, gw),
+        "chips.json": build_chips(con, season, gw, our_entry_id=our_entry_id),
+        "league.json": build_league(con, season, gw, our_entry_id=our_entry_id),
         "rules.json": build_rules(rules_path),
         "analytics.json": build_analytics(reports_dir, model_version),
     }
@@ -465,5 +860,13 @@ def publish_all(
         text = json.dumps(payload, indent=2)
         (players_dir / f"{code}.json").write_text(text)
     written["players/*.json"] = len(player_projections)
+
+    # the whole table in one file for the sortable player-explorer page
+    table = sorted(
+        player_projections.values(), key=lambda p: -(p["ev_points"] or 0)
+    )
+    text = json.dumps({"season": season, "gw": gw, "players": table}, indent=2)
+    (site_data_dir / "projections.json").write_text(text)
+    written["projections.json"] = len(text)
 
     return written

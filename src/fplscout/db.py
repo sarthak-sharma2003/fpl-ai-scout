@@ -292,6 +292,65 @@ CREATE TABLE IF NOT EXISTS recommendations (
 -- legitimately reintroduced as a model feature — something vaastav's data can
 -- never support no matter how it's post-processed, since the timing problem is
 -- in how it was collected, not how it's used afterward.
+-- Chip validity windows from bootstrap-static's `chips` array, replaced per
+-- season on every refresh — never hardcoded (25/26 already proved the windows
+-- shift: BB/TC from GW1, WC/FH from GW2, everything duplicated across halves).
+CREATE TABLE IF NOT EXISTS chip_windows (
+    season TEXT NOT NULL,
+    chip_id INTEGER NOT NULL,
+    chip TEXT NOT NULL,
+    number INTEGER,
+    start_event INTEGER,
+    stop_event INTEGER,
+    chip_type TEXT,
+    PRIMARY KEY (season, chip_id)
+);
+
+-- Mini-league rival intel (synced by ingest/league.py when mini_league_id is
+-- configured in settings; read by publish.build_league). One standings row per
+-- (league, entry), replaced wholesale each sync; rival_gw/rival_picks
+-- accumulate per gameweek as results land.
+CREATE TABLE IF NOT EXISTS league_standings (
+    league_id INTEGER NOT NULL,
+    entry_id INTEGER NOT NULL,
+    league_name TEXT,
+    entry_name TEXT,
+    player_name TEXT,
+    rank INTEGER,
+    last_rank INTEGER,
+    total INTEGER,
+    event_total INTEGER,
+    fetched_at TIMESTAMP,
+    PRIMARY KEY (league_id, entry_id)
+);
+
+CREATE TABLE IF NOT EXISTS rival_gw (
+    season TEXT NOT NULL,
+    gw INTEGER NOT NULL,
+    entry_id INTEGER NOT NULL,
+    points INTEGER,
+    total_points INTEGER,
+    bank INTEGER,
+    team_value INTEGER,
+    event_transfers_cost INTEGER,
+    points_on_bench INTEGER,
+    active_chip TEXT,
+    PRIMARY KEY (season, gw, entry_id)
+);
+
+CREATE TABLE IF NOT EXISTS rival_picks (
+    season TEXT NOT NULL,
+    gw INTEGER NOT NULL,
+    entry_id INTEGER NOT NULL,
+    element_id INTEGER NOT NULL,
+    code BIGINT,
+    pick_position INTEGER,
+    multiplier INTEGER,
+    is_captain BOOLEAN,
+    is_vice_captain BOOLEAN,
+    PRIMARY KEY (season, gw, entry_id, element_id)
+);
+
 CREATE TABLE IF NOT EXISTS ep_next_archive (
     snapshot_time TIMESTAMP NOT NULL,
     code BIGINT NOT NULL,
@@ -315,6 +374,10 @@ TABLES = [
     "our_transfers",
     "projections",
     "recommendations",
+    "chip_windows",
+    "league_standings",
+    "rival_gw",
+    "rival_picks",
     "ep_next_archive",
 ]
 

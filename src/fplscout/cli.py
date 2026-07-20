@@ -1,8 +1,8 @@
-"""fplscout CLI entrypoints: refresh | train | backtest | project | optimize | publish | report.
+"""fplscout CLI entrypoints:
+refresh | train | backtest | project | optimize | preflight | publish | report | kickoff.
 
-Only `refresh` is implemented (Phase 0: live-API schema check + raw snapshot; Phase 1:
-DuckDB population from vaastav historical data). The rest are stubs that name the
-phase that implements them, so `--help` always reflects the true state of the build.
+`kickoff` is the season-reset / full-chain one-shot; `report` is the weekly op;
+`preflight` is the sanity gate both run before anything is trusted or published.
 """
 
 from __future__ import annotations
@@ -15,9 +15,13 @@ import yaml
 
 from fplscout import db
 from fplscout.features.build import write_features
-from fplscout.ingest import live_gw, vaastav
+from fplscout.ingest import league, live_gw, vaastav
 from fplscout.ingest.fpl_api import FplApiClient
-from fplscout.ingest.health import archive_ep_next, check_ep_next_health
+from fplscout.ingest.health import (
+    archive_ep_next,
+    check_ep_next_health,
+    sync_ep_next_archive_csv,
+)
 from fplscout.ingest.vaastav import SEASONS as VAASTAV_SEASONS
 
 app = typer.Typer(no_args_is_help=True, add_completion=False)
@@ -51,6 +55,21 @@ def _sync_gameweeks(con, bootstrap, season: str) -> int:
         rows,
     )
     return len(rows)
+
+
+def _sync_chip_windows(con, bootstrap, season: str) -> int:
+    """Replace the season's chip validity windows from bootstrap.chips — read
+    live, never hardcoded (windows shifted at the 25/26 reset and can again)."""
+    con.execute("DELETE FROM chip_windows WHERE season = ?", [season])
+    con.executemany(
+        "INSERT INTO chip_windows (season, chip_id, chip, number, start_event, "
+        "stop_event, chip_type) VALUES (?, ?, ?, ?, ?, ?, ?)",
+        [
+            (season, c.id, c.name, c.number, c.start_event, c.stop_event, c.chip_type)
+            for c in bootstrap.chips
+        ],
+    )
+    return len(bootstrap.chips)
 
 
 def _sync_player_status(con, bootstrap) -> int:
@@ -142,10 +161,14 @@ def refresh(
 
         n_archived = archive_ep_next(con, bootstrap)
         typer.echo(f"  archived {n_archived} ep_next values to ep_next_archive")
+        n_total = sync_ep_next_archive_csv(con, REPO_ROOT / "data" / "ep_next_archive.csv")
+        typer.echo(f"  ep_next archive ↔ data/ep_next_archive.csv ({n_total} rows total)")
 
         current_season = live_gw.derive_current_season(bootstrap)
         n_gws = _sync_gameweeks(con, bootstrap, current_season)
         typer.echo(f"  synced {n_gws} gameweeks for {current_season}")
+        n_chips = _sync_chip_windows(con, bootstrap, current_season)
+        typer.echo(f"  synced {n_chips} chip windows for {current_season}")
 
         if raw:
             sample_player_id = bootstrap.elements[0].id
@@ -180,6 +203,19 @@ def refresh(
                 f"  {live_summary['season']}: {live_summary['teams']} teams, "
                 f"{live_summary['fixtures']} fixtures, {live_summary['players']} players, "
                 f"{live_summary['gw_rows']} player-gw rows"
+            )
+
+        mini_league_id = settings.get("mini_league_id")
+        if mini_league_id:
+            typer.echo(f"Syncing mini-league {mini_league_id} rival intel...")
+            element_to_code = {e.id: e.code for e in bootstrap.elements}
+            league_summary = league.sync_league(
+                con, client, mini_league_id, current_season, element_to_code
+            )
+            typer.echo(
+                f"  {league_summary['entries']} entries, "
+                f"{league_summary['gw_rows']} gw rows, "
+                f"{league_summary['pick_rows']} pick rows"
             )
 
     typer.echo("Loading historical data (vaastav/Fantasy-Premier-League)...")
@@ -418,18 +454,91 @@ def optimize(settings_path: Path = typer.Option(DEFAULT_SETTINGS_PATH, "--settin
 
 
 @app.command()
-def publish(settings_path: Path = typer.Option(DEFAULT_SETTINGS_PATH, "--settings")) -> None:
+def preflight(settings_path: Path = typer.Option(DEFAULT_SETTINGS_PATH, "--settings")) -> None:
+    """Sanity-gate the latest recommendation: FPL legality (squad shape, 3-per-
+    club, budget), availability flags on starters, EV sanity, projection
+    freshness, deadline clock. Exit 1 on any FAIL — wire this before trusting
+    any deadline decision. `publish` runs it automatically."""
+    from fplscout import pipeline
+    from fplscout.preflight import has_failures, render_findings, run_preflight
+
+    settings = load_settings(settings_path)
+    con = db.connect(REPO_ROOT / settings["paths"]["duckdb"])
+    season, gw = pipeline.latest_reference_point(con)
+    findings = run_preflight(con, season, gw)
+    con.close()
+    typer.echo(f"Preflight for {season} GW{gw}:")
+    typer.echo(render_findings(findings))
+    if has_failures(findings):
+        raise typer.Exit(code=1)
+
+
+@app.command()
+def kickoff(
+    settings_path: Path = typer.Option(DEFAULT_SETTINGS_PATH, "--settings"),
+    skip_refresh: bool = typer.Option(
+        False, "--skip-refresh", help="Re-run the decision chain on already-refreshed data."
+    ),
+) -> None:
+    """Season-kickoff / full-chain one-shot (ROADMAP §5): refresh → project →
+    optimize → preflight → publish → DO THIS sheet, with loud guidance when the
+    26/27 API reset breaks the schema. Safe to re-run until it passes."""
+    from fplscout.ingest.fpl_api import SchemaDriftError
+
+    if not skip_refresh:
+        try:
+            refresh(settings_path=settings_path)
+        except SchemaDriftError as exc:
+            typer.echo("\n" + "=" * 72)
+            typer.echo("SCHEMA DRIFT — the API reset changed shape (this loudness is by design).")
+            typer.echo(f"  {exc}")
+            typer.echo(
+                "Runbook (ROADMAP_2627.md §5 step 2): update the failing model in\n"
+                "ingest/schemas.py, re-record the matching tests/fixtures/*.json from\n"
+                "the live API, keep extra='forbid', get `pytest -q` green, then re-run\n"
+                "`fplscout kickoff`."
+            )
+            typer.echo("=" * 72)
+            raise typer.Exit(code=1) from exc
+
+    project(settings_path=settings_path)
+    optimize(settings_path=settings_path)
+    preflight(settings_path=settings_path)  # exits 1 on FAIL, stopping before publish
+    publish(settings_path=settings_path)
+    report(settings_path=settings_path, skip_pipeline=True)
+    typer.echo("\nKICKOFF COMPLETE — preflight passed; the DO THIS sheet above is the draft.")
+
+
+@app.command()
+def publish(
+    settings_path: Path = typer.Option(DEFAULT_SETTINGS_PATH, "--settings"),
+    force: bool = typer.Option(
+        False, "--force", help="Publish even if preflight finds FAILs (debugging only)."
+    ),
+) -> None:
     """Render every §8 API-contract response to static JSON under
     site/public/data/ (served at /data/*.json by the Vite app, dev and build
     alike) — the fully-static GitHub Pages deploy (no backend server in
     production; see README's static-site pivot). Requires `project` and
-    `optimize` to have run first.
+    `optimize` to have run first. Refuses to publish a recommendation that
+    fails preflight unless --force.
     """
+    from fplscout import pipeline
+    from fplscout.preflight import has_failures, render_findings, run_preflight
     from fplscout.publish import publish_all
 
     settings = load_settings(settings_path)
     duckdb_path = REPO_ROOT / settings["paths"]["duckdb"]
     con = db.connect(duckdb_path)
+
+    season, gw = pipeline.latest_reference_point(con)
+    findings = run_preflight(con, season, gw)
+    if findings:
+        typer.echo(render_findings(findings))
+    if has_failures(findings) and not force:
+        con.close()
+        typer.echo("Publish aborted — fix the FAILs above or re-run with --force.")
+        raise typer.Exit(code=1)
 
     written = publish_all(
         con,
@@ -440,6 +549,7 @@ def publish(settings_path: Path = typer.Option(DEFAULT_SETTINGS_PATH, "--setting
         site_data_dir=REPO_ROOT / "site" / "public" / "data",
         reports_dir=REPO_ROOT / "data" / "reports",
         rules_path=REPO_ROOT / "config" / "rules.yaml",
+        our_entry_id=settings.get("team_id"),
     )
     con.close()
 

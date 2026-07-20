@@ -25,6 +25,7 @@ from fplscout.ingest.schemas import (
     EntryPicks,
     EventLive,
     Fixture,
+    LeagueStandings,
     Transfer,
 )
 
@@ -239,6 +240,24 @@ class FplApiClient:
             force_refresh=force_refresh,
         )
         return self._parse(EntryPicks, raw, context=f"entry/{entry_id}/event/{gw}/picks")
+
+    def league_standings(
+        self,
+        league_id: int,
+        page: int = 1,
+        ttl_seconds: float = TTL_ENTRY,
+        force_refresh: bool = False,
+    ) -> LeagueStandings:
+        raw = self._get(
+            f"/leagues-classic/{league_id}/standings/",
+            cache_key=f"league_standings_{league_id}_p{page}",
+            ttl_seconds=ttl_seconds,
+            params={"page_standings": page},
+            force_refresh=force_refresh,
+        )
+        return self._parse(
+            LeagueStandings, raw, context=f"leagues-classic/{league_id}/standings"
+        )
 
     def entry_transfers(
         self, entry_id: int, ttl_seconds: float = TTL_ENTRY, force_refresh: bool = False

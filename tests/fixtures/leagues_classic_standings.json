@@ -1,0 +1,68 @@
+{
+  "new_entries": {
+    "has_next": false,
+    "page": 1,
+    "results": []
+  },
+  "last_updated_data": "2026-08-22T10:05:00Z",
+  "league": {
+    "id": 987654,
+    "name": "AI Overlords XI",
+    "created": "2026-07-20T23:14:33.933835Z",
+    "closed": false,
+    "max_entries": null,
+    "league_type": "x",
+    "scoring": "c",
+    "admin_entry": 1111101,
+    "start_event": 1,
+    "code_privacy": "p",
+    "has_cup": false,
+    "cup_league": null,
+    "rank": null
+  },
+  "standings": {
+    "has_next": false,
+    "page": 1,
+    "results": [
+      {
+        "id": 90000001,
+        "event_total": 71,
+        "player_name": "Vector Vince",
+        "rank": 1,
+        "last_rank": 2,
+        "rank_sort": 1,
+        "total": 143,
+        "entry": 1111101,
+        "entry_name": "Embeddings FC",
+        "has_played": true,
+        "club_badge_src": null
+      },
+      {
+        "id": 90000002,
+        "event_total": 66,
+        "player_name": "Sarthak Sharma",
+        "rank": 2,
+        "last_rank": 1,
+        "rank_sort": 2,
+        "total": 141,
+        "entry": 1111102,
+        "entry_name": "Xabi's Long-Xo",
+        "has_played": true,
+        "club_badge_src": null
+      },
+      {
+        "id": 90000003,
+        "event_total": 52,
+        "player_name": "RAG Rachel",
+        "rank": 3,
+        "last_rank": 3,
+        "rank_sort": 3,
+        "total": 120,
+        "entry": 1111103,
+        "entry_name": "Attention Is All You Need",
+        "has_played": true,
+        "club_badge_src": null
+      }
+    ]
+  }
+}

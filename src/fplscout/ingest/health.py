@@ -17,6 +17,7 @@ that's the specific failure shape to watch for.
 from __future__ import annotations
 
 from datetime import UTC, datetime
+from pathlib import Path
 
 import duckdb
 
@@ -91,3 +92,32 @@ def archive_ep_next(con: duckdb.DuckDBPyConnection, bootstrap: BootstrapStatic) 
         rows,
     )
     return len(rows)
+
+
+def sync_ep_next_archive_csv(con: duckdb.DuckDBPyConnection, csv_path: Path) -> int:
+    """Two-way sync between ep_next_archive and a git-tracked CSV.
+
+    The nightly deploy rebuilds its DuckDB from scratch on an ephemeral runner —
+    without this, every snapshot it archives dies with the runner, and backlog
+    §7.1 (train on our own pre-deadline ep_next once ~15+ GWs deep) can never
+    happen. Import rows the DB is missing, then write the union back out; the
+    workflow commits the CSV, so both CI and local clones accumulate the full
+    history. Plain CSV (not gz): append-mostly text keeps git deltas tiny.
+    Returns total archived rows after the sync."""
+    if csv_path.exists():
+        con.execute(
+            "INSERT INTO ep_next_archive "
+            "SELECT snapshot_time, code, element_id, gw, ep_next "
+            "FROM read_csv(?, header = true, columns = {"
+            "'snapshot_time': 'TIMESTAMP', 'code': 'BIGINT', 'element_id': 'INTEGER', "
+            "'gw': 'INTEGER', 'ep_next': 'DOUBLE'}) "
+            "ON CONFLICT (snapshot_time, code) DO NOTHING",
+            [str(csv_path)],
+        )
+    csv_path.parent.mkdir(parents=True, exist_ok=True)
+    con.execute(
+        "COPY (SELECT snapshot_time, code, element_id, gw, ep_next FROM ep_next_archive "
+        "ORDER BY snapshot_time, code) TO ? (HEADER, DELIMITER ',')",
+        [str(csv_path)],
+    )
+    return con.execute("SELECT COUNT(*) FROM ep_next_archive").fetchone()[0]

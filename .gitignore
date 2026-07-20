@@ -23,6 +23,9 @@ data/reports/*
 !data/reports/phase6_backtest_latest.json
 *.csv
 !tests/fixtures/**/*.csv
+# the one CSV that must live in git: pre-deadline ep_next snapshots accumulated
+# by the nightly deploy (its DuckDB is ephemeral — this file IS the archive)
+!data/ep_next_archive.csv
 
 # secrets
 .env

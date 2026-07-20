@@ -1,9 +1,15 @@
 from __future__ import annotations
 
+from datetime import UTC, datetime
+
 import pytest
 
 from fplscout import db
-from fplscout.ingest.health import archive_ep_next, check_ep_next_health
+from fplscout.ingest.health import (
+    archive_ep_next,
+    check_ep_next_health,
+    sync_ep_next_archive_csv,
+)
 from fplscout.ingest.schemas import BootstrapStatic
 
 
@@ -93,3 +99,40 @@ def test_archive_ep_next_returns_zero_when_nothing_to_archive(load_fixture, con)
         element["ep_next"] = None
     bootstrap = BootstrapStatic.model_validate(data)
     assert archive_ep_next(con, bootstrap) == 0
+
+
+def _seed_archive(con, snapshot_hour: int, codes: range) -> None:
+    con.executemany(
+        "INSERT INTO ep_next_archive (snapshot_time, code, element_id, gw, ep_next) "
+        "VALUES (?, ?, ?, ?, ?)",
+        [(datetime(2026, 8, 1, snapshot_hour, tzinfo=UTC), c, c, 1, 2.5) for c in codes],
+    )
+
+
+def test_sync_csv_roundtrip_and_merge(tmp_path, con):
+    csv_path = tmp_path / "archive.csv"
+    _seed_archive(con, snapshot_hour=6, codes=range(1, 4))
+    assert sync_ep_next_archive_csv(con, csv_path) == 3
+
+    # a "different runner": empty DB imports the CSV, adds its own snapshot
+    other = db.connect(":memory:")
+    db.init_schema(other)
+    _seed_archive(other, snapshot_hour=7, codes=range(1, 4))
+    assert sync_ep_next_archive_csv(other, csv_path) == 6
+    other.close()
+
+    # original DB now picks up the other runner's rows from the same CSV
+    assert sync_ep_next_archive_csv(con, csv_path) == 6
+    # and values survived the roundtrip intact
+    val = con.execute(
+        "SELECT ep_next FROM ep_next_archive WHERE code = 2 LIMIT 1"
+    ).fetchone()[0]
+    assert val == 2.5
+
+
+def test_sync_csv_is_idempotent(tmp_path, con):
+    csv_path = tmp_path / "archive.csv"
+    _seed_archive(con, snapshot_hour=6, codes=range(1, 4))
+    assert sync_ep_next_archive_csv(con, csv_path) == 3
+    assert sync_ep_next_archive_csv(con, csv_path) == 3
+    assert len(csv_path.read_text().strip().splitlines()) == 4  # header + 3 rows

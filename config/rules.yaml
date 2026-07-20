@@ -46,3 +46,108 @@ rules:
       simplified "sell at current price" assumption.
     enabled: true
     source: "src/fplscout/decide/optimizer.py _selling_price"
+
+  # --- researched strategy layer (2026-07 research pass) -------------------
+  # kind: strategy = operator guidance distilled from elite-manager evidence,
+  # not code-enforced. Sources are the research trail, kept honest.
+
+  - id: chip-meta-sequence
+    title: "The winning chip sequence: WC → BB → FH, planned backwards from DGWs"
+    body: >
+      The pattern that keeps winning across top-manager analyses: wildcard just
+      before the biggest fixture swing, bench boost the following double
+      gameweek (squad built for it by the wildcard), free hit the blank, triple
+      captain a premium's double. Optimal chip timing is worth roughly 20-50
+      points over random timing — but "roughly right" captures nearly all of
+      it, so don't agonize between two good weeks. Plan backwards once the
+      DGW/BGW schedule firms up (usually Feb-Mar); the site's chip radar tracks
+      emerging doubles and blanks automatically.
+    enabled: true
+    kind: strategy
+    source: "fantasyfootballscout.co.uk chip-scenarios guide; livefpl.com chip strategy; fplcopilot.com"
+  - id: chip-hold-discipline
+    title: "Hold chips until the calendar tells you otherwise"
+    body: >
+      Before the DGW/BGW schedule exists there is no information to time chips
+      with — an early bench boost on a normal week returns 4-6 points where a
+      DGW one returns 15-25. The one defensible early chip is the first
+      wildcard around GW4-9 when your draft has genuinely broken (injuries,
+      form collapse), because its value is squad repair, not fixture capture.
+    enabled: true
+    kind: strategy
+    source: "fantasyfootballfix.com top-50 chip usage 24/25; allaboutfpl.com 25/26 guide"
+  - id: bb-fifteen-point-bar
+    title: "Bench boost needs ~15+ realistic bench points to be worth it"
+    body: >
+      The bar for firing bench boost: all four bench players with two fixtures
+      (or exceptional single ones) and no rotation doubts — the chips page
+      shows the optimizer's current bench EV to compare against this bar
+      honestly. A panicked BB is the most-wasted chip in the game.
+    enabled: true
+    kind: strategy
+    source: "livefpl.com; fantasyfootballfix.com chip analyses"
+  - id: captaincy-by-league-state
+    title: "Captain by league position: cover when ahead, differentiate when behind"
+    body: >
+      In a small league the armband is the whole game: ahead, captain the
+      highest-owned premium among rivals (a shared blank costs you nothing;
+      an uncovered haul costs you the lead). Behind, pick the calculated
+      differential — a 30-45%-owned player in elite form whose haul rivals
+      don't share. The model's cap_ev blend is the EV baseline; the league
+      page shows exactly which captains need covering.
+    enabled: true
+    kind: strategy
+    source: "premierleague.com mini-league finale guide; fploracle.team captaincy framework"
+  - id: blocking-buy
+    title: "Protect late-season leads with blocking buys"
+    body: >
+      Defending a lead in the run-in: buying the most dangerous differential
+      owned by your nearest chaser removes their best catch-up path at zero
+      EV cost when the player is genuinely good. Only worth it against one
+      identified rival, late season, when the move is EV-neutral anyway.
+    enabled: true
+    kind: strategy
+    source: "premierleague.com blocking strategy"
+  - id: over-trading-myth
+    title: "Hits aren't the leak — churn variance is"
+    body: >
+      Our own 25/26 replay busted the assumption that hits bleed points: taken
+      hits were roughly EV-neutral. The real cost of over-trading is variance
+      and self-inflicted decision noise, which is why the optimizer caps hits
+      at one per gameweek and demands a margin above the raw -4. Don't
+      hand-override that discipline chasing last week's points.
+    enabled: true
+    kind: strategy
+    source: "data/reports/p0a_sweep.md (P0-A finding)"
+  - id: deadline-hygiene
+    title: "Final check ~90 minutes before every deadline"
+    body: >
+      Press conferences finish before the deadline; flags land late. The
+      routine: `fplscout refresh` then `report` after the last pressers,
+      confirm PREFLIGHT PASS, eyeball the availability flags on the DO THIS
+      sheet, submit. Never carry a Friday-morning decision into a Saturday
+      deadline unchecked.
+    enabled: true
+    kind: strategy
+    source: "operational: src/fplscout/preflight.py"
+  - id: price-value-secondary
+    title: "Team value is a means, never a target"
+    body: >
+      Never take an EV-negative transfer to catch a 0.1m rise or dodge a fall
+      — selling-price mechanics (half profit, rounded down) make most price
+      moves worth ~2-3 EV points across a whole season, less than one bad
+      forced pick costs in a single gameweek.
+    enabled: true
+    kind: strategy
+    source: "premierfantasytools.com price-risk analysis; optimizer _selling_price"
+  - id: difference-is-not-strategy
+    title: "In an 8-manager league, points beat differentials"
+    body: >
+      Deliberate differentials optimize rank variance, not expected points —
+      and with 7 rivals the score table is short enough that raw points
+      almost always decide it. Take the differential only when the EV gap to
+      the template pick is genuinely small and you're chasing. Ownership data
+      is intel for captaincy/blocking, not a reason to avoid good players.
+    enabled: true
+    kind: strategy
+    source: "medium.com 'Difference is not a strategy'; ROADMAP_2627.md §7.6"
