@@ -99,26 +99,15 @@ def _is_live(con: duckdb.DuckDBPyConnection, season: str, gw: int) -> bool:
 
 
 def _season_state(con: duckdb.DuckDBPyConnection, season: str, gw: int) -> str:
-    """'live'        — future fixtures AND real played rows: a season underway.
-    'provisional' — future fixtures but ZERO played rows: the fabricated
-                    pre-launch 26/27 (scripts/provisional_2627.py) — real
-                    calendar, stand-in prices, no summer transfers.
-    'demo'        — no future fixtures: idling on the last finished season."""
-    if not _is_live(con, season, gw):
-        return "demo"
-    played = con.execute(
-        "SELECT COUNT(*) FROM player_gw_history WHERE season = ?", [season]
-    ).fetchone()[0]
-    return "live" if played else "provisional"
+    """'live' — future fixtures exist: a real season underway (zero played rows
+    pre-GW1 is still live — the FPL game has launched and prices are real).
+    'demo' — no future fixtures: idling on the last finished season.
+    ('provisional' retired at 26/27 launch with scripts/provisional_2627.py.)"""
+    return "live" if _is_live(con, season, gw) else "demo"
 
 
 STATE_TEXT = {
     "live": "Live recommendation for the upcoming gameweek.",
-    "provisional": (
-        "PROVISIONAL 2026-27 GW1 preview — real released fixture calendar, but "
-        "stand-in end-of-25/26 prices, no summer transfers, and no promoted-team "
-        "players. Regenerates with real data the day the FPL game launches."
-    ),
 }
 
 
@@ -285,7 +274,7 @@ def build_transfers(con: duckdb.DuckDBPyConnection, season: str, gw: int) -> dic
 
 
 def build_fixtures(con: duckdb.DuckDBPyConnection, season: str, gw: int, horizon: int = 8) -> dict:
-    """Fixture ticker. With future fixtures (live/provisional season): the
+    """Fixture ticker. With future fixtures (live season): the
     UPCOMING `horizon` gameweeks from `gw`. Finished season (demo): the
     trailing window instead, clearly flagged."""
     state = _season_state(con, season, gw)
@@ -346,9 +335,6 @@ def build_fixtures(con: duckdb.DuckDBPyConnection, season: str, gw: int, horizon
             "demo": (
                 "26/27 fixtures aren't loaded yet — showing the trailing "
                 f"{horizon} gameweeks of {season} instead."
-            ),
-            "provisional": (
-                "Real released 2026-27 calendar (provisional pre-launch preview)."
             ),
             "live": None,
         }[state],

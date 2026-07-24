@@ -25,25 +25,13 @@ export function Eyebrow({ children, action }: { children: ReactNode; action?: Re
   );
 }
 
-/** Data-state badge. 'provisional' is the pre-launch preview: the real
- * released fixture calendar scored with stand-in end-of-25/26 prices. */
+/** Data-state badge: 'live' or 'demo'. */
 export function StateBadge({ state }: { state: string }) {
   if (state === 'live') {
     return (
       <span className="inline-flex items-center gap-1.5 rounded-sm bg-volt/10 px-2 py-0.5 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-volt ring-1 ring-volt/40">
         <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-volt" />
         Live
-      </span>
-    );
-  }
-  if (state === 'provisional') {
-    return (
-      <span
-        title="Pre-launch preview: the real released 26/27 fixture calendar, scored with stand-in end-of-25/26 prices. Regenerates with live data the day the FPL game launches."
-        className="inline-flex items-center gap-1.5 rounded-sm bg-armband/10 px-2 py-0.5 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-armband ring-1 ring-armband/40"
-      >
-        <span className="h-1.5 w-1.5 rounded-full bg-armband" />
-        Provisional
       </span>
     );
   }

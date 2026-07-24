@@ -143,7 +143,11 @@ def build_horizon_ev(
 
     team_fixtures = _team_fixtures_long(fixtures)
     id_to_code = dict(zip(teams["team_id"], teams["code"], strict=False))
-    strength_by_team = dict(zip(teams["team_id"], teams["strength"], strict=False))
+    # astype first: strength is NULL pre-season (masked Int32, pd.NA values);
+    # Series-level astype maps NA→NaN, so the dict holds plain floats LightGBM eats
+    strength_by_team = dict(
+        zip(teams["team_id"], teams["strength"].astype("float64"), strict=False)
+    )
 
     # Drop every column that's specific to the DECISION gw's own fixture — all of
     # these get replaced per target gw by the merge below; keeping them around

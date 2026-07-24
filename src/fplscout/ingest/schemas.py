@@ -58,7 +58,7 @@ class Team(BaseModel):
     code: int
     name: str
     short_name: str
-    strength: int
+    strength: int | None = None
     played: int
     win: int
     draw: int

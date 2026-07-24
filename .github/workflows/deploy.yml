@@ -68,13 +68,6 @@ jobs:
             git push origin HEAD:main
           fi
 
-      # Pre-launch only: fabricate 2026-27 from the real released fixture
-      # calendar (data/fixtures_2627.json) so the site previews the GW1 draft.
-      # No-ops automatically once the FPL API resets and live_gw syncs the
-      # real 2026-27; delete this step (and the script) after launch.
-      - name: Inject provisional 26/27 (pre-launch preview)
-        run: python scripts/provisional_2627.py inject data/fixtures_2627.json data/fpl.duckdb
-
       - name: Project (train production models + write projections)
         run: fplscout project
 

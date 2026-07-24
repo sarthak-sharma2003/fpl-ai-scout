@@ -25,7 +25,7 @@ export interface Dashboard {
   gw: number;
   season: string;
   is_live: boolean;
-  /** 'live' | 'provisional' (pre-launch preview) | 'demo' */
+  /** 'live' | 'demo' */
   state: string;
   deadline: string | null;
   avg_points: number | null;

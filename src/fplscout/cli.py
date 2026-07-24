@@ -487,7 +487,12 @@ def kickoff(
 
     if not skip_refresh:
         try:
-            refresh(settings_path=settings_path)
+            # raw=False is REQUIRED: refresh() is a typer command, so calling it
+            # as a plain function leaves unpassed options as truthy OptionInfo
+            # objects. Omit raw and `if raw:` fires — refresh returns after only
+            # snapshotting raw payloads, never ingesting the live season into
+            # DuckDB, and the whole chain runs on stale data.
+            refresh(raw=False, settings_path=settings_path)
         except SchemaDriftError as exc:
             typer.echo("\n" + "=" * 72)
             typer.echo("SCHEMA DRIFT — the API reset changed shape (this loudness is by design).")
@@ -504,7 +509,7 @@ def kickoff(
     project(settings_path=settings_path)
     optimize(settings_path=settings_path)
     preflight(settings_path=settings_path)  # exits 1 on FAIL, stopping before publish
-    publish(settings_path=settings_path)
+    publish(force=False, settings_path=settings_path)  # force=False: see refresh() note above
     report(settings_path=settings_path, skip_pipeline=True)
     typer.echo("\nKICKOFF COMPLETE — preflight passed; the DO THIS sheet above is the draft.")
 
@@ -577,7 +582,8 @@ def report(
     if not skip_pipeline:
         project(settings_path=settings_path)
         optimize(settings_path=settings_path)
-        publish(settings_path=settings_path)
+        # force=False: unpassed typer options are truthy OptionInfo (see kickoff)
+        publish(force=False, settings_path=settings_path)
 
     settings = load_settings(settings_path)
     con = db.connect(REPO_ROOT / settings["paths"]["duckdb"])

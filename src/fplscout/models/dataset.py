@@ -72,6 +72,14 @@ def load_dataset(
         """,
         seasons,
     ).df()
+    # Any INTEGER column that acquired NULLs (e.g. opponent_strength while FPL
+    # hasn't seeded team strengths pre-season) comes back as a pandas masked
+    # extension dtype, which LightGBM rejects. Flatten them all to float64+NaN.
+    nullable = df.select_dtypes(
+        include=["Int8", "Int16", "Int32", "Int64", "UInt8", "UInt16",
+                 "UInt32", "UInt64", "Float32", "Float64"]
+    ).columns
+    df[nullable] = df[nullable].astype("float64")
     df["is_dgw"] = df["is_dgw"].astype(bool)
     df["promoted_team"] = df["promoted_team"].astype(bool)
     df["played_prev_season"] = df["played_prev_season"].astype(bool)

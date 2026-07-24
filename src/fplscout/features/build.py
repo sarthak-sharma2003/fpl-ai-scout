@@ -228,7 +228,10 @@ def build_features(con: duckdb.DuckDBPyConnection) -> pd.DataFrame:
         )
 
     teams = con.execute(
-        "SELECT season, team_id, strength FROM teams"
+        # CAST: strength is NULL pre-season (FPL seeds it later), and duckdb
+        # returns nullable Int32 for it — an extension dtype LightGBM rejects.
+        # DOUBLE → plain float64 with NaN, which the trees handle natively.
+        "SELECT season, team_id, CAST(strength AS DOUBLE) AS strength FROM teams"
     ).df()
     fixtures = con.execute(
         """

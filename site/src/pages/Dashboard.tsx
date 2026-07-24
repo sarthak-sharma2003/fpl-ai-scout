@@ -121,12 +121,6 @@ export default function Dashboard() {
                         </span>
                       </div>
                     </div>
-                    {d.state === 'provisional' && (
-                      <p className="mt-2 max-w-sm text-xs leading-relaxed text-armband/90">
-                        Provisional = the pre-launch preview: real released fixtures, stand-in
-                        end-of-25/26 prices. Regenerates the day FPL 26/27 goes live.
-                      </p>
-                    )}
                   </div>
                   <Countdown deadline={d.deadline} />
                 </div>
