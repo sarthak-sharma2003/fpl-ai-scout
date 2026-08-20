@@ -32,6 +32,8 @@ export interface Dashboard {
   our_points: number | null;
   overall_rank: number | null;
   mini_league: { pos: number; size: number } | null;
+  /** present only on dashboard_alt.json — label for the alternative-squad toggle */
+  alt_label?: string | null;
   insight: {
     text: string;
     transfer_summary: string | null;
