@@ -375,6 +375,18 @@ CREATE TABLE IF NOT EXISTS match_odds (
     exp_goals_away DOUBLE,
     PRIMARY KEY (season, home_team_id, away_team_id)
 );
+
+-- Per-player summer form (ingest/summer.py): goals in the 2026 World Cup and in
+-- club pre-season friendlies. Keyed on `code` alone, not (season, code): this is
+-- a one-off snapshot of the 2026 close season, consumed only by pipeline.py's
+-- inference-time EV boost, and is NEVER a training feature (see that module's
+-- docstring for why a per-summer column can't be fit on).
+CREATE TABLE IF NOT EXISTS summer_form (
+    code BIGINT PRIMARY KEY,
+    player_name TEXT,
+    wc_goals DOUBLE,
+    preseason_goals DOUBLE
+);
 """
 
 TABLES = [
@@ -396,6 +408,7 @@ TABLES = [
     "rival_picks",
     "ep_next_archive",
     "match_odds",
+    "summer_form",
 ]
 
 

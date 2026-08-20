@@ -15,7 +15,7 @@ import yaml
 
 from fplscout import db
 from fplscout.features.build import write_features
-from fplscout.ingest import league, live_gw, odds, vaastav
+from fplscout.ingest import league, live_gw, odds, summer, vaastav
 from fplscout.ingest.fpl_api import FplApiClient
 from fplscout.ingest.health import (
     archive_ep_next,
@@ -239,6 +239,16 @@ def refresh(
     typer.echo(
         "  " + ", ".join(f"{k}: {v}" for k, v in odds_written.items()) + " fixtures priced"
     )
+
+    # Needs `player_season` populated to resolve scorer names -> codes. Not a
+    # feature-store input (see ingest/summer.py) — pipeline.py reads the table
+    # directly at projection time — so its position relative to the build below
+    # is cosmetic.
+    typer.echo("Loading summer form (World Cup 2026 + pre-season friendlies)...")
+    summer_written = summer.sync_summer(
+        con, cache_dir=raw_cache_dir / "summer", season=current_season
+    )
+    typer.echo("  " + ", ".join(f"{k}: {v}" for k, v in summer_written.items()))
 
     typer.echo("Building feature store...")
     n_features = write_features(con)

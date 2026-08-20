@@ -34,6 +34,20 @@ ALL_SEASONS = ["2021-22", "2022-23", "2023-24", "2024-25", "2025-26"]
 HORIZON = 8
 DECAY = 0.84
 
+# Summer-form boost (ingest/summer.py). Hand-set and deliberately small: a World
+# Cup goal is evidence, not a projection, and the model already prices everything
+# it can see. The threshold is the point of the whole thing — score sits below it
+# for all but a few dozen players, so almost everyone's multiplier is exactly 1.0
+# and only an exceptional summer clears zero. World Cup goals outweigh pre-season
+# ones because the opposition is: a hat-trick against a League Two side in July is
+# not the same evidence as one against Brazil.
+SUMMER_WC_WEIGHT = 1.5
+SUMMER_PRESEASON_WEIGHT = 1.0
+SUMMER_THRESHOLD = 3.0  # score below this -> no boost at all
+SUMMER_PER_POINT = 0.015  # +1.5% EV per weighted goal above the threshold
+SUMMER_MAX_BOOST = 0.05  # ...capped at +5%, i.e. ~0.3pts on a 6-point striker
+SUMMER_FADE_GWS = 6  # linear fade to nothing; by GW6 the rolling features know
+
 
 @dataclass
 class ProductionModels:
@@ -173,6 +187,33 @@ def _lineup_watch_factor(
     return dict(zip(df["code"].astype(int), df["start_prob"].astype(float), strict=True))
 
 
+def summer_boost(con: duckdb.DuckDBPyConnection, season: str) -> dict[int, float]:
+    """code -> EV multiplier (>1.0) for an exceptional summer. Inference-only,
+    exactly like live_availability_factor above — never touches training data.
+
+    Fades linearly to nothing over the first SUMMER_FADE_GWS gameweeks. Without
+    that this would still be nudging a player in April on the strength of a July
+    friendly, long after roll5/roll10 have measured the same thing directly and
+    better. Players below the threshold are omitted rather than mapped to 1.0,
+    so callers can treat an empty dict as "no adjustment".
+    """
+    played = con.execute(
+        "SELECT count(*) FROM gameweeks WHERE season = ? AND finished", [season]
+    ).fetchone()[0]
+    fade = max(0.0, 1.0 - played / SUMMER_FADE_GWS)
+    if fade == 0.0:
+        return {}
+    boost = {}
+    for code, wc, preseason in con.execute(
+        "SELECT code, wc_goals, preseason_goals FROM summer_form"
+    ).fetchall():
+        score = SUMMER_WC_WEIGHT * (wc or 0.0) + SUMMER_PRESEASON_WEIGHT * (preseason or 0.0)
+        excess = min(SUMMER_MAX_BOOST, SUMMER_PER_POINT * max(0.0, score - SUMMER_THRESHOLD))
+        if excess > 0.0:
+            boost[int(code)] = 1.0 + excess * fade
+    return boost
+
+
 def generate_projections(
     con: duckdb.DuckDBPyConnection,
     models: ProductionModels,
@@ -209,6 +250,13 @@ def generate_projections(
         mins_p0=("mins_p0", "min"),
         clean_sheet_prob=("clean_sheet_prob", "max"),
     )
+
+    # Applied here, once, after DGW fixtures are summed — so a double gameweek is
+    # boosted once on the player's total rather than twice on each fixture. The
+    # quantiles move with the mean to keep q10 <= ev <= q90 intact.
+    multiplier = out["code"].map(summer_boost(con, season)).fillna(1.0)
+    for column in ("ev_points", "q10_points", "q90_points"):
+        out[column] = out[column] * multiplier
 
     generated_at = datetime.now(UTC)
     rows_df = pd.DataFrame(
@@ -280,10 +328,14 @@ def total_ev_for_optimizer(
         teams = con.execute(
             "SELECT season, team_id, code, strength FROM teams WHERE season = ?", [season]
         ).df()
-        return horizon.build_horizon_ev(
+        total_ev = horizon.build_horizon_ev(
             models.minutes_model, models.dc_model, models.points_models,
             base_rows, fixtures, teams, decision_gw=gw, horizon=HORIZON, decay=DECAY,
             max_gw=max_gw, availability_factor=live_availability_factor(con),
         )
+        # This branch builds its EV independently of `projections`, so it needs
+        # the boost applied here too. The fallback below does NOT: it scales the
+        # projections frame, which generate_projections already boosted.
+        return total_ev * total_ev.index.to_series().map(summer_boost(con, season)).fillna(1.0)
     decay_sum = sum(DECAY**h for h in range(HORIZON))
     return (projections.set_index("code")["ev_points"] * decay_sum).rename("total_ev")
