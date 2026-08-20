@@ -95,3 +95,22 @@ def test_sync_skips_entries_with_404_picks(con, client, load_fixture):
     summary = sync_league(con, client, LEAGUE_ID, SEASON, element_to_code={})
     assert summary["pick_rows"] == 0  # skipped, not fatal
     assert summary["gw_rows"] == 3
+
+
+@respx.mock
+def test_sync_survives_a_league_with_no_standings_yet(con, client, load_fixture):
+    """Regression: a classic league returns an EMPTY results list until GW1 has
+    been scored — not a zeroed one. DuckDB's executemany raises on an empty
+    parameter list rather than no-opping, so `refresh` crashed on a freshly
+    registered league behaving exactly as intended, and took the nightly Pages
+    deploy down with it. See db.executemany."""
+    empty = load_fixture("leagues_classic_standings.json")
+    empty["standings"]["results"] = []
+    respx.get(f"{BASE_URL}/leagues-classic/{LEAGUE_ID}/standings/").mock(
+        return_value=httpx.Response(200, json=empty)
+    )
+
+    summary = sync_league(con, client, LEAGUE_ID, SEASON, element_to_code={})
+
+    assert summary == {"entries": 0, "gw_rows": 0, "pick_rows": 0}
+    assert con.execute("SELECT COUNT(*) FROM league_standings").fetchone()[0] == 0

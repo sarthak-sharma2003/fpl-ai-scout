@@ -449,3 +449,24 @@ def init_schema(con: duckdb.DuckDBPyConnection) -> None:
     ]:
         con.execute(f"ALTER TABLE players ADD COLUMN IF NOT EXISTS {name} {dtype}")
     con.execute("ALTER TABLE player_season ADD COLUMN IF NOT EXISTS value INTEGER")
+
+
+def executemany(
+    con: duckdb.DuckDBPyConnection, sql: str, params: list[tuple]
+) -> int:
+    """`con.executemany` that treats an empty batch as zero rows, not an error.
+    Returns the number of rows written.
+
+    DuckDB raises InvalidInputException("executemany requires a non-empty list of
+    parameter sets") rather than no-opping, so every caller inserting a
+    variable-length batch needs the same guard — and an empty batch is the NORMAL
+    state for half of them in August. This took the nightly deploy down the day
+    the mini-league was registered: a classic league returns an empty standings
+    list until GW1 has been scored, so `refresh` crashed on a league that was
+    working exactly as intended (ingest/league.py::sync_league). Chip windows and
+    gameweeks have the same shape at a season reset.
+    """
+    if not params:
+        return 0
+    con.executemany(sql, params)
+    return len(params)

@@ -47,7 +47,8 @@ def _sync_gameweeks(con, bootstrap, season: str) -> int:
         (season, e.id, e.deadline_time, e.finished, e.average_entry_score)
         for e in bootstrap.events
     ]
-    con.executemany(
+    db.executemany(
+        con,
         "INSERT INTO gameweeks (season, event, deadline_time, finished, average_entry_score) "
         "VALUES (?, ?, ?, ?, ?) ON CONFLICT (season, event) DO UPDATE SET "
         "deadline_time = excluded.deadline_time, finished = excluded.finished, "
@@ -61,7 +62,8 @@ def _sync_chip_windows(con, bootstrap, season: str) -> int:
     """Replace the season's chip validity windows from bootstrap.chips — read
     live, never hardcoded (windows shifted at the 25/26 reset and can again)."""
     con.execute("DELETE FROM chip_windows WHERE season = ?", [season])
-    con.executemany(
+    db.executemany(
+        con,
         "INSERT INTO chip_windows (season, chip_id, chip, number, start_event, "
         "stop_event, chip_type) VALUES (?, ?, ?, ?, ?, ?, ?)",
         [

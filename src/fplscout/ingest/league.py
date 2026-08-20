@@ -13,7 +13,9 @@ DO THIS sheet.
 
 Picks for a gameweek are only public after its deadline, and entries that
 joined late have no picks for early GWs — both come back 404 and are skipped,
-not fatal.
+not fatal. Before GW1 is scored the standings list itself comes back EMPTY (not
+zeroed, as an earlier comment here claimed), which is why every insert goes
+through db.executemany — see its docstring for the deploy this took down.
 """
 
 from __future__ import annotations
@@ -23,6 +25,7 @@ from datetime import UTC, datetime
 import duckdb
 import httpx
 
+from fplscout import db
 from fplscout.ingest.fpl_api import FplApiClient
 
 # don't hammer the API for giant public leagues; a friends league is way smaller
@@ -45,7 +48,8 @@ def sync_league(
     fetched_at = datetime.now(UTC)
 
     con.execute("DELETE FROM league_standings WHERE league_id = ?", [league_id])
-    con.executemany(
+    db.executemany(
+        con,
         "INSERT INTO league_standings (league_id, entry_id, league_name, entry_name, "
         "player_name, rank, last_rank, total, event_total, fetched_at) "
         "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
@@ -63,14 +67,15 @@ def sync_league(
         [season],
     ).fetchall()
     finished_gws = [g[0] for g in finished]
-    if not finished_gws:  # pre-GW1: standings exist (all zeros), nothing else yet
+    if not finished_gws:  # pre-GW1: no scored gameweeks, so no history to sync
         return {"entries": len(rows), "gw_rows": 0, "pick_rows": 0}
 
     gw_rows = pick_rows = 0
     for r in rows:
         history = client.entry_history(r.entry, force_refresh=True)
         chip_by_event = {c.event: c.name for c in history.chips}
-        con.executemany(
+        db.executemany(
+            con,
             "INSERT INTO rival_gw (season, gw, entry_id, points, total_points, bank, "
             "team_value, event_transfers_cost, points_on_bench, active_chip) "
             "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?) "
@@ -105,7 +110,8 @@ def sync_league(
                 if exc.response.status_code == 404:
                     continue  # joined late / picks not visible — expected, skip
                 raise
-            con.executemany(
+            db.executemany(
+                con,
                 "INSERT INTO rival_picks (season, gw, entry_id, element_id, code, "
                 "pick_position, multiplier, is_captain, is_vice_captain) "
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?) "
