@@ -359,6 +359,22 @@ CREATE TABLE IF NOT EXISTS ep_next_archive (
     ep_next DOUBLE,
     PRIMARY KEY (snapshot_time, code)
 );
+
+-- Market odds per fixture (ingest/odds.py). Keyed on the team pairing rather
+-- than a date or fixture_id: a league plays each ordered pairing exactly once
+-- per season, and that key survives postponements, which a date join does not.
+CREATE TABLE IF NOT EXISTS match_odds (
+    season TEXT NOT NULL,
+    home_team_id INTEGER NOT NULL,
+    away_team_id INTEGER NOT NULL,
+    p_home_win DOUBLE,
+    p_draw DOUBLE,
+    p_away_win DOUBLE,
+    exp_total_goals DOUBLE,
+    exp_goals_home DOUBLE,
+    exp_goals_away DOUBLE,
+    PRIMARY KEY (season, home_team_id, away_team_id)
+);
 """
 
 TABLES = [
@@ -379,6 +395,7 @@ TABLES = [
     "rival_gw",
     "rival_picks",
     "ep_next_archive",
+    "match_odds",
 ]
 
 
@@ -406,6 +423,9 @@ def init_schema(con: duckdb.DuckDBPyConnection) -> None:
         ("prev_season_xgi_per90", "DOUBLE"),
         ("prev_season_starts_share", "DOUBLE"),
         ("played_prev_season", "BOOLEAN"),
+        ("odds_win_prob", "DOUBLE"),
+        ("odds_exp_goals_for", "DOUBLE"),
+        ("odds_exp_goals_against", "DOUBLE"),
     ]:
         con.execute(f"ALTER TABLE features ADD COLUMN IF NOT EXISTS {name} {dtype}")
     for name, dtype in [

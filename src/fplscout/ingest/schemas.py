@@ -9,6 +9,7 @@ dropping data — see plan §0 risk table.
 from __future__ import annotations
 
 from datetime import datetime
+from typing import Any
 
 from pydantic import BaseModel, ConfigDict
 
@@ -153,6 +154,14 @@ class Element(BaseModel):
     cost_change_start: int
     cost_change_start_fall: int
     price_change_percent: float | None = None
+    # price-change telemetry fields FPL added for 2026/27; we don't consume any of
+    # them — modeled only so `extra="forbid"` doesn't reject the whole payload.
+    # locked_until is null across every element right now with an unknown populated
+    # type, so Any keeps it from taking the live site down when FPL starts setting it.
+    price_change_calibrating: bool | None = None
+    price_change_hourly_rate: int | None = None
+    price_change_projections: list | None = None
+    price_change_locked_until: Any = None
     now_cost_rank: int | None = None
     now_cost_rank_type: int | None = None
 
