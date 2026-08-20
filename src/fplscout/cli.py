@@ -15,7 +15,7 @@ import yaml
 
 from fplscout import db
 from fplscout.features.build import write_features
-from fplscout.ingest import league, live_gw, odds, vaastav
+from fplscout.ingest import league, live_gw, vaastav
 from fplscout.ingest.fpl_api import FplApiClient
 from fplscout.ingest.health import (
     archive_ep_next,
@@ -228,17 +228,6 @@ def refresh(
 
     n_status = _sync_player_status(con, bootstrap)
     typer.echo(f"  synced live status for {n_status} players")
-
-    # after the historical load (needs `teams` populated to map names -> ids)
-    # and before the feature build, which joins these in.
-    typer.echo("Loading market odds (football-data.co.uk)...")
-    odds_seasons = [
-        r[0] for r in con.execute("SELECT DISTINCT season FROM teams ORDER BY season").fetchall()
-    ]
-    odds_written = odds.sync_odds(con, cache_dir=raw_cache_dir / "odds", seasons=odds_seasons)
-    typer.echo(
-        "  " + ", ".join(f"{k}: {v}" for k, v in odds_written.items()) + " fixtures priced"
-    )
 
     typer.echo("Building feature store...")
     n_features = write_features(con)

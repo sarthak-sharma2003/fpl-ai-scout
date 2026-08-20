@@ -257,45 +257,6 @@ def build_features(con: duckdb.DuckDBPyConnection) -> pd.DataFrame:
     )
     features = features.merge(opp_strength, on=["season", "opponent_team_id"], how="left")
 
-    # market odds (ingest/odds.py), re-oriented from the market's home/away
-    # frame into this row's own-team frame. Leak-safe without any shifting:
-    # odds are priced strictly before kickoff. NULL wherever odds are missing
-    # (a season we don't cover, or a fixture the book hasn't priced yet) —
-    # LightGBM splits on NaN natively, so absence degrades rather than breaks.
-    odds = con.execute(
-        "SELECT season, home_team_id, away_team_id, p_home_win, p_away_win, "
-        "exp_goals_home, exp_goals_away FROM match_odds"
-    ).df()
-    if len(odds) > 0:
-        home_view = odds.rename(
-            columns={
-                "home_team_id": "team_id", "away_team_id": "opponent_team_id",
-                "p_home_win": "odds_win_prob", "exp_goals_home": "odds_exp_goals_for",
-                "exp_goals_away": "odds_exp_goals_against",
-            }
-        ).drop(columns=["p_away_win"])
-        home_view["was_home"] = True
-        away_view = odds.rename(
-            columns={
-                "away_team_id": "team_id", "home_team_id": "opponent_team_id",
-                "p_away_win": "odds_win_prob", "exp_goals_away": "odds_exp_goals_for",
-                "exp_goals_home": "odds_exp_goals_against",
-            }
-        ).drop(columns=["p_home_win"])
-        away_view["was_home"] = False
-        team_odds = pd.concat([home_view, away_view], ignore_index=True)
-        # `was_home` MUST be part of the key: two clubs meet twice a season, so
-        # (season, team, opponent) alone matches both legs and silently doubles
-        # every feature row (caught by the features PK, not by any assertion).
-        features = features.merge(
-            team_odds,
-            on=["season", "team_id", "opponent_team_id", "was_home"],
-            how="left",
-        )
-    else:
-        for col in ("odds_win_prob", "odds_exp_goals_for", "odds_exp_goals_against"):
-            features[col] = np.nan
-
     # rest days: days since this player's previous fixture, this season
     grouped = features.sort_values(
         ["code", "season", "kickoff_time", "fixture_id"]
@@ -381,7 +342,6 @@ def build_features(con: duckdb.DuckDBPyConnection) -> pd.DataFrame:
         "roll5_xg_per90", "roll5_xa_per90", "roll5_xgi_per90", "roll5_bps_per90",
         "roll5_xg_share", "roll5_xa_share", "roll5_xgi_share",
         "fdr", "opponent_strength", "rest_days", "is_dgw",
-        "odds_win_prob", "odds_exp_goals_for", "odds_exp_goals_against",
         "team_roll5_goals_for", "team_roll5_goals_against",
         "roll5_started_share",
         "prev_season_minutes", "prev_season_points_per90", "prev_season_xgi_per90",
