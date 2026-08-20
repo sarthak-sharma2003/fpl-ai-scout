@@ -39,6 +39,7 @@ FEATURE_COLUMNS = [
     "roll5_xg_per90", "roll5_xa_per90", "roll5_xgi_per90", "roll5_bps_per90",
     "roll5_xg_share", "roll5_xa_share", "roll5_xgi_share",
     "fdr", "opponent_strength", "rest_days", "is_dgw",
+    "odds_win_prob", "odds_exp_goals_for", "odds_exp_goals_against",
     "team_roll5_goals_for", "team_roll5_goals_against",
     "roll5_started_share",
     "prev_season_minutes", "prev_season_points_per90", "prev_season_xgi_per90",
