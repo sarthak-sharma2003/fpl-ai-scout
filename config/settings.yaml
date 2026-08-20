@@ -2,8 +2,8 @@
 #
 # team_id is unknown until the 26/27 game launches and the team is registered
 # (see plan §9, §11). Everything in Phases 0-6 works without it.
-team_id: null
-mini_league_id: null
+team_id: 5874404
+mini_league_id: 928777
 
 paths:
   duckdb: data/fpl.duckdb
