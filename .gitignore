@@ -26,6 +26,8 @@ data/reports/*
 # the one CSV that must live in git: pre-deadline ep_next snapshots accumulated
 # by the nightly deploy (its DuckDB is ephemeral — this file IS the archive)
 !data/ep_next_archive.csv
+# hand-authored GW1 lineup watchlist — read by the pipeline, must ship to CI
+!config/lineup_watch.csv
 
 # secrets
 .env

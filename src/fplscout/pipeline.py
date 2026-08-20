@@ -149,7 +149,28 @@ def live_availability_factor(con: duckdb.DuckDBPyConnection) -> dict[int, float]
             factor[code] = 1.0
         else:
             factor[code] = 0.0
+
+    # Manual GW1 cold-start override: FPL's `status` field only flags injuries,
+    # not benchings — a fit player the manager just won't pick still reads 'a'.
+    # config/lineup_watch.csv lets us haircut minutes for players our preseason eye
+    # (or team-news lookup) says won't nail a start. Self-dissolving: once real
+    # gameweeks are ingested, roll5_started_share reflects reality — delete rows
+    # as they become moot. Multiplies onto the live factor (a doubtful *and*
+    # benched player stays doubtful).
+    for code, start_prob in _lineup_watch_factor().items():
+        if code in factor:  # only haircut players that actually exist
+            factor[code] *= start_prob
     return factor
+
+
+def _lineup_watch_factor(
+    path: Path = Path("config/lineup_watch.csv"),
+) -> dict[int, float]:
+    """code -> manual start_prob from the lineup watchlist. Empty if no file."""
+    if not path.exists():
+        return {}
+    df = pd.read_csv(path)
+    return dict(zip(df["code"].astype(int), df["start_prob"].astype(float), strict=True))
 
 
 def generate_projections(
