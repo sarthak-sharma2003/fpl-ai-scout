@@ -385,7 +385,13 @@ CREATE TABLE IF NOT EXISTS summer_form (
     code BIGINT PRIMARY KEY,
     player_name TEXT,
     wc_goals DOUBLE,
-    preseason_goals DOUBLE
+    preseason_goals DOUBLE,
+    -- from nextXI (Sportmonks): pre-season minutes/starts are a rotation signal
+    -- the goal columns can't carry. Stored, not yet scored — see summer_boost.
+    preseason_assists DOUBLE,
+    preseason_minutes DOUBLE,
+    preseason_starts DOUBLE,
+    preseason_apps DOUBLE
 );
 """
 
@@ -441,6 +447,9 @@ def init_schema(con: duckdb.DuckDBPyConnection) -> None:
         ("odds_exp_goals_against", "DOUBLE"),
     ]:
         con.execute(f"ALTER TABLE features ADD COLUMN IF NOT EXISTS {name} {dtype}")
+    for name in ("preseason_assists", "preseason_minutes", "preseason_starts",
+                 "preseason_apps"):
+        con.execute(f"ALTER TABLE summer_form ADD COLUMN IF NOT EXISTS {name} DOUBLE")
     for name, dtype in [
         ("status", "TEXT"),
         ("news", "TEXT"),

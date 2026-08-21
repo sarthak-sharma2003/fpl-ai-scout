@@ -21,14 +21,21 @@ or assists, so "exceptional" here means goals):
 
   * World Cup — openfootball/worldcup.json. One JSON file, no key, all 104
     matches with scorer names, penalty and own-goal flags.
-  * Pre-season — English Wikipedia's per-club "2026-27 <club> season" articles,
-    "Pre-season and friendlies" section, which uses the standardised
-    {{Football box collapsible}} template. This is scraped rather than fetched
-    from a feed because no free structured feed for club friendlies exists:
-    fbref and worldfootball both 403 on automated requests, TheSportsDB's free
-    tier no longer returns the friendlies league, and openfootball's friendlies
-    dataset is national teams only. Wikipedia is the source these tools all
-    reprint anyway, and its match template is machine-readable.
+  * Pre-season — nextxi.app's public PostgREST API (`preseason_player_stats`),
+    which is Opta/Sportmonks data that nextXI licenses and states plainly is
+    free to use ("Data is free - best way to say thanks for data is a follow
+    @nextXI_fpl"). This REPLACED a Wikipedia wikitext scraper that could only
+    ever recover goals: the API also carries minutes, starts and appearances,
+    which is the signal that actually matters in pre-season (who a manager is
+    picking beats who got on the end of a tap-in against a League Two side).
+    `is_pl_team` also removes the opposition entirely, so the old scraper's
+    whole class of mis-attribution bugs — opposition scorers, the same friendly
+    written up on both clubs' articles under different team spellings — simply
+    cannot occur.
+
+    FETCHED ONCE, CACHED FOREVER (see PRESEASON_CACHE). Pre-season is finished
+    and these rows are frozen, so re-polling nightly would spend someone else's
+    Supabase egress to receive bytes we already have.
 
 Everything degrades to "no boost", never to an error: a page that hasn't been
 written yet, a scorer whose name doesn't resolve to an FPL code, or a total
@@ -51,53 +58,25 @@ import pandas as pd
 WORLD_CUP_URL = (
     "https://raw.githubusercontent.com/openfootball/worldcup.json/master/2026/worldcup.json"
 )
-WIKI_API = "https://en.wikipedia.org/w/api.php"
-USER_AGENT = "fpl-ai-scout/0.1 (https://github.com/; personal FPL project)"
+NEXTXI_API = "https://api.nextxi.app/rest/v1/preseason_player_stats"
+# nextXI's Supabase ANON key, lifted from their public JS bundle. Anon keys are
+# designed to be published (they authorise exactly what row-level security
+# allows and nothing more) — this is not a secret, and is checked in for the
+# same reason the football-data.co.uk URL is.
+NEXTXI_ANON_KEY = (
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFxaGlla2F0"
+    "bWJ5YWZyZG9lc29wIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjQyNTE3MjksImV4cCI6MjAzOTgyNzcyOX0"
+    ".HkNdqb7SdkdHM_2Zv36fsXI32MuMibjlpN9PpezwdWY"
+)
+NEXTXI_PAGE = 1000  # PostgREST's own max page size
+NEXTXI_FIELDS = (
+    "player_name,display_name,team_name,is_pl_team,started,minutes_played,goals,assists"
+)
+USER_AGENT = "fpl-ai-scout/0.1 (personal FPL project; thanks @nextXI_fpl)"
 
 POLITE_INTERVAL = 0.3
-TTL = 24 * 3600  # both sources are finished history by GW1; a daily poll is plenty
-
-# FPL `teams.name` -> English Wikipedia article title. Explicit rather than
-# derived: FPL's names are abbreviations ("Spurs", "Nott'm Forest") and the
-# article titles carry club suffixes that vary ("F.C." / "A.F.C." / prefixed
-# "AFC"), so there is no rule to derive, only a table to write down. All 20
-# verified to resolve without a redirect.
-SEASON_PAGES = {
-    "Arsenal": "2026–27 Arsenal F.C. season",
-    "Aston Villa": "2026–27 Aston Villa F.C. season",
-    "Bournemouth": "2026–27 AFC Bournemouth season",
-    "Brentford": "2026–27 Brentford F.C. season",
-    "Brighton": "2026–27 Brighton & Hove Albion F.C. season",
-    "Chelsea": "2026–27 Chelsea F.C. season",
-    "Coventry City": "2026–27 Coventry City F.C. season",
-    "Crystal Palace": "2026–27 Crystal Palace F.C. season",
-    "Everton": "2026–27 Everton F.C. season",
-    "Fulham": "2026–27 Fulham F.C. season",
-    "Hull City": "2026–27 Hull City A.F.C. season",
-    "Ipswich Town": "2026–27 Ipswich Town F.C. season",
-    "Leeds": "2026–27 Leeds United F.C. season",
-    "Liverpool": "2026–27 Liverpool F.C. season",
-    "Man City": "2026–27 Manchester City F.C. season",
-    "Man Utd": "2026–27 Manchester United F.C. season",
-    "Newcastle": "2026–27 Newcastle United F.C. season",
-    "Nott'm Forest": "2026–27 Nottingham Forest F.C. season",
-    "Spurs": "2026–27 Tottenham Hotspur F.C. season",
-    "Sunderland": "2026–27 Sunderland A.F.C. season",
-}
-
-# The heading is written both ways across articles ("==Pre-season and
-# friendlies==", "== Pre-season ==", "==Friendlies==").
-_PRESEASON_HEADING = re.compile(r"^==\s*[^=\n]*(?:pre-season|friendl)[^=\n]*==\s*$", re.I | re.M)
-_NEXT_HEADING = re.compile(r"^==[^=]", re.M)
-# Boxes close with `}}` on its own line; every nested template ({{goal|14}}) is
-# inline, so this never terminates early.
-_BOX = re.compile(r"\{\{\s*football box collapsible\b(.*?)\n\}\}", re.I | re.S)
-_FIELD = re.compile(r"^\|\s*([A-Za-z0-9_]+)\s*=[ \t]*(.*?)(?=^\|\s*[A-Za-z0-9_]+\s*=|\Z)",
-                    re.M | re.S)
-_GOAL_TMPL = re.compile(r"\{\{\s*goal\s*\|([^}]*)\}\}", re.I)
-_WIKILINK = re.compile(r"\[\[([^\]|]+)(?:\|[^\]]*)?\]\]")
-_DISAMBIG = re.compile(r"\s*\([^)]*\)\s*$")
-
+TTL = 24 * 3600  # the World Cup file; finished history, a daily poll is plenty
+PRESEASON_CACHE = "nextxi_preseason.json"  # written once, never re-fetched
 
 def normalise_name(name: str) -> str:
     """Accent-stripped, punctuation-free, lowercase — the join key between three
@@ -126,79 +105,6 @@ def parse_world_cup(payload: dict) -> Counter[str]:
                 if name:
                     goals[name] += 1
     return goals
-
-
-def _goal_count(line: str) -> int:
-    """Goals in one `*[[Player]] {{goal|12|45+2}}` bullet.
-
-    One {{goal}} template can carry several minutes — `{{goal|57||59}}` is a
-    brace, not one goal — so goals are counted per non-empty argument. A
-    template with no usable minute at all (`{{goal|}}`, seen where the source
-    didn't record one) is still one goal, not zero.
-    """
-    total = 0
-    for args in _GOAL_TMPL.findall(line):
-        total += max(1, sum(1 for a in args.split("|") if a.strip()))
-    return total
-
-
-def _scorer_name(line: str) -> str:
-    """Player name from a goal bullet: the wikilink TARGET where there is one
-    (`[[Kai Havertz|Havertz]]` -> "Kai Havertz" — the full name matches FPL far
-    more often than the display surname), else the bare text before the first
-    template. Disambiguators are dropped: `[[Nico González (footballer, born
-    2002)|Nico]]` -> "Nico González"."""
-    link = _WIKILINK.search(line)
-    raw = link.group(1) if link else line.split("{{")[0]
-    return _DISAMBIG.sub("", raw.lstrip("* ").strip()).strip()
-
-
-def parse_preseason(wikitext: str) -> dict[tuple[str, str], tuple[str, int]]:
-    """One club's article -> {(date, normalised scorer): (display name, goals)}.
-
-    KEYED BY DATE-AND-SCORER, NOT BY FIXTURE, and that is the whole trick. Two
-    Premier League clubs meeting in pre-season are written up on BOTH clubs'
-    articles, and the two copies don't spell the teams the same way — a club
-    names itself plainly ("| team2 = Newcastle") and links its opponent
-    ("| team1 = [[Newcastle United F.C.|Newcastle United]]"). A fixture key
-    built from team names therefore fails to collapse the duplicate and counts
-    every goal in that match twice (caught in a real run: Harvey Barnes came out
-    at 3 pre-season goals having scored 2). A player plays at most one match on
-    a given date, so (date, player) names the same goals in both copies and
-    dedupes by construction, with no team-name resolution needed at all.
-
-    Only the `goals1`/`goals2` fields are read, which keeps penalty-shootout
-    scorers ({{pengoal}} in `penalties1`/`penalties2`) out: a shootout is not a
-    goal in anyone's records, least of all FPL's.
-
-    Restricted to the pre-season section. The same template renders the club's
-    Premier League and cup matches further down the article, and sweeping the
-    whole page would quietly fold real competitive goals into a "pre-season"
-    score.
-    """
-    heading = _PRESEASON_HEADING.search(wikitext)
-    if heading is None:
-        return {}
-    rest = wikitext[heading.end():]
-    end = _NEXT_HEADING.search(rest)
-    section = rest[: end.start()] if end else rest
-
-    scorers: dict[tuple[str, str], tuple[str, int]] = {}
-    for body in _BOX.findall(section):
-        fields = {k: v for k, v in _FIELD.findall("\n" + body.strip())}
-        date = normalise_name(fields.get("date", ""))
-        for side in ("goals1", "goals2"):
-            for line in fields.get(side, "").splitlines():
-                line = line.strip()
-                # "o.g." appears as {{o.g.|30}} or as a {{goal}} argument; either
-                # way the goal belongs to the other team, so drop the bullet.
-                if not line.startswith("*") or "o.g." in line.lower():
-                    continue
-                count = _goal_count(line)
-                name = _scorer_name(line)
-                if count and name:
-                    scorers[(date, normalise_name(name))] = (name, count)
-    return scorers
 
 
 def name_to_code(con: duckdb.DuckDBPyConnection, season: str) -> dict[str, int]:
@@ -244,7 +150,7 @@ def name_to_code(con: duckdb.DuckDBPyConnection, season: str) -> dict[str, int]:
 
 def _fetch(client: httpx.Client, url: str, params: dict | None, cache: Path) -> str | None:
     """GET with an on-disk cache. Returns None (never raises) on any failure with
-    no cached copy — a Wikipedia outage must not take `refresh` down."""
+    no cached copy — an upstream outage must not take `refresh` down."""
     if cache.exists() and time.time() - cache.stat().st_mtime < TTL:
         return cache.read_text()
     try:
@@ -257,21 +163,82 @@ def _fetch(client: httpx.Client, url: str, params: dict | None, cache: Path) -> 
     return response.text
 
 
-def _wikitext(client: httpx.Client, title: str, cache_dir: Path) -> str | None:
-    slug = re.sub(r"[^A-Za-z0-9]+", "_", title).strip("_")
-    body = _fetch(
-        client,
-        WIKI_API,
-        {"action": "parse", "page": title, "prop": "wikitext",
-         "format": "json", "formatversion": "2"},
-        cache_dir / f"{slug}.json",
-    )
-    if body is None:
-        return None
-    try:
-        return json.loads(body)["parse"]["wikitext"]
-    except (json.JSONDecodeError, KeyError):
-        return None  # article not created yet -> {"error": ...}
+def fetch_preseason(client: httpx.Client, cache_dir: Path) -> list[dict]:
+    """All pre-season player-fixture rows from nextXI, PL clubs only.
+
+    Cached with no expiry, unlike the World Cup file: pre-season 2026 is over and
+    these rows will never change again, so a cache hit is not staleness, it is
+    the correct answer. Re-polling would burn nextXI's Supabase egress to be told
+    what we already know.
+
+    PostgREST caps a page at 1000 rows, so this walks offsets until a short page
+    ends it. A failure mid-walk returns what we have rather than raising — a
+    partial pre-season still boosts the players it covers, and `refresh` must not
+    die because someone else's API blinked.
+    """
+    cache = cache_dir / PRESEASON_CACHE
+    if cache.exists():
+        try:
+            return json.loads(cache.read_text())
+        except json.JSONDecodeError:
+            pass  # truncated write from an interrupted run — refetch below
+
+    rows: list[dict] = []
+    for offset in range(0, 20_000, NEXTXI_PAGE):
+        try:
+            response = client.get(
+                NEXTXI_API,
+                params={
+                    "select": NEXTXI_FIELDS,
+                    "is_pl_team": "eq.true",
+                    "offset": offset,
+                    "limit": NEXTXI_PAGE,
+                },
+            )
+            response.raise_for_status()
+            page = response.json()
+        except (httpx.HTTPError, json.JSONDecodeError):
+            break
+        rows.extend(page)
+        if len(page) < NEXTXI_PAGE:
+            break
+        time.sleep(POLITE_INTERVAL)
+
+    if rows:
+        cache.write_text(json.dumps(rows))
+    return rows
+
+
+def aggregate_preseason(rows: list[dict]) -> dict[str, dict[str, float]]:
+    """Per-fixture rows -> per-player totals, keyed by normalised name.
+
+    `minutes_played` is NULL for an unused substitute rather than 0, so it is
+    coalesced; an unused sub is a real appearance of zero minutes, and treating
+    the NULL as missing-data would quietly inflate everyone's minutes-per-game.
+
+    Starts and minutes are carried alongside goals because they are the better
+    pre-season signal: goals in July say something about finishing against mixed
+    opposition, but who the manager actually STARTS says who is in favour, which
+    is the thing our rolling features cannot see until real gameweeks exist.
+    """
+    totals: dict[str, dict[str, float]] = {}
+    for row in rows:
+        if not row.get("is_pl_team"):
+            continue  # opposition player; nothing to attribute to an FPL squad
+        name = (row.get("display_name") or row.get("player_name") or "").strip()
+        if not name:
+            continue
+        agg = totals.setdefault(
+            normalise_name(name),
+            {"name": name, "goals": 0.0, "assists": 0.0,
+             "minutes": 0.0, "starts": 0.0, "apps": 0.0},
+        )
+        agg["goals"] += float(row.get("goals") or 0)
+        agg["assists"] += float(row.get("assists") or 0)
+        agg["minutes"] += float(row.get("minutes_played") or 0)
+        agg["starts"] += 1.0 if row.get("started") else 0.0
+        agg["apps"] += 1.0
+    return totals
 
 
 def sync_summer(
@@ -288,10 +255,15 @@ def sync_summer(
     lookup = name_to_code(con, season)
 
     wc_goals: Counter[str] = Counter()
-    preseason: dict[tuple[str, str], tuple[str, int]] = {}
-    pages_read = 0
+    preseason: dict[str, dict[str, float]] = {}
     with httpx.Client(
-        timeout=30.0, follow_redirects=True, headers={"User-Agent": USER_AGENT}
+        timeout=30.0,
+        follow_redirects=True,
+        headers={
+            "User-Agent": USER_AGENT,
+            "apikey": NEXTXI_ANON_KEY,
+            "Authorization": f"Bearer {NEXTXI_ANON_KEY}",
+        },
     ) as client:
         payload = _fetch(client, WORLD_CUP_URL, None, cache_dir / "worldcup_2026.json")
         if payload is not None:
@@ -299,31 +271,33 @@ def sync_summer(
                 wc_goals = parse_world_cup(json.loads(payload))
             except json.JSONDecodeError:
                 wc_goals = Counter()
-
-        for title in SEASON_PAGES.values():
-            wikitext = _wikitext(client, title, cache_dir)
-            if wikitext is None:
-                continue
-            pages_read += 1
-            # dict update, not Counter merge: a (date, scorer) seen on two clubs'
-            # articles is one player-day, and must count once (see parse_preseason).
-            preseason.update(parse_preseason(wikitext))
-
-    preseason_goals: Counter[str] = Counter()
-    for name, goals in preseason.values():
-        preseason_goals[name] += goals
+        preseason = aggregate_preseason(fetch_preseason(client, cache_dir))
 
     rows: dict[int, dict] = {}
-    for source, column in ((wc_goals, "wc_goals"), (preseason_goals, "preseason_goals")):
-        for name, goals in source.items():
-            code = lookup.get(normalise_name(name))
-            if code is None:
-                continue  # not a Premier League player this season, or ambiguous
-            row = rows.setdefault(
-                code, {"code": code, "player_name": name, "wc_goals": 0.0,
-                       "preseason_goals": 0.0}
-            )
-            row[column] += float(goals)
+
+    def row_for(code: int, name: str) -> dict:
+        return rows.setdefault(
+            code,
+            {"code": code, "player_name": name, "wc_goals": 0.0, "preseason_goals": 0.0,
+             "preseason_assists": 0.0, "preseason_minutes": 0.0,
+             "preseason_starts": 0.0, "preseason_apps": 0.0},
+        )
+
+    for name, goals in wc_goals.items():
+        code = lookup.get(normalise_name(name))
+        if code is not None:  # else not a PL player this season, or ambiguous
+            row_for(code, name)["wc_goals"] += float(goals)
+
+    for key, agg in preseason.items():
+        code = lookup.get(key)
+        if code is None:
+            continue
+        row = row_for(code, agg["name"])
+        row["preseason_goals"] += agg["goals"]
+        row["preseason_assists"] += agg["assists"]
+        row["preseason_minutes"] += agg["minutes"]
+        row["preseason_starts"] += agg["starts"]
+        row["preseason_apps"] += agg["apps"]
 
     con.execute("DELETE FROM summer_form")
     if rows:
@@ -332,8 +306,7 @@ def sync_summer(
         con.execute("INSERT INTO summer_form BY NAME SELECT * FROM summer_rows")
         con.unregister("summer_rows")
     return {
-        "pages": pages_read,
         "wc_scorers": len(wc_goals),
-        "preseason_scorer_days": len(preseason),
+        "preseason_players": len(preseason),
         "matched_players": len(rows),
     }

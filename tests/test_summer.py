@@ -1,7 +1,7 @@
-"""Summer-form ingest: the parsing and the boost curve, which are the parts that
-can be silently wrong. Network fetching is not tested here — same reasoning as
-test_odds.py: `fplscout refresh` exercises it for real, and mocking httpx would
-only assert that the mock works.
+"""Summer-form ingest: the aggregation and the boost curve, which are the parts
+that can be silently wrong. Network fetching is not tested here — same reasoning
+as test_odds.py: `fplscout refresh` exercises it for real, and mocking httpx
+would only assert that the mock works.
 """
 
 from __future__ import annotations
@@ -11,107 +11,49 @@ import pytest
 
 from fplscout import pipeline
 from fplscout.ingest.summer import (
-    _goal_count,
+    aggregate_preseason,
     name_to_code,
     normalise_name,
-    parse_preseason,
     parse_world_cup,
 )
 
-# Two clubs' write-ups of the SAME friendly. Note the two spellings of Newcastle
-# and the two spellings of Barnes's name — this is the real shape of the pages,
-# not a contrived worst case.
-EVERTON_PAGE = """==Pre-season and friendlies==
-{{Football box collapsible
-| date       = 12 August 2026
-| team1      = [[Newcastle United F.C.|Newcastle United]]
-| score      = 2–4
-| team2      = Everton
-| goals1     =
-*[[Harvey Barnes|Barnes]] {{goal|20}}
-*[[Dan Burn|Burn]] {{goal|55|o.g.}}
-| goals2     =
-*[[Iliman Ndiaye|Ndiaye]] {{goal|31||64}}
-*[[Tyrique George|George]] {{goal|}}
-| stadium    = [[St James' Park]]
-}}
-
-==Competitions==
-{{Football box collapsible
-| date       = 22 August 2026
-| team1      = Everton
-| team2      = Arsenal
-| goals1     =
-*[[Beto (footballer, born 1998)|Beto]] {{goal|12}}
-}}
-"""
-
-NEWCASTLE_PAGE = """==Pre-season and friendlies==
-{{football box collapsible
-| date       = 12 August 2026
-| team1      = Newcastle
-| score      = 2–4
-| team2      = [[Everton F.C.|Everton]]
-| goals1     =
-*[[Harvey Barnes]] {{goal|20}}
-*[[Dan Burn|Burn]] {{goal|55|o.g.}}
-| goals2     =
-*[[Iliman Ndiaye|Ndiaye]] {{goal|31||64}}
-*Proctor {{goal|}}
-| penaltyscore = 1–3
-| penalties1 =
-*[[Harvey Barnes|Barnes]] {{pengoal}}
-}}
-"""
+# Real nextXI row shape: minutes_played is NULL for an unused sub, assists are
+# sparse, and opposition players ride along in the same table.
+PRESEASON_ROWS = [
+    {"display_name": "João Pedro", "player_name": "Joao Pedro Junqueira", "is_pl_team": True,
+     "started": True, "minutes_played": 90, "goals": 2, "assists": 0},
+    {"display_name": "João Pedro", "player_name": "Joao Pedro Junqueira", "is_pl_team": True,
+     "started": True, "minutes_played": 62, "goals": 1, "assists": 1},
+    {"display_name": "João Pedro", "player_name": "Joao Pedro Junqueira", "is_pl_team": True,
+     "started": False, "minutes_played": None, "goals": 0, "assists": 0},
+    {"display_name": "Some Opponent", "player_name": "Some Opponent", "is_pl_team": False,
+     "started": True, "minutes_played": 90, "goals": 3, "assists": 2},
+    {"display_name": "", "player_name": "", "is_pl_team": True,
+     "started": True, "minutes_played": 90, "goals": 1, "assists": 0},
+]
 
 
-def test_goal_count_handles_the_template_variants():
-    """One {{goal}} can carry several minutes — `{{goal|31||64}}` is a brace, and
-    reading it as one goal halves every multi-goal performance in the dataset."""
-    assert _goal_count("*[[X]] {{goal|20}}") == 1
-    assert _goal_count("*[[X]] {{goal|31||64}}") == 2
-    assert _goal_count("*[[X]] {{goal|12}} {{goal|45+2}}") == 2
-    # minute unrecorded, but a goal was still scored
-    assert _goal_count("*[[X]] {{goal|}}") == 1
-    assert _goal_count("*[[X]] {{goal|pen.}}") == 1
-    assert _goal_count("*[[X]] {{pengoal}}") == 0  # shootout, not a goal
-    assert _goal_count("*[[X]]") == 0
+def test_aggregate_preseason_sums_per_player_and_drops_the_opposition():
+    out = aggregate_preseason(PRESEASON_ROWS)
+
+    pedro = out[normalise_name("João Pedro")]
+    assert pedro["goals"] == 3.0
+    assert pedro["assists"] == 1.0
+    assert pedro["minutes"] == 152.0  # NULL minutes is an unused sub, worth 0
+    assert pedro["starts"] == 2.0
+    assert pedro["apps"] == 3.0  # ...but the unused sub IS an appearance
+
+    # is_pl_team=False is an opponent. The Wikipedia scraper this replaced had to
+    # exclude them by name-matching and got it wrong; here the flag is explicit.
+    assert normalise_name("Some Opponent") not in out
+    assert "" not in out  # a nameless row can never resolve to a code
 
 
-def test_parse_preseason_reads_names_minutes_and_stops_at_the_next_section():
-    parsed = parse_preseason(EVERTON_PAGE)
-    by_name = {name: goals for name, goals in parsed.values()}
-
-    # wikilink TARGET, not the display surname — the full name is what matches FPL
-    assert by_name["Iliman Ndiaye"] == 2
-    assert by_name["Harvey Barnes"] == 1
-    assert by_name["Tyrique George"] == 1
-    # own goal belongs to the other team; crediting it would boost the defender
-    assert "Dan Burn" not in by_name
-    # the Competitions box below the next heading uses the identical template —
-    # sweeping the whole article folds real league goals into a pre-season score
-    assert "Beto" not in by_name
-
-
-def test_parse_preseason_dedupes_the_same_fixture_across_two_club_pages():
-    """Regression: a PL-v-PL friendly is written up on both clubs' articles, and
-    they spell the teams differently ("Newcastle" vs "[[Newcastle United F.C.]]"),
-    so a fixture key built from team names never collapses them and every goal in
-    the match counts twice. Keying on (date, scorer) dedupes by construction."""
-    merged = {}
-    merged.update(parse_preseason(EVERTON_PAGE))
-    merged.update(parse_preseason(NEWCASTLE_PAGE))
-
-    totals: dict[str, int] = {}
-    for name, goals in merged.values():
-        totals[name] = totals.get(name, 0) + goals
-
-    assert totals["Harvey Barnes"] == 1  # not 2
-    assert totals["Iliman Ndiaye"] == 2  # not 4
-    # differing spellings of the same scorer-day still collapse to one entry
-    assert ("12 august 2026", "harvey barnes") in merged
-    # and a scorer only one page recorded survives
-    assert totals["Proctor"] == 1
+def test_aggregate_preseason_keeps_the_source_spelling_for_matching():
+    """The name is carried through so name_to_code sees what nextXI actually
+    wrote — the accent-stripped key is for joining, not for display."""
+    out = aggregate_preseason(PRESEASON_ROWS)
+    assert out[normalise_name("João Pedro")]["name"] == "João Pedro"
 
 
 def test_parse_world_cup_drops_own_goals_and_keeps_penalties():
