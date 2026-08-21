@@ -574,13 +574,21 @@ def publish(
     fails = [f for f in findings if f.level == "FAIL"]
     # The one FAIL that isn't "something's wrong": a live season's next
     # gameweek closed its deadline before finishing (the normal weekend
-    # window between deadline and full-time). Every other FAIL (illegal
-    # squad, flagged captain, stale/NULL projections) still hard-aborts.
+    # window between deadline and full-time) — the squad itself is still
+    # whatever preflight's other checks already found legal/available/fresh,
+    # just no longer inside an open decision window. Every other FAIL
+    # (illegal squad, flagged captain, stale/NULL projections) still
+    # hard-aborts: those mean the data itself is wrong, not just late.
     only_deadline_passed = fails and all(f.check == "deadline" for f in fails)
     if fails and not force and not only_deadline_passed:
         con.close()
         typer.echo("Publish aborted — fix the FAILs above or re-run with --force.")
         raise typer.Exit(code=1)
+    if only_deadline_passed and not force:
+        typer.echo(
+            "Deadline passed with the gameweek still live — publishing anyway "
+            "(nothing else failed; there's no other recommendation to give)."
+        )
 
     written = publish_all(
         con,
@@ -592,15 +600,8 @@ def publish(
         reports_dir=REPO_ROOT / "data" / "reports",
         rules_path=REPO_ROOT / "config" / "rules.yaml",
         our_entry_id=settings.get("team_id"),
-        include_recommendation=not fails or force,
     )
     con.close()
-
-    if only_deadline_passed and not force:
-        typer.echo(
-            "Recommendation withheld (deadline passed, gameweek still live) — "
-            "league/fixtures/chips/etc. published anyway."
-        )
 
     for name, size in written.items():
         typer.echo(f"  {name}: {size}")
