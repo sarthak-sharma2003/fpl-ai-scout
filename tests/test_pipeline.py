@@ -70,3 +70,39 @@ def test_availability_return_gw_picks_the_year_that_lands_in_the_season():
     out = pipeline.availability_return_gw(con, "2026-27")
     con.close()
     assert out[1] == 5  # the 2027-01-09 gameweek, not a 2026 one
+
+
+def test_unpickable_blocks_only_players_with_no_way_back():
+    """Zero EV and "cannot play" look identical to a MILP maximising points, and
+    at the price floor that makes an unavailable player ideal-looking bench
+    fodder. A season-long loanee reached the published GW1 bench exactly that
+    way: valued correctly at ~0, then picked because of it."""
+    con = _con_with_news([
+        (1, "u", "Has joined KVC Westerlo on loan for the rest of the season."),
+        (2, "i", "Groin injury - Unknown return date"),
+        (3, "s", "Suspended until 29 Aug"),
+        (4, "i", "Ankle injury - Expected back 9 Jan"),
+        (5, "a", None),
+    ])
+    for code in (1, 2, 3, 4):
+        con.execute("UPDATE players SET chance_of_playing_next_round = 0 WHERE code = ?", [code])
+
+    blocked = pipeline.unpickable(con, "2026-27", decision_gw=1)
+    con.close()
+
+    assert 1 in blocked, "left the league — can never autosub, not cheap fodder"
+    assert 2 in blocked, "out now with no published return date"
+    # out now, but the news says he is back next gameweek: a real wildcard buy
+    assert 3 not in blocked
+    # back in GW5, beyond an 8-gameweek horizon from GW1? no — GW5 is inside it
+    assert 4 not in blocked
+    assert 5 not in blocked, "a fit player must never be filtered out"
+
+
+def test_unpickable_blocks_a_return_beyond_the_horizon():
+    con = _con_with_news([(1, "i", "Expected back 9 Jan")])
+    con.execute("UPDATE players SET chance_of_playing_next_round = 0 WHERE code = 1")
+    # deciding GW1 with an 8-gameweek horizon: a GW5 return is inside it, but
+    # deciding from a gameweek far enough back it would not be.
+    assert 1 not in pipeline.unpickable(con, "2026-27", decision_gw=1)
+    con.close()

@@ -363,13 +363,44 @@ def generate_projections(
     return out
 
 
+def unpickable(
+    con: duckdb.DuckDBPyConnection, season: str, decision_gw: int
+) -> set[int]:
+    """Codes the optimizer must not be offered at all.
+
+    Zero EV and "cannot play" are indistinguishable to a MILP maximising points,
+    and at the £4.5m floor that makes an unavailable player look exactly like
+    ideal bench fodder — cheap, and costing nothing in the objective. That is how
+    a player on a season-long loan to a Belgian club got picked onto the GW1
+    bench: correctly valued at ~0 EV, then selected BECAUSE of it. A bench slot
+    is not free, it is one of fifteen, and it has to be able to autosub.
+
+    The rule is "cannot play now, and no published date for coming back":
+    unavailable this gameweek AND either gone from the league entirely or
+    carrying no return date inside the horizon. A player who is out now but whose
+    news says he is back in two gameweeks stays pickable — that is a real, and
+    often good, wildcard buy.
+    """
+    factor = live_availability_factor(con)
+    back = availability_return_gw(con, season)
+    horizon_end = decision_gw + HORIZON - 1
+    out: set[int] = set()
+    for code, available in factor.items():
+        if available > 0:
+            continue
+        returns_at = back.get(code)
+        if returns_at is None or returns_at > horizon_end:
+            out.add(int(code))
+    return out
+
+
 def roster_snapshot(con: duckdb.DuckDBPyConnection, season: str, gw: int) -> pd.DataFrame:
     """code, position, team_id, price, web_name as of (season, gw) — the
     optimizer's player universe. Reads the `features` table rather than
     player_gw_history so it also works for an UNPLAYED upcoming gameweek
     (issue #5's synthetic rows, priced from live now_cost); for played
     gameweeks the two are equivalent, since features derive from history."""
-    return con.execute(
+    roster = con.execute(
         """
         SELECT f.code, f.position, f.team_id, f.value AS price, p.web_name
         FROM features f
@@ -379,6 +410,8 @@ def roster_snapshot(con: duckdb.DuckDBPyConnection, season: str, gw: int) -> pd.
         """,
         [season, gw],
     ).df()
+    blocked = unpickable(con, season, gw)
+    return roster[~roster["code"].isin(blocked)].reset_index(drop=True)
 
 
 def total_ev_for_optimizer(

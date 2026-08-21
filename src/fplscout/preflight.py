@@ -121,6 +121,21 @@ def run_preflight(
             fail("budget", f"squad costs {total_price / 10:.1f}m > {BUDGET_TENTHS / 10:.0f}.0m")
 
     # --- availability ----------------------------------------------------
+    # The BENCH is checked too, and it was not before. A flagged bench player is
+    # not a lesser version of a flagged starter, it is a dead squad slot: he
+    # cannot autosub, so the XI silently plays a man short whenever someone
+    # ahead of him blanks. A season-long loanee reached the published GW1 bench
+    # through this gap. Warn rather than fail — a genuinely doubtful bench player
+    # is ordinary — but never say nothing.
+    bench_rows = squad_rows[~squad_rows["code"].isin(xi_rows["code"])]
+    for _, row in bench_rows.iterrows():
+        status = row.get("status")
+        if pd.isna(status) or status == "a":
+            continue
+        if status in HARD_OUT_STATUSES:
+            news = f" — {row['news']}" if pd.notna(row.get("news")) and row.get("news") else ""
+            warn("availability", f"{row['web_name']} is benched but status={status}{news}")
+
     for _, row in xi_rows.iterrows():
         status = row.get("status")
         if pd.isna(status) or status == "a":
