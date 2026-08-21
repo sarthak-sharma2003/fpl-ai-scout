@@ -10,6 +10,7 @@ from fplscout.publish import (
     build_chips,
     build_league,
     build_rules,
+    publish_all,
 )
 
 
@@ -246,3 +247,33 @@ def test_build_chips_marks_used_window(league_con):
     out = build_chips(con, SEASON, PROJ_GW, our_entry_id=R1)
     wc = out["chips"][0]
     assert wc["available"] is False and wc["used_gw"] == 1
+
+
+# --- publish_all(include_recommendation=False) ------------------------------
+
+
+def test_publish_all_can_withhold_recommendation_only(tmp_path):
+    """The deadline-passed-but-live-gameweek preflight FAIL should withhold
+    just the "DO THIS" files, not the rest of the site — see cli.py publish()."""
+    con = db.connect(":memory:")
+    db.init_schema(con)
+    con.execute(
+        "INSERT INTO gameweeks (season, event, deadline_time, finished) "
+        "VALUES ('2026-27', 1, now(), false)"
+    )
+    rules_path = tmp_path / "rules.yaml"
+    rules_path.write_text("rules: []\n")
+    reports_dir = tmp_path / "reports"
+    reports_dir.mkdir()
+
+    written = publish_all(
+        con, tmp_path / "site", reports_dir, rules_path, include_recommendation=False
+    )
+    con.close()
+
+    assert "dashboard.json" not in written
+    assert "transfers.json" not in written
+    assert "dashboard_alt.json" not in written
+    for name in ("league.json", "chips.json", "fixtures.json", "signals.json",
+                 "rules.json", "analytics.json"):
+        assert name in written

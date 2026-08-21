@@ -560,7 +560,7 @@ def publish(
     fails preflight unless --force.
     """
     from fplscout import pipeline
-    from fplscout.preflight import has_failures, render_findings, run_preflight
+    from fplscout.preflight import render_findings, run_preflight
     from fplscout.publish import publish_all
 
     settings = load_settings(settings_path)
@@ -571,7 +571,13 @@ def publish(
     findings = run_preflight(con, season, gw)
     if findings:
         typer.echo(render_findings(findings))
-    if has_failures(findings) and not force:
+    fails = [f for f in findings if f.level == "FAIL"]
+    # The one FAIL that isn't "something's wrong": a live season's next
+    # gameweek closed its deadline before finishing (the normal weekend
+    # window between deadline and full-time). Every other FAIL (illegal
+    # squad, flagged captain, stale/NULL projections) still hard-aborts.
+    only_deadline_passed = fails and all(f.check == "deadline" for f in fails)
+    if fails and not force and not only_deadline_passed:
         con.close()
         typer.echo("Publish aborted — fix the FAILs above or re-run with --force.")
         raise typer.Exit(code=1)
@@ -586,8 +592,15 @@ def publish(
         reports_dir=REPO_ROOT / "data" / "reports",
         rules_path=REPO_ROOT / "config" / "rules.yaml",
         our_entry_id=settings.get("team_id"),
+        include_recommendation=not fails or force,
     )
     con.close()
+
+    if only_deadline_passed and not force:
+        typer.echo(
+            "Recommendation withheld (deadline passed, gameweek still live) — "
+            "league/fixtures/chips/etc. published anyway."
+        )
 
     for name, size in written.items():
         typer.echo(f"  {name}: {size}")

@@ -887,9 +887,19 @@ def publish_all(
     reports_dir: Path,
     rules_path: Path,
     our_entry_id: int | None = None,
+    include_recommendation: bool = True,
 ) -> dict[str, int]:
     """Writes every §8-shaped JSON file to site_data_dir. Returns a summary
-    dict of {filename: bytes_written} for the CLI to echo."""
+    dict of {filename: bytes_written} for the CLI to echo.
+
+    include_recommendation=False skips the squad-recommendation files
+    (dashboard/dashboard_alt/transfers — "DO THIS by this deadline") while
+    still publishing everything else (league standings, chips, fixtures,
+    signals, rules, analytics). Used when preflight's only FAIL is a passed
+    deadline on a still-live gameweek: not safe to tell someone to act on a
+    recommendation for a deadline that's closed, but nothing else on the site
+    is wrong and shouldn't go stale for it.
+    """
     season, gw = pipeline.latest_reference_point(con)
     ref = _reference_frame(con, season, gw)
     versions = ref["model_version"].dropna()
@@ -900,8 +910,6 @@ def publish_all(
     players_dir.mkdir(parents=True, exist_ok=True)
 
     files: dict[str, object] = {
-        "dashboard.json": build_dashboard(con, season, gw),
-        "transfers.json": build_transfers(con, season, gw),
         "fixtures.json": build_fixtures(con, season, gw),
         "signals.json": build_signals(con, season, gw),
         "chips.json": build_chips(con, season, gw, our_entry_id=our_entry_id),
@@ -910,12 +918,16 @@ def publish_all(
         "analytics.json": build_analytics(reports_dir, model_version),
     }
 
-    # optional second squad excluding config/alt_exclude.csv players (e.g. "no
-    # Haaland"), shown behind a toggle on the dashboard. Skipped when the file is
-    # absent or the build fails, so the site degrades to just the main squad.
-    alt = build_dashboard_alt(con, season, gw, _alt_exclude_codes())
-    if alt is not None:
-        files["dashboard_alt.json"] = alt
+    if include_recommendation:
+        files["dashboard.json"] = build_dashboard(con, season, gw)
+        files["transfers.json"] = build_transfers(con, season, gw)
+        # optional second squad excluding config/alt_exclude.csv players (e.g.
+        # "no Haaland"), shown behind a toggle on the dashboard. Skipped when
+        # the file is absent or the build fails, so the site degrades to just
+        # the main squad.
+        alt = build_dashboard_alt(con, season, gw, _alt_exclude_codes())
+        if alt is not None:
+            files["dashboard_alt.json"] = alt
 
     written = {}
     for name, payload in files.items():
