@@ -363,6 +363,60 @@ def generate_projections(
     return out
 
 
+# Season-opening minutes floor. For the first few gameweeks a player who might
+# not start is worth less than his expected points imply, because EV is a mean
+# and a manager picks a lineup: 52 expected minutes is not "0.6 of a player", it
+# is a coin flip between 90 and 0. Autosubs only cover a player who plays ZERO
+# minutes, so a starter who is benched for 20 minutes of garbage time returns
+# almost nothing and cannot be substituted for.
+#
+# Expressed as a hard bar on STARTING, not as an EV haircut. An earlier
+# multiplicative tilt was built and measured: it moved nothing below 20%
+# strength and cost 1.8 points across 8 gameweeks at 20%, because scaling EV
+# scales a cheap bench player's ~0 by ~0 while distorting everyone good. Barring
+# the XI is the precise instrument — a rotation risk stays available as bench
+# fodder, which is exactly what he is worth.
+#
+# p_60_plus is the model's OWN minutes estimate, so this reuses the model's
+# judgement rather than second-guessing it with a raw prior-season ratio; the
+# floor only decides how much of that judgement is tolerable in a starter.
+MINUTES_FLOOR_GWS = 3  # gameweeks from season start that the floor applies to
+# 0.70 measured, not guessed: sweeping the floor against the GW1 solve, the XI is
+# byte-identical and costs ZERO EV anywhere from 0 to 0.75, then falls off a
+# cliff at 0.80 (-19.6 points across 8 gameweeks, 550 of 573 players barred).
+# 0.70 sits mid-plateau with margin from that cliff, and comfortably above
+# Cherki's 0.51 — the pick that prompted this. Free insurance until it binds.
+MINUTES_FLOOR_P60 = 0.70
+
+
+def xi_minutes_floor(
+    con: duckdb.DuckDBPyConnection, season: str, gw: int, model_version: str
+) -> set[int]:
+    """Codes barred from the starting XI for the season's opening gameweeks.
+
+    Empty once MINUTES_FLOOR_GWS gameweeks have been played: by then
+    roll5_started_share is measuring this season's minutes directly and the
+    model needs no help. Empty also if projections carry no p_60_plus, so an
+    older projections row degrades to the previous behaviour rather than
+    barring everyone.
+    """
+    played = con.execute(
+        "SELECT count(*) FROM gameweeks WHERE season = ? AND finished", [season]
+    ).fetchone()[0]
+    if played >= MINUTES_FLOOR_GWS:
+        return set()
+    rows = con.execute(
+        "SELECT code, p_60_plus FROM projections "
+        "WHERE season = ? AND gw = ? AND model_version = ?",
+        [season, gw, model_version],
+    ).fetchall()
+    return {
+        int(code)
+        for code, p60 in rows
+        if p60 is not None and float(p60) < MINUTES_FLOOR_P60
+    }
+
+
 def unpickable(
     con: duckdb.DuckDBPyConnection, season: str, decision_gw: int
 ) -> set[int]:

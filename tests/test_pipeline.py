@@ -106,3 +106,35 @@ def test_unpickable_blocks_a_return_beyond_the_horizon():
     # deciding from a gameweek far enough back it would not be.
     assert 1 not in pipeline.unpickable(con, "2026-27", decision_gw=1)
     con.close()
+
+
+def test_xi_minutes_floor_lapses_once_real_gameweeks_exist():
+    """The floor is a season-opening crutch. Once roll5_started_share measures
+    this season's minutes directly the model needs no help, and a permanent bar
+    on low-minutes players would just be a worse model."""
+    con = _con_with_news([(1, "a", None), (2, "a", None)])
+    con.execute(
+        "INSERT INTO projections (season, gw, code, model_version, p_60_plus) VALUES "
+        "('2026-27', 1, 1, 'v1', 0.51), ('2026-27', 1, 2, 'v1', 0.88)"
+    )
+    assert pipeline.xi_minutes_floor(con, "2026-27", 1, "v1") == {1}
+
+    for gw in range(1, pipeline.MINUTES_FLOOR_GWS + 1):
+        con.execute(
+            "UPDATE gameweeks SET finished = true WHERE season = '2026-27' AND event = ?",
+            [gw],
+        )
+    assert pipeline.xi_minutes_floor(con, "2026-27", 1, "v1") == set()
+    con.close()
+
+
+def test_xi_minutes_floor_ignores_projections_without_p60():
+    """An older projections row must degrade to previous behaviour, not bar
+    every player in the pool."""
+    con = _con_with_news([(1, "a", None)])
+    con.execute(
+        "INSERT INTO projections (season, gw, code, model_version, p_60_plus) "
+        "VALUES ('2026-27', 1, 1, 'v1', NULL)"
+    )
+    assert pipeline.xi_minutes_floor(con, "2026-27", 1, "v1") == set()
+    con.close()

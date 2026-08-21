@@ -479,3 +479,30 @@ def test_top_alternative_moves_flags_hit_when_no_free_transfers():
     )
     assert moves[0].would_need_hit is True
     assert moves[0].net_ev == pytest.approx(15.0 - DEFAULT_HIT_COST)
+
+
+def test_xi_excluded_bars_starting_but_not_buying(draft_universe):
+    """A rotation risk is a bad starter and a perfectly good cheap bench body.
+    An EV tilt cannot express that difference — it scales both alike, and scales
+    a ~0 EV bench player by ~0 — so the bar is on the XI, not on the purchase."""
+    # the three highest-EV players in the pool: without the bar every one of them
+    # would certainly start, so the assertion cannot pass by accident
+    barred = {27, 26, 34}
+
+    result = optimize(
+        OptimizerInput(
+            projections=draft_universe,
+            current_squad=set(),
+            purchase_prices={},
+            bank=1000,
+            free_transfers=1,
+            chip_mode="wildcard",
+            xi_excluded=barred,
+        )
+    )
+    assert result.status == "Optimal"
+    assert len(result.starting_xi) == 11
+    assert not (result.starting_xi & barred), "a barred player must never start"
+    # ...but they stay purchasable, which is the whole point of barring the XI
+    # rather than removing them from the pool
+    assert result.squad & barred

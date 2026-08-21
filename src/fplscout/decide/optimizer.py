@@ -59,6 +59,12 @@ class OptimizerInput:
     max_hits: int | None = None
     max_per_club: int = DEFAULT_MAX_PER_CLUB
     bench_weights: tuple[float, float, float] = BENCH_WEIGHTS
+    # Codes barred from the STARTING XI while still buyable for the bench. Used
+    # for the season-opening minutes floor (pipeline.xi_minutes_floor): a
+    # rotation risk is a bad starter but a perfectly good cheap bench body, and
+    # an EV tilt cannot express that difference — it scales both the same way,
+    # and on a ~0 EV bench player it scales nothing at all.
+    xi_excluded: set[int] = field(default_factory=set)
     time_limit_seconds: float = 30.0
 
 
@@ -164,6 +170,9 @@ def optimize(inp: OptimizerInput) -> OptimizationResult:
 
     # XI: subset of squad, formation-legal
     prob += pulp.lpSum(xi[c] for c in codes) == XI_SIZE
+    for c in codes:
+        if c in inp.xi_excluded:
+            prob += xi[c] == 0
     for c in codes:
         prob += xi[c] <= squad[c]
     for pos, (lo, hi) in XI_BOUNDS.items():

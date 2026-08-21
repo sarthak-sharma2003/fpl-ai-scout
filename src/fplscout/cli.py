@@ -427,7 +427,14 @@ def optimize(settings_path: Path = typer.Option(DEFAULT_SETTINGS_PATH, "--settin
     roster = pipeline.roster_snapshot(con, season, gw)
     models = pipeline.load_production_models(REPO_ROOT / "data" / "models", model_version)
     total_ev = pipeline.total_ev_for_optimizer(con, models, season, gw, proj)
+    # must read projections before the connection closes
+    xi_excluded = pipeline.xi_minutes_floor(con, season, gw, model_version)
     con.close()
+    if xi_excluded:
+        typer.echo(
+            f"  season-opening minutes floor: {len(xi_excluded)} bench-only "
+            f"(p60 < {pipeline.MINUTES_FLOOR_P60})"
+        )
 
     total_ev_df = total_ev.rename("total_ev").reset_index().rename(columns={"index": "code"})
     opt_input_df = roster.merge(total_ev_df, on="code", how="inner")
@@ -446,6 +453,7 @@ def optimize(settings_path: Path = typer.Option(DEFAULT_SETTINGS_PATH, "--settin
             bank=1000,
             free_transfers=1,
             chip_mode="wildcard",
+            xi_excluded=xi_excluded,
         )
     )
     if result.status != "Optimal":
