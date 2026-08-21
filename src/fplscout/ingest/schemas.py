@@ -662,7 +662,6 @@ class LeagueInfo(BaseModel):
 class LeagueStandingRow(BaseModel):
     model_config = STRICT
 
-    id: int
     event_total: int
     player_name: str
     rank: int
@@ -671,7 +670,6 @@ class LeagueStandingRow(BaseModel):
     total: int
     entry: int
     entry_name: str
-    has_played: bool
     club_badge_src: str | None = None
 
 
