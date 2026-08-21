@@ -564,6 +564,7 @@ class EntryHistoryCurrent(BaseModel):
     rank_sort: int | None = None
     overall_rank: int | None = None
     percentile_rank: int | None = None
+    overall_rank_percentage: float | None = None
     bank: int
     value: int
     event_transfers: int
