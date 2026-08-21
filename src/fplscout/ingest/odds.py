@@ -67,6 +67,7 @@ TEAM_NAME_OVERRIDES = {
     # promoted for 26/27 — football-data drops the suffix FPL keeps
     "Coventry": "Coventry City",
     "Hull": "Hull City",
+    "Ipswich": "Ipswich Town",
 }
 
 
