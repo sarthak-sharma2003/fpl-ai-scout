@@ -107,6 +107,40 @@ def parse_world_cup(payload: dict) -> Counter[str]:
     return goals
 
 
+def candidate_keys(name: str) -> list[str]:
+    """Source name -> lookup keys to try, most specific first.
+
+    Necessary because the two sides shorten names differently and neither is
+    wrong. FPL files Dalot as first="Diogo", second="Dalot Teixeira"; nextXI
+    calls him "Diogo Dalot". Matching only on the full string missed him, and
+    Raya ("David Raya" vs "David Raya Martín"), and ~260 others — silently, since
+    an unmatched player is indistinguishable from one who never played.
+
+    So: the whole name, then progressively shorter leading forms, then the
+    surname alone. The lookup they are tried against has already dropped every
+    ambiguous key, so a short form can only ever hit a unique player.
+    """
+    key = normalise_name(name)
+    if not key:
+        return []
+    parts = key.split()
+    keys = [key]
+    if len(parts) > 2:  # "diogo dalot teixeira" -> also try "diogo dalot"
+        keys.append(" ".join(parts[:2]))
+    if len(parts) > 1:
+        keys.append(parts[-1])  # surname alone, e.g. "dalot"
+    return keys
+
+
+def resolve_code(lookup: dict[str, int], name: str) -> int | None:
+    """First candidate key that hits, or None. None means no boost, never a guess."""
+    for key in candidate_keys(name):
+        code = lookup.get(key)
+        if code is not None:
+            return code
+    return None
+
+
 def name_to_code(con: duckdb.DuckDBPyConnection, season: str) -> dict[str, int]:
     """Normalised name -> FPL `code`, for players registered in `season`.
 
@@ -129,10 +163,13 @@ def name_to_code(con: duckdb.DuckDBPyConnection, season: str) -> dict[str, int]:
         """,
         [season],
     ).fetchall()
-    tiers: list[dict[str, set[int]]] = [{}, {}, {}]
+    tiers: list[dict[str, set[int]]] = [{}, {}, {}, {}]
     for code, first, second, web in rows:
+        second_head = (second or "").split()[0] if (second or "").strip() else ""
         keys = [
             normalise_name(f"{first or ''} {second or ''}"),
+            # "Diogo" + "Dalot Teixeira" -> "diogo dalot", how most sources write him
+            normalise_name(f"{first or ''} {second_head}"),
             normalise_name(web or ""),
             normalise_name(second or ""),
         ]
@@ -284,12 +321,12 @@ def sync_summer(
         )
 
     for name, goals in wc_goals.items():
-        code = lookup.get(normalise_name(name))
+        code = resolve_code(lookup, name)
         if code is not None:  # else not a PL player this season, or ambiguous
             row_for(code, name)["wc_goals"] += float(goals)
 
-    for key, agg in preseason.items():
-        code = lookup.get(key)
+    for _key, agg in preseason.items():
+        code = resolve_code(lookup, agg["name"])
         if code is None:
             continue
         row = row_for(code, agg["name"])

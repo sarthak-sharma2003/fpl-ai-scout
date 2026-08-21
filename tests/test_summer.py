@@ -159,3 +159,24 @@ def test_summer_boost_fades_out_once_real_gameweeks_exist():
     assert pipeline.summer_boost(
         _con_with_summer_form(rows, finished_gws=pipeline.SUMMER_FADE_GWS), "2026-27"
     ) == {}
+
+
+def test_candidate_keys_bridges_how_the_two_sides_shorten_names():
+    """FPL files Dalot as first="Diogo", second="Dalot Teixeira"; nextXI writes
+    "Diogo Dalot". Matching only the full string missed him, Raya, and ~260
+    others — silently, since an unmatched player looks exactly like one who
+    never played."""
+    from fplscout.ingest.summer import candidate_keys, resolve_code
+
+    assert candidate_keys("Diogo Dalot") == ["diogo dalot", "dalot"]
+    assert candidate_keys("David Raya Martín") == [
+        "david raya martin", "david raya", "martin",
+    ]
+    assert candidate_keys("") == []
+
+    lookup = {"diogo dalot teixeira": 1, "dalot": 1, "haaland": 2}
+    assert resolve_code(lookup, "Diogo Dalot") == 1  # via the surname fallback
+    assert resolve_code(lookup, "Erling Haaland") == 2
+    # an ambiguous key never reaches the lookup (name_to_code drops it), so an
+    # unknown name resolves to nothing rather than to a guess
+    assert resolve_code(lookup, "Someone Unknown") is None
