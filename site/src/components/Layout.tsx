@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
 import { useJson } from '../lib/useJson';
+import Xabi from './Xabi';
 import type { Analytics } from '../types';
 
 const NAV = [
@@ -88,6 +89,9 @@ export default function Layout() {
       </main>
 
       <Footer />
+      {/* Mounted in the layout, not a page: the manager should be reachable from
+          whatever screen prompted the question. */}
+      <Xabi />
     </div>
   );
 }
