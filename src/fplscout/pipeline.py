@@ -19,6 +19,7 @@ exists, this reverts to the real per-gameweek horizon forecast automatically (se
 from __future__ import annotations
 
 import pickle
+import re
 from dataclasses import dataclass
 from datetime import UTC, datetime
 from pathlib import Path
@@ -45,7 +46,14 @@ SUMMER_WC_WEIGHT = 1.5
 SUMMER_PRESEASON_WEIGHT = 1.0
 SUMMER_THRESHOLD = 3.0  # score below this -> no boost at all
 SUMMER_PER_POINT = 0.015  # +1.5% EV per weighted goal above the threshold
-SUMMER_MAX_BOOST = 0.05  # ...capped at +5%, i.e. ~0.3pts on a 6-point striker
+# Capped at +5%, ~0.3pts on a 6-point striker. MEASURED, not guessed: sweeping
+# this cap against the GW1 wildcard solve, the squad is unchanged below 2%, takes
+# one swap at 2%, and settles on the same three swaps everywhere from 3% to 40%.
+# Raising it to 10% picks a byte-identical fifteen — this boost only re-orders
+# near-ties, and past those the next candidates are blocked by the budget and the
+# 3-per-club rule, which no multiplier can buy past. 5% sits mid-plateau rather
+# than on the 3% edge, so a nightly EV shift can't flip players in and out.
+SUMMER_MAX_BOOST = 0.05
 SUMMER_FADE_GWS = 6  # linear fade to nothing; by GW6 the rolling features know
 
 
@@ -214,6 +222,73 @@ def summer_boost(con: duckdb.DuckDBPyConnection, season: str) -> dict[int, float
     return boost
 
 
+# FPL writes return dates two ways and only these two: "Suspended until 30 Aug",
+# "Expected back 10 Oct". Everything else is "Unknown return date" (the majority)
+# or a transfer note, both of which fall through to no date and keep the fade.
+_RETURN_DATE = re.compile(r"(?:until|back)\s+(\d{1,2})\s+([A-Za-z]{3})", re.I)
+_NEVER_GW = 999  # departed the league: out for every gameweek in any horizon
+
+
+def availability_return_gw(con: duckdb.DuckDBPyConnection, season: str) -> dict[int, int]:
+    """code -> first gameweek the player is expected available, read from FPL's
+    own `news` string. Inference-only, like live_availability_factor.
+
+    We already ingest `news` and show it to the human (preflight gates on it, the
+    site badges it, the weekly sheet prints it) — but nothing ever fed it to the
+    model, so the horizon guessed at return dates FPL had already published. This
+    is that text, parsed.
+
+    A player whose status is 'u' (left the club) maps to a sentinel beyond any
+    horizon rather than a date: "gone" is not a long injury, and letting the fade
+    restore them was handing EV to players who are no longer in the league.
+
+    Players with no parseable date are OMITTED, not defaulted — the caller must
+    keep the linear fade for them, since "no date published" genuinely means we
+    do not know.
+    """
+    deadlines = con.execute(
+        "SELECT event, deadline_time FROM gameweeks WHERE season = ? "
+        "AND deadline_time IS NOT NULL ORDER BY event",
+        [season],
+    ).fetchall()
+    if not deadlines:
+        return {}
+    # A season straddles the new year, and `news` gives a day and month with no
+    # year ("6 Sep"). Resolve against the real gameweek calendar rather than
+    # assuming: whichever candidate year lands inside the season wins.
+    years = {d[1].year for d in deadlines}
+    first_deadline = min(d[1] for d in deadlines).replace(tzinfo=UTC)
+
+    out: dict[int, int] = {}
+    for code, status, news in con.execute(
+        "SELECT code, status, news FROM players"
+    ).fetchall():
+        if status == "u":
+            out[int(code)] = _NEVER_GW
+            continue
+        match = _RETURN_DATE.search(news or "")
+        if match is None:
+            continue
+        for year in sorted(years):
+            try:
+                back = datetime.strptime(
+                    f"{match.group(1)} {match.group(2)} {year}", "%d %b %Y"
+                ).replace(tzinfo=UTC)
+            except ValueError:
+                break  # not a real date ("back 31 Feb") — leave them to the fade
+            # A candidate landing BEFORE the season started is the wrong year:
+            # "back 9 Jan" against 2026 predates GW1, and "first gameweek after
+            # it" would then be GW1 — reading a January return as "available
+            # now", the precise error this whole function exists to remove.
+            if back < first_deadline:
+                continue
+            future = [event for event, dl in deadlines if dl.replace(tzinfo=UTC) >= back]
+            # A date past the final deadline means out for the rest of the season.
+            out[int(code)] = future[0] if future else _NEVER_GW
+            break
+    return out
+
+
 def generate_projections(
     con: duckdb.DuckDBPyConnection,
     models: ProductionModels,
@@ -332,6 +407,7 @@ def total_ev_for_optimizer(
             models.minutes_model, models.dc_model, models.points_models,
             base_rows, fixtures, teams, decision_gw=gw, horizon=HORIZON, decay=DECAY,
             max_gw=max_gw, availability_factor=live_availability_factor(con),
+            return_gw=availability_return_gw(con, season),
         )
         # This branch builds its EV independently of `projections`, so it needs
         # the boost applied here too. The fallback below does NOT: it scales the

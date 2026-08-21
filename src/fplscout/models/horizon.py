@@ -113,6 +113,7 @@ def build_horizon_ev(
     decay: float,
     max_gw: int,
     availability_factor: dict[int, float] | None = None,
+    return_gw: dict[int, int] | None = None,
 ) -> pd.Series:
     """base_rows: this season's leak-safe feature rows AT decision_gw only (one
     per player) — the frozen "how good is this player right now" snapshot.
@@ -120,11 +121,20 @@ def build_horizon_ev(
     gameweeks with real per-gameweek fixture context swapped in.
 
     `availability_factor`: optional code -> live availability factor (see
-    models/minutes.py::apply_availability). Fades linearly back to 1.0 by
-    h=4 steps ahead (an injured player may return within the horizon) —
-    # ponytail: naive linear fade, upgrade path is parsing return dates from
-    `news`. Only the live pipeline passes this; backtest callers leave it
-    None and get byte-identical output to before this existed."""
+    models/minutes.py::apply_availability), applied at h=0.
+
+    `return_gw`: optional code -> first gameweek the player is actually expected
+    back, parsed from FPL's own `news` text (pipeline.availability_return_gw).
+    Where we have it, it BEATS the fade in both directions — held fully out
+    until that gameweek, fully restored from it. Where we don't (`news` says
+    "Unknown return date", which is most injuries), the old linear fade back to
+    1.0 by h=4 still applies, because a guess is all there is.
+
+    That fade used to apply to everyone, which quietly resurrected players the
+    news had already ruled out: a departed player carried 4.16 EV across
+    gameweeks 5-8, and suspensions with an exact, published end date were
+    guessed at rather than read. Only the live pipeline passes either argument;
+    backtest callers leave both None and get byte-identical output."""
     if len(base_rows) == 0:
         return pd.Series(dtype=float)
 
@@ -199,6 +209,20 @@ def build_horizon_ev(
         if availability_factor is not None:
             factor0 = merged["code"].map(availability_factor).fillna(1.0).to_numpy()
             factor_h = factor0 + (1 - factor0) * min(1.0, h / 4)
+            # h=0 only: never touched. factor_h == factor0 there anyway (the fade
+            # contributes nothing at h=0), and `chance_of_playing_next_round` is
+            # FPL's own judgement about THIS gameweek — strictly better than a
+            # date. Overriding it read "back 21 Aug" as certainty and threw away
+            # a live 75% doubt.
+            if return_gw is not None and h > 0:
+                back = merged["code"].map(return_gw)
+                # NaN (no date in the news) satisfies neither test, so those
+                # players keep the fade — absence of a date must not read as
+                # "available now".
+                still_out = (back > target_gw).fillna(False).to_numpy()
+                recovered = (back <= target_gw).fillna(False).to_numpy()
+                factor_h = np.where(still_out, factor0, factor_h)
+                factor_h = np.where(recovered, 1.0, factor_h)
             widened_proba = minutes.apply_availability(widened_proba, factor_h)
 
         merged["mins_p0"] = widened_proba[:, 0]
