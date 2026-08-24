@@ -227,7 +227,8 @@ CREATE TABLE IF NOT EXISTS our_entry (
     bank INTEGER,
     team_value INTEGER,
     free_transfers INTEGER,
-    last_synced_gw INTEGER
+    last_synced_gw INTEGER,
+    event_transfers_cost INTEGER
 );
 
 CREATE TABLE IF NOT EXISTS our_picks (

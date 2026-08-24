@@ -141,11 +141,6 @@ def build_dashboard(con: duckdb.DuckDBPyConnection, season: str, gw: int) -> dic
     ref = _reference_frame(con, season, gw)
     state = _season_state(con, season, gw)
     is_live = state == "live"
-    rec = con.execute(
-        "SELECT * FROM recommendations WHERE season = ? AND gw = ? "
-        "ORDER BY generated_at DESC LIMIT 1",
-        [season, gw],
-    ).df()
 
     avg_points = con.execute(
         "SELECT SUM(average_entry_score) FROM gameweeks WHERE season = ? AND event <= ?",
@@ -154,6 +149,41 @@ def build_dashboard(con: duckdb.DuckDBPyConnection, season: str, gw: int) -> dic
     deadline_row = con.execute(
         "SELECT deadline_time FROM gameweeks WHERE season = ? AND event = ?", [season, gw]
     ).fetchone()
+
+    # ingest/entry.py only ever writes our_picks for a gw once that gw's
+    # deadline has passed (the picks endpoint 404s before then) — so rows
+    # existing here means there's a real, locked squad to show instead of a
+    # freshly re-optimized one. Post-deadline, no transfer is possible until
+    # the *next* gw's optimize/publish cycle, so re-running the wildcard
+    # build every refresh just churns the displayed squad for no reason.
+    picks = con.execute(
+        "SELECT code, position, multiplier, is_captain, is_vice_captain "
+        "FROM our_picks WHERE gw = ?",
+        [gw],
+    ).df()
+    if len(picks):
+        cost = con.execute(
+            "SELECT event_transfers_cost FROM our_entry ORDER BY last_synced_gw DESC LIMIT 1"
+        ).fetchone()
+        squad = set(picks["code"])
+        xi = set(picks.loc[picks["multiplier"] > 0, "code"])
+        captain_rows = picks.loc[picks["is_captain"], "code"]
+        vice_rows = picks.loc[picks["is_vice_captain"], "code"]
+        return _dashboard_payload(
+            season, gw, state, is_live, avg_points, deadline_row, ref,
+            squad=squad, xi=xi,
+            captain_code=captain_rows.iloc[0] if len(captain_rows) else None,
+            vice_code=vice_rows.iloc[0] if len(vice_rows) else None,
+            hits=(cost[0] or 0) // 4 if cost else 0,
+            insight_text=f"Your actual GW{gw} squad, synced from FPL — deadline's "
+            "passed, nothing left to decide until next gameweek.",
+        )
+
+    rec = con.execute(
+        "SELECT * FROM recommendations WHERE season = ? AND gw = ? "
+        "ORDER BY generated_at DESC LIMIT 1",
+        [season, gw],
+    ).df()
 
     if len(rec) == 0:
         return {

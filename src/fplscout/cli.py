@@ -15,7 +15,7 @@ import yaml
 
 from fplscout import db
 from fplscout.features.build import write_features
-from fplscout.ingest import league, live_gw, odds, summer, vaastav
+from fplscout.ingest import entry, league, live_gw, odds, summer, vaastav
 from fplscout.ingest.fpl_api import FplApiClient
 from fplscout.ingest.health import (
     archive_ep_next,
@@ -207,10 +207,23 @@ def refresh(
                 f"{live_summary['gw_rows']} player-gw rows"
             )
 
+        team_id = settings.get("team_id")
         mini_league_id = settings.get("mini_league_id")
+        if team_id or mini_league_id:
+            element_to_code = {e.id: e.code for e in bootstrap.elements}
+
+        if team_id:
+            typer.echo(f"Syncing our own entry {team_id}...")
+            entry_summary = entry.sync_entry(con, client, team_id, element_to_code)
+            if entry_summary:
+                typer.echo(
+                    f"  GW{entry_summary['gw']}: {entry_summary['picks']} picks synced"
+                )
+            else:
+                typer.echo("  picks not public yet (pre-deadline) — skipped.")
+
         if mini_league_id:
             typer.echo(f"Syncing mini-league {mini_league_id} rival intel...")
-            element_to_code = {e.id: e.code for e in bootstrap.elements}
             league_summary = league.sync_league(
                 con, client, mini_league_id, current_season, element_to_code
             )
