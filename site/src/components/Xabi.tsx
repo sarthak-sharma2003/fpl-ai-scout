@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import Anthropic from '@anthropic-ai/sdk';
+import { GoogleGenAI, ThinkingLevel } from '@google/genai';
 import { useJson } from '../lib/useJson';
 import type { Dashboard, PlayerCard, Projections, Rule, Transfers } from '../types';
 
@@ -8,19 +8,27 @@ import type { Dashboard, PlayerCard, Projections, Rule, Transfers } from '../typ
  * Runs ENTIRELY IN THE BROWSER against the user's own API key, because this site
  * is a static GitHub Pages deploy with no backend (see the README's static-site
  * pivot) — there is nowhere to keep a server-side secret. The key lives in this
- * browser's localStorage and is sent only to api.anthropic.com; it never reaches
+ * browser's localStorage and is sent only to Google's API; it never reaches
  * the repo, the build, or another visitor. The alternative — a serverless proxy
  * holding one shared key — is the right call if this ever needs to answer for
  * people who don't have their own key, and is the only reason to add a backend.
  *
+ * Gemini because it has a real free tier. The brief below is ~9k tokens and is
+ * re-sent on every turn — that is the shape that blows through the tokens-per-
+ * minute cap on the other free tiers.
+ *
  * Context is the already-published JSON (nothing new to generate): the squad,
  * the transfer plan, the decision rules the optimizer actually ran under, and a
- * one-line row for all ~570 projected players. That is ~9k tokens, cached on the
- * system block, so every turn after the first costs about half a cent.
+ * one-line row for all ~570 projected players.
  */
 
-const MODEL = 'claude-opus-5';
-const KEY_STORAGE = 'xabi_api_key';
+// Free-tier eligible. If the preview is ever retired, 'gemini-2.5-flash' is the
+// stable fallback — also free-tier, but takes thinkingBudget: 0 instead of a
+// thinkingLevel.
+const MODEL = 'gemini-3-flash-preview';
+// Deliberately not the old 'xabi_api_key': a leftover sk-ant- key would fail
+// here with an auth error nobody could explain.
+const KEY_STORAGE = 'xabi_gemini_key';
 
 type Turn = { role: 'user' | 'assistant'; text: string };
 
@@ -100,16 +108,24 @@ function ApiKeyGate({ onSave }: { onSave: (key: string) => void }) {
       }}
     >
       <p className="mb-3 text-[13px] leading-relaxed text-ink-500">
-        Xabi answers from your own Anthropic API key. It is stored in this browser only and
-        sent straight to api.anthropic.com — never to this site's server, because there
-        isn't one.
+        Xabi answers from your own Gemini API key — free from{' '}
+        <a
+          href="https://aistudio.google.com/apikey"
+          target="_blank"
+          rel="noreferrer"
+          className="text-volt underline"
+        >
+          Google AI Studio
+        </a>
+        . It is stored in this browser only and sent straight to Google — never to this
+        site's server, because there isn't one.
       </p>
       <input
         type="password"
         autoComplete="off"
         value={value}
         onChange={(e) => setValue(e.target.value)}
-        placeholder="sk-ant-..."
+        placeholder="Paste your Gemini API key"
         className="w-full rounded-sm border border-line bg-pitch-950 px-3 py-2 font-mono text-[12px] text-ink-100 outline-none focus:border-volt"
       />
       <button
@@ -155,24 +171,31 @@ export default function Xabi() {
     setBusy(true);
     setError(null);
     try {
-      const client = new Anthropic({ apiKey, dangerouslyAllowBrowser: true });
-      const stream = client.messages.stream({
+      const ai = new GoogleGenAI({ apiKey });
+      const stream = await ai.models.generateContentStream({
         model: MODEL,
-        max_tokens: 4000,
-        // Low effort: this is lookup-and-argue over data already in context, not
-        // a reasoning problem — and a press-conference answer should land fast.
-        output_config: { effort: 'low' },
-        // One stable cached block: the brief is identical for every turn until
-        // the nightly deploy republishes, so follow-ups read it at ~0.1x.
-        system: [{ type: 'text', text: system, cache_control: { type: 'ephemeral' } }],
-        messages: history.map((t) => ({ role: t.role, content: t.text })),
+        contents: history.map((t) => ({
+          role: t.role === 'assistant' ? 'model' : 'user',
+          parts: [{ text: t.text }],
+        })),
+        config: {
+          systemInstruction: system,
+          maxOutputTokens: 4000,
+          // Minimal thinking: this is lookup-and-argue over data already in
+          // context, not a reasoning problem, and a press-conference answer
+          // should land fast. It also matters that thinking tokens come out of
+          // maxOutputTokens — the default (high) can eat the whole budget and
+          // return an empty answer.
+          thinkingConfig: { thinkingLevel: ThinkingLevel.MINIMAL },
+        },
       });
-      stream.on('text', (delta) => {
+      for await (const chunk of stream) {
+        const delta = chunk.text;
+        if (!delta) continue;
         setTurns((prev) =>
           prev.map((t, i) => (i === prev.length - 1 ? { ...t, text: t.text + delta } : t)),
         );
-      });
-      await stream.finalMessage();
+      }
     } catch (err) {
       // Drop the empty assistant bubble so a failed turn doesn't poison the
       // history sent on the next question.
