@@ -29,6 +29,14 @@ app = typer.Typer(no_args_is_help=True, add_completion=False)
 REPO_ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_SETTINGS_PATH = REPO_ROOT / "config" / "settings.yaml"
 
+# Horizon-EV gain a wildcard must clear before `optimize` recommends burning it.
+# ponytail: untuned judgement call, NOT a swept constant — it deliberately sits
+# well above the ~4-8 EV a one-or-two-transfer patch buys, so the chip is only
+# suggested when the squad needs a real rebuild (ROADMAP §7 / CHIP_GUIDANCE:
+# "don't burn it to fix one player"). Tune it properly with a backtest sweep on
+# 2024-25 only, per ROADMAP §2.4, before treating the number as meaningful.
+WILDCARD_MIN_GAIN = 15.0
+
 
 def load_settings(path: Path = DEFAULT_SETTINGS_PATH) -> dict:
     return yaml.safe_load(path.read_text())
@@ -214,10 +222,13 @@ def refresh(
 
         if team_id:
             typer.echo(f"Syncing our own entry {team_id}...")
-            entry_summary = entry.sync_entry(con, client, team_id, element_to_code)
+            entry_summary = entry.sync_entry(
+                con, client, team_id, element_to_code, season=current_season
+            )
             if entry_summary:
                 typer.echo(
-                    f"  GW{entry_summary['gw']}: {entry_summary['picks']} picks synced"
+                    f"  GW{entry_summary['gw']}: {entry_summary['picks']} picks synced, "
+                    f"{entry_summary['free_transfers']} free transfer(s) for next GW"
                 )
             else:
                 typer.echo("  picks not public yet (pre-deadline) — skipped.")
@@ -399,18 +410,34 @@ def project(settings_path: Path = typer.Option(DEFAULT_SETTINGS_PATH, "--setting
 def optimize(settings_path: Path = typer.Option(DEFAULT_SETTINGS_PATH, "--settings")) -> None:
     """Run the MILP optimizer and write a recommendation to `recommendations`.
 
-    No real squad exists yet (team not registered until 26/27 launches — plan
-    §9/§11), so this runs in wildcard mode: an unconstrained "best possible
-    15" build rather than a transfer decision off a prior squad. Requires
-    `project` to have been run first (reads the latest `projections` row per
-    the same reference gameweek it computed).
+    Two modes, chosen automatically:
+
+    * **Transfer mode** (our_picks holds a real synced squad): a genuine
+      transfer decision off that squad — respects bank, free transfers, the
+      selling-price rule and the hit cost, using the same tuned constants the
+      backtest validated. Also solves a wildcard variant and recommends
+      playing the chip when the horizon gain clears WILDCARD_MIN_GAIN.
+    * **Wildcard mode** (no squad synced yet — before the first deadline of a
+      season): an unconstrained "best possible 15" build, which is exactly
+      right for an initial draft.
+
+    Requires `project` to have been run first (reads the latest `projections`
+    row per the same reference gameweek it computed).
     """
     import json
+    from dataclasses import replace
     from datetime import UTC, datetime
 
     from fplscout import pipeline
+    from fplscout.backtest.simulator import (
+        DECISION_HIT_COST,
+        MAX_HITS_PER_GW,
+        TRANSFER_PENALTY,
+    )
+    from fplscout.decide.chip_planner import wildcard_ev
     from fplscout.decide.optimizer import CAPTAIN_Q90_WEIGHT, OptimizerInput
     from fplscout.decide.optimizer import optimize as run_optimizer
+    from fplscout.decide.squad_state import chip_available, load_state
 
     settings = load_settings(settings_path)
     duckdb_path = REPO_ROOT / settings["paths"]["duckdb"]
@@ -442,6 +469,29 @@ def optimize(settings_path: Path = typer.Option(DEFAULT_SETTINGS_PATH, "--settin
     total_ev = pipeline.total_ev_for_optimizer(con, models, season, gw, proj)
     # must read projections before the connection closes
     xi_excluded = pipeline.xi_minutes_floor(con, season, gw, model_version)
+
+    team_id = settings.get("team_id")
+    state = load_state(con, team_id) if team_id else None
+    wildcard_ok = (
+        bool(state and state.squad)
+        and chip_available(con, season, gw, team_id, "wildcard")
+    )
+    # Owned players priced/positioned WITHOUT the unpickable filter that
+    # roster_snapshot applies: a long-term-injured player we own is exactly the
+    # one the optimizer must still see as owned (so selling him costs a
+    # transfer), even though he's unbuyable for everyone else.
+    owned_rows = pd.DataFrame()
+    if state and state.squad:
+        owned_rows = con.execute(
+            """
+            SELECT f.code, f.position, f.team_id, f.value AS price, p.web_name
+            FROM features f
+            JOIN players p ON p.code = f.code
+            WHERE f.season = ? AND f.gw = ? AND f.code IN ?
+            QUALIFY ROW_NUMBER() OVER (PARTITION BY f.code ORDER BY f.fixture_id) = 1
+            """,
+            [season, gw, list(state.squad)],
+        ).df()
     con.close()
     if xi_excluded:
         typer.echo(
@@ -455,12 +505,49 @@ def optimize(settings_path: Path = typer.Option(DEFAULT_SETTINGS_PATH, "--settin
     opt_input_df["cap_ev"] = opt_input_df["cap_ev"].fillna(0.0)
     opt_input_df = opt_input_df.dropna(subset=["total_ev", "price", "position", "team_id"])
 
-    typer.echo(f"Optimizing over {len(opt_input_df)} players (wildcard mode)...")
-    result = run_optimizer(
-        OptimizerInput(
-            projections=opt_input_df[
-                ["code", "position", "team_id", "price", "total_ev", "cap_ev"]
-            ],
+    current_squad = set(state.squad) if state and state.squad else set()
+    if current_squad:
+        # An owned player absent from the projection universe would otherwise
+        # simply not exist in the MILP: `was_owned` is built over the
+        # projections index only, so the solver would drop them for free
+        # instead of charging a transfer. Re-add them at zero EV so selling
+        # them is a real, costed decision.
+        missing = current_squad - set(opt_input_df["code"])
+        if missing and len(owned_rows):
+            fill = owned_rows[owned_rows["code"].isin(missing)].copy()
+            fill["total_ev"] = 0.0
+            fill["cap_ev"] = 0.0
+            fill = fill.dropna(subset=["price", "position", "team_id"])
+            if len(fill):
+                opt_input_df = pd.concat([opt_input_df, fill], ignore_index=True)
+                roster = pd.concat([roster, fill[roster.columns]], ignore_index=True)
+                typer.echo(
+                    f"  {len(fill)} owned player(s) have no projection this GW — "
+                    "carried at 0 EV so selling them still costs a transfer."
+                )
+
+    projections_df = opt_input_df[
+        ["code", "position", "team_id", "price", "total_ev", "cap_ev"]
+    ]
+
+    if current_squad:
+        mode = "transfer"
+        base_input = OptimizerInput(
+            projections=projections_df,
+            current_squad=current_squad,
+            purchase_prices=state.purchase_prices,
+            bank=state.bank or 0,
+            free_transfers=state.free_transfers or 1,
+            chip_mode=None,
+            hit_cost=DECISION_HIT_COST,
+            transfer_penalty=TRANSFER_PENALTY,
+            max_hits=MAX_HITS_PER_GW,
+            xi_excluded=xi_excluded,
+        )
+    else:
+        mode = "wildcard"
+        base_input = OptimizerInput(
+            projections=projections_df,
             current_squad=set(),
             purchase_prices={},
             bank=1000,
@@ -468,10 +555,32 @@ def optimize(settings_path: Path = typer.Option(DEFAULT_SETTINGS_PATH, "--settin
             chip_mode="wildcard",
             xi_excluded=xi_excluded,
         )
-    )
+
+    typer.echo(f"Optimizing over {len(opt_input_df)} players ({mode} mode)...")
+    result = run_optimizer(base_input)
     if result.status != "Optimal":
         typer.echo(f"Optimizer did not find an optimal solution: {result.status}")
         raise typer.Exit(code=1)
+
+    chip = "wildcard" if mode == "wildcard" else None
+    if mode == "transfer" and wildcard_ok:
+        wc_result = run_optimizer(replace(base_input, chip_mode="wildcard"))
+        if wc_result.status == "Optimal":
+            gain = wildcard_ev(wc_result, result)
+            typer.echo(
+                f"  wildcard would gain {gain:+.1f} horizon EV "
+                f"(bar: {WILDCARD_MIN_GAIN:.1f})"
+            )
+            if gain >= WILDCARD_MIN_GAIN:
+                chip, result = "wildcard", wc_result
+
+    name_by_code = dict(zip(roster["code"], roster["web_name"], strict=False))
+    transfer_lines = [
+        f"{name_by_code.get(out, out)} -> {name_by_code.get(inn, inn)}"
+        for out, inn in zip(
+            sorted(result.transfers_out), sorted(result.transfers_in), strict=False
+        )
+    ]
 
     con = db.connect(duckdb_path)
     con.execute(
@@ -484,17 +593,21 @@ def optimize(settings_path: Path = typer.Option(DEFAULT_SETTINGS_PATH, "--settin
             json.dumps(sorted(result.starting_xi)),
             result.captain,
             result.vice_captain,
-            json.dumps([]),
+            json.dumps(transfer_lines),
             result.hits,
-            "wildcard",
+            chip,
             None,
         ],
     )
     con.close()
     typer.echo(
         f"  squad={len(result.squad)}, captain={result.captain}, "
-        f"objective={result.objective_value:.1f} — written to recommendations"
+        f"transfers={len(result.transfers_in)}, hits={result.hits}, "
+        f"chip={chip or 'none'}, objective={result.objective_value:.1f} "
+        "— written to recommendations"
     )
+    for line in transfer_lines:
+        typer.echo(f"    {line}")
 
 
 @app.command()

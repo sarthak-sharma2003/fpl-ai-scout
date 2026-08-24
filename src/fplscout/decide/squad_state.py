@@ -119,6 +119,34 @@ def save_state(con: duckdb.DuckDBPyConnection, state: SquadState) -> None:
             )
 
 
+def chip_available(
+    con: duckdb.DuckDBPyConnection, season: str, gw: int, entry_id: int, chip: str
+) -> bool:
+    """True when `chip` has an open window covering `gw` that this entry hasn't
+    already spent inside that window.
+
+    Chip usage is read from `rival_gw`, which holds one row per (entry, gw)
+    including our own — ingest/entry.py writes ours, ingest/league.py writes
+    rivals'. Modern FPL grants the same chip once per window (two wildcards a
+    season, one per half), so availability is per-window, not per-season.
+    """
+    window = con.execute(
+        "SELECT start_event, stop_event FROM chip_windows "
+        "WHERE season = ? AND chip = ? AND start_event <= ? AND stop_event >= ? "
+        "ORDER BY start_event LIMIT 1",
+        [season, chip, gw, gw],
+    ).fetchone()
+    if window is None:
+        return False
+    start, stop = window
+    used = con.execute(
+        "SELECT COUNT(*) FROM rival_gw WHERE season = ? AND entry_id = ? "
+        "AND active_chip = ? AND gw BETWEEN ? AND ?",
+        [season, entry_id, chip, start, stop],
+    ).fetchone()[0]
+    return used == 0
+
+
 def reconcile(
     state: SquadState, live_picks_codes: set[int]
 ) -> list[str]:

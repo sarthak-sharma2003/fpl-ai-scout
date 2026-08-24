@@ -330,52 +330,89 @@ def build_transfers(con: duckdb.DuckDBPyConnection, season: str, gw: int) -> dic
     real_picks = con.execute(
         "SELECT code, multiplier FROM our_picks WHERE gw = ?", [gw]
     ).df()
-    bank = None
+    rec = con.execute(
+        "SELECT * FROM recommendations WHERE season = ? AND gw = ? "
+        "ORDER BY generated_at DESC LIMIT 1",
+        [season, gw],
+    ).df()
+    bank = free_transfers = None
     chip = None
+    squad_source = "recommended"
     if len(real_picks):
+        squad_source = "synced"
         squad = set(real_picks["code"])
         xi = set(real_picks.loc[real_picks["multiplier"] > 0, "code"])
-        bank_row = con.execute(
-            "SELECT bank FROM our_entry ORDER BY last_synced_gw DESC LIMIT 1"
+        entry_row = con.execute(
+            "SELECT bank, free_transfers FROM our_entry ORDER BY last_synced_gw DESC LIMIT 1"
         ).fetchone()
-        bank = bank_row[0] if bank_row else None
+        if entry_row:
+            bank, free_transfers = entry_row
+        if len(rec):
+            chip = rec["chip"][0]
     else:
-        rec = con.execute(
-            "SELECT * FROM recommendations WHERE season = ? AND gw = ? "
-            "ORDER BY generated_at DESC LIMIT 1",
-            [season, gw],
-        ).df()
         if len(rec) == 0:
             return {
                 "gw": gw, "confidence": 0.0, "bank": None, "free_transfers": None,
                 "chip_advice": None, "moves": [], "alternatives": [],
+                "squad_source": squad_source,
             }
         squad = set(json.loads(rec["squad"][0]))
         xi = set(json.loads(rec["starting_xi"][0]))
         chip = rec["chip"][0]
 
+    # The actual recommendation: what `optimize` decided to change about the
+    # real squad. Diffing the two squads is more robust than re-parsing the
+    # optimizer's own transfer list, and yields nothing (correctly) whenever
+    # the recommendation IS the current squad — i.e. "no transfer beats
+    # holding this week".
+    moves = []
+    if squad_source == "synced" and len(rec):
+        rec_squad = set(json.loads(rec["squad"][0]))
+        ref_by_code_all = ref.set_index("code", drop=False)
+        outs, ins = squad - rec_squad, rec_squad - squad
+        by_pos_out: dict[str, list] = {}
+        by_pos_in: dict[str, list] = {}
+        for code, bucket in [(c, by_pos_out) for c in outs] + [(c, by_pos_in) for c in ins]:
+            if code in ref_by_code_all.index:
+                bucket.setdefault(ref_by_code_all.loc[code, "position"], []).append(code)
+        for pos, out_codes in by_pos_out.items():
+            for out_code, in_code in zip(out_codes, by_pos_in.get(pos, []), strict=False):
+                out_row, in_row = ref_by_code_all.loc[out_code], ref_by_code_all.loc[in_code]
+                moves.append({
+                    "out": _player_card(out_row),
+                    "in": _player_card(in_row),
+                    "compare": {
+                        "position": pos,
+                        "out_ev": _round_or_none(out_row["ev_points"], 2),
+                        "in_ev": _round_or_none(in_row["ev_points"], 2),
+                    },
+                    "net_ev": _round_or_none(
+                        (in_row["ev_points"] or 0) - (out_row["ev_points"] or 0), 2
+                    ),
+                })
+
     proj_for_optimizer = ref[["code", "position", "team_id", "price"]].copy()
     proj_for_optimizer["total_ev"] = ref["ev_points"]
     proj_for_optimizer = proj_for_optimizer.dropna(subset=["total_ev"])
 
-    # "Alternatives" here means: treating the current squad as if you were
-    # about to make one swap, what are the top single-swap upgrades
-    # available? Purchase prices aren't tracked yet (squad_state's
-    # _infer_purchase_prices needs transfer history this app doesn't ingest
-    # yet), so this uses current price as a stand-in — the closest honest
-    # approximation without fabricating a purchase history.
+    # "Alternatives" = the runner-up single swaps, ranked, shown alongside the
+    # recommendation above so the call is inspectable rather than a black box.
+    # Purchase prices for players from the initial draft aren't known (only
+    # transferred-in players carry a recorded cost), so current price stands in
+    # — it understates the selling-price haircut on a risen player.
     purchase_prices = {
         int(c): int(p)
         for c, p in zip(ref["code"], ref["price"], strict=True)
         if c in squad
     }
-    moves = top_alternative_moves(
+    alt_moves = top_alternative_moves(
         proj_for_optimizer, current_squad=squad, purchase_prices=purchase_prices,
-        bank=bank or 0, free_transfers=1, hit_cost=DEFAULT_HIT_COST, n=5,
+        bank=bank or 0, free_transfers=free_transfers or 1,
+        hit_cost=DEFAULT_HIT_COST, n=5,
     )
     ref_by_code = ref.set_index("code", drop=False)
     alternatives = []
-    for m in moves:
+    for m in alt_moves:
         out_row, in_row = ref_by_code.loc[m.out_code], ref_by_code.loc[m.in_code]
         alternatives.append({
             "out": _player_card(out_row),
@@ -392,10 +429,11 @@ def build_transfers(con: duckdb.DuckDBPyConnection, season: str, gw: int) -> dic
         "gw": gw,
         "confidence": _confidence(ref, xi),
         "bank": bank,
-        "free_transfers": None,
+        "free_transfers": free_transfers,
         "chip_advice": {"chip": chip, "gw": gw, "ev": None} if chip else None,
-        "moves": [],
+        "moves": moves,
         "alternatives": alternatives,
+        "squad_source": squad_source,
     }
 
 

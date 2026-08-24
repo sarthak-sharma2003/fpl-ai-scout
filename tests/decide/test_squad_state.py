@@ -3,7 +3,15 @@ from __future__ import annotations
 import pytest
 
 from fplscout import db
-from fplscout.decide.squad_state import SquadState, load_state, reconcile, save_state
+from fplscout.decide.squad_state import (
+    SquadState,
+    chip_available,
+    load_state,
+    reconcile,
+    save_state,
+)
+
+SEASON, ENTRY = "2026-27", 5874404
 
 
 @pytest.fixture
@@ -92,3 +100,48 @@ def test_reconcile_flags_both_missing_and_unexpected():
     state = SquadState(entry_id=1, name="Team", bank=0, free_transfers=1, squad={1, 2, 3})
     warnings = reconcile(state, {1, 2, 4})
     assert len(warnings) == 2
+
+
+# --- chip_available --------------------------------------------------------
+
+
+@pytest.fixture
+def chips_con(con):
+    """Real 26/27 wildcard window shape: two windows, and none covering GW1
+    (FPL doesn't allow a gameweek-1 wildcard)."""
+    for number, (start, stop) in enumerate([(2, 19), (20, 38)], start=1):
+        con.execute(
+            "INSERT INTO chip_windows (season, chip_id, chip, number, start_event, "
+            "stop_event, chip_type) VALUES (?, ?, 'wildcard', ?, ?, ?, 'transfer')",
+            [SEASON, number, number, start, stop],
+        )
+    return con
+
+
+def test_chip_unavailable_outside_any_window(chips_con):
+    assert chip_available(chips_con, SEASON, 1, ENTRY, "wildcard") is False
+
+
+def test_chip_available_inside_an_unspent_window(chips_con):
+    assert chip_available(chips_con, SEASON, 2, ENTRY, "wildcard") is True
+    assert chip_available(chips_con, SEASON, 19, ENTRY, "wildcard") is True
+
+
+def test_chip_spent_closes_only_its_own_window(chips_con):
+    chips_con.execute(
+        "INSERT INTO rival_gw (season, gw, entry_id, active_chip) VALUES (?, 5, ?, 'wildcard')",
+        [SEASON, ENTRY],
+    )
+    # burned in the first window -> gone for the rest of that window...
+    assert chip_available(chips_con, SEASON, 6, ENTRY, "wildcard") is False
+    # ...but the second-half wildcard is a separate grant
+    assert chip_available(chips_con, SEASON, 25, ENTRY, "wildcard") is True
+
+
+def test_another_entrys_chip_does_not_consume_ours(chips_con):
+    chips_con.execute(
+        "INSERT INTO rival_gw (season, gw, entry_id, active_chip) "
+        "VALUES (?, 5, 999, 'wildcard')",
+        [SEASON],
+    )
+    assert chip_available(chips_con, SEASON, 6, ENTRY, "wildcard") is True

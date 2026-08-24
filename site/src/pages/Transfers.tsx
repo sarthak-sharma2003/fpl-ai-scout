@@ -151,8 +151,9 @@ export default function Transfers() {
               <Eyebrow>Single-swap upgrades</Eyebrow>
               {t.moves.length === 0 && (
                 <p className="-mt-1 mb-3 text-xs text-ink-500">
-                  Pre-season there's no owned squad to transfer from — these are upgrades on the
-                  recommended draft itself.
+                  {t.squad_source === 'synced'
+                    ? 'No transfer beats holding this week — banking the free transfer wins. These are the best swaps if you want one anyway.'
+                    : "No owned squad to transfer from yet — these are upgrades on the recommended draft itself."}
                 </p>
               )}
               {t.alternatives.length === 0 ? (

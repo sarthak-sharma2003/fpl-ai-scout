@@ -459,6 +459,7 @@ def init_schema(con: duckdb.DuckDBPyConnection) -> None:
     ]:
         con.execute(f"ALTER TABLE players ADD COLUMN IF NOT EXISTS {name} {dtype}")
     con.execute("ALTER TABLE player_season ADD COLUMN IF NOT EXISTS value INTEGER")
+    con.execute("ALTER TABLE our_entry ADD COLUMN IF NOT EXISTS event_transfers_cost INTEGER")
 
 
 def executemany(

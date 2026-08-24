@@ -377,3 +377,63 @@ def test_build_transfers_prices_alternatives_off_synced_squad_not_recommendation
     for alt in out["alternatives"]:
         assert alt["out"]["code"] in (1, 2)
         assert alt["out"]["code"] != 99
+
+
+def test_build_transfers_surfaces_recommended_moves_as_a_squad_diff():
+    """The real recommendation is the diff between the synced squad and what
+    `optimize` decided — it must reach the Transfers page's "moves", not just
+    the ranked alternatives."""
+    con = db.connect(":memory:")
+    db.init_schema(con)
+    season, gw = "2026-27", 2
+    con.execute(
+        "INSERT INTO teams (season, team_id, code, name, short_name) "
+        "VALUES (?, 1, 900, 'Team', 'TTT')",
+        [season],
+    )
+    con.execute(
+        "INSERT INTO gameweeks (season, event, deadline_time, finished) "
+        "VALUES (?, ?, now(), false)",
+        [season, gw],
+    )
+    for code, ev in {1: 2.0, 2: 5.0, 3: 9.0}.items():
+        con.execute("INSERT INTO players (code, web_name) VALUES (?, ?)", [code, f"P{code}"])
+        con.execute(
+            "INSERT INTO features (season, gw, fixture_id, code, team_id, position, value) "
+            "VALUES (?, ?, ?, ?, 1, 'MID', 50)",
+            [season, gw, code, code],
+        )
+        con.execute(
+            "INSERT INTO projections (season, gw, code, model_version, ev_points, "
+            "generated_at) VALUES (?, ?, ?, 'v1', ?, now())",
+            [season, gw, code, ev],
+        )
+    con.execute(
+        "INSERT INTO our_entry (entry_id, name, bank, team_value, free_transfers, "
+        "last_synced_gw, event_transfers_cost) VALUES (1, 'Us', 5, 1000, 2, ?, 0)",
+        [gw],
+    )
+    # own 1 and 2; the optimizer says swap the weakest (1) for 3
+    for code in (1, 2):
+        con.execute(
+            "INSERT INTO our_picks (gw, code, position, multiplier, is_captain, "
+            "is_vice_captain) VALUES (?, ?, ?, 1, false, false)",
+            [gw, code, code],
+        )
+    con.execute(
+        "INSERT INTO recommendations (season, gw, generated_at, squad, starting_xi, "
+        "captain_code, vice_captain_code, transfers, hits, chip) "
+        "VALUES (?, ?, now(), '[2, 3]', '[2, 3]', 3, 2, '[\"P1 -> P3\"]', 0, NULL)",
+        [season, gw],
+    )
+
+    out = build_transfers(con, season, gw)
+    con.close()
+
+    assert out["squad_source"] == "synced"
+    assert out["free_transfers"] == 2
+    assert out["bank"] == 5
+    assert len(out["moves"]) == 1
+    assert out["moves"][0]["out"]["code"] == 1
+    assert out["moves"][0]["in"]["code"] == 3
+    assert out["moves"][0]["net_ev"] == 7.0

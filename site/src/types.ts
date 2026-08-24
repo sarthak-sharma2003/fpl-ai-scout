@@ -65,6 +65,7 @@ export interface Transfers {
   chip_advice: { chip: string; gw: number; ev: number | null } | null;
   moves: TransferMove[];
   alternatives: TransferMove[];
+  squad_source?: 'synced' | 'recommended';
 }
 
 export interface FixtureTick {
