@@ -60,6 +60,24 @@ function buildSystem(
     )
     .join('\n');
 
+  // Club counts, computed rather than left to the model. Asked "can we swap
+  // Anderson for Cherki?" it counted three City players, decided the max-3 rule
+  // blocked it, and defended that twice — but a same-club one-out-one-in is
+  // count-neutral, so the swap was always legal. Handing it the counts and the
+  // binding condition removes the arithmetic that produced the wrong answer.
+  const byClub = new Map<string, string[]>();
+  for (const p of [...xi, ...dash.bench_order]) {
+    // team is nullable in the published schema; a player with no club can't
+    // count against a club limit, so drop them rather than bucket them under a
+    // fake key that would make some other club look full.
+    if (!p.team) continue;
+    byClub.set(p.team, [...(byClub.get(p.team) ?? []), p.name]);
+  }
+  const clubCounts = [...byClub.entries()]
+    .sort((a, b) => b[1].length - a[1].length)
+    .map(([team, names]) => `${team} ${names.length}/3 (${names.join(', ')})`)
+    .join('\n');
+
   // Every projected player, one line, best EV first — so a question about a
   // player who ISN'T in the squad (the common case: "why no Gabriel?") can be
   // answered with his real number instead of a guess.
@@ -86,7 +104,10 @@ TRANSFER PLAN
 ${moves || 'No transfer recommended this week.'}
 ${transfers.chip_advice ? `Chip advice: ${transfers.chip_advice.chip} around GW${transfers.chip_advice.gw}.` : ''}
 
-THE RULES THIS SQUAD WAS PICKED UNDER — these are the real constraints in the optimizer, quote them by name when they explain a decision:
+CLUB COUNTS (max 3 per club). A transfer breaks this rule ONLY when the player coming IN plays for a club already at 3/3 AND the player going OUT plays for a different club. Swapping one player for another AT THE SAME CLUB never changes a count and is always legal, however full that club looks here. Do not compute these yourself — read them:
+${clubCounts}
+
+THE RULES THIS SQUAD WAS PICKED UNDER — these are the real constraints in the optimizer. Quote them by name only after checking the rule actually binds on the specific move being asked about; a rule that does not apply is not a reason:
 ${rules.map((r) => `- ${r.title}: ${r.body}`).join('\n')}
 
 EVERY PROJECTED PLAYER (name|pos|team|price|expected points this GW|expected minutes|PK = penalty taker), best first:
@@ -97,6 +118,8 @@ HOW TO ANSWER
 - ev is expected points for THIS gameweek. The squad itself is chosen on an 8-gameweek decayed horizon, so a player can be benched despite a good single-week number — say so when that's the reason.
 - You did not pick this squad by hand. A mixed-integer solver did, under a £100m budget, max 3 per club, and valid-formation constraints. That means a player is often out not because he is bad but because the money or the club slot was needed elsewhere. Check the numbers before assuming it was a quality call.
 - YOU CANNOT RE-RUN THE SOLVER. You have projections, not an optimizer. If asked to change the squad, name the specific swap and quote the EV cost of it ("forcing Gabriel in for Tarkowski costs 1.6 ev and £1.5m"), then say plainly that a real re-optimisation has to come from \`fplscout optimize\`. Never invent a re-optimised XI and present it as the model's.
+- Never refuse a move as rule-breaking without naming the rule AND the number that makes it bind ("Chelsea are already 3/3 and Anderson is City, so that one is out"). If you cannot produce that number, the move is legal — argue it on EV instead, or agree.
+- "In short" means one or two sentences. Obey it literally; do not answer a request for brevity with three paragraphs.
 - If the human is right — a flag you can see in the data, a rule that genuinely cuts the other way, a number that doesn't support the pick — say so directly and say what would change the call.
 - Talk like a manager in a press conference: direct, specific, no hedging, no bullet-point lectures. Two or three short paragraphs at most. No preamble.`;
 }
@@ -190,13 +213,13 @@ export default function Xabi() {
         })),
         config: {
           systemInstruction: system,
-          maxOutputTokens: 4000,
-          // Minimal thinking: this is lookup-and-argue over data already in
-          // context, not a reasoning problem, and a press-conference answer
-          // should land fast. It also matters that thinking tokens come out of
-          // maxOutputTokens — the default (high) can eat the whole budget and
-          // return an empty answer.
-          thinkingConfig: { thinkingLevel: ThinkingLevel.MINIMAL },
+          maxOutputTokens: 8000,
+          // LOW, not MINIMAL. This looked like pure lookup-and-argue, but
+          // questions like "swap Anderson for Cherki?" are small feasibility
+          // checks, and MINIMAL skipped them into a confident wrong answer.
+          // Thinking tokens come out of maxOutputTokens, hence the raised
+          // budget — spend it here rather than risk an empty response.
+          thinkingConfig: { thinkingLevel: ThinkingLevel.LOW },
         },
       });
       for await (const chunk of stream) {
