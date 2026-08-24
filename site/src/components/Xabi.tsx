@@ -29,6 +29,10 @@ const MODEL = 'gemini-3-flash-preview';
 // Deliberately not the old 'xabi_api_key': a leftover sk-ant- key would fail
 // here with an auth error nobody could explain.
 const KEY_STORAGE = 'xabi_gemini_key';
+// Deployed proxy/worker.js, which holds the shared key so visitors don't need
+// one. Empty string = not deployed yet, in which case the key gate is the only
+// way in and the widget behaves exactly as it did before the proxy existed.
+const PROXY_URL = '';
 
 type Turn = { role: 'user' | 'assistant'; text: string };
 
@@ -163,7 +167,7 @@ export default function Xabi() {
   }, [turns, busy]);
 
   async function ask(question: string) {
-    if (!ready || !apiKey) return;
+    if (!ready || (!apiKey && !PROXY_URL)) return;
     const system = buildSystem(dash.data, proj.data, transfers.data, rules.data);
     const history: Turn[] = [...turns, { role: 'user', text: question }];
     setTurns([...history, { role: 'assistant', text: '' }]);
@@ -171,7 +175,13 @@ export default function Xabi() {
     setBusy(true);
     setError(null);
     try {
-      const ai = new GoogleGenAI({ apiKey });
+      // A visitor's own key wins over the shared one: they asked for it, and
+      // it keeps their questions off the proxy's quota. Without a key we point
+      // the same SDK at the Worker, which swaps in the real key server-side —
+      // so there is no second request path to keep working.
+      const ai = apiKey
+        ? new GoogleGenAI({ apiKey })
+        : new GoogleGenAI({ apiKey: 'unused-proxy-holds-the-real-one', httpOptions: { baseUrl: PROXY_URL } });
       const stream = await ai.models.generateContentStream({
         model: MODEL,
         contents: history.map((t) => ({
@@ -233,7 +243,7 @@ export default function Xabi() {
         </button>
       </div>
 
-      {!apiKey ? (
+      {!apiKey && !PROXY_URL ? (
         <ApiKeyGate
           onSave={(k) => {
             localStorage.setItem(KEY_STORAGE, k);

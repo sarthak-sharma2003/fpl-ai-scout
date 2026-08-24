@@ -1,0 +1,6 @@
+name = "xabi-proxy"
+main = "worker.js"
+compatibility_date = "2026-08-01"
+
+# The key is NOT set here. Secrets never belong in a committed file:
+#   npx wrangler secret put GEMINI_API_KEY
