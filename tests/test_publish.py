@@ -11,6 +11,7 @@ from fplscout.publish import (
     build_dashboard,
     build_league,
     build_rules,
+    build_transfers,
 )
 
 
@@ -314,3 +315,65 @@ def test_build_dashboard_prefers_synced_picks_over_recommendation():
     }
     assert all_codes == {1, 2, 3}
     assert out["insight"]["transfer_summary"] == "1 hit(s) taken"
+
+
+def test_build_transfers_prices_alternatives_off_synced_squad_not_recommendation():
+    """Same bug class as the dashboard: a stale wildcard `recommendations` row
+    must not leak into "sell X" suggestions once a real squad is synced —
+    reported live as "asking me to switch out [a player] not even on the
+    squad"."""
+    con = db.connect(":memory:")
+    db.init_schema(con)
+    season, gw = "2026-27", 1
+    con.execute(
+        "INSERT INTO teams (season, team_id, code, name, short_name) "
+        "VALUES (?, 1, 900, 'Team', 'TTT')",
+        [season],
+    )
+    con.execute(
+        "INSERT INTO gameweeks (season, event, deadline_time, finished) "
+        "VALUES (?, ?, now(), false)",
+        [season, gw],
+    )
+    # codes 1, 2 are the real (owned) squad; code 3 is a same-position, much
+    # better, same-priced candidate so a swap gets suggested; code 99 only
+    # exists in the stale recommendation and must never appear as an "out".
+    evs = {1: 3.0, 2: 3.0, 3: 8.0, 99: 3.0}
+    for code, ev in evs.items():
+        con.execute("INSERT INTO players (code, web_name) VALUES (?, ?)", [code, f"P{code}"])
+        con.execute(
+            "INSERT INTO features (season, gw, fixture_id, code, team_id, position, value) "
+            "VALUES (?, ?, ?, ?, 1, 'MID', 50)",
+            [season, gw, code, code],
+        )
+        con.execute(
+            "INSERT INTO projections (season, gw, code, model_version, ev_points, "
+            "generated_at) VALUES (?, ?, ?, 'v1', ?, now())",
+            [season, gw, code, ev],
+        )
+    con.execute(
+        "INSERT INTO our_entry (entry_id, name, bank, team_value, last_synced_gw, "
+        "event_transfers_cost) VALUES (1, 'Us', 0, 1000, ?, 0)",
+        [gw],
+    )
+    for code in (1, 2):
+        con.execute(
+            "INSERT INTO our_picks (gw, code, position, multiplier, is_captain, "
+            "is_vice_captain) VALUES (?, ?, ?, 1, false, false)",
+            [gw, code, code],
+        )
+    con.execute(
+        "INSERT INTO recommendations (season, gw, generated_at, squad, starting_xi, "
+        "captain_code, vice_captain_code, transfers, hits, chip) "
+        "VALUES (?, ?, now(), '[99]', '[99]', 99, 99, '[]', 0, NULL)",
+        [season, gw],
+    )
+
+    out = build_transfers(con, season, gw)
+    con.close()
+
+    assert out["bank"] == 0
+    assert len(out["alternatives"]) > 0
+    for alt in out["alternatives"]:
+        assert alt["out"]["code"] in (1, 2)
+        assert alt["out"]["code"] != 99

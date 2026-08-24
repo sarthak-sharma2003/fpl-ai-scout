@@ -320,28 +320,50 @@ def build_dashboard_alt(
 
 def build_transfers(con: duckdb.DuckDBPyConnection, season: str, gw: int) -> dict:
     ref = _reference_frame(con, season, gw)
-    rec = con.execute(
-        "SELECT * FROM recommendations WHERE season = ? AND gw = ? "
-        "ORDER BY generated_at DESC LIMIT 1",
-        [season, gw],
-    ).df()
-    if len(rec) == 0:
-        return {
-            "gw": gw, "confidence": 0.0, "bank": None, "free_transfers": None,
-            "chip_advice": None, "moves": [], "alternatives": [],
-        }
 
-    squad = set(json.loads(rec["squad"][0]))
-    xi = set(json.loads(rec["starting_xi"][0]))
+    # Same rule as build_dashboard: once our_picks has a real synced squad for
+    # this gw (only possible post-deadline), alternatives must be priced off
+    # THAT, not the wildcard recommendations.squad — that squad is rebuilt
+    # from scratch every refresh and can legitimately differ from what's
+    # actually owned, which produced nonsense like "sell a player who isn't
+    # even on the real squad."
+    real_picks = con.execute(
+        "SELECT code, multiplier FROM our_picks WHERE gw = ?", [gw]
+    ).df()
+    bank = None
+    chip = None
+    if len(real_picks):
+        squad = set(real_picks["code"])
+        xi = set(real_picks.loc[real_picks["multiplier"] > 0, "code"])
+        bank_row = con.execute(
+            "SELECT bank FROM our_entry ORDER BY last_synced_gw DESC LIMIT 1"
+        ).fetchone()
+        bank = bank_row[0] if bank_row else None
+    else:
+        rec = con.execute(
+            "SELECT * FROM recommendations WHERE season = ? AND gw = ? "
+            "ORDER BY generated_at DESC LIMIT 1",
+            [season, gw],
+        ).df()
+        if len(rec) == 0:
+            return {
+                "gw": gw, "confidence": 0.0, "bank": None, "free_transfers": None,
+                "chip_advice": None, "moves": [], "alternatives": [],
+            }
+        squad = set(json.loads(rec["squad"][0]))
+        xi = set(json.loads(rec["starting_xi"][0]))
+        chip = rec["chip"][0]
+
     proj_for_optimizer = ref[["code", "position", "team_id", "price"]].copy()
     proj_for_optimizer["total_ev"] = ref["ev_points"]
     proj_for_optimizer = proj_for_optimizer.dropna(subset=["total_ev"])
 
-    # "Alternatives" here means: treating the recommended squad as if it were
-    # already yours, what are the top single-swap upgrades available? A real
-    # transfer-in/out comparison needs a genuine prior squad (squad_state),
-    # which doesn't exist pre-26/27-launch — this is the closest honest
-    # approximation using only real projections, not fabricated deltas.
+    # "Alternatives" here means: treating the current squad as if you were
+    # about to make one swap, what are the top single-swap upgrades
+    # available? Purchase prices aren't tracked yet (squad_state's
+    # _infer_purchase_prices needs transfer history this app doesn't ingest
+    # yet), so this uses current price as a stand-in — the closest honest
+    # approximation without fabricating a purchase history.
     purchase_prices = {
         int(c): int(p)
         for c, p in zip(ref["code"], ref["price"], strict=True)
@@ -349,7 +371,7 @@ def build_transfers(con: duckdb.DuckDBPyConnection, season: str, gw: int) -> dic
     }
     moves = top_alternative_moves(
         proj_for_optimizer, current_squad=squad, purchase_prices=purchase_prices,
-        bank=0, free_transfers=1, hit_cost=DEFAULT_HIT_COST, n=5,
+        bank=bank or 0, free_transfers=1, hit_cost=DEFAULT_HIT_COST, n=5,
     )
     ref_by_code = ref.set_index("code", drop=False)
     alternatives = []
@@ -369,11 +391,9 @@ def build_transfers(con: duckdb.DuckDBPyConnection, season: str, gw: int) -> dic
     return {
         "gw": gw,
         "confidence": _confidence(ref, xi),
-        "bank": None,
+        "bank": bank,
         "free_transfers": None,
-        "chip_advice": (
-            {"chip": rec["chip"][0], "gw": gw, "ev": None} if rec["chip"][0] else None
-        ),
+        "chip_advice": {"chip": chip, "gw": gw, "ev": None} if chip else None,
         "moves": [],
         "alternatives": alternatives,
     }
