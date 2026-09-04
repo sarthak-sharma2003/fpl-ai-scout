@@ -578,6 +578,7 @@ class EntryHistoryPast(BaseModel):
     season_name: str
     total_points: int
     rank: int | None = None
+    rank_percentage: float | None = None  # added by FPL mid-26/27; unused
 
 
 class EntryHistoryChip(BaseModel):
@@ -672,6 +673,8 @@ class LeagueStandingRow(BaseModel):
     entry: int
     entry_name: str
     club_badge_src: str | None = None
+    id: int | None = None  # added by FPL mid-26/27; unused
+    has_played: bool | None = None  # added by FPL mid-26/27; unused
 
 
 class LeagueStandingsPage(BaseModel):

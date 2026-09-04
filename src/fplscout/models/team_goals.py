@@ -26,6 +26,17 @@ from scipy.optimize import minimize
 from scipy.stats import poisson
 
 XI = 0.0018  # time-decay rate (~1 season half-life ≈ 385 days)
+# A club whose whole record in the fit window is "conceded nothing" (or "scored
+# nothing") has an unbounded MLE: the likelihood keeps rising as its parameter
+# runs to -inf. Two promoted clubs hit exactly that in 26/27 GW3 — Hull, 2
+# games 0 conceded, fitted defense -12.1, i.e. every opponent shut out with
+# certainty; Coventry, 2 games 0 scored, attack -8.9. Their players topped the
+# EV table and the poisoned goal expectations leaked into every points
+# prediction through the team_goals features. PARAM_BOUND caps the blow-up;
+# MIN_FIXTURES_FOR_OWN_PARAMS is the real guard — below it a club keeps the
+# relegation-zone fallback it already used before it had played at all.
+PARAM_BOUND = 3.0  # exp(3) = 20x the league goal rate; no real club is near it
+MIN_FIXTURES_FOR_OWN_PARAMS = 10
 
 
 def _tau(x: int, y: int, lam: float, mu: float, rho: float) -> float:
@@ -150,11 +161,13 @@ def fit(
 
     n = len(codes)
     x0 = np.concatenate([np.zeros(n), np.zeros(n), [0.3], [0.0]])
+    bounds = [(-PARAM_BOUND, PARAM_BOUND)] * (2 * n) + [(-1.0, 1.0), (-0.2, 0.2)]
     result = minimize(
         _neg_log_likelihood,
         x0,
         args=(codes, home_idx, away_idx, home_goals, away_goals, weights),
         method="L-BFGS-B",
+        bounds=bounds,
         options={"maxiter": 300},
     )
     params = result.x
@@ -162,6 +175,16 @@ def fit(
     defense = dict(zip(codes, params[n : 2 * n], strict=True))
     home_adv = float(params[2 * n])
     rho = float(np.clip(params[2 * n + 1], -0.2, 0.2))
+
+    # Too few matches to identify a club's own parameters: drop it so predict()
+    # takes the fallback branch, and drop it before the fallback is computed so
+    # a separated estimate can't drag the relegation-zone average with it.
+    played = pd.Series(np.concatenate([df["home_code"], df["away_code"]])).value_counts()
+    thin = [c for c in codes if played.get(c, 0) < MIN_FIXTURES_FOR_OWN_PARAMS]
+    if len(thin) < len(codes):  # somebody has to be left to compute a fallback from
+        for code in thin:
+            attack.pop(code, None)
+            defense.pop(code, None)
 
     attack_values = np.array(list(attack.values()))
     bottom_quartile_cutoff = np.quantile(attack_values, 0.25)

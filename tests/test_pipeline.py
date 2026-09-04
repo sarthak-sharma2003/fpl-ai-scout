@@ -138,3 +138,54 @@ def test_xi_minutes_floor_ignores_projections_without_p60():
     )
     assert pipeline.xi_minutes_floor(con, "2026-27", 1, "v1") == set()
     con.close()
+
+
+def test_lineup_watch_dissolves_once_the_player_actually_starts(tmp_path, monkeypatch):
+    """A hand-entered 0.0 must stop applying once real minutes contradict it."""
+    import duckdb
+
+    from fplscout import pipeline
+
+    read_watch = pipeline._lineup_watch_factor
+
+    watch = tmp_path / "lineup_watch.csv"
+    watch.write_text("code,player,start_prob,note\n1,Benched,0.0,guess\n2,Started,0.0,guess\n")
+    monkeypatch.setattr(
+        pipeline, "_lineup_watch_factor", lambda _p=watch: read_watch(_p)
+    )
+
+    con = duckdb.connect()
+    con.execute(
+        "CREATE TABLE players AS SELECT * FROM (VALUES (1, 'a', NULL), (2, 'a', NULL)) "
+        "t(code, status, chance_of_playing_next_round)"
+    )
+    con.execute(
+        "CREATE TABLE player_gw_history AS SELECT * FROM (VALUES "
+        "('2026-27', 1, 1, 0), ('2026-27', 1, 2, 90)) t(season, gw, code, minutes)"
+    )
+
+    factor = pipeline.live_availability_factor(con)
+    assert factor[1] == 0.0  # never started: the manual haircut still bites
+    assert factor[2] == 1.0  # 90 real minutes: the stale guess is ignored
+
+
+def test_xi_minutes_floor_exempts_players_who_have_actually_started():
+    """p_60_plus is a guess; a start on the pitch is not. At GW3 the un-exempted
+    floor barred 5 of our own 15 — no legal XI existed and the transfer solve
+    went infeasible, which made a wildcard look mandatory."""
+    con = _con_with_news([(1, "a", None), (2, "a", None)])
+    con.execute(
+        "INSERT INTO projections (season, gw, code, model_version, p_60_plus) VALUES "
+        "('2026-27', 3, 1, 'v1', 0.61), ('2026-27', 3, 2, 'v1', 0.61)"
+    )
+    assert pipeline.xi_minutes_floor(con, "2026-27", 3, "v1") == {1, 2}
+
+    con.execute(
+        "INSERT INTO player_gw_history "
+        "(season, gw, code, element_id, fixture_id, minutes, source) VALUES "
+        "('2026-27', 1, 1, 1, 1, 90, 'live'), ('2026-27', 2, 1, 1, 2, 90, 'live'), "
+        "('2026-27', 1, 2, 2, 1, 12, 'live')"
+    )
+    # code 1 has started; code 2's cameo leaves the cold-start bar in place
+    assert pipeline.xi_minutes_floor(con, "2026-27", 3, "v1") == {2}
+    con.close()

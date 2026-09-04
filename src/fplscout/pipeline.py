@@ -179,8 +179,19 @@ def live_availability_factor(con: duckdb.DuckDBPyConnection) -> dict[int, float]
     # gameweeks are ingested, roll5_started_share reflects reality — delete rows
     # as they become moot. Multiplies onto the live factor (a doubtful *and*
     # benched player stays doubtful).
+    # ...and it really does self-dissolve: a watched player who has since
+    # started a real match is evidence the hand-entered guess is stale, and a
+    # stale 0.0 silently makes an in-form starter unbuyable (Calafiori, GW3).
+    started = {
+        c
+        for (c,) in con.execute(
+            "SELECT DISTINCT code FROM player_gw_history "
+            "WHERE season = (SELECT MAX(season) FROM player_gw_history) "
+            "AND minutes >= 60"
+        ).fetchall()
+    }
     for code, start_prob in _lineup_watch_factor().items():
-        if code in factor:  # only haircut players that actually exist
+        if code in factor and code not in started:
             factor[code] *= start_prob
     return factor
 
@@ -405,6 +416,21 @@ def xi_minutes_floor(
     ).fetchone()[0]
     if played >= MINUTES_FLOOR_GWS:
         return set()
+    # A player who has actually started a match this season is not a cold-start
+    # case any more, whatever p_60_plus still says about him. Without this the
+    # floor kept barring proven starters (O'Reilly, 2 starts from 2, p60 0.61)
+    # and by GW3 it barred 5 of our own 15 — enough that no legal XI existed and
+    # the transfer solve went infeasible, which is what made a wildcard look
+    # like a +47 EV gift. Measured cost of the un-exempted floor at GW3: 15
+    # horizon EV against an otherwise identical solve.
+    started = {
+        int(code)
+        for (code,) in con.execute(
+            "SELECT DISTINCT code FROM player_gw_history "
+            "WHERE season = ? AND minutes >= 60",
+            [season],
+        ).fetchall()
+    }
     rows = con.execute(
         "SELECT code, p_60_plus FROM projections "
         "WHERE season = ? AND gw = ? AND model_version = ?",
@@ -413,7 +439,9 @@ def xi_minutes_floor(
     return {
         int(code)
         for code, p60 in rows
-        if p60 is not None and float(p60) < MINUTES_FLOOR_P60
+        if p60 is not None
+        and float(p60) < MINUTES_FLOOR_P60
+        and int(code) not in started
     }
 
 

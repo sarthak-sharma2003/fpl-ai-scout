@@ -37,6 +37,16 @@ DEFAULT_SETTINGS_PATH = REPO_ROOT / "config" / "settings.yaml"
 # 2024-25 only, per ROADMAP §2.4, before treating the number as meaningful.
 WILDCARD_MIN_GAIN = 15.0
 
+# Earliest gameweek the first wildcard may be recommended in. Not a tuned
+# number — it is config/rules.yaml's own `chip-hold-discipline` rule ("the one
+# defensible early chip is the first wildcard around GW4-9 when your draft has
+# genuinely broken"), which until now lived only as prose on the Rules page
+# while the optimizer happily ignored it. Two gameweeks is far too thin a
+# sample to tell a broken squad from model churn: at 26/27 GW3 the solver
+# wanted to sell the league's top scorer to buy a 0.1%-owned midfielder with 72
+# minutes, and priced that rebuild at +41 horizon EV.
+WILDCARD_EARLIEST_GW = 4
+
 
 def load_settings(path: Path = DEFAULT_SETTINGS_PATH) -> dict:
     return yaml.safe_load(path.read_text())
@@ -563,7 +573,12 @@ def optimize(settings_path: Path = typer.Option(DEFAULT_SETTINGS_PATH, "--settin
         raise typer.Exit(code=1)
 
     chip = "wildcard" if mode == "wildcard" else None
-    if mode == "transfer" and wildcard_ok:
+    if mode == "transfer" and wildcard_ok and gw < WILDCARD_EARLIEST_GW:
+        typer.echo(
+            f"  wildcard not considered before GW{WILDCARD_EARLIEST_GW} "
+            "(rules.yaml chip-hold-discipline)"
+        )
+    elif mode == "transfer" and wildcard_ok:
         wc_result = run_optimizer(replace(base_input, chip_mode="wildcard"))
         if wc_result.status == "Optimal":
             gain = wildcard_ev(wc_result, result)

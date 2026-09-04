@@ -127,3 +127,43 @@ def test_refit_with_target_excludes_decision_gw_and_later_results():
     # sanity: the past gw-1 results DID move the fit vs. train-only
     train_only = fit(train, teams)
     assert with_future.attack[2] != train_only.attack[2]
+
+
+def test_a_club_with_a_shutout_only_record_does_not_get_an_unbounded_defense():
+    """Hull, 26/27 GW3: 2 games, 0 conceded -> fitted defense -12.1 -> every
+    opponent shut out with certainty. Too little data for its own parameters."""
+    import pandas as pd
+
+    from fplscout.models import team_goals
+
+    rows = []
+    # a normal league of 10 clubs with a full record each
+    for i in range(1, 11):
+        for j in range(1, 11):
+            if i == j:
+                continue
+            rows.append((1 + len(rows), i, j, 1.0, 1.0))
+    # newcomer 99: two matches, kept a clean sheet in both
+    rows.append((900, 99, 1, 1.0, 0.0))
+    rows.append((901, 99, 2, 2.0, 0.0))
+
+    fixtures = pd.DataFrame(
+        rows, columns=["fixture_id", "team_h", "team_a", "team_h_score", "team_a_score"]
+    )
+    fixtures["season"] = "2026-27"
+    fixtures["kickoff_time"] = pd.Timestamp("2026-08-01", tz=None)
+    teams = pd.DataFrame(
+        {"season": "2026-27", "team_id": list(range(1, 11)) + [99]}
+    )
+    teams["code"] = teams["team_id"]
+
+    model = team_goals.fit(fixtures, teams)
+
+    assert 99 not in model.defense  # falls back rather than claiming certainty
+    for code, value in model.defense.items():
+        assert abs(value) <= team_goals.PARAM_BOUND, code
+    for code, value in model.attack.items():
+        assert abs(value) <= team_goals.PARAM_BOUND, code
+    # and the fallback it now takes is a sane relegation-zone prior
+    lam, mu = model.expected_goals(home_code=1, away_code=99)
+    assert 0.05 < mu < 5.0
