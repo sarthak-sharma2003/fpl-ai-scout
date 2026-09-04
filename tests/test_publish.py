@@ -455,3 +455,59 @@ def test_deadline_is_published_as_an_explicit_utc_instant():
     assert _deadline_iso([datetime(2026, 9, 4, 17, 30, tzinfo=UTC)]) == "2026-09-04T17:30:00Z"
     assert _deadline_iso(None) is None
     assert _deadline_iso([None]) is None
+
+
+def test_build_transfers_owns_the_last_synced_squad_before_the_deadline():
+    """FPL publishes an entry's picks only AFTER that gameweek's deadline, so
+    our_picks never holds a row for the upcoming gw while a transfer is still
+    possible. Keying ownership on the upcoming gw therefore missed at exactly
+    the moment it mattered: the live page reported "no owned squad to transfer
+    from yet", blanked bank and free transfers, and ranked swaps against a
+    squad nobody owns. Your GW(n-1) picks ARE your team until you transfer."""
+    con = db.connect(":memory:")
+    db.init_schema(con)
+    season, synced_gw, gw = "2026-27", 2, 3
+    con.execute(
+        "INSERT INTO teams (season, team_id, code, name, short_name) "
+        "VALUES (?, 1, 900, 'Team', 'TTT')",
+        [season],
+    )
+    con.execute(
+        "INSERT INTO gameweeks (season, event, deadline_time, finished) "
+        "VALUES (?, ?, now(), false)",
+        [season, gw],
+    )
+    for code, ev in {1: 3.0, 2: 3.0, 3: 8.0}.items():
+        con.execute("INSERT INTO players (code, web_name) VALUES (?, ?)", [code, f"P{code}"])
+        con.execute(
+            "INSERT INTO features (season, gw, fixture_id, code, team_id, position, value) "
+            "VALUES (?, ?, ?, ?, 1, 'MID', 50)",
+            [season, gw, code, code],
+        )
+        con.execute(
+            "INSERT INTO projections (season, gw, code, model_version, ev_points, "
+            "generated_at) VALUES (?, ?, ?, 'v1', ?, now())",
+            [season, gw, code, ev],
+        )
+    con.execute(
+        "INSERT INTO our_entry (entry_id, name, bank, team_value, free_transfers, "
+        "last_synced_gw, event_transfers_cost) VALUES (1, 'Us', 7, 1000, 2, ?, 0)",
+        [synced_gw],
+    )
+    # picks exist for the SYNCED gw only — there is no row for the upcoming one
+    for code in (1, 2):
+        con.execute(
+            "INSERT INTO our_picks (gw, code, position, multiplier, is_captain, "
+            "is_vice_captain) VALUES (?, ?, ?, 1, false, false)",
+            [synced_gw, code, code],
+        )
+
+    out = build_transfers(con, season, gw)
+    con.close()
+
+    assert out["squad_source"] == "synced"
+    assert out["bank"] == 7
+    assert out["free_transfers"] == 2
+    assert len(out["alternatives"]) > 0
+    for alt in out["alternatives"]:
+        assert alt["out"]["code"] in (1, 2)

@@ -340,15 +340,29 @@ def build_dashboard_alt(
 def build_transfers(con: duckdb.DuckDBPyConnection, season: str, gw: int) -> dict:
     ref = _reference_frame(con, season, gw)
 
-    # Same rule as build_dashboard: once our_picks has a real synced squad for
-    # this gw (only possible post-deadline), alternatives must be priced off
-    # THAT, not the wildcard recommendations.squad — that squad is rebuilt
-    # from scratch every refresh and can legitimately differ from what's
-    # actually owned, which produced nonsense like "sell a player who isn't
-    # even on the real squad."
-    real_picks = con.execute(
-        "SELECT code, multiplier FROM our_picks WHERE gw = ?", [gw]
-    ).df()
+    # Alternatives must be priced off what is actually OWNED, never off
+    # recommendations.squad — that one is rebuilt from scratch every refresh
+    # and can legitimately differ from the real team, which produced nonsense
+    # like "sell a player who isn't even on your squad".
+    #
+    # Owned means the LAST SYNCED gameweek, not this one. FPL publishes an
+    # entry's picks only after that gameweek's deadline, so our_picks never
+    # has a row for the upcoming gw while a transfer decision is still
+    # possible — querying `WHERE gw = <upcoming>` therefore missed every time
+    # it mattered and the page fell back to "no owned squad to transfer from
+    # yet", offering swaps against a squad nobody owns, with bank and free
+    # transfers blank. Your GW(n-1) picks ARE your team until you transfer.
+    # decide/squad_state.load_state resolves ownership the same way.
+    entry_row = con.execute(
+        "SELECT bank, free_transfers, last_synced_gw FROM our_entry "
+        "ORDER BY last_synced_gw DESC LIMIT 1"
+    ).fetchone()
+    synced_gw = entry_row[2] if entry_row else None
+    real_picks = (
+        con.execute("SELECT code, multiplier FROM our_picks WHERE gw = ?", [synced_gw]).df()
+        if synced_gw is not None
+        else pd.DataFrame()
+    )
     rec = con.execute(
         "SELECT * FROM recommendations WHERE season = ? AND gw = ? "
         "ORDER BY generated_at DESC LIMIT 1",
@@ -361,11 +375,7 @@ def build_transfers(con: duckdb.DuckDBPyConnection, season: str, gw: int) -> dic
         squad_source = "synced"
         squad = set(real_picks["code"])
         xi = set(real_picks.loc[real_picks["multiplier"] > 0, "code"])
-        entry_row = con.execute(
-            "SELECT bank, free_transfers FROM our_entry ORDER BY last_synced_gw DESC LIMIT 1"
-        ).fetchone()
-        if entry_row:
-            bank, free_transfers = entry_row
+        bank, free_transfers = entry_row[0], entry_row[1]
         if len(rec):
             chip = rec["chip"][0]
     else:
