@@ -437,3 +437,21 @@ def test_build_transfers_surfaces_recommended_moves_as_a_squad_diff():
     assert out["moves"][0]["out"]["code"] == 1
     assert out["moves"][0]["in"]["code"] == 3
     assert out["moves"][0]["net_ev"] == 7.0
+
+
+def test_deadline_is_published_as_an_explicit_utc_instant():
+    """A bare "2026-09-04T17:30:00" is read by the browser's `new Date()` as
+    LOCAL time, so the Dashboard countdown was off by the viewer's own UTC
+    offset — in the one place on the site where being wrong costs a gameweek."""
+    from datetime import UTC, datetime, timedelta, timezone
+
+    from fplscout.publish import _deadline_iso
+
+    naive = datetime(2026, 9, 4, 17, 30)
+    assert _deadline_iso([naive]) == "2026-09-04T17:30:00Z"
+    # an aware value is normalised to the same instant, not re-labelled
+    aware = datetime(2026, 9, 4, 11, 30, tzinfo=timezone(timedelta(hours=-6)))
+    assert _deadline_iso([aware]) == "2026-09-04T17:30:00Z"
+    assert _deadline_iso([datetime(2026, 9, 4, 17, 30, tzinfo=UTC)]) == "2026-09-04T17:30:00Z"
+    assert _deadline_iso(None) is None
+    assert _deadline_iso([None]) is None

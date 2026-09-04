@@ -16,6 +16,7 @@ which is the thing that actually changes behavior; this module just reports it.
 from __future__ import annotations
 
 import json
+from datetime import UTC
 from pathlib import Path
 
 import duckdb
@@ -137,6 +138,24 @@ def _confidence(ref: pd.DataFrame, starting_xi: set[int]) -> float:
     return round(100.0 / (1.0 + spread.mean()), 1)
 
 
+def _deadline_iso(deadline_row) -> str | None:
+    """The deadline as an explicit UTC instant, e.g. "2026-09-04T17:30:00Z".
+
+    `gameweeks.deadline_time` is a naive TIMESTAMP holding UTC. Emitting it
+    bare handed the browser "2026-09-04T17:30:00", which `new Date()` reads as
+    *local* time — so the Dashboard countdown was off by the viewer's own UTC
+    offset, in the one place on this site where being wrong costs a gameweek.
+    With the Z the browser gets the right instant and renders it in the
+    viewer's own timezone by itself.
+    """
+    if not deadline_row or deadline_row[0] is None:
+        return None
+    value = deadline_row[0]
+    if value.tzinfo is None:
+        value = value.replace(tzinfo=UTC)
+    return value.astimezone(UTC).isoformat().replace("+00:00", "Z")
+
+
 def build_dashboard(con: duckdb.DuckDBPyConnection, season: str, gw: int) -> dict:
     ref = _reference_frame(con, season, gw)
     state = _season_state(con, season, gw)
@@ -188,7 +207,7 @@ def build_dashboard(con: duckdb.DuckDBPyConnection, season: str, gw: int) -> dic
     if len(rec) == 0:
         return {
             "gw": gw, "season": season, "is_live": is_live, "state": state,
-            "deadline": deadline_row[0].isoformat() if deadline_row and deadline_row[0] else None,
+            "deadline": _deadline_iso(deadline_row),
             "avg_points": avg_points, "our_points": None, "overall_rank": None,
             "mini_league": None,
             "insight": {
@@ -239,7 +258,7 @@ def _dashboard_payload(
 
     return {
         "gw": gw, "season": season, "is_live": is_live, "state": state,
-        "deadline": deadline_row[0].isoformat() if deadline_row and deadline_row[0] else None,
+        "deadline": _deadline_iso(deadline_row),
         "avg_points": avg_points,
         "our_points": round(float(our_points), 1) if pd.notna(our_points) else None,
         "overall_rank": None,

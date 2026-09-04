@@ -5,8 +5,15 @@ import { PageHeader } from '../components/Layout';
 import { Card, DataGate, Eyebrow, StateBadge, StatTile } from '../components/ui';
 import PitchCard from '../components/PlayerChip';
 
-/** Live deadline countdown, re-derived every 30s. Hidden when the deadline
- * is null, unparseable, or already past. */
+/** Live deadline countdown, re-derived every 30s.
+ *
+ * A passed deadline means the nightly deploy has not landed since that
+ * gameweek — the page is showing a dead week. This used to render `null`,
+ * so the most informative element on the site quietly vanished at exactly
+ * the moment something was wrong, and the page went on presenting stale
+ * picks as current. The deploy failed on FPL schema drift for nine nights
+ * running and the site sat on GW1 the whole time without ever saying so.
+ * Say it instead. */
 function Countdown({ deadline }: { deadline: string | null }) {
   const [now, setNow] = useState(() => Date.now());
   useEffect(() => {
@@ -15,7 +22,23 @@ function Countdown({ deadline }: { deadline: string | null }) {
   }, []);
   if (!deadline) return null;
   const ms = new Date(deadline).getTime() - now;
-  if (Number.isNaN(ms) || ms <= 0) return null;
+  if (Number.isNaN(ms)) return null;
+  if (ms <= 0) {
+    const daysStale = Math.floor(-ms / 86_400_000);
+    return (
+      <div className="text-right">
+        <p className="mb-1 font-mono text-[10px] uppercase tracking-[0.16em] text-danger">
+          Deadline passed · data is stale
+        </p>
+        <p className="font-display text-lg font-bold leading-tight text-danger">
+          {daysStale < 1 ? 'This gameweek has locked' : `${daysStale} days behind`}
+        </p>
+        <p className="mt-1 font-mono text-[9px] uppercase tracking-[0.16em] text-ink-500">
+          the nightly deploy has not landed
+        </p>
+      </div>
+    );
+  }
   const d = Math.floor(ms / 86_400_000);
   const h = Math.floor((ms % 86_400_000) / 3_600_000);
   const m = Math.floor((ms % 3_600_000) / 60_000);

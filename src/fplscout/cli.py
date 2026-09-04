@@ -7,6 +7,7 @@ refresh | train | backtest | project | optimize | preflight | publish | report |
 
 from __future__ import annotations
 
+from datetime import UTC
 from pathlib import Path
 
 import pandas as pd
@@ -61,8 +62,24 @@ def _sync_gameweeks(con, bootstrap, season: str) -> int:
     season the live API currently represents — 2025-26 right now, pre-26/27-
     launch, and 2026-27 once that season starts (see plan §9 kickoff checklist
     for how `season` should be derived once vaastav adds a 2026-27 folder)."""
+    # Normalised to UTC and stripped of tzinfo before it goes near DuckDB.
+    # `gameweeks.deadline_time` is a naive TIMESTAMP, and DuckDB converts an
+    # aware datetime into the *session's* local timezone on insert — so the
+    # stored deadline silently became whatever timezone the machine running
+    # `refresh` happened to be in. On a UTC CI runner that is a no-op; run on a
+    # laptop in MDT and GW3's 17:30Z deadline was stored as 11:30, six hours
+    # early. preflight.py already assumes this column is UTC (it does a bare
+    # .replace(tzinfo=UTC)), so make that assumption true at the boundary.
     rows = [
-        (season, e.id, e.deadline_time, e.finished, e.average_entry_score)
+        (
+            season,
+            e.id,
+            e.deadline_time.astimezone(UTC).replace(tzinfo=None)
+            if e.deadline_time.tzinfo
+            else e.deadline_time,
+            e.finished,
+            e.average_entry_score,
+        )
         for e in bootstrap.events
     ]
     db.executemany(
