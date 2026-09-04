@@ -38,6 +38,29 @@ def derive_current_season(bootstrap: BootstrapStatic) -> str:
     return f"{start_year}-{str(start_year + 1)[-2:]}"
 
 
+def _team_strength(team) -> int | None:
+    """The 1-5 `strength` the `opponent_strength` feature is built from.
+
+    FPL stopped populating `strength` in 26/27 — it is null for all 20 teams,
+    and not just pre-season. Meanwhile `strength_overall_home`/`away`, which
+    used to carry a ~975-1355 scale, now carry the 1-5 numbers `strength` used
+    to (Arsenal: 4 home, 5 away). So the field was effectively renamed, and the
+    silent result was a feature present in 100% of the five training seasons
+    and NULL in 100% of live rows.
+
+    Fall back to the mean of the two only when it lands in the historical 1-5
+    range, so a future re-scale goes back to NULL rather than quietly feeding
+    the model a 1150 where it learned a 3.
+    """
+    if team.strength is not None:
+        return team.strength
+    home, away = team.strength_overall_home, team.strength_overall_away
+    if home is None or away is None:
+        return None
+    derived = round((home + away) / 2)
+    return derived if 1 <= derived <= 5 else None
+
+
 def _sync_teams(con: duckdb.DuckDBPyConnection, bootstrap: BootstrapStatic, season: str) -> int:
     teams_df = pd.DataFrame(
         [
@@ -47,7 +70,7 @@ def _sync_teams(con: duckdb.DuckDBPyConnection, bootstrap: BootstrapStatic, seas
                 "code": t.code,
                 "name": t.name,
                 "short_name": t.short_name,
-                "strength": t.strength,
+                "strength": _team_strength(t),
                 "strength_overall_home": t.strength_overall_home,
                 "strength_overall_away": t.strength_overall_away,
                 "strength_attack_home": t.strength_attack_home,

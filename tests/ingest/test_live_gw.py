@@ -166,3 +166,26 @@ def test_live_and_vaastav_rows_coexist_in_same_table(tmp_path, load_fixture):
 
     write_features(con)  # must not raise
     con.close()
+
+
+def test_team_strength_falls_back_to_the_renamed_overall_fields():
+    """FPL nulled `strength` in 26/27 and moved the 1-5 scale into
+    strength_overall_home/away, which silently made `opponent_strength` NULL
+    for every live row while all five training seasons had it."""
+    from types import SimpleNamespace
+
+    from fplscout.ingest.live_gw import _team_strength
+
+    def team(**kw):
+        base = dict(strength=None, strength_overall_home=None, strength_overall_away=None)
+        return SimpleNamespace(**(base | kw))
+
+    # the real 26/27 shape: strength gone, the 1-5 numbers in overall_*
+    assert _team_strength(team(strength_overall_home=4, strength_overall_away=4)) == 4
+    assert _team_strength(team(strength_overall_home=2, strength_overall_away=3)) == 2
+    assert _team_strength(team(strength_overall_home=4, strength_overall_away=5)) in (4, 5)
+    # a populated strength always wins
+    assert _team_strength(team(strength=3, strength_overall_home=5, strength_overall_away=5)) == 3
+    # the historical ~1000-1350 scale must not be fed to a 1-5 feature
+    assert _team_strength(team(strength_overall_home=1030, strength_overall_away=1350)) is None
+    assert _team_strength(team()) is None
