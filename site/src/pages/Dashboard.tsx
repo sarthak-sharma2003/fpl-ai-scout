@@ -5,16 +5,20 @@ import { PageHeader } from '../components/Layout';
 import { Card, DataGate, Eyebrow, StateBadge, StatTile } from '../components/ui';
 import PitchCard from '../components/PlayerChip';
 
-/** Live deadline countdown, re-derived every 30s.
+/** Deadline countdown, re-derived every 30s.
  *
- * A passed deadline means the nightly deploy has not landed since that
- * gameweek — the page is showing a dead week. This used to render `null`,
- * so the most informative element on the site quietly vanished at exactly
- * the moment something was wrong, and the page went on presenting stale
- * picks as current. The deploy failed on FPL schema drift for nine nights
- * running and the site sat on GW1 the whole time without ever saying so.
- * Say it instead. */
-function Countdown({ deadline }: { deadline: string | null }) {
+ * Three states, because "the deadline has passed" is NOT the same thing as
+ * "this page is stale". Every gameweek spends two or three days with its
+ * deadline behind it while the matches are actually being played, and that
+ * data is perfectly current — an earlier version of this component called that
+ * stale and shouted about it on a completely up-to-date page.
+ *
+ * Staleness is data age, so that is what we measure: the payload carries the
+ * time it was built, and only a `generated_at` older than the nightly deploy's
+ * own cadence means something has actually broken. */
+const STALE_AFTER_HOURS = 36;
+
+function Countdown({ deadline, generatedAt }: { deadline: string | null; generatedAt?: string | null }) {
   const [now, setNow] = useState(() => Date.now());
   useEffect(() => {
     const id = setInterval(() => setNow(Date.now()), 30_000);
@@ -23,15 +27,35 @@ function Countdown({ deadline }: { deadline: string | null }) {
   if (!deadline) return null;
   const ms = new Date(deadline).getTime() - now;
   if (Number.isNaN(ms)) return null;
+
   if (ms <= 0) {
-    const daysStale = Math.floor(-ms / 86_400_000);
+    const builtMs = generatedAt ? new Date(generatedAt).getTime() : NaN;
+    const ageHours = Number.isNaN(builtMs) ? null : (now - builtMs) / 3_600_000;
+    const stale = ageHours != null && ageHours > STALE_AFTER_HOURS;
+    if (!stale) {
+      return (
+        <div className="text-right">
+          <p className="mb-1 font-mono text-[10px] uppercase tracking-[0.16em] text-ink-500">
+            Deadline passed
+          </p>
+          <p className="font-display text-lg font-bold leading-tight text-volt">
+            Gameweek in progress
+          </p>
+          {ageHours != null && (
+            <p className="mt-1 font-mono text-[9px] uppercase tracking-[0.16em] text-ink-500">
+              updated {ageHours < 1 ? 'just now' : `${Math.floor(ageHours)}h ago`}
+            </p>
+          )}
+        </div>
+      );
+    }
     return (
       <div className="text-right">
         <p className="mb-1 font-mono text-[10px] uppercase tracking-[0.16em] text-danger">
-          Deadline passed · data is stale
+          Data is stale
         </p>
         <p className="font-display text-lg font-bold leading-tight text-danger">
-          {daysStale < 1 ? 'This gameweek has locked' : `${daysStale} days behind`}
+          {Math.floor(ageHours / 24)} days behind
         </p>
         <p className="mt-1 font-mono text-[9px] uppercase tracking-[0.16em] text-ink-500">
           the nightly deploy has not landed
@@ -39,6 +63,7 @@ function Countdown({ deadline }: { deadline: string | null }) {
       </div>
     );
   }
+
   const d = Math.floor(ms / 86_400_000);
   const h = Math.floor((ms % 86_400_000) / 3_600_000);
   const m = Math.floor((ms % 3_600_000) / 60_000);
@@ -172,7 +197,7 @@ export default function Dashboard() {
                       </div>
                     </div>
                   </div>
-                  <Countdown deadline={d.deadline} />
+                  <Countdown deadline={d.deadline} generatedAt={d.generated_at} />
                 </div>
                 <div className="mt-5 grid grid-cols-2 gap-x-6 gap-y-4 border-t border-line pt-4 sm:grid-cols-4">
                   <StatTile

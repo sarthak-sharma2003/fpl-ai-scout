@@ -511,3 +511,54 @@ def test_build_transfers_owns_the_last_synced_squad_before_the_deadline():
     assert len(out["alternatives"]) > 0
     for alt in out["alternatives"]:
         assert alt["out"]["code"] in (1, 2)
+
+
+def test_dashboard_publishes_when_it_was_built():
+    """Staleness is data age, not "has the deadline passed" — every gameweek
+    spends two or three days with its deadline behind it while the matches are
+    played, and that data is current. The page needs the build time to tell
+    "gameweek in progress" apart from "the nightly deploy died". Shipped after
+    the live site called a perfectly fresh GW3 stale 32 hours after kickoff."""
+    import json as _json
+    from datetime import UTC, datetime
+
+    con = db.connect(":memory:")
+    db.init_schema(con)
+    season, gw = "2026-27", 3
+    con.execute(
+        "INSERT INTO teams (season, team_id, code, name, short_name) "
+        "VALUES (?, 1, 900, 'Team', 'TTT')",
+        [season],
+    )
+    con.execute(
+        "INSERT INTO gameweeks (season, event, deadline_time, finished) "
+        "VALUES (?, ?, TIMESTAMP '2026-09-04 17:30:00', false)",
+        [season, gw],
+    )
+    for code in range(1, 16):
+        pos = ["GKP", "DEF", "MID", "FWD"][min(code // 5, 3)]
+        con.execute("INSERT INTO players (code, web_name) VALUES (?, ?)", [code, f"P{code}"])
+        con.execute(
+            "INSERT INTO features (season, gw, fixture_id, code, team_id, position, value) "
+            "VALUES (?, ?, ?, ?, 1, ?, 50)",
+            [season, gw, code, code, pos],
+        )
+        con.execute(
+            "INSERT INTO projections (season, gw, code, model_version, ev_points, "
+            "generated_at) VALUES (?, ?, ?, 'v1', 3.0, now())",
+            [season, gw, code],
+        )
+    con.execute(
+        "INSERT INTO recommendations (season, gw, generated_at, squad, starting_xi, "
+        "captain_code, vice_captain_code, transfers, hits, chip) "
+        "VALUES (?, ?, now(), ?, ?, 1, 2, '[]', 0, NULL)",
+        [season, gw, _json.dumps(list(range(1, 16))), _json.dumps(list(range(1, 12)))],
+    )
+
+    out = build_dashboard(con, season, gw)
+    con.close()
+
+    assert out["deadline"] == "2026-09-04T17:30:00Z"
+    assert out["generated_at"].endswith("Z")
+    built = datetime.fromisoformat(out["generated_at"].replace("Z", "+00:00"))
+    assert abs((datetime.now(UTC) - built).total_seconds()) < 60

@@ -28,6 +28,7 @@ export interface Dashboard {
   /** 'live' | 'demo' */
   state: string;
   deadline: string | null;
+  generated_at?: string | null;
   avg_points: number | null;
   our_points: number | null;
   overall_rank: number | null;

@@ -16,7 +16,7 @@ which is the thing that actually changes behavior; this module just reports it.
 from __future__ import annotations
 
 import json
-from datetime import UTC
+from datetime import UTC, datetime
 from pathlib import Path
 
 import duckdb
@@ -259,6 +259,13 @@ def _dashboard_payload(
     return {
         "gw": gw, "season": season, "is_live": is_live, "state": state,
         "deadline": _deadline_iso(deadline_row),
+        # When this payload was built. Staleness is about DATA AGE, never about
+        # whether the deadline has passed: every gameweek spends two or three
+        # days with its deadline in the past while the matches are actually
+        # being played, and that data is perfectly current. Shipping the
+        # timestamp lets the page tell "GW in progress" apart from "the nightly
+        # deploy died again" instead of guessing from the deadline.
+        "generated_at": datetime.now(UTC).isoformat().replace("+00:00", "Z"),
         "avg_points": avg_points,
         "our_points": round(float(our_points), 1) if pd.notna(our_points) else None,
         "overall_rank": None,
