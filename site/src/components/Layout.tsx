@@ -4,6 +4,11 @@ import { useJson } from '../lib/useJson';
 import Xabi from './Xabi';
 import type { Analytics } from '../types';
 
+const UCL_SCOUT_URL = 'https://sarthak-sharma2003.github.io/ucl-scout/';
+
+/** `external` entries leave the SPA entirely, so they render as a plain
+ * anchor rather than a NavLink — UCL Scout is a sibling build with its own
+ * data contract and deploy, not another route in this app. */
 const NAV = [
   { to: '/', label: 'Dashboard', end: true },
   { to: '/players', label: 'Players' },
@@ -14,6 +19,7 @@ const NAV = [
   { to: '/signals', label: 'Signals' },
   { to: '/analytics', label: 'Analytics' },
   { to: '/rules', label: 'Rules' },
+  { to: UCL_SCOUT_URL, label: 'UCL', external: true },
 ];
 
 function Wordmark() {
@@ -25,6 +31,29 @@ function Wordmark() {
       <span className="mt-1 block font-mono text-[8px] uppercase tracking-[0.34em] text-ink-500">
         FPL 26/27 war room
       </span>
+    </NavLink>
+  );
+}
+
+function NavItem({ to, label, end, external }: {
+  to: string; label: string; end?: boolean; external?: boolean;
+}) {
+  if (external) {
+    return (
+      <a
+        href={to}
+        className={`${navClass({ isActive: false })} gap-1`}
+        title="UCL Scout — Champions League Fantasy (separate build)"
+      >
+        {label}
+        <span aria-hidden className="text-[8px] leading-none">↗</span>
+        <span className="sr-only">(opens UCL Scout)</span>
+      </a>
+    );
+  }
+  return (
+    <NavLink to={to} end={end} className={navClass}>
+      {label}
     </NavLink>
   );
 }
@@ -67,19 +96,15 @@ export default function Layout() {
           </div>
           {/* Desktop nav: broadcast-ticker tabs, volt underline on air */}
           <nav className="hidden items-stretch overflow-x-auto md:flex">
-            {NAV.map(({ to, label, end }) => (
-              <NavLink key={to} to={to} end={end} className={navClass}>
-                {label}
-              </NavLink>
+            {NAV.map((item) => (
+              <NavItem key={item.to} {...item} />
             ))}
           </nav>
         </div>
         {/* Mobile nav: scrollable strip under the wordmark */}
         <nav className="flex overflow-x-auto border-t border-line/60 px-2 md:hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-          {NAV.map(({ to, label, end }) => (
-            <NavLink key={to} to={to} end={end} className={navClass}>
-              {label}
-            </NavLink>
+          {NAV.map((item) => (
+            <NavItem key={item.to} {...item} />
           ))}
         </nav>
       </header>
