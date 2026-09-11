@@ -32,6 +32,7 @@ from fplscout.decide.optimizer import (
     top_alternative_moves,
 )
 from fplscout.decide.rotation import rotation_pairs
+from fplscout.decide.squad_state import load_state
 
 
 def _reference_frame(con: duckdb.DuckDBPyConnection, season: str, gw: int) -> pd.DataFrame:
@@ -406,11 +407,16 @@ def build_transfers(
     # yet", offering swaps against a squad nobody owns, with bank and free
     # transfers blank. Your GW(n-1) picks ARE your team until you transfer.
     # decide/squad_state.load_state resolves ownership the same way.
+    # load_state, not a raw our_picks read: it also replays transfers already
+    # confirmed for the upcoming gameweek (whose picks FPL has not published
+    # yet) onto the squad, bank and free transfers. Reading the picks table
+    # directly here would have this page and the optimizer disagree about what
+    # you own the moment you act on a recommendation.
     entry_row = con.execute(
-        "SELECT bank, free_transfers, last_synced_gw FROM our_entry "
-        "ORDER BY last_synced_gw DESC LIMIT 1"
+        "SELECT entry_id FROM our_entry ORDER BY last_synced_gw DESC LIMIT 1"
     ).fetchone()
-    synced_gw = entry_row[2] if entry_row else None
+    state = load_state(con, entry_row[0]) if entry_row else None
+    synced_gw = state.last_synced_gw if state else None
     real_picks = (
         con.execute("SELECT code, multiplier FROM our_picks WHERE gw = ?", [synced_gw]).df()
         if synced_gw is not None
@@ -424,11 +430,12 @@ def build_transfers(
     bank = free_transfers = None
     chip = None
     squad_source = "recommended"
-    if len(real_picks):
+    if len(real_picks) and state:
         squad_source = "synced"
-        squad = set(real_picks["code"])
-        xi = set(real_picks.loc[real_picks["multiplier"] > 0, "code"])
-        bank, free_transfers = entry_row[0], entry_row[1]
+        squad = set(state.squad)
+        # a player transferred out cannot still be in the XI
+        xi = set(real_picks.loc[real_picks["multiplier"] > 0, "code"]) & squad
+        bank, free_transfers = state.bank, state.free_transfers
         if len(rec):
             chip = rec["chip"][0]
     else:

@@ -49,6 +49,25 @@ def load_state(con: duckdb.DuckDBPyConnection, entry_id: int) -> SquadState | No
             "SELECT code FROM our_picks WHERE gw = ?", [last_synced_gw]
         ).fetchall()
         squad = {p[0] for p in picks}
+        # Transfers already confirmed for a gameweek whose picks FPL has not
+        # published yet. Picks appear only AFTER a deadline, so a move you made
+        # this morning lives solely in entry/{id}/transfers -- and without
+        # replaying it here the app recommends selling players you no longer
+        # own, offers to buy the ones you just bought, and believes the free
+        # transfers you have spent are still yours. Bank moves by the real
+        # sale and purchase prices FPL recorded at the time.
+        for code_in, code_out, cost_in, cost_out in con.execute(
+            "SELECT code_in, code_out, cost_in, cost_out FROM our_transfers "
+            "WHERE gw > ? ORDER BY \"time\"",
+            [last_synced_gw],
+        ).fetchall():
+            squad.discard(code_out)
+            squad.add(code_in)
+            bank += (cost_out or 0) - (cost_in or 0)
+            # ponytail: one FT per transfer. A wildcard/free-hit week charges
+            # none, but those are visible only post-deadline in history, so
+            # this over-counts there and floors at 0 rather than going negative.
+            free_transfers = max(0, free_transfers - 1)
         purchase_prices = _infer_purchase_prices(con, entry_id, squad)
 
     chip_rows = con.execute(

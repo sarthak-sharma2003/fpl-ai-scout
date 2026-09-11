@@ -145,3 +145,37 @@ def test_another_entrys_chip_does_not_consume_ours(chips_con):
         [SEASON],
     )
     assert chip_available(chips_con, SEASON, 6, ENTRY, "wildcard") is True
+
+
+def test_transfers_made_before_the_deadline_are_replayed_onto_the_squad(con):
+    """FPL publishes picks only after a deadline, so a transfer confirmed for
+    the upcoming gameweek exists only in entry/transfers. Ignoring it had the
+    app recommending the sale of players you had already sold, and counting
+    free transfers you had already spent."""
+    save_state(con, SquadState(entry_id=ENTRY, name="Us", bank=3, free_transfers=2,
+                               squad={101, 102, 103}, last_synced_gw=3))
+    con.execute(
+        'INSERT INTO our_transfers (gw, code_in, code_out, cost_in, cost_out, "time") '
+        "VALUES (4, 104, 101, 95, 120, now())"
+    )
+
+    loaded = load_state(con, ENTRY)
+
+    assert loaded.squad == {102, 103, 104}, "the sold player is still owned"
+    assert loaded.bank == 3 + 120 - 95, loaded.bank
+    assert loaded.free_transfers == 1, "a spent free transfer still counted"
+
+
+def test_a_transfer_for_an_already_synced_gameweek_is_not_double_counted(con):
+    """Once picks for that gameweek exist they already include the move."""
+    save_state(con, SquadState(entry_id=ENTRY, name="Us", bank=3, free_transfers=2,
+                               squad={102, 103, 104}, last_synced_gw=4))
+    con.execute(
+        'INSERT INTO our_transfers (gw, code_in, code_out, cost_in, cost_out, "time") '
+        "VALUES (4, 104, 101, 95, 120, now())"
+    )
+
+    loaded = load_state(con, ENTRY)
+
+    assert loaded.squad == {102, 103, 104}
+    assert loaded.bank == 3 and loaded.free_transfers == 2
