@@ -31,6 +31,7 @@ from fplscout.decide.optimizer import (
     optimize,
     top_alternative_moves,
 )
+from fplscout.decide.rotation import rotation_pairs
 
 
 def _reference_frame(con: duckdb.DuckDBPyConnection, season: str, gw: int) -> pd.DataFrame:
@@ -344,7 +345,52 @@ def build_dashboard_alt(
     )
 
 
-def build_transfers(con: duckdb.DuckDBPyConnection, season: str, gw: int) -> dict:
+def _rotation_cards(
+    con: duckdb.DuckDBPyConnection, season: str, gw: int, ref: pd.DataFrame,
+    ev_by_gw: pd.DataFrame, squad: set[int],
+) -> list[dict]:
+    """rotation_pairs off the owned squad, dressed as cards carrying each week's
+    opponent so the page reads like a fixture-swap schedule."""
+    blocked = pipeline.unpickable(con, season, gw) - squad
+    universe = ref.loc[~ref["code"].isin(blocked), ["code", "position", "team_id"]]
+    pairs = rotation_pairs(
+        ev_by_gw, universe, squad, decay=pipeline.DECAY, hit_cost=DEFAULT_HIT_COST
+    )
+    if not pairs:
+        return []
+    short = dict(con.execute(
+        "SELECT team_id, short_name FROM teams WHERE season = ?", [season]
+    ).fetchall())
+    opponents: dict[tuple[int, int], list[str]] = {}
+    for event, home, away in con.execute(
+        "SELECT event, team_h, team_a FROM fixtures WHERE season = ?", [season]
+    ).fetchall():
+        opponents.setdefault((home, event), []).append(f"{short.get(away, '?')} (H)")
+        opponents.setdefault((away, event), []).append(f"{short.get(home, '?')} (A)")
+    by_code = ref.set_index("code", drop=False)
+
+    def opp(code: int, event: int) -> str:
+        return ", ".join(opponents.get((int(by_code.loc[code, "team_id"]), event), ["blank"]))
+
+    return [
+        {
+            "owned": _player_card(by_code.loc[p["owned"]]),
+            "partner": _player_card(by_code.loc[p["partner"]]),
+            "net_gain": p["net_gain"],
+            "weeks": [
+                {**w, "owned_opp": opp(p["owned"], w["gw"]),
+                 "partner_opp": opp(p["partner"], w["gw"])}
+                for w in p["weeks"]
+            ],
+        }
+        for p in pairs
+    ]
+
+
+def build_transfers(
+    con: duckdb.DuckDBPyConnection, season: str, gw: int,
+    ev_by_gw: pd.DataFrame | None = None,
+) -> dict:
     ref = _reference_frame(con, season, gw)
 
     # Alternatives must be priced off what is actually OWNED, never off
@@ -461,15 +507,32 @@ def build_transfers(con: duckdb.DuckDBPyConnection, season: str, gw: int) -> dic
             "net_ev": round(m.net_ev, 2),
         })
 
+    # A chip the recommendation plays wins; otherwise a wildcard `optimize`
+    # priced but did not play (it never swaps out the owned squad) is advice.
+    chip_advice = None
+    if chip:
+        chip_advice = {"chip": chip, "gw": gw, "ev": None}
+    elif len(rec) and pd.notna(rec["wildcard_gain"][0]):
+        chip_advice = {"chip": "wildcard", "gw": gw, "ev": float(rec["wildcard_gain"][0])}
+
+    # Off the squad AFTER this week's recommended moves: pairing a player the
+    # moves above are selling contradicts them.
+    rotations = []
+    if squad_source == "synced" and len(rec) and ev_by_gw is not None and len(ev_by_gw):
+        rotations = _rotation_cards(
+            con, season, gw, ref, ev_by_gw, set(json.loads(rec["squad"][0]))
+        )
+
     return {
         "gw": gw,
         "confidence": _confidence(ref, xi),
         "bank": bank,
         "free_transfers": free_transfers,
-        "chip_advice": {"chip": chip, "gw": gw, "ev": None} if chip else None,
+        "chip_advice": chip_advice,
         "moves": moves,
         "alternatives": alternatives,
         "squad_source": squad_source,
+        "rotations": rotations,
     }
 
 
@@ -1011,6 +1074,7 @@ def publish_all(
     reports_dir: Path,
     rules_path: Path,
     our_entry_id: int | None = None,
+    models_dir: Path | None = None,
 ) -> dict[str, int]:
     """Writes every §8-shaped JSON file to site_data_dir. Returns a summary
     dict of {filename: bytes_written} for the CLI to echo.
@@ -1033,9 +1097,17 @@ def publish_all(
     players_dir = site_data_dir / "players"
     players_dir.mkdir(parents=True, exist_ok=True)
 
+    # Rotation pairs need week-by-week EV, which only the trained models give
+    # (projections holds the decision gameweek alone). No models_dir, as in
+    # tests, just means no rotations section.
+    ev_by_gw = None
+    if models_dir is not None and model_version is not None:
+        models = pipeline.load_production_models(models_dir, model_version)
+        ev_by_gw = pipeline.live_horizon_ev(con, models, season, gw, per_gw=True)
+
     files: dict[str, object] = {
         "dashboard.json": build_dashboard(con, season, gw),
-        "transfers.json": build_transfers(con, season, gw),
+        "transfers.json": build_transfers(con, season, gw, ev_by_gw=ev_by_gw),
         "fixtures.json": build_fixtures(con, season, gw),
         "signals.json": build_signals(con, season, gw),
         "chips.json": build_chips(con, season, gw, our_entry_id=our_entry_id),

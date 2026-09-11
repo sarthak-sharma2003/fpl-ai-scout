@@ -513,6 +513,92 @@ def test_build_transfers_owns_the_last_synced_squad_before_the_deadline():
         assert alt["out"]["code"] in (1, 2)
 
 
+def test_wildcard_is_chip_advice_not_a_replacement_squad():
+    """`optimize` used to swap the whole recommendation for the wildcard build
+    once its gain cleared the bar, so the Dashboard showed fifteen players
+    nobody owned. The gain is now stored beside a squad priced off the real
+    team and surfaces here as advice."""
+    con = db.connect(":memory:")
+    db.init_schema(con)
+    season, gw = "2026-27", 4
+    con.execute(
+        "INSERT INTO teams (season, team_id, code, name, short_name) "
+        "VALUES (?, 1, 900, 'Team', 'TTT')",
+        [season],
+    )
+    for code in (1, 2):
+        con.execute("INSERT INTO players (code, web_name) VALUES (?, ?)", [code, f"P{code}"])
+        con.execute(
+            "INSERT INTO features (season, gw, fixture_id, code, team_id, position, value) "
+            "VALUES (?, ?, ?, ?, 1, 'MID', 50)",
+            [season, gw, code, code],
+        )
+    con.execute(
+        "INSERT INTO recommendations (season, gw, generated_at, squad, starting_xi, "
+        "captain_code, vice_captain_code, transfers, hits, chip, wildcard_gain) "
+        "VALUES (?, ?, now(), '[1, 2]', '[1, 2]', 1, 2, '[]', 0, NULL, 45.6)",
+        [season, gw],
+    )
+
+    out = build_transfers(con, season, gw)
+    con.close()
+
+    assert out["chip_advice"] == {"chip": "wildcard", "gw": gw, "ev": 45.6}
+    assert out["rotations"] == []
+
+
+def test_rotations_come_off_the_squad_after_recommended_moves():
+    """We own 3; the recommendation sells him for 1. Pairing 3 would contradict
+    the move shown right above it, so rotations use the post-move squad: 1,
+    whose fixtures alternate with 2's."""
+    con = db.connect(":memory:")
+    db.init_schema(con)
+    season, gw = "2026-27", 4
+    for team in (1, 2, 3):
+        con.execute(
+            "INSERT INTO teams (season, team_id, code, name, short_name) "
+            "VALUES (?, ?, ?, ?, ?)",
+            [season, team, 900 + team, f"Team{team}", f"T{team}"],
+        )
+    for code in (1, 2, 3):
+        con.execute("INSERT INTO players (code, web_name) VALUES (?, ?)", [code, f"P{code}"])
+        con.execute(
+            "INSERT INTO features (season, gw, fixture_id, code, team_id, position, value) "
+            "VALUES (?, ?, ?, ?, ?, 'DEF', 45)",
+            [season, gw, code, code, code],
+        )
+        con.execute(
+            "INSERT INTO projections (season, gw, code, model_version, ev_points, "
+            "generated_at) VALUES (?, ?, ?, 'v1', 3.0, now())",
+            [season, gw, code],
+        )
+    con.execute(
+        "INSERT INTO our_entry (entry_id, name, bank, team_value, free_transfers, "
+        "last_synced_gw, event_transfers_cost) VALUES (1, 'Us', 0, 1000, 1, ?, 0)",
+        [gw - 1],
+    )
+    con.execute(
+        "INSERT INTO our_picks (gw, code, position, multiplier, is_captain, "
+        "is_vice_captain) VALUES (?, 3, 1, 1, true, false)",
+        [gw - 1],
+    )
+    con.execute(
+        "INSERT INTO recommendations (season, gw, generated_at, squad, starting_xi, "
+        "captain_code, vice_captain_code, transfers, hits, chip) "
+        "VALUES (?, ?, now(), '[1]', '[1]', 1, 1, '[]', 0, NULL)",
+        [season, gw],
+    )
+    ev_by_gw = pd.DataFrame(
+        {1: [5, 1, 5, 1], 2: [1, 5, 1, 5], 3: [1, 1, 1, 1]}, index=[4, 5, 6, 7]
+    ).T
+
+    out = build_transfers(con, season, gw, ev_by_gw=ev_by_gw)
+    con.close()
+
+    assert [(r["owned"]["code"], r["partner"]["code"]) for r in out["rotations"]] == [(1, 2)]
+    assert [w["start"] for w in out["rotations"][0]["weeks"]] == ["owned", "partner"] * 2
+
+
 def test_dashboard_publishes_when_it_was_built():
     """Staleness is data age, not "has the deadline passed" — every gameweek
     spends two or three days with its deadline behind it while the matches are

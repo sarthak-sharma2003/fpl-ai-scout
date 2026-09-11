@@ -1,5 +1,5 @@
 import { useJson } from '../lib/useJson';
-import type { TransferMove, Transfers as TransfersData } from '../types';
+import type { Rotation, TransferMove, Transfers as TransfersData } from '../types';
 import { PageHeader } from '../components/Layout';
 import { Card, DataGate, Eyebrow, PosBadge, StatTile } from '../components/ui';
 
@@ -89,6 +89,45 @@ function SwapCard({ move }: { move: TransferMove }) {
   );
 }
 
+function RotationCard({ rot }: { rot: Rotation }) {
+  return (
+    <Card className="p-4">
+      <div className="mb-3 flex items-center justify-between gap-2">
+        <div className="flex min-w-0 items-center gap-2">
+          <PosBadge pos={rot.owned.position} />
+          <p className="truncate font-semibold text-ink-100">
+            {rot.owned.name} <span className="text-ink-500">///</span> {rot.partner.name}
+          </p>
+        </div>
+        <span className="shrink-0 rounded-sm bg-volt/10 px-2 py-0.5 font-mono text-[11px] font-bold text-volt tabular-nums ring-1 ring-volt/30">
+          +{rot.net_gain.toFixed(2)} EV
+        </span>
+      </div>
+      <ul className="flex flex-col gap-1">
+        {rot.weeks.map((w) => {
+          const partner = w.start === 'partner';
+          return (
+            <li
+              key={w.gw}
+              className="grid grid-cols-[3rem_1fr_auto] items-baseline gap-2 font-mono text-xs tabular-nums"
+            >
+              <span className="text-ink-500">GW{w.gw}</span>
+              <span className={`truncate ${partner ? 'text-volt' : 'text-ink-100'}`}>
+                {partner ? rot.partner.name : rot.owned.name} · {partner ? w.partner_opp : w.owned_opp}
+              </span>
+              <span className="text-ink-300">{(partner ? w.partner_ev : w.owned_ev).toFixed(1)}</span>
+            </li>
+          );
+        })}
+      </ul>
+      <p className="mt-3 font-mono text-[10px] uppercase text-ink-500">
+        Buy {rot.partner.name} ({rot.partner.team ?? '—'} · £{rot.partner.price?.toFixed(1) ?? '—'}m), gain is net of a
+        hit
+      </p>
+    </Card>
+  );
+}
+
 export default function Transfers() {
   const state = useJson<TransfersData>('transfers.json');
 
@@ -166,6 +205,22 @@ export default function Transfers() {
                 </div>
               )}
             </div>
+
+            {t.rotations && t.rotations.length > 0 && (
+              <div>
+                <Eyebrow>Rotation pairs</Eyebrow>
+                <p className="-mt-1 mb-3 text-xs text-ink-500">
+                  Keepers and defenders whose fixtures alternate with one you own. Start whoever the model
+                  rates higher that week. Gain is decayed EV over the next {t.rotations[0].weeks.length}{' '}
+                  gameweeks against always starting your player.
+                </p>
+                <div className="grid gap-3 md:grid-cols-2">
+                  {t.rotations.map((r) => (
+                    <RotationCard key={`${r.owned.code}-${r.partner.code}`} rot={r} />
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         )}
       </DataGate>

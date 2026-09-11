@@ -67,6 +67,25 @@ export interface Transfers {
   moves: TransferMove[];
   alternatives: TransferMove[];
   squad_source?: 'synced' | 'recommended';
+  rotations?: Rotation[];
+}
+
+export interface RotationWeek {
+  gw: number;
+  start: 'owned' | 'partner';
+  owned_ev: number;
+  partner_ev: number;
+  owned_opp: string;
+  partner_opp: string;
+}
+
+/** Two keepers/defenders whose fixtures alternate: start whichever the model rates higher that week. */
+export interface Rotation {
+  owned: PlayerCard;
+  partner: PlayerCard;
+  /** decayed EV over always starting `owned`, net of the transfer's hit */
+  net_gain: number;
+  weeks: RotationWeek[];
 }
 
 export interface FixtureTick {

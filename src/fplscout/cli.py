@@ -442,8 +442,9 @@ def optimize(settings_path: Path = typer.Option(DEFAULT_SETTINGS_PATH, "--settin
     * **Transfer mode** (our_picks holds a real synced squad): a genuine
       transfer decision off that squad — respects bank, free transfers, the
       selling-price rule and the hit cost, using the same tuned constants the
-      backtest validated. Also solves a wildcard variant and recommends
-      playing the chip when the horizon gain clears WILDCARD_MIN_GAIN.
+      backtest validated. Also solves a wildcard variant and, when its
+      horizon gain clears WILDCARD_MIN_GAIN, stores that gain as chip advice.
+      The recommended squad itself always stays the one you own.
     * **Wildcard mode** (no squad synced yet — before the first deadline of a
       season): an unconstrained "best possible 15" build, which is exactly
       right for an initial draft.
@@ -590,6 +591,7 @@ def optimize(settings_path: Path = typer.Option(DEFAULT_SETTINGS_PATH, "--settin
         raise typer.Exit(code=1)
 
     chip = "wildcard" if mode == "wildcard" else None
+    wildcard_gain = None
     if mode == "transfer" and wildcard_ok and gw < WILDCARD_EARLIEST_GW:
         typer.echo(
             f"  wildcard not considered before GW{WILDCARD_EARLIEST_GW} "
@@ -603,22 +605,32 @@ def optimize(settings_path: Path = typer.Option(DEFAULT_SETTINGS_PATH, "--settin
                 f"  wildcard would gain {gain:+.1f} horizon EV "
                 f"(bar: {WILDCARD_MIN_GAIN:.1f})"
             )
+            # Advice, never a silent swap. Replacing the recommendation with the
+            # 15-man rebuild made the Dashboard show a team nobody owns, and
+            # whether to burn the chip is the manager's call. The gain is stored
+            # and published as chip advice beside moves off the real squad.
             if gain >= WILDCARD_MIN_GAIN:
-                chip, result = "wildcard", wc_result
+                wildcard_gain = round(gain, 1)
 
     name_by_code = dict(zip(roster["code"], roster["web_name"], strict=False))
+    # Pair each out with an in of the same position. Sorting by code alone
+    # printed "Tarkowski -> Sels", a defender swapped for a keeper.
+    pos_by_code = dict(zip(roster["code"], roster["position"], strict=False))
+    by_pos = lambda c: (pos_by_code.get(c, ""), c)  # noqa: E731
     transfer_lines = [
         f"{name_by_code.get(out, out)} -> {name_by_code.get(inn, inn)}"
         for out, inn in zip(
-            sorted(result.transfers_out), sorted(result.transfers_in), strict=False
+            sorted(result.transfers_out, key=by_pos),
+            sorted(result.transfers_in, key=by_pos),
+            strict=False,
         )
     ]
 
     con = db.connect(duckdb_path)
     con.execute(
         "INSERT INTO recommendations (season, gw, generated_at, squad, starting_xi, "
-        "captain_code, vice_captain_code, transfers, hits, chip, confidence) "
-        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+        "captain_code, vice_captain_code, transfers, hits, chip, confidence, "
+        "wildcard_gain) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
         [
             season, gw, datetime.now(UTC),
             json.dumps(sorted(result.squad)),
@@ -629,6 +641,7 @@ def optimize(settings_path: Path = typer.Option(DEFAULT_SETTINGS_PATH, "--settin
             result.hits,
             chip,
             None,
+            wildcard_gain,
         ],
     )
     con.close()
@@ -758,6 +771,7 @@ def publish(
         reports_dir=REPO_ROOT / "data" / "reports",
         rules_path=REPO_ROOT / "config" / "rules.yaml",
         our_entry_id=settings.get("team_id"),
+        models_dir=REPO_ROOT / "data" / "models",
     )
     con.close()
 

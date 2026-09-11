@@ -508,25 +508,41 @@ def total_ev_for_optimizer(
     has fixtures beyond `gw` (a genuine live season in progress); otherwise falls
     back to a flat decay-summed single-gameweek EV (see module docstring — this
     is the pre-26/27-launch demo path, not the intended long-run behavior)."""
+    live = live_horizon_ev(con, models, season, gw)
+    if live is not None:
+        return live
+    decay_sum = sum(DECAY**h for h in range(HORIZON))
+    return (projections.set_index("code")["ev_points"] * decay_sum).rename("total_ev")
+
+
+def live_horizon_ev(
+    con: duckdb.DuckDBPyConnection,
+    models: ProductionModels,
+    season: str,
+    gw: int,
+    per_gw: bool = False,
+) -> pd.Series | pd.DataFrame | None:
+    """The fixture-aware multi-step forecast: code -> decayed total_ev, or with
+    `per_gw` a code × gameweek frame of undecayed EV (what a rotation needs to
+    see week by week). None when the season has no fixtures beyond `gw`."""
     max_gw = con.execute(
         "SELECT MAX(event) FROM fixtures WHERE season = ?", [season]
     ).fetchone()[0]
-    if max_gw is not None and max_gw > gw:
-        season_df = load_dataset(con, [season], require_targets=False)
-        base_rows = season_df[season_df["gw"] == gw]
-        fixtures = con.execute("SELECT * FROM fixtures WHERE season = ?", [season]).df()
-        teams = con.execute(
-            "SELECT season, team_id, code, strength FROM teams WHERE season = ?", [season]
-        ).df()
-        total_ev = horizon.build_horizon_ev(
-            models.minutes_model, models.dc_model, models.points_models,
-            base_rows, fixtures, teams, decision_gw=gw, horizon=HORIZON, decay=DECAY,
-            max_gw=max_gw, availability_factor=live_availability_factor(con),
-            return_gw=availability_return_gw(con, season),
-        )
-        # This branch builds its EV independently of `projections`, so it needs
-        # the boost applied here too. The fallback below does NOT: it scales the
-        # projections frame, which generate_projections already boosted.
-        return total_ev * total_ev.index.to_series().map(summer_boost(con, season)).fillna(1.0)
-    decay_sum = sum(DECAY**h for h in range(HORIZON))
-    return (projections.set_index("code")["ev_points"] * decay_sum).rename("total_ev")
+    if max_gw is None or max_gw <= gw:
+        return None
+    season_df = load_dataset(con, [season], require_targets=False)
+    base_rows = season_df[season_df["gw"] == gw]
+    fixtures = con.execute("SELECT * FROM fixtures WHERE season = ?", [season]).df()
+    teams = con.execute(
+        "SELECT season, team_id, code, strength FROM teams WHERE season = ?", [season]
+    ).df()
+    ev = horizon.build_horizon_ev(
+        models.minutes_model, models.dc_model, models.points_models,
+        base_rows, fixtures, teams, decision_gw=gw, horizon=HORIZON, decay=DECAY,
+        max_gw=max_gw, availability_factor=live_availability_factor(con),
+        return_gw=availability_return_gw(con, season), per_gw=per_gw,
+    )
+    # This EV is built independently of `projections`, so it needs the boost
+    # applied here too. total_ev_for_optimizer's fallback does NOT: it scales
+    # the projections frame, which generate_projections already boosted.
+    return ev.mul(ev.index.to_series().map(summer_boost(con, season)).fillna(1.0), axis=0)

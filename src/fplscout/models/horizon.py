@@ -114,7 +114,8 @@ def build_horizon_ev(
     max_gw: int,
     availability_factor: dict[int, float] | None = None,
     return_gw: dict[int, int] | None = None,
-) -> pd.Series:
+    per_gw: bool = False,
+) -> pd.Series | pd.DataFrame:
     """base_rows: this season's leak-safe feature rows AT decision_gw only (one
     per player) — the frozen "how good is this player right now" snapshot.
     Returns code -> total_ev, decay-summed across up to `horizon` future
@@ -134,9 +135,12 @@ def build_horizon_ev(
     news had already ruled out: a departed player carried 4.16 EV across
     gameweeks 5-8, and suspensions with an exact, published end date were
     guessed at rather than read. Only the live pipeline passes either argument;
-    backtest callers leave both None and get byte-identical output."""
+    backtest callers leave both None and get byte-identical output.
+
+    `per_gw`: return a code × gameweek frame of undecayed EV instead of the
+    decayed total, for decisions that need each week on its own (rotations)."""
     if len(base_rows) == 0:
-        return pd.Series(dtype=float)
+        return pd.DataFrame() if per_gw else pd.Series(dtype=float)
 
     # A player with a double gameweek AT decision_gw itself has two rows here;
     # their rolling-form features are identical either way (both computed from
@@ -170,6 +174,7 @@ def build_horizon_ev(
                  "gw", "season"]
     )
     total_ev: dict[int, float] = {}
+    by_gw: dict[int, pd.Series] = {}
 
     for h in range(horizon):
         target_gw = decision_gw + h
@@ -232,11 +237,14 @@ def build_horizon_ev(
 
         preds = points.predict(points_models, merged)
         gw_ev = preds.groupby(preds["code"])["ev_points"].sum()  # sums DGW fixtures
+        by_gw[target_gw] = gw_ev
         for code, ev in gw_ev.items():
             if pd.isna(ev):
                 continue
             total_ev[code] = total_ev.get(code, 0.0) + (decay**h) * ev
 
+    if per_gw:
+        return pd.DataFrame(by_gw)
     return pd.Series(total_ev, name="total_ev")
 
 
