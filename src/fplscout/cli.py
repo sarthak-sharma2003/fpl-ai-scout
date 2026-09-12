@@ -564,8 +564,13 @@ def optimize(settings_path: Path = typer.Option(DEFAULT_SETTINGS_PATH, "--settin
             projections=projections_df,
             current_squad=current_squad,
             purchase_prices=state.purchase_prices,
-            bank=state.bank or 0,
-            free_transfers=state.free_transfers or 1,
+            bank=state.bank if state.bank is not None else 0,
+            # `or 1` here read a legitimate ZERO as "one free transfer", so the
+            # week after you spend both of yours the optimizer offered a move it
+            # thought was free and was actually a -4.
+            free_transfers=(
+                state.free_transfers if state.free_transfers is not None else 1
+            ),
             chip_mode=None,
             hit_cost=DECISION_HIT_COST,
             transfer_penalty=TRANSFER_PENALTY,

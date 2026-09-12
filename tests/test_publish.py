@@ -648,3 +648,52 @@ def test_dashboard_publishes_when_it_was_built():
     assert out["generated_at"].endswith("Z")
     built = datetime.fromisoformat(out["generated_at"].replace("Z", "+00:00"))
     assert abs((datetime.now(UTC) - built).total_seconds()) < 60
+
+
+def test_zero_free_transfers_is_not_silently_read_as_one():
+    """`free_transfers or 1` read a legitimate 0 as one free transfer, so the
+    week after you spend both of yours every swap was priced as free when it
+    actually costs -4. Same squad, 1 FT vs 0 FT: the 0-FT swaps must be worth
+    strictly less, because each one now carries a hit."""
+    def build(free_transfers: int):
+        con = db.connect(":memory:")
+        db.init_schema(con)
+        season, synced_gw, gw = "2026-27", 3, 4
+        con.execute(
+            "INSERT INTO teams (season, team_id, code, name, short_name) "
+            "VALUES (?, 1, 900, 'Team', 'TTT')",
+            [season],
+        )
+        for code, ev in {1: 2.0, 2: 2.0, 3: 9.0}.items():
+            con.execute("INSERT INTO players (code, web_name) VALUES (?, ?)", [code, f"P{code}"])
+            con.execute(
+                "INSERT INTO features (season, gw, fixture_id, code, team_id, position, value) "
+                "VALUES (?, ?, ?, ?, 1, 'MID', 50)",
+                [season, gw, code, code],
+            )
+            con.execute(
+                "INSERT INTO projections (season, gw, code, model_version, ev_points, "
+                "generated_at) VALUES (?, ?, ?, 'v1', ?, now())",
+                [season, gw, code, ev],
+            )
+        con.execute(
+            "INSERT INTO our_entry (entry_id, name, bank, team_value, free_transfers, "
+            "last_synced_gw, event_transfers_cost) VALUES (1, 'Us', 50, 1000, ?, ?, 0)",
+            [free_transfers, synced_gw],
+        )
+        for code in (1, 2):
+            con.execute(
+                "INSERT INTO our_picks (gw, code, position, multiplier, is_captain, "
+                "is_vice_captain) VALUES (?, ?, ?, 1, false, false)",
+                [synced_gw, code, code],
+            )
+        out = build_transfers(con, season, gw)
+        con.close()
+        return out
+
+    one, zero = build(1), build(0)
+    assert one["free_transfers"] == 1 and zero["free_transfers"] == 0
+    assert one["alternatives"] and zero["alternatives"]
+    assert zero["alternatives"][0]["net_ev"] < one["alternatives"][0]["net_ev"], (
+        "a swap with no free transfer left must be priced with its hit"
+    )

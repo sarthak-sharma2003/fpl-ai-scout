@@ -496,7 +496,10 @@ def build_transfers(
     }
     alt_moves = top_alternative_moves(
         proj_for_optimizer, current_squad=squad, purchase_prices=purchase_prices,
-        bank=bank or 0, free_transfers=free_transfers or 1,
+        bank=bank if bank is not None else 0,
+        # never `or 1`: zero free transfers is a real state, and it is the one
+        # that decides whether these swaps cost 4 points each
+        free_transfers=free_transfers if free_transfers is not None else 1,
         hit_cost=DEFAULT_HIT_COST, n=5,
     )
     ref_by_code = ref.set_index("code", drop=False)
