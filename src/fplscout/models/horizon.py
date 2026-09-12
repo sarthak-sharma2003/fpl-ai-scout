@@ -16,8 +16,9 @@ fixture list itself (opponent, venue, DGW/BGW count) and the Dixon-Coles model's
 opponent-specific attack/defense parameters (fit once on training data; doesn't
 update within a season, so using it for a future opponent isn't reading anything
 that hasn't happened yet). Minutes-model uncertainty widens with horizon distance
-via a simple linear blend toward the position-level average probability — a
-pragmatic approximation, not a rigorously re-derived k-step-ahead minutes model.
+via a simple linear blend toward the average probability of a STARTER at that
+position — a pragmatic approximation, not a rigorously re-derived k-step-ahead
+minutes model.
 """
 
 from __future__ import annotations
@@ -29,6 +30,10 @@ from fplscout.models import minutes, points, team_goals
 from fplscout.models.dataset import load_dataset
 
 UNCERTAINTY_WIDEN_PER_STEP = 0.15  # h=0: no widening; h>=6: fully at position average
+# p(60+) at which a player counts as a starter, for the purpose of what
+# widening regresses TOWARD. Not tuned: it is the natural reading of the
+# minutes model's own 60+ class.
+STARTER_P60 = 0.5
 
 
 def _team_fixtures_long(fixtures: pd.DataFrame) -> pd.DataFrame:
@@ -150,10 +155,23 @@ def build_horizon_ev(
     base_rows = base_rows.drop_duplicates(subset="code", keep="first").reset_index(drop=True)
     base_mins_proba = minutes.predict_proba(minutes_model, base_rows)
 
+    # What widening regresses toward is "a typical STARTER at this position",
+    # not the average of everyone who holds the shirt. Averaging over every
+    # registered player includes hundreds who never play, so a nailed starter
+    # was dragged to ~30 expected minutes by h=3 -- and the points head reads an
+    # expensive 30-minute player as NEGATIVE EV. That is what made the horizon
+    # collapse for Haaland and B.Fernandes (-0.6 a week), bench a 25-point
+    # midfielder, and price a wildcard at +45 over a squad that was fine.
+    # Uncertainty about a future gameweek means "he might be rotated", never
+    # "he might be a player who does not exist in this league".
     position_avg_proba: dict[str, np.ndarray] = {}
     for position in base_rows["position"].unique():
         mask = (base_rows["position"] == position).to_numpy()
-        position_avg_proba[position] = base_mins_proba[mask].mean(axis=0)
+        pos_proba = base_mins_proba[mask]
+        starters = pos_proba[:, 2] >= STARTER_P60
+        position_avg_proba[position] = (
+            pos_proba[starters] if starters.any() else pos_proba
+        ).mean(axis=0)
 
     team_fixtures = _team_fixtures_long(fixtures)
     id_to_code = dict(zip(teams["team_id"], teams["code"], strict=False))

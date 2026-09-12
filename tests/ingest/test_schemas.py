@@ -7,6 +7,9 @@ is the fastest way to see exactly what broke.
 
 from __future__ import annotations
 
+import pytest
+from pydantic import ValidationError
+
 from fplscout.ingest.schemas import (
     BootstrapStatic,
     ElementSummary,
@@ -72,13 +75,20 @@ def test_event_live_schema(load_fixture):
     assert len(parsed.elements) > 0
 
 
-def test_strict_schema_rejects_unknown_field(load_fixture):
-    """Simulates an API schema drift: an unexpected new field must fail loudly."""
+def test_new_api_field_does_not_break_ingestion(load_fixture):
+    """FPL adding a field we do not read must not stop the nightly build.
+
+    extra="forbid" killed two nightly deploys over fields like
+    price_change_calibrating, costing a whole day's site each time.
+    """
     data = load_fixture("entry.json")
     data["brand_new_field_from_season_reset"] = "surprise"
-    try:
+    assert Entry.model_validate(data).id == data["id"]
+
+
+def test_missing_field_we_actually_read_still_fails_loudly(load_fixture):
+    """The drift worth catching: a field we depend on being renamed away."""
+    data = load_fixture("entry.json")
+    del data["id"]
+    with pytest.raises(ValidationError):
         Entry.model_validate(data)
-        raised = False
-    except Exception:
-        raised = True
-    assert raised, "strict model should reject unknown fields so drift is caught immediately"

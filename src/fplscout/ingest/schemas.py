@@ -1,9 +1,16 @@
 """Pydantic models for every FPL API payload we consume.
 
-Deliberately strict (`extra="forbid"`) on top-level fields: the FPL API is expected to
-drift when the 2026/27 season resets (new/renamed/removed fields, changed scoring
-config). We want ingestion to fail loudly the day that happens rather than silently
-dropping data — see plan §0 risk table.
+Strict about what we NEED, indifferent to what FPL adds. Every field this project
+reads is declared and required, so a rename or removal still fails ingestion loudly
+the day it happens — that is the drift worth catching, and it is what plan §0's risk
+table is actually about.
+
+Extra fields are ignored rather than forbidden. `extra="forbid"` killed the nightly
+deploy twice for fields FPL simply ADDED (price_change_calibrating, hourly_rate,
+projections, locked_until) — new data we do not read, costing a whole day's build
+each time. It also never caught the drift that did hurt: `teams[].strength` went
+null-for-everyone, which is a value change, not a shape change, and no amount of
+strictness about extra keys sees it.
 """
 
 from __future__ import annotations
@@ -13,7 +20,7 @@ from typing import Any
 
 from pydantic import BaseModel, ConfigDict
 
-STRICT = ConfigDict(extra="forbid")
+STRICT = ConfigDict(extra="ignore")  # see module docstring: required fields still bite
 LENIENT = ConfigDict(extra="allow")  # for stat-blob dicts that are genuinely open-ended
 
 

@@ -58,6 +58,12 @@ jobs:
       # the fresh DB, then wrote the union back out). [skip ci] keeps the
       # data-only commit from triggering test/deploy runs.
       - name: Commit ep_next archive
+        # Archival bookkeeping, not deployment: a push race with another run
+        # (or a conflict on this file, which must never be resolved by picking
+        # a side) used to fail the job and leave the SITE stale over data that
+        # was already correct. Losing one day of snapshots is recoverable;
+        # serving last week's gameweek is what actually costs points.
+        continue-on-error: true
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"

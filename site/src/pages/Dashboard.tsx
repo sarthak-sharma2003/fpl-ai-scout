@@ -1,9 +1,24 @@
 import { useEffect, useState } from 'react';
-import { combine, useJson } from '../lib/useJson';
+import { useJson } from '../lib/useJson';
 import type { Dashboard as DashboardData, PlayerCard, Transfers as TransfersData } from '../types';
 import { PageHeader } from '../components/Layout';
-import { Card, DataGate, Eyebrow, StateBadge, StatTile } from '../components/ui';
+import { Card, DataGate, Eyebrow, PosBadge, StateBadge, StatTile } from '../components/ui';
 import PitchCard from '../components/PlayerChip';
+
+const CHIP_NAME: Record<string, string> = {
+  wildcard: 'Wildcard',
+  freehit: 'Free Hit',
+  bboost: 'Bench Boost',
+  '3xc': 'Triple Captain',
+};
+
+/** A player's code can show up in the XI or the bench — search both. */
+function findByCode(d: DashboardData, code: number | null): PlayerCard | undefined {
+  if (code == null) return undefined;
+  return [...d.pitch.gk, ...d.pitch.def, ...d.pitch.mid, ...d.pitch.fwd, ...d.bench_order].find(
+    (p) => p.code === code,
+  );
+}
 
 /** Deadline countdown, re-derived every 30s.
  *
@@ -138,13 +153,112 @@ function Pitch({ d }: { d: DashboardData }) {
   );
 }
 
+/** The game plan: what to actually DO this gameweek, at a glance — so the
+ * pitch below (which may already reflect recommended transfers) never reads
+ * as an unexplained swap to a different team. Skipped entirely when
+ * transfers.json isn't available; the dashboard still works without it. */
+function GamePlan({ d, t }: { d: DashboardData; t: TransfersData }) {
+  const captainName = d.insight.captain ?? findByCode(d, d.captain_code)?.name;
+  const viceName = findByCode(d, d.vice_captain_code)?.name;
+  const moves = t.moves ?? [];
+  const chip = t.chip_advice;
+  const forCaptain = captainName ? `, captain ${captainName}` : '';
+
+  const headline =
+    moves.length > 0
+      ? `Make ${moves.length} transfer${moves.length > 1 ? 's' : ''}${forCaptain}`
+      : chip
+        ? `${CHIP_NAME[chip.chip] ?? chip.chip} suggested${
+            chip.ev != null ? `: +${chip.ev.toFixed(1)} EV over your current squad` : ''
+          }`
+        : `Hold your transfers — bank the free transfer${t.free_transfers === 1 ? '' : 's'}${forCaptain}`;
+
+  return (
+    <div>
+      <Eyebrow>Game plan</Eyebrow>
+      <Card className="flex flex-col gap-4 p-4 md:p-6">
+        <p className="font-display text-xl font-bold leading-tight text-ink-100 md:text-2xl">{headline}</p>
+
+        {moves.length > 0 ? (
+          <div className="flex flex-col gap-1.5">
+            {moves.map((m, i) => (
+              <div
+                key={i}
+                className="flex items-center justify-between gap-2 rounded-md bg-pitch-900/40 px-3 py-2 ring-1 ring-line"
+              >
+                <div className="flex min-w-0 items-center gap-2">
+                  <PosBadge pos={m.out.position} />
+                  <span className="truncate font-mono text-xs text-ink-500 line-through decoration-ink-500/60">
+                    {m.out.name}
+                  </span>
+                  <span aria-hidden className="shrink-0 text-ink-500">
+                    →
+                  </span>
+                  <span className="truncate font-mono text-xs font-bold text-ink-100">{m.in.name}</span>
+                </div>
+                <span
+                  className={`shrink-0 font-mono text-[11px] font-bold tabular-nums ${
+                    m.net_ev >= 0 ? 'text-volt' : 'text-danger'
+                  }`}
+                >
+                  {m.net_ev >= 0 ? '+' : ''}
+                  {m.net_ev.toFixed(2)}
+                </span>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p className="text-sm text-ink-500">No transfer beats holding — bank the free transfer this week.</p>
+        )}
+
+        <div className="grid grid-cols-2 gap-x-6 gap-y-4 border-t border-line pt-4 sm:grid-cols-4">
+          <StatTile label="Captain" value={captainName ?? '—'} />
+          <StatTile label="Vice" value={viceName ?? '—'} />
+          <StatTile label="Bank" value={t.bank != null ? `£${(t.bank / 10).toFixed(1)}m` : '—'} />
+          <StatTile label="Free transfers" value={t.free_transfers ?? '—'} />
+        </div>
+        {d.insight.transfer_summary && (
+          <p className="-mt-2 font-mono text-[10px] uppercase tracking-[0.16em] text-ink-500">
+            {d.insight.transfer_summary}
+          </p>
+        )}
+
+        {chip && (
+          <p className="rounded-r-md border-l-2 border-armband bg-armband/[0.06] px-4 py-3 text-sm leading-relaxed text-ink-300">
+            <span className="mr-1.5 font-mono text-[10px] font-bold uppercase tracking-[0.22em] text-armband">
+              Chip advice
+            </span>
+            {CHIP_NAME[chip.chip] ?? chip.chip} would gain {chip.ev != null ? `+${chip.ev.toFixed(1)} EV` : 'value'}.
+            Not applied —{' '}
+            {t.squad_source === 'synced'
+              ? 'the squad below is your own team plus the moves above'
+              : 'the squad below is a recommended draft, not applied to any real team'}
+            .
+          </p>
+        )}
+
+        {t.squad_source && (
+          <p className="border-t border-line pt-3 font-mono text-[10px] uppercase tracking-[0.16em] text-ink-500">
+            {t.squad_source === 'synced'
+              ? 'Pitch below · your real squad with the recommended moves applied'
+              : 'Pitch below · a suggested draft, not your synced squad'}
+          </p>
+        )}
+      </Card>
+    </div>
+  );
+}
+
 export default function Dashboard() {
   const dashMain = useJson<DashboardData>('dashboard.json');
   const dashAlt = useJson<DashboardData>('dashboard_alt.json');
   const transfers = useJson<TransfersData>('transfers.json');
-  const state = combine(dashMain, transfers);
   const [variant, setVariant] = useState<'main' | 'alt'>('main');
   const altReady = dashAlt.status === 'ready' ? dashAlt.data : null;
+  // transfers.json is a nice-to-have enhancement, not a hard dependency — a
+  // failed or slow fetch here must not blank the whole dashboard, so it's
+  // read separately rather than folded into the page's DataGate.
+  const t = transfers.status === 'ready' ? transfers.data : null;
 
   return (
     <div>
@@ -152,8 +266,8 @@ export default function Dashboard() {
         title="Dashboard"
         subtitle="The model's recommended squad for the gameweek — EV from the ML projections, formation and bench from the MILP optimizer."
       />
-      <DataGate state={state}>
-        {([dMain, t]) => {
+      <DataGate state={dashMain}>
+        {(dMain) => {
           const d = variant === 'alt' && altReady ? altReady : dMain;
           const formation = `${d.pitch.def.length}-${d.pitch.mid.length}-${d.pitch.fwd.length}`;
           return (
@@ -212,7 +326,7 @@ export default function Dashboard() {
                   />
                   <StatTile
                     label="Confidence"
-                    value={`${t.confidence.toFixed(0)}%`}
+                    value={t ? `${t.confidence.toFixed(0)}%` : '—'}
                     hint="Quantile-spread confidence in this week's plan — details on Transfers"
                   />
                   <StatTile
@@ -233,6 +347,9 @@ export default function Dashboard() {
                   </p>
                 </div>
               </Card>
+
+              {/* Game plan — skipped gracefully if transfers.json didn't load */}
+              {t && <GamePlan d={d} t={t} />}
 
               {/* Pitch */}
               <div>

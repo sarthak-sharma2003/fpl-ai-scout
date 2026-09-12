@@ -599,11 +599,27 @@ def optimize(settings_path: Path = typer.Option(DEFAULT_SETTINGS_PATH, "--settin
         )
     elif mode == "transfer" and wildcard_ok:
         wc_result = run_optimizer(replace(base_input, chip_mode="wildcard"))
-        if wc_result.status == "Optimal":
-            gain = wildcard_ev(wc_result, result)
+        # Compare like with like, which the old comparison did not. It put a
+        # 15-transfer rebuild against a squad allowed only THIS week's free
+        # transfers, and the objective waives the per-transfer churn penalty in
+        # wildcard mode alone -- so the rebuild collected ~1.5 x 9 points of
+        # deterrent nobody actually pays, and a wildcard "gained" +40 EV every
+        # single week regardless of the squad. That is a property of the
+        # arithmetic, not a fact about your team, and it is what made the site
+        # shout WILDCARD at a squad that was fine.
+        #
+        # The real question: does rebuilding now beat spending the free
+        # transfers the horizon hands you anyway (one a week), with neither
+        # side paying a penalty the other is exempt from?
+        rolling = run_optimizer(
+            replace(base_input, free_transfers=pipeline.HORIZON, transfer_penalty=0.0)
+        )
+        if wc_result.status == "Optimal" and rolling.status == "Optimal":
+            gain = wildcard_ev(wc_result, rolling)
             typer.echo(
-                f"  wildcard would gain {gain:+.1f} horizon EV "
-                f"(bar: {WILDCARD_MIN_GAIN:.1f})"
+                f"  wildcard {wc_result.objective_value:.1f} vs "
+                f"{pipeline.HORIZON} weekly transfers {rolling.objective_value:.1f}"
+                f" -> gain {gain:+.1f} (bar: {WILDCARD_MIN_GAIN:.1f})"
             )
             # Advice, never a silent swap. Replacing the recommendation with the
             # 15-man rebuild made the Dashboard show a team nobody owns, and
