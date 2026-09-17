@@ -1,13 +1,31 @@
 /* =========================================================================
    UCL SCOUT — design tokens
-   Direction: matchday-programme squad sheet. Ink on paper by day,
-   matchday-night ink on near-black by night. One accent (champions-night
-   indigo) plus a functional status ramp for urgency/warnings. Barlow
-   Condensed for display/headings, Space Grotesk for body/UI, Space Mono for
-   anything that ticks or lines up in columns — shared with the sibling
-   fpl-ai-scout project so the two feel related. The Starting XI pitch is its
-   own visual world (volt-on-turf) matching that sibling's pitch component;
-   everything else keeps the indigo accent above.
+   Shared minimalist identity with the sibling fpl-ai-scout project (see
+   site/src/index.css there — keep the two in sync by hand, nothing shares
+   CSS between the two builds):
+
+     paper ground     #f4f0e6   → --bg
+     paper raised     #faf7f0   → --bg-raised
+     ink strong       #1b1811   → --ink
+     ink secondary    #5c5748   → --ink-secondary
+     ink tertiary     #8d876f   → --ink-tertiary
+     rule             rgba(27,24,17,.16 / .32) → --rule / --rule-strong
+     accent (shared)  #7b74c9   → --accent (muted periwinkle — replaces the
+                                  old deeper champions-night indigo so it
+                                  matches fpl-ai-scout's retuned "volt")
+     accent-ink       #1b1811   → dark ink text sits on the solid accent now
+                                  that the accent itself is lighter
+     danger / warning / positive: same hues, muted for a flat paper surface.
+
+   Flat by day: shadows are near-gone (a hairline rule stands in for most of
+   what used to be shadow-2). Ink on paper by day, matchday-night ink on
+   near-black by night — that dark-mode ramp is left as it was; it already
+   uses a periwinkle accent close to the new shared one and re-tuning it
+   risked more than it was worth for this pass. Barlow Condensed for
+   display/headings, Space Grotesk for body/UI, Space Mono for anything that
+   ticks or lines up in columns. The Starting XI pitch is its own visual
+   world (volt-on-turf) matching the sibling's pitch component; everything
+   else keeps the accent above.
    ========================================================================= */
 
 :root {
@@ -24,10 +42,10 @@
   --rule: rgba(27, 24, 17, 0.16);
   --rule-strong: rgba(27, 24, 17, 0.32);
 
-  --accent: #3d2eb0;
-  --accent-ink: #ffffff;
-  --accent-tint: rgba(61, 46, 176, 0.1);
-  --accent-tint-strong: rgba(61, 46, 176, 0.16);
+  --accent: #7b74c9;
+  --accent-ink: #1b1811;
+  --accent-tint: rgba(123, 116, 201, 0.12);
+  --accent-tint-strong: rgba(123, 116, 201, 0.2);
 
   --danger: #a3271d;
   --danger-tint: rgba(163, 39, 29, 0.12);
@@ -36,14 +54,17 @@
   --positive: #1f6e43;
   --positive-tint: rgba(31, 110, 67, 0.12);
 
-  --shadow-1: 0 1px 2px rgba(27, 24, 17, 0.08), 0 1px 1px rgba(27, 24, 17, 0.06);
-  --shadow-2: 0 4px 16px rgba(27, 24, 17, 0.12), 0 1.5px 4px rgba(27, 24, 17, 0.1);
+  /* flat: a hairline is the only "depth" a raised card gets */
+  --shadow-1: none;
+  --shadow-2: 0 0 0 1px var(--rule);
 
   /* Pitch is its own fixed dark world — same in both themes, like the
      sibling project's. Never redefined under the dark-theme blocks below. */
   --pitch-turf-1: #132a1c;
   --pitch-turf-2: #0b1d13;
+  --pitch-bg: linear-gradient(180deg, var(--pitch-turf-1) 0%, var(--pitch-turf-2) 100%);
   --pitch-chalk: rgba(255, 255, 255, 0.25);
+  --pitch-line: var(--pitch-chalk);
   --pitch-card-bg: rgba(7, 20, 16, 0.85);
   --pitch-name: #edf5ef;
   --pitch-meta: #6f8f7d;

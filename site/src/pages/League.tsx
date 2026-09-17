@@ -72,7 +72,7 @@ function StandingsTable({ data }: { data: LeagueResponse }) {
       <tbody key={e.entry_id} className="group">
         <tr
           onClick={() => setOpen(isOpen ? null : e.entry_id)}
-          className={`cursor-pointer border-b border-line/50 transition-colors hover:bg-white/[0.02] ${
+          className={`cursor-pointer border-b border-line/50 transition-colors hover:bg-ink-100/[0.02] ${
             e.is_us ? 'bg-volt/[0.05]' : ''
           }`}
         >
@@ -115,7 +115,7 @@ function StandingsTable({ data }: { data: LeagueResponse }) {
                 e.chips_used.map((c, i) => (
                   <span
                     key={i}
-                    className="rounded-sm bg-white/5 px-1.5 py-px font-mono text-[9px] font-bold uppercase text-ink-300 ring-1 ring-line"
+                    className="rounded-sm bg-ink-100/5 px-1.5 py-px font-mono text-[9px] font-bold uppercase text-ink-300 ring-1 ring-line"
                   >
                     {CHIP_ABBR[c.chip] ?? c.chip}
                     {c.gw}
@@ -126,7 +126,7 @@ function StandingsTable({ data }: { data: LeagueResponse }) {
           </td>
           <td className="px-2 py-2.5">
             <div className="flex items-center gap-2">
-              <div className="h-[5px] w-20 rounded-full bg-white/[0.06] md:w-28">
+              <div className="h-[5px] w-20 rounded-full bg-ink-100/[0.06] md:w-28">
                 <div
                   className={`h-full rounded-full ${e.is_us ? 'bg-volt' : 'bg-ink-500/60'}`}
                   style={{ width: `${((e.projected_next_ev ?? 0) / evMax) * 100}%` }}
@@ -203,7 +203,7 @@ function Dots({ n, max }: { n: number; max: number }) {
       {Array.from({ length: max }, (_, i) => (
         <span
           key={i}
-          className={`h-1.5 w-1.5 rounded-full ${i < n ? 'bg-volt' : 'bg-white/10'}`}
+          className={`h-1.5 w-1.5 rounded-full ${i < n ? 'bg-volt' : 'bg-ink-100/10'}`}
         />
       ))}
     </span>

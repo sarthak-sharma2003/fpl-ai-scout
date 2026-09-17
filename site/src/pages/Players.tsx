@@ -52,7 +52,7 @@ function QuantileBand({
   const at = (v: number) => `${Math.max(0, Math.min(100, (v / max) * 100))}%`;
   return (
     <div className="relative h-5 w-full min-w-[96px]">
-      <div className="absolute inset-x-0 top-1/2 h-px -translate-y-1/2 bg-white/10" />
+      <div className="absolute inset-x-0 top-1/2 h-px -translate-y-1/2 bg-ink-100/10" />
       {q10 != null && q90 != null && (
         <div
           className="absolute top-1/2 h-[5px] -translate-y-1/2 rounded-full bg-ink-500/40"
@@ -166,7 +166,7 @@ function Explorer({ proj }: { proj: Projections }) {
               }}
               className={`px-2.5 py-1.5 font-mono text-[10px] font-bold uppercase tracking-[0.1em] transition-colors ${
                 pos === p
-                  ? 'bg-volt text-pitch-950'
+                  ? 'bg-volt text-ink-100'
                   : 'bg-pitch-900/60 text-ink-500 hover:text-ink-100'
               }`}
             >
@@ -280,8 +280,8 @@ function PlayerRows({
     <>
       <tr
         onClick={onToggle}
-        className={`cursor-pointer border-b border-line/50 transition-colors hover:bg-white/[0.025] ${
-          open ? 'bg-white/[0.03]' : ''
+        className={`cursor-pointer border-b border-line/50 transition-colors hover:bg-ink-100/[0.025] ${
+          open ? 'bg-ink-100/[0.03]' : ''
         }`}
       >
         <td className="py-2 pl-3 pr-2 font-mono text-[10px] text-ink-500 tabular-nums md:pl-4">

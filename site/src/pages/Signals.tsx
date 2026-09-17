@@ -11,7 +11,7 @@ function SignalList({ rows, positive }: { rows: SignalCard[]; positive: boolean 
       {rows.map((s, i) => (
         <li
           key={s.code}
-          className="flex items-center justify-between gap-3 rounded-md px-2 py-2 odd:bg-white/[0.02]"
+          className="flex items-center justify-between gap-3 rounded-md px-2 py-2 odd:bg-ink-100/[0.02]"
         >
           <span className="flex min-w-0 items-center gap-2.5">
             <span className="w-4 shrink-0 text-right font-mono text-[10px] text-ink-500 tabular-nums">

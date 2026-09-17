@@ -21,7 +21,7 @@ function ConfidenceDial({ value }: { value: number }) {
         <path
           d="M6 50 A44 44 0 0 1 94 50"
           fill="none"
-          stroke="rgba(255,255,255,0.07)"
+          stroke="var(--color-line)"
           strokeWidth="7"
           strokeLinecap="round"
         />

@@ -9,7 +9,7 @@ function RuleCard({ r }: { r: Rule }) {
       <div className="mb-1.5 flex items-start justify-between gap-3">
         <h3 className="text-sm font-semibold leading-snug text-ink-100">{r.title}</h3>
         {!r.enabled && (
-          <span className="shrink-0 rounded-sm bg-white/5 px-1.5 py-px font-mono text-[9px] font-bold uppercase tracking-[0.14em] text-ink-500 ring-1 ring-line">
+          <span className="shrink-0 rounded-sm bg-ink-100/5 px-1.5 py-px font-mono text-[9px] font-bold uppercase tracking-[0.14em] text-ink-500 ring-1 ring-line">
             Disabled
           </span>
         )}

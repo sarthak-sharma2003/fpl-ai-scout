@@ -20,8 +20,8 @@ function WindowStrip({ chip, currentGw }: { chip: ChipInfo; currentGw: number })
         {Array.from({ length: 38 }, (_, i) => {
           const gw = i + 1;
           const inWindow = gw >= chip.start_gw && gw <= chip.stop_gw;
-          let cls = 'bg-white/[0.06]';
-          if (inWindow) cls = chip.used_gw != null ? 'bg-white/10' : 'bg-volt/40';
+          let cls = 'bg-ink-100/[0.06]';
+          if (inWindow) cls = chip.used_gw != null ? 'bg-ink-100/10' : 'bg-volt/40';
           if (gw === chip.used_gw) cls = 'bg-danger';
           if (gw === currentGw) cls += ' outline outline-1 outline-ink-100/70';
           return <span key={gw} title={`GW${gw}`} className={`flex-1 rounded-[1px] ${cls}`} />;
@@ -55,13 +55,13 @@ function StatusBadge({ chip }: { chip: ChipInfo }) {
   }
   if (chip.available) {
     return (
-      <span className="rounded-sm bg-white/5 px-2 py-0.5 font-mono text-[9px] font-bold uppercase tracking-[0.14em] text-ink-300 ring-1 ring-line">
+      <span className="rounded-sm bg-ink-100/5 px-2 py-0.5 font-mono text-[9px] font-bold uppercase tracking-[0.14em] text-ink-300 ring-1 ring-line">
         Opens GW{chip.start_gw}
       </span>
     );
   }
   return (
-    <span className="rounded-sm bg-white/5 px-2 py-0.5 font-mono text-[9px] font-bold uppercase tracking-[0.14em] text-ink-500 ring-1 ring-line">
+    <span className="rounded-sm bg-ink-100/5 px-2 py-0.5 font-mono text-[9px] font-bold uppercase tracking-[0.14em] text-ink-500 ring-1 ring-line">
       Unavailable
     </span>
   );
@@ -86,7 +86,7 @@ function ThisWeek({ chip }: { chip: ChipInfo }) {
             {tw.bench_ev.toFixed(1)}
           </span>
         </div>
-        <div className="relative h-2 rounded-full bg-white/[0.06]">
+        <div className="relative h-2 rounded-full bg-ink-100/[0.06]">
           <div
             className={`h-full rounded-full ${ok ? 'bg-volt/70' : 'bg-armband/70'}`}
             style={{ width: `${Math.min(100, (tw.bench_ev / scale) * 100)}%` }}
@@ -246,7 +246,7 @@ export default function Chips() {
                     </p>
                     <div className="mt-3 flex h-2 gap-px opacity-40">
                       {Array.from({ length: 38 }, (_, i) => (
-                        <span key={i} className="flex-1 rounded-[1px] bg-white/[0.07]" />
+                        <span key={i} className="flex-1 rounded-[1px] bg-ink-100/[0.07]" />
                       ))}
                     </div>
                     <p className="mt-1.5 font-mono text-[8px] uppercase tracking-[0.14em] text-ink-500">

@@ -156,7 +156,7 @@ function ApiKeyGate({ onSave }: { onSave: (key: string) => void }) {
       />
       <button
         type="submit"
-        className="mt-3 w-full rounded-sm bg-volt px-3 py-2 font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-pitch-950 disabled:opacity-40"
+        className="mt-3 w-full rounded-sm bg-volt px-3 py-2 font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-ink-100 disabled:opacity-40"
         disabled={!value.trim()}
       >
         Save key
@@ -242,7 +242,7 @@ export default function Xabi() {
     return (
       <button
         onClick={() => setOpen(true)}
-        className="fixed bottom-5 right-5 z-30 rounded-full bg-volt px-5 py-3 font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-pitch-950 shadow-lg"
+        className="fixed bottom-5 right-5 z-30 rounded-full bg-volt px-5 py-3 font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-ink-100 shadow-lg"
       >
         Ask Xabi
       </button>
@@ -286,7 +286,7 @@ export default function Xabi() {
                 key={i}
                 className={
                   t.role === 'user'
-                    ? 'ml-8 rounded-sm bg-white/5 px-3 py-2 text-[13px] text-ink-100'
+                    ? 'ml-8 rounded-sm bg-ink-100/5 px-3 py-2 text-[13px] text-ink-100'
                     : 'whitespace-pre-wrap text-[13px] leading-relaxed text-ink-300'
                 }
               >
@@ -316,7 +316,7 @@ export default function Xabi() {
             <button
               type="submit"
               disabled={!ready || busy || !draft.trim()}
-              className="rounded-sm bg-volt px-3 py-2 font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-pitch-950 disabled:opacity-40"
+              className="rounded-sm bg-volt px-3 py-2 font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-ink-100 disabled:opacity-40"
             >
               {busy ? '…' : 'Ask'}
             </button>

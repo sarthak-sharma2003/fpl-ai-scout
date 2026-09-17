@@ -25,17 +25,21 @@ export default function PitchCard({
           <Roundel kind={badge} />
         </div>
       )}
-      <div className="flex flex-col items-center overflow-hidden rounded-md bg-pitch-950/85 ring-1 ring-white/10">
+      {/* Dark-turf exception: this card always sits on the Pitch's dark
+          background regardless of site theme, so its text/EV colours are
+          fixed literals here rather than the (now light) theme tokens —
+          same literals as the sibling ucl/site pitch card. */}
+      <div className="flex flex-col items-center overflow-hidden rounded-md bg-[rgba(7,20,16,0.85)] ring-1 ring-white/10">
         <div className={`h-[3px] w-full ${POS_STRIPE[player.position] ?? 'bg-ink-500'}`} />
         <div className="w-full px-1 pb-1.5 pt-1 text-center">
-          <p className="truncate text-[11px] font-semibold leading-tight text-ink-100 md:text-xs">
+          <p className="truncate text-[11px] font-semibold leading-tight text-[#edf5ef] md:text-xs">
             {player.name}
           </p>
-          <p className="font-mono text-[8px] uppercase tracking-wide text-ink-500 md:text-[9px]">
+          <p className="font-mono text-[8px] uppercase tracking-wide text-[#6f8f7d] md:text-[9px]">
             {player.team ?? '—'} · {player.price != null ? player.price.toFixed(1) : '—'}
           </p>
           <div className="mt-0.5 flex items-center justify-center gap-1">
-            <span className="font-display text-[17px] font-semibold leading-none text-volt">
+            <span className="font-display text-[17px] font-semibold leading-none text-[#d4f34b]">
               {player.ev != null ? player.ev.toFixed(1) : '—'}
             </span>
             {player.flag && <FlagMark flag={player.flag} />}

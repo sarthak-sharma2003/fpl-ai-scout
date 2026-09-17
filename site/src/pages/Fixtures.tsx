@@ -3,14 +3,15 @@ import type { FixtureTick, FixturesResponse } from '../types';
 import { PageHeader } from '../components/Layout';
 import { Card, DataGate, StateBadge } from '../components/ui';
 
-/** 5-step heat ramp tuned for the dark theme: green = comfortable, neutral =
- * par, orange/rose = hostile. */
+/** 5-step heat ramp built from theme tokens (not literal colours) so it
+ * follows the site palette automatically: accent = comfortable, neutral =
+ * par, warning/danger = hostile. */
 const FDR_CLS: Record<number, string> = {
-  1: 'bg-[#1c5735] text-[#a9f5cb]',
-  2: 'bg-[#14402a] text-[#7fd9a7]',
-  3: 'bg-white/[0.05] text-ink-300',
-  4: 'bg-[#4d2c12] text-[#f9bd7f]',
-  5: 'bg-[#571523] text-[#fdaebc]',
+  1: 'bg-volt/20 text-volt-deep',
+  2: 'bg-volt/10 text-volt-deep',
+  3: 'bg-ink-100/5 text-ink-300',
+  4: 'bg-armband/15 text-armband',
+  5: 'bg-danger/15 text-danger',
 };
 const FDR_LABEL: Record<number, string> = {
   1: 'Comfortable',
@@ -34,7 +35,7 @@ function OppCell({ ticks }: { ticks: FixtureTick[] }) {
   return (
     <div className="relative flex h-11 flex-col gap-px">
       {isDgw && (
-        <span className="absolute -right-1 -top-1 z-10 grid h-3.5 w-3.5 place-items-center rounded-sm bg-volt font-mono text-[8px] font-bold text-pitch-950">
+        <span className="absolute -right-1 -top-1 z-10 grid h-3.5 w-3.5 place-items-center rounded-sm bg-volt font-mono text-[8px] font-bold text-ink-100">
           2
         </span>
       )}
@@ -109,7 +110,7 @@ export default function Fixtures() {
                 <table className="w-full min-w-[720px] border-separate border-spacing-0 text-sm">
                   <thead>
                     <tr className="text-left font-mono text-[9px] uppercase tracking-[0.16em] text-ink-500">
-                      <th className="sticky left-0 z-10 border-b border-line bg-[#0e2017] py-2.5 pl-3 pr-2 font-bold md:pl-4">
+                      <th className="sticky left-0 z-10 border-b border-line bg-pitch-850 py-2.5 pl-3 pr-2 font-bold md:pl-4">
                         Team
                       </th>
                       {gws.map((gw) => (
@@ -124,7 +125,7 @@ export default function Fixtures() {
                       const m = byGw(team.ticker);
                       return (
                         <tr key={team.code}>
-                          <td className="sticky left-0 z-10 border-b border-line/50 bg-[#0e2017] py-1.5 pl-3 pr-3 md:pl-4">
+                          <td className="sticky left-0 z-10 border-b border-line/50 bg-pitch-850 py-1.5 pl-3 pr-3 md:pl-4">
                             <span className="font-mono text-xs font-bold tracking-wide text-ink-100">
                               {team.short_name}
                             </span>

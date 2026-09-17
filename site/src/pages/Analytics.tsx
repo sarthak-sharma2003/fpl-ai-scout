@@ -32,7 +32,7 @@ function PairBars({
       <span className="w-12 shrink-0 font-mono text-[9px] uppercase tracking-[0.12em] text-ink-500">
         {name}
       </span>
-      <div className="h-[7px] flex-1 rounded-full bg-white/[0.05]">
+      <div className="h-[7px] flex-1 rounded-full bg-ink-100/[0.05]">
         <div
           className={`h-full rounded-full ${tone === 'volt' ? 'bg-volt' : 'bg-ink-500/50'}`}
           style={{ width: `${(v / max) * 100}%` }}
@@ -150,7 +150,7 @@ function BacktestBlock({ backtest }: { backtest: NonNullable<AnalyticsData['back
               {s.chips_used.map((c, i) => (
                 <span
                   key={i}
-                  className="rounded-sm bg-white/5 px-1.5 py-px font-mono text-[9px] font-bold uppercase text-ink-300 ring-1 ring-line"
+                  className="rounded-sm bg-ink-100/5 px-1.5 py-px font-mono text-[9px] font-bold uppercase text-ink-300 ring-1 ring-line"
                 >
                   {CHIP_ABBR[c.chip] ?? c.chip}
                   {c.gw}
@@ -162,7 +162,7 @@ function BacktestBlock({ backtest }: { backtest: NonNullable<AnalyticsData['back
                 <span className="w-24 shrink-0 font-mono text-[9px] uppercase tracking-[0.1em] text-ink-500">
                   model
                 </span>
-                <div className="relative h-[9px] flex-1 rounded-full bg-white/[0.05]">
+                <div className="relative h-[9px] flex-1 rounded-full bg-ink-100/[0.05]">
                   <div
                     className="h-full rounded-full bg-volt"
                     style={{ width: `${(s.total_points / scaleMax) * 100}%` }}
@@ -181,7 +181,7 @@ function BacktestBlock({ backtest }: { backtest: NonNullable<AnalyticsData['back
                 <span className="w-24 shrink-0 font-mono text-[9px] uppercase tracking-[0.1em] text-ink-500">
                   avg manager
                 </span>
-                <div className="h-[9px] flex-1 rounded-full bg-white/[0.05]">
+                <div className="h-[9px] flex-1 rounded-full bg-ink-100/[0.05]">
                   <div
                     className="h-full rounded-full bg-ink-500/50"
                     style={{ width: `${(bench / scaleMax) * 100}%` }}

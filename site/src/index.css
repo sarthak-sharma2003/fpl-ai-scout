@@ -1,11 +1,34 @@
 @import "tailwindcss";
 
-/* ——— Xabi's Long-Xo identity ———
-   A floodlit pitch at night, not a SaaS panel. The base is a green-black
-   (never neutral black); the single loud voice is VOLT — linesman-flag,
-   high-vis, floodlight glare — reserved for the model's own numbers and
-   active states. Amber is the armband/warning family, rose is threat.
-   Position hues (GKP/DEF/MID/FWD) follow one consistent system site-wide.
+/* ——— Shared minimalist identity (fpl-ai-scout + ucl/site) ———
+   One warm-monochrome "editorial paper" palette across both apps, re-meaning
+   the SAME token names this file always had — component markup is untouched.
+   Keep this table in sync by hand with ucl/site/src/styles.css; nothing
+   shares CSS between the two builds.
+
+     paper ground     #f4f0e6   → pitch-950 (page bg)
+     paper raised      #faf7f0   → pitch-850 (cards)      == ucl --bg-raised
+     ink strong        #1b1811   → ink-100   (primary text) == ucl --ink
+     ink secondary     #5c5748   → ink-300                 == ucl --ink-secondary
+     ink tertiary      #8d876f   → ink-500                 == ucl --ink-tertiary
+     rule              #d1cdc4   → line (solid; ucl uses an ink-alpha rgba
+                                   composited on the same paper, same result)
+     accent (shared)   #7b74c9   → volt       == ucl --accent (muted periwinkle,
+                                   replaces both the old volt lime and ucl's
+                                   deeper indigo)
+     accent deep       #5b54a8   → volt-deep  (hover/emphasis, richer text)
+     accent-on text    ink-100   (dark text sits on solid accent fills)
+     warning           #9c6b12   → armband    == ucl --warning family
+     danger            #c14e62   → danger     == ucl --danger family (shared
+                                   with fwd, as this file already did)
+     positive          n/a — this app folds "good" into the accent (volt),
+                                   unlike ucl's separate --positive token
+
+   Position hues (gkp/def/mid/fwd) are muted but kept mutually distinguishable.
+   The Starting XI "pitch" (PlayerChip.tsx, the Pitch()/turf gradient in
+   Dashboard.tsx + MyTeam.tsx) is a deliberate dark-turf exception matched to
+   ucl/site's own pitch-card literals — it does not use these tokens and
+   keeps its own hardcoded dark colours on both sites.
    Type: Barlow Condensed = scoreboard/broadcast display, Space Grotesk =
    body, Space Mono = data labels, eyebrows, machine talk. */
 @theme {
@@ -13,26 +36,29 @@
   --font-sans: "Space Grotesk", system-ui, "Segoe UI", Roboto, sans-serif;
   --font-mono: "Space Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 
-  --color-pitch-950: #071410;
-  --color-pitch-900: #0b1b14;
-  --color-pitch-850: #0e2017;
-  --color-pitch-800: #132a1f;
-  --color-pitch-700: #1b3829;
-  --color-line: #21402f;
+  /* darkest token -> page ground, lighter tokens -> more "raised" surfaces.
+     Same relative ordering as the old dark ramp, just inverted from near-black
+     to near-white. */
+  --color-pitch-950: #f4f0e6;
+  --color-pitch-900: #f7f3ea;
+  --color-pitch-850: #faf7f0;
+  --color-pitch-800: #fcfaf5;
+  --color-pitch-700: #ffffff;
+  --color-line: #d1cdc4;
 
-  --color-ink-100: #edf5ef;
-  --color-ink-300: #a9c3b3;
-  --color-ink-500: #6f8f7d;
+  --color-ink-100: #1b1811;
+  --color-ink-300: #5c5748;
+  --color-ink-500: #8d876f;
 
-  --color-volt: #d4f34b;
-  --color-volt-deep: #a9cc2b;
-  --color-armband: #f0b23e;
-  --color-danger: #f7708c;
+  --color-volt: #7b74c9;
+  --color-volt-deep: #5b54a8;
+  --color-armband: #9c6b12;
+  --color-danger: #c14e62;
 
-  --color-gkp: #f5a524;
-  --color-def: #4cc2f1;
-  --color-mid: #3ddbb4;
-  --color-fwd: #f7708c;
+  --color-gkp: #b8862b;
+  --color-def: #3b7fa6;
+  --color-mid: #2f8f73;
+  --color-fwd: #c14e62;
 }
 
 * {
@@ -47,12 +73,8 @@ body,
 
 body {
   margin: 0;
+  /* flat ground — no floodlight cones on a paper background */
   background-color: var(--color-pitch-950);
-  /* two floodlight cones from the top corners, then night */
-  background-image:
-    radial-gradient(ellipse 850px 420px at 10% -6%, rgba(212, 243, 75, 0.055), transparent 62%),
-    radial-gradient(ellipse 850px 420px at 90% -6%, rgba(212, 243, 75, 0.04), transparent 62%);
-  background-repeat: no-repeat;
   color: var(--color-ink-100);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
@@ -60,7 +82,7 @@ body {
 }
 
 ::selection {
-  background: rgba(212, 243, 75, 0.3);
+  background: rgba(123, 116, 201, 0.28);
 }
 
 ::-webkit-scrollbar {

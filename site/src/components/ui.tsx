@@ -4,9 +4,7 @@ import type { AvailabilityFlag, Position } from '../types';
 
 export function Card({ children, className = '' }: { children: ReactNode; className?: string }) {
   return (
-    <div
-      className={`rounded-lg border border-line bg-pitch-850/70 shadow-[0_1px_0_0_rgba(255,255,255,0.03)_inset] ${className}`}
-    >
+    <div className={`rounded-lg border border-line bg-pitch-850/70 ${className}`}>
       {children}
     </div>
   );
@@ -36,7 +34,7 @@ export function StateBadge({ state }: { state: string }) {
     );
   }
   return (
-    <span className="inline-flex items-center gap-1.5 rounded-sm bg-white/5 px-2 py-0.5 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-ink-500 ring-1 ring-line">
+    <span className="inline-flex items-center gap-1.5 rounded-sm bg-ink-100/5 px-2 py-0.5 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-ink-500 ring-1 ring-line">
       <span className="h-1.5 w-1.5 rounded-full bg-ink-500" />
       Demo data
     </span>
@@ -69,8 +67,8 @@ export function FlagMark({ flag }: { flag: AvailabilityFlag }) {
     >
       <svg viewBox="0 0 24 24" className="h-3 w-3" aria-label="Availability flag">
         <path fill="currentColor" d="M12 3.2 22.8 21H1.2L12 3.2Z" />
-        <path d="M12 9.6v5" stroke="var(--color-pitch-950)" strokeWidth="2" strokeLinecap="round" />
-        <circle cx="12" cy="17.6" r="1.15" fill="var(--color-pitch-950)" />
+        <path d="M12 9.6v5" stroke="var(--color-ink-100)" strokeWidth="2" strokeLinecap="round" />
+        <circle cx="12" cy="17.6" r="1.15" fill="var(--color-ink-100)" />
       </svg>
       {flag.chance != null && (
         <span className="font-mono text-[9px] font-bold">{flag.chance}%</span>
@@ -94,7 +92,7 @@ export function PkMark() {
 /** Armband roundel — C solid white (the captain), V outlined (the deputy). */
 export function Roundel({ kind }: { kind: 'C' | 'V' }) {
   return kind === 'C' ? (
-    <span className="grid h-4 w-4 place-items-center rounded-full bg-ink-100 font-mono text-[9px] font-bold text-pitch-950 shadow-[0_0_0_2px_rgba(7,20,16,0.8)]">
+    <span className="grid h-4 w-4 place-items-center rounded-full bg-ink-100 font-mono text-[9px] font-bold text-pitch-950 ring-2 ring-pitch-950/70">
       C
     </span>
   ) : (

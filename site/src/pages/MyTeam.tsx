@@ -133,7 +133,7 @@ function ImportForm({
           <button
             type="submit"
             disabled={busy}
-            className="rounded-md bg-volt px-4 py-2 font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-pitch-950 disabled:opacity-40"
+            className="rounded-md bg-volt px-4 py-2 font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-ink-100 disabled:opacity-40"
           >
             {busy ? 'Importing…' : 'Import team'}
           </button>
@@ -204,7 +204,7 @@ function ManualPicker({ proj, onSaved }: { proj: Projections; onSaved: (s: Saved
             type="button"
             disabled={!complete}
             onClick={() => onSaved({ codes, bank: remaining, source: 'manual' })}
-            className="rounded-md bg-volt px-4 py-2 font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-pitch-950 disabled:opacity-40"
+            className="rounded-md bg-volt px-4 py-2 font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-ink-100 disabled:opacity-40"
           >
             Save squad
           </button>
@@ -245,7 +245,7 @@ function ManualPicker({ proj, onSaved }: { proj: Projections; onSaved: (s: Saved
               type="button"
               onClick={() => setPos(p)}
               className={`px-2.5 py-1.5 font-mono text-[10px] font-bold uppercase tracking-[0.1em] transition-colors ${
-                pos === p ? 'bg-volt text-pitch-950' : 'bg-pitch-900/60 text-ink-500 hover:text-ink-100'
+                pos === p ? 'bg-volt text-ink-100' : 'bg-pitch-900/60 text-ink-500 hover:text-ink-100'
               }`}
             >
               {p}
