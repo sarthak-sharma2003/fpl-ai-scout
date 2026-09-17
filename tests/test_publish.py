@@ -1,11 +1,14 @@
 from __future__ import annotations
 
+from datetime import UTC, datetime, timedelta
+
 import pandas as pd
 import pytest
 
 from fplscout import db
 from fplscout.publish import (
     _confidence,
+    _fatigue_note,
     _player_card,
     build_chips,
     build_dashboard,
@@ -56,6 +59,38 @@ def test_player_card_handles_missing_ev(tmp_path):
     )
     card = _player_card(row)
     assert card["ev"] is None
+
+
+def test_fatigue_note_none_without_a_recent_european_fixture():
+    """No euro_kickoff_time column at all (most rows) and an explicit NaT
+    (outside the window, per _reference_frame's own filter) both mean nothing
+    to show — neither should raise."""
+    assert _fatigue_note(pd.Series({"code": 1})) is None
+    assert _fatigue_note(pd.Series({"code": 1, "euro_kickoff_time": pd.NaT})) is None
+
+
+def test_fatigue_note_reports_days_since_kickoff():
+    kickoff = datetime.now(UTC) - timedelta(days=2)
+    row = pd.Series({
+        "euro_kickoff_time": pd.Timestamp(kickoff),
+        "euro_competition": "UEL",
+        "euro_opponent": "Lech Poznan",
+    })
+    note = _fatigue_note(row)
+    assert note["competition"] == "UEL"
+    assert note["opponent"] == "Lech Poznan"
+    assert note["days_ago"] == pytest.approx(2.0, abs=0.05)
+
+
+def test_player_card_surfaces_fatigue_note_when_present():
+    row = pd.Series({
+        "code": 1, "web_name": "X", "team_short": "CRY", "position": "FWD",
+        "price": 70, "ev_points": 3.0,
+        "euro_kickoff_time": pd.Timestamp(datetime.now(UTC) - timedelta(days=1)),
+        "euro_competition": "UEL", "euro_opponent": "Real Sociedad",
+    })
+    card = _player_card(row)
+    assert card["european_fatigue"]["opponent"] == "Real Sociedad"
 
 
 def test_build_rules_reads_yaml_seed(tmp_path):

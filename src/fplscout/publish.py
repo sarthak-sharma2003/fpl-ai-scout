@@ -34,6 +34,12 @@ from fplscout.decide.optimizer import (
 from fplscout.decide.rotation import rotation_pairs
 from fplscout.decide.squad_state import load_state
 
+# A midweek European tie this close to "now" is still fatigue-relevant for the
+# next PL match — covers both the Tue/Wed UCL -> weekend gap and the Thu
+# UEL/UECL -> weekend gap. Informational only: ingest/european.py's docstring
+# is the reminder that this is NOT read by rest_days or any trained model.
+EUROPEAN_FATIGUE_WINDOW_DAYS = 4
+
 
 def _reference_frame(con: duckdb.DuckDBPyConnection, season: str, gw: int) -> pd.DataFrame:
     """One row per player with a projection at (season, gw): identity, price,
@@ -43,19 +49,31 @@ def _reference_frame(con: duckdb.DuckDBPyConnection, season: str, gw: int) -> pd
     # issue #5 / provisional 26/27); equivalent for played gameweeks since
     # features derive from history.
     return con.execute(
-        """
+        f"""
         WITH latest AS (
             SELECT *, ROW_NUMBER() OVER (
                 PARTITION BY code ORDER BY generated_at DESC
             ) AS rn
             FROM projections
             WHERE season = ? AND gw = ?
+        ),
+        recent_european AS (
+            SELECT team_id, competition, opponent, kickoff_time, ROW_NUMBER() OVER (
+                PARTITION BY team_id ORDER BY kickoff_time DESC
+            ) AS rn
+            FROM european_fixtures
+            WHERE season = ? AND finished
+              AND kickoff_time BETWEEN
+                  CURRENT_TIMESTAMP - INTERVAL '{EUROPEAN_FATIGUE_WINDOW_DAYS} days'
+                  AND CURRENT_TIMESTAMP
         )
         SELECT
             r.code, p.web_name, r.position, r.team_id, t.short_name AS team_short,
             r.price, l.ev_points, l.q10_points, l.q90_points, l.ev_minutes,
             l.p_appearance, l.p_60_plus, l.p_clean_sheet, l.model_version,
-            p.status, p.news, p.chance_of_playing_next_round, p.penalties_order
+            p.status, p.news, p.chance_of_playing_next_round, p.penalties_order,
+            e.competition AS euro_competition, e.opponent AS euro_opponent,
+            e.kickoff_time AS euro_kickoff_time
         FROM (SELECT DISTINCT code, position, team_id, price FROM (
                 SELECT f.code, f.position, f.team_id, f.value AS price,
                        ROW_NUMBER() OVER (PARTITION BY f.code ORDER BY f.fixture_id) AS rn2
@@ -64,8 +82,9 @@ def _reference_frame(con: duckdb.DuckDBPyConnection, season: str, gw: int) -> pd
         JOIN players p ON p.code = r.code
         LEFT JOIN teams t ON t.season = ? AND t.team_id = r.team_id
         LEFT JOIN latest l ON l.code = r.code AND l.rn = 1
+        LEFT JOIN recent_european e ON e.team_id = r.team_id AND e.rn = 1
         """,
-        [season, gw, season, gw, season],
+        [season, gw, season, season, gw, season],
     ).df()
 
 
@@ -73,6 +92,23 @@ def _round_or_none(value, digits: int) -> float | None:
     """round(value, digits) unless it's NaN/None — FPL projection frames carry
     NaN for players with no valid projection, and JSON has no NaN."""
     return round(float(value), digits) if pd.notna(value) else None
+
+
+def _fatigue_note(row: pd.Series) -> dict | None:
+    """European fixture note for this player's team, or None. `euro_kickoff_time`
+    is already restricted to EUROPEAN_FATIGUE_WINDOW_DAYS by _reference_frame's
+    query, so any non-null row here is worth surfacing."""
+    kickoff = row.get("euro_kickoff_time")
+    if pd.isna(kickoff):
+        return None
+    if kickoff.tzinfo is None:
+        kickoff = kickoff.replace(tzinfo=UTC)
+    days_ago = (datetime.now(UTC) - kickoff).total_seconds() / 86400
+    return {
+        "competition": row["euro_competition"],
+        "opponent": row["euro_opponent"],
+        "days_ago": round(days_ago, 1),
+    }
 
 
 def _player_card(row: pd.Series) -> dict:
@@ -97,6 +133,9 @@ def _player_card(row: pd.Series) -> dict:
         }
     if pd.notna(row.get("penalties_order")) and row.get("penalties_order") == 1:
         card["pk"] = True
+    note = _fatigue_note(row)
+    if note:
+        card["european_fatigue"] = note
     return card
 
 
@@ -1074,6 +1113,9 @@ def build_player_projections(ref: pd.DataFrame) -> dict[int, dict]:
             }
         if pd.notna(r.get("penalties_order")) and r["penalties_order"] == 1:
             entry["pk"] = True
+        note = _fatigue_note(r)
+        if note:
+            entry["european_fatigue"] = note
         out[int(r["code"])] = entry
     return out
 
