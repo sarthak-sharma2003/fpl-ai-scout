@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { GoogleGenAI, ThinkingLevel } from '@google/genai';
 import { useJson } from '../lib/useJson';
+import { PROXY_URL } from '../lib/proxy';
 import type { Dashboard, PlayerCard, Projections, Rule, Transfers } from '../types';
 
 /** Ask-the-manager chatbot: explains and defends the squad the optimizer picked.
@@ -29,10 +30,8 @@ const MODEL = 'gemini-3-flash-preview';
 // Deliberately not the old 'xabi_api_key': a leftover sk-ant- key would fail
 // here with an auth error nobody could explain.
 const KEY_STORAGE = 'xabi_gemini_key';
-// Deployed proxy/worker.js, which holds the shared key so visitors don't need
-// one. Empty string = not deployed yet, in which case the key gate is the only
-// way in and the widget behaves exactly as it did before the proxy existed.
-const PROXY_URL = '';
+// PROXY_URL empty (not deployed) means the key gate is the only way in, and
+// this widget behaves exactly as it did before the proxy existed.
 
 type Turn = { role: 'user' | 'assistant'; text: string };
 

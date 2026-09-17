@@ -1093,6 +1093,15 @@ def build_analytics(reports_dir: Path, model_version: str | None) -> dict:
     }
 
 
+def _element_map(con: duckdb.DuckDBPyConnection, season: str) -> dict[int, int]:
+    """element_id -> code for this season, so the site can map FPL API picks
+    (keyed by element_id) onto our published data (keyed by code)."""
+    rows = con.execute(
+        "SELECT element_id, code FROM player_season WHERE season = ?", [season]
+    ).fetchall()
+    return {int(element_id): int(code) for element_id, code in rows}
+
+
 def build_player_projections(ref: pd.DataFrame) -> dict[int, dict]:
     """code -> per-GW EV breakdown, the static equivalent of
     GET /api/players/{id}/projection."""
@@ -1196,7 +1205,10 @@ def publish_all(
     table = sorted(
         player_projections.values(), key=lambda p: -(p["ev_points"] or 0)
     )
-    text = json.dumps({"season": season, "gw": gw, "players": table}, indent=2)
+    text = json.dumps(
+        {"season": season, "gw": gw, "players": table, "elements": _element_map(con, season)},
+        indent=2,
+    )
     (site_data_dir / "projections.json").write_text(text)
     written["projections.json"] = len(text)
 

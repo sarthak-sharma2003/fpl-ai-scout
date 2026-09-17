@@ -1,6 +1,7 @@
 import { HashRouter, Routes, Route } from 'react-router-dom';
 import Layout from './components/Layout';
 import Dashboard from './pages/Dashboard';
+import MyTeam from './pages/MyTeam';
 import Players from './pages/Players';
 import Fixtures from './pages/Fixtures';
 import Chips from './pages/Chips';
@@ -22,6 +23,7 @@ export default function App() {
       <Routes>
         <Route element={<Layout />}>
           <Route index element={<Dashboard />} />
+          <Route path="my-team" element={<MyTeam />} />
           <Route path="players" element={<Players />} />
           <Route path="fixtures" element={<Fixtures />} />
           <Route path="chips" element={<Chips />} />
