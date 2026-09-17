@@ -189,3 +189,32 @@ def test_team_strength_falls_back_to_the_renamed_overall_fields():
     # the historical ~1000-1350 scale must not be fed to a 1-5 feature
     assert _team_strength(team(strength_overall_home=1030, strength_overall_away=1350)) is None
     assert _team_strength(team()) is None
+
+
+def test_summary_cache_ttl():
+    from datetime import datetime, timezone
+
+    from fplscout.ingest.fpl_api import TTL_ELEMENT_SUMMARY
+    from fplscout.ingest.schemas import Fixture
+
+    def fixture(finished: bool, kickoff: str | None) -> Fixture:
+        return Fixture.model_validate(
+            {
+                "code": 1, "finished": finished, "finished_provisional": finished,
+                "id": 1, "kickoff_time": kickoff, "minutes": 0,
+                "provisional_start_time": False, "team_a": 1, "team_h": 2,
+                "team_h_difficulty": 3, "team_a_difficulty": 3, "pulse_id": 1,
+            }
+        )
+
+    now = datetime(2026, 9, 17, 12, 0, tzinfo=timezone.utc)
+
+    # season not started: fall back to the default TTL
+    assert live_gw.summary_cache_ttl([fixture(False, "2026-09-20T14:00:00Z")], now) == (
+        TTL_ELEMENT_SUMMARY
+    )
+    # last match finished 3 days ago (kickoff+2h): cache written since then is valid
+    ttl = live_gw.summary_cache_ttl([fixture(True, "2026-09-14T10:00:00Z")], now)
+    assert ttl == (now - datetime(2026, 9, 14, 12, 0, tzinfo=timezone.utc)).total_seconds()
+    # a fixture flagged finished with kickoff+2h still in the future: clamp to 0 (refetch)
+    assert live_gw.summary_cache_ttl([fixture(True, "2026-09-17T11:00:00Z")], now) == 0.0

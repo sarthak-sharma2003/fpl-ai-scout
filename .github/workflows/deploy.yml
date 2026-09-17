@@ -8,9 +8,11 @@ name: Deploy site
 # No production backend server: everything the site reads is a static JSON file
 # regenerated here and baked into the deployed bundle.
 on:
-  # Nightly refresh — 06:00 UTC, matching the plan's Phase 8 nightly_refresh.
+  # 3x daily: overnight, after afternoon kickoffs, after evening full-time
+  # (23:00 UTC covers 20:00 UK kickoffs in both BST and GMT). Cheap because
+  # the data/raw cache below makes non-match-day refreshes near-instant.
   schedule:
-    - cron: "0 6 * * *"
+    - cron: "0 6,14,23 * * *"
   # Manual trigger — this is the target the planned v1.1 "Refresh Stats" button
   # fires via workflow_dispatch (client-side GitHub API call, no backend).
   workflow_dispatch:
@@ -50,6 +52,19 @@ jobs:
           cache: pip
       - name: Install pipeline
         run: pip install -e .
+
+      # Persist the FPL API file cache across runs. Element-summary responses
+      # (~700 throttled calls, the 13-minute step) are only invalidated when a
+      # fixture has finished since they were cached (live_gw.summary_cache_ttl),
+      # so non-match-day refreshes reuse this wholesale. Unique key + prefix
+      # restore is the standard rolling-cache pattern: every run saves fresh,
+      # the next run restores the newest.
+      - name: Restore API cache
+        uses: actions/cache@v4
+        with:
+          path: data/raw
+          key: raw-cache-${{ github.run_id }}
+          restore-keys: raw-cache-
 
       - name: Refresh data (vaastav history + live FPL API)
         run: fplscout refresh

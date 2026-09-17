@@ -14,10 +14,12 @@ of source.
 
 from __future__ import annotations
 
+from datetime import datetime, timedelta, timezone
+
 import duckdb
 import pandas as pd
 
-from fplscout.ingest.fpl_api import FplApiClient
+from fplscout.ingest.fpl_api import TTL_ELEMENT_SUMMARY, FplApiClient
 from fplscout.ingest.schemas import BootstrapStatic, Fixture
 from fplscout.ingest.vaastav import GW_HISTORY_SOURCE_COLUMNS, POSITION_MAP
 
@@ -172,6 +174,19 @@ def _sync_player_season(
     return len(df)
 
 
+def summary_cache_ttl(fixtures: list[Fixture], now: datetime) -> float:
+    """Cache lifetime for element-summary responses: valid until the most
+    recent final whistle (last finished fixture's kickoff + 2h). History rows
+    only appear when a fixture finishes, so on non-match days every summary is
+    served from data/raw — which CI persists across runs via actions/cache —
+    and the ~700 throttled API calls (the old 13-minute deploy step) vanish."""
+    finished = [f.kickoff_time for f in fixtures if f.finished and f.kickoff_time]
+    if not finished:
+        return TTL_ELEMENT_SUMMARY  # season not started: nothing to invalidate
+    last_final_whistle = max(finished) + timedelta(hours=2)
+    return max((now - last_final_whistle).total_seconds(), 0.0)
+
+
 def sync_current_season(
     con: duckdb.DuckDBPyConnection,
     client: FplApiClient,
@@ -196,9 +211,10 @@ def sync_current_season(
     id_to_code = {e.id: e.code for e in players}
     id_to_position = {e.id: POSITION_MAP[e.element_type] for e in players}
 
+    summary_ttl = summary_cache_ttl(fixtures, now=datetime.now(timezone.utc))
     rows = []
     for element in players:
-        summary = client.element_summary(element.id)
+        summary = client.element_summary(element.id, ttl_seconds=summary_ttl)
         for h in summary.history:
             if not fixture_finished.get(h.fixture, False):
                 continue  # never ingest a partial/live gameweek row
