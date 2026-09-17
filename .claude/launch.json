@@ -3,12 +3,13 @@
   "configurations": [
     {
       "name": "site",
-      "runtimeExecutable": "sh",
-      "runtimeArgs": [
-        "-c",
-        "cd /Users/sarthaksharma/Desktop/fpl-ai-scout/site && ./node_modules/.bin/vite --port 5173 --strictPort"
-      ],
+      "url": "http://localhost:5173",
       "port": 5173
+    },
+    {
+      "name": "ucl",
+      "url": "http://localhost:5174",
+      "port": 5174
     }
   ]
 }

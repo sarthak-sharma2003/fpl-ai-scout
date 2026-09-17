@@ -449,7 +449,8 @@ export default function MyTeam() {
   const proj = useJson<Projections>('projections.json');
   const dash = useJson<Dashboard>('dashboard.json');
   const [saved, setSaved] = useState<SavedSquad | null>(() => loadSaved());
-  const [mode, setMode] = useState<'import' | 'manual'>('import');
+  // land on the tab that actually works: import needs the proxy deployed
+  const [mode, setMode] = useState<'import' | 'manual'>(PROXY_URL ? 'import' : 'manual');
 
   function save(s: SavedSquad) {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(s));
