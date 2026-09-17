@@ -16,7 +16,7 @@ from __future__ import annotations
 import json
 import time
 from dataclasses import dataclass, field
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 from pathlib import Path
 
 import duckdb
@@ -88,7 +88,7 @@ class EuropeanClient:
         """Events for `slug` across the +/- WINDOW_DAYS window around today.
         Never raises — a dead European feed must not take the nightly
         pipeline down; a failed day just contributes no events."""
-        today = datetime.now(timezone.utc).date()
+        today = datetime.now(UTC).date()
         events = []
         for offset in range(-WINDOW_DAYS, WINDOW_DAYS + 1):
             day = (today + timedelta(days=offset)).strftime("%Y%m%d")

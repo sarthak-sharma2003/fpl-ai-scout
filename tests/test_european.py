@@ -6,7 +6,6 @@ exercised for real by `fplscout refresh`.
 from __future__ import annotations
 
 import duckdb
-import pytest
 
 from fplscout.ingest.european import _normalise, _resolve_team_ids
 
