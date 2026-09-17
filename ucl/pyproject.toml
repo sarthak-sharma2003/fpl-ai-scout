@@ -1,0 +1,36 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "uclscout"
+version = "0.1.0"
+requires-python = ">=3.11"
+dependencies = ["pulp", "pandas", "typer"]
+
+[project.optional-dependencies]
+dev = ["pytest", "ruff>=0.16,<0.17"]
+
+[project.scripts]
+uclscout = "uclscout.cli:app"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+line-length = 88
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff.lint]
+ignore = [
+  # typer's whole API is function-call defaults; this is a false positive here
+  "B008",
+  # strptime without %z is deliberate: UEFA publishes no timezone at all, and
+  # parse_uefa_time attaches Europe/Zurich explicitly on the next line
+  "DTZ007",
+  # both are deliberate degrade-gracefully paths with a comment saying so:
+  # a missing previous-season feed, and an unfetchable archived season
+  "S110", "S112",
+]

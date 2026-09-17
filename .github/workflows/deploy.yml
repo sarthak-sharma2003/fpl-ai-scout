@@ -21,6 +21,7 @@ on:
       - "site/**"
       - "src/fplscout/**"
       - "config/**"
+      - "ucl/**"
       - ".github/workflows/deploy.yml"
 
 # One deploy at a time; a newer run supersedes an in-progress one.
@@ -93,6 +94,60 @@ jobs:
         run: |
           npm ci
           npm run build
+
+      - name: Install UCL pipeline
+        run: pip install -e "./ucl[dev]"
+
+      # UEFA data refresh for the UCL sub-site. Every step below is
+      # continue-on-error: true — ucl/site/public/data/*.json are committed to
+      # git, so if UEFA's feed or a self-check breaks, /ucl just keeps serving
+      # the last committed (slightly stale) data instead of taking down the
+      # whole FPL deploy.
+      - name: UCL self-checks
+        continue-on-error: true
+        working-directory: ucl
+        run: |
+          set -e
+          for m in feeds strength project optimize plan backtest; do
+            echo "--- $m"
+            python -m uclscout.$m || echo "  (no self-check)"
+          done
+          ruff check src tests
+          pytest -q
+
+      - name: Regenerate UCL data from live feeds
+        continue-on-error: true
+        working-directory: ucl
+        run: python -m uclscout.cli publish --time-limit 240
+
+      - name: Warn if published UCL data is stale
+        continue-on-error: true
+        working-directory: ucl
+        run: |
+          python - <<'PY'
+          import json, sys
+          from datetime import datetime, timezone
+          m = json.load(open("site/public/data/meta.json"))
+          age = (datetime.now(timezone.utc)
+                 - datetime.fromisoformat(m["generatedAt"])).total_seconds()
+          print(f"matchday {m['matchday']}, generated {age:.0f}s ago")
+          if age > 3600:
+              sys.exit(f"WARN: published UCL data is {age/3600:.1f}h old")
+          PY
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: ucl/site/package-lock.json
+      - name: Build UCL site
+        working-directory: ucl/site
+        run: |
+          npm ci
+          npm run build
+
+      - name: Copy UCL site into the FPL build
+        run: cp -r ucl/site/dist site/dist/ucl
 
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3

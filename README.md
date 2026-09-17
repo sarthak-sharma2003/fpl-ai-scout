@@ -73,6 +73,12 @@ site/             our React app (Vite + Tailwind), fully static, GitHub Pages
 tests/            pytest suite; tests/fixtures/ holds recorded API payloads for offline tests
 ```
 
+## Monorepo layout
+
+`ucl/` is a sibling package + site (a UEFA Champions League fantasy scout,
+own `pyproject.toml`/tests/CI job) built and deployed alongside this one by
+the same `deploy.yml`, served at `/fpl-ai-scout/ucl/`.
+
 ## Design notes
 
 - **Schema drift is fatal, by design.** `ingest/schemas.py` uses strict pydantic

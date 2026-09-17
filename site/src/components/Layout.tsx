@@ -4,7 +4,7 @@ import { useJson } from '../lib/useJson';
 import Xabi from './Xabi';
 import type { Analytics } from '../types';
 
-const UCL_SCOUT_URL = 'https://sarthak-sharma2003.github.io/ucl-scout/';
+const UCL_SCOUT_URL = '/fpl-ai-scout/ucl/';
 
 /** `external` entries leave the SPA entirely, so they render as a plain
  * anchor rather than a NavLink — UCL Scout is a sibling build with its own

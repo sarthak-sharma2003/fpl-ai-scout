@@ -1,0 +1,23 @@
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+build/
+dist/
+
+node_modules/
+dist/
+
+.DS_Store
+
+data/*.csv
+!data/.gitkeep
+
+# impeccable skill install (binaries + per-tool copies, reinstall with `npx impeccable install`)
+.github/skills/
+.github/agents/
+.github/hooks/
+.claude/skills/
+data/domestic/

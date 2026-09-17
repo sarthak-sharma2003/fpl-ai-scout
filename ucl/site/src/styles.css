@@ -1,0 +1,1654 @@
+/* =========================================================================
+   UCL SCOUT — design tokens
+   Direction: matchday-programme squad sheet. Ink on paper by day,
+   matchday-night ink on near-black by night. One accent (champions-night
+   indigo) plus a functional status ramp for urgency/warnings. Barlow
+   Condensed for display/headings, Space Grotesk for body/UI, Space Mono for
+   anything that ticks or lines up in columns — shared with the sibling
+   fpl-ai-scout project so the two feel related. The Starting XI pitch is its
+   own visual world (volt-on-turf) matching that sibling's pitch component;
+   everything else keeps the indigo accent above.
+   ========================================================================= */
+
+:root {
+  --font-body: "Space Grotesk", system-ui, "Segoe UI", Roboto, sans-serif;
+  --font-label: "Barlow Condensed", "Space Grotesk", system-ui, sans-serif;
+  --font-mono: "Space Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* --- light: matchday programme on paper --- */
+  --bg: #f4f0e6;
+  --bg-raised: #faf7f0;
+  --ink: #1b1811;
+  --ink-secondary: #5c5748;
+  --ink-tertiary: #8d876f;
+  --rule: rgba(27, 24, 17, 0.16);
+  --rule-strong: rgba(27, 24, 17, 0.32);
+
+  --accent: #3d2eb0;
+  --accent-ink: #ffffff;
+  --accent-tint: rgba(61, 46, 176, 0.1);
+  --accent-tint-strong: rgba(61, 46, 176, 0.16);
+
+  --danger: #a3271d;
+  --danger-tint: rgba(163, 39, 29, 0.12);
+  --warning: #8a5a05;
+  --warning-tint: rgba(138, 90, 5, 0.14);
+  --positive: #1f6e43;
+  --positive-tint: rgba(31, 110, 67, 0.12);
+
+  --shadow-1: 0 1px 2px rgba(27, 24, 17, 0.08), 0 1px 1px rgba(27, 24, 17, 0.06);
+  --shadow-2: 0 4px 16px rgba(27, 24, 17, 0.12), 0 1.5px 4px rgba(27, 24, 17, 0.1);
+
+  /* Pitch is its own fixed dark world — same in both themes, like the
+     sibling project's. Never redefined under the dark-theme blocks below. */
+  --pitch-turf-1: #132a1c;
+  --pitch-turf-2: #0b1d13;
+  --pitch-chalk: rgba(255, 255, 255, 0.25);
+  --pitch-card-bg: rgba(7, 20, 16, 0.85);
+  --pitch-name: #edf5ef;
+  --pitch-meta: #6f8f7d;
+  --pitch-volt: #d4f34b;
+  --pitch-volt-deep: #a9cc2b;
+  --pitch-armband-bg: #f0b23e;
+  --pitch-armband-ink: #241a06;
+
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #121016;
+    --bg-raised: #1a1720;
+    --ink: #f3efe2;
+    --ink-secondary: #beb7a3;
+    --ink-tertiary: #837c68;
+    --rule: rgba(243, 239, 226, 0.14);
+    --rule-strong: rgba(243, 239, 226, 0.28);
+
+    --accent: #a99bff;
+    --accent-ink: #16112f;
+    --accent-tint: rgba(169, 155, 255, 0.14);
+    --accent-tint-strong: rgba(169, 155, 255, 0.22);
+
+    --danger: #ff8a7a;
+    --danger-tint: rgba(255, 138, 122, 0.16);
+    --warning: #f0b93e;
+    --warning-tint: rgba(240, 185, 62, 0.16);
+    --positive: #6fcf97;
+    --positive-tint: rgba(111, 207, 151, 0.14);
+
+    --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.4), 0 2px 8px rgba(0, 0, 0, 0.3);
+    --shadow-2: 0 8px 28px rgba(0, 0, 0, 0.5), 0 2px 6px rgba(0, 0, 0, 0.4);
+
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme="dark"] {
+  --bg: #121016;
+  --bg-raised: #1a1720;
+  --ink: #f3efe2;
+  --ink-secondary: #beb7a3;
+  --ink-tertiary: #837c68;
+  --rule: rgba(243, 239, 226, 0.14);
+  --rule-strong: rgba(243, 239, 226, 0.28);
+
+  --accent: #a99bff;
+  --accent-ink: #16112f;
+  --accent-tint: rgba(169, 155, 255, 0.14);
+  --accent-tint-strong: rgba(169, 155, 255, 0.22);
+
+  --danger: #ff8a7a;
+  --danger-tint: rgba(255, 138, 122, 0.16);
+  --warning: #f0b93e;
+  --warning-tint: rgba(240, 185, 62, 0.16);
+  --positive: #6fcf97;
+  --positive-tint: rgba(111, 207, 151, 0.14);
+
+  --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.4), 0 2px 8px rgba(0, 0, 0, 0.3);
+  --shadow-2: 0 8px 28px rgba(0, 0, 0, 0.5), 0 2px 6px rgba(0, 0, 0, 0.4);
+
+  color-scheme: dark;
+}
+
+/* =========================================================================
+   Reset / base
+   ========================================================================= */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+button,
+input,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: inherit;
+}
+
+a {
+  color: var(--accent);
+}
+
+table {
+  border-collapse: collapse;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+
+/* Visible, on-brand focus ring everywhere — never suppressed. */
+:focus-visible {
+  outline: 2.5px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.visually-hidden-focusable:not(:focus) {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* =========================================================================
+   Layout shell
+   ========================================================================= */
+
+.app-shell {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: var(--bg);
+  border-bottom: 1px solid var(--rule);
+}
+
+.topbar__row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.6rem 1rem;
+  max-width: 76rem;
+  margin: 0 auto;
+}
+
+.brand {
+  font-family: var(--font-label);
+  font-weight: 800;
+  font-size: 1.05rem;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.brand__mark {
+  color: var(--accent);
+}
+
+.topbar__spacer {
+  flex: 1 1 auto;
+}
+
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.1rem;
+  height: 2.1rem;
+  flex-shrink: 0;
+  border-radius: 3px;
+  color: var(--ink-secondary);
+}
+
+.theme-toggle:hover {
+  color: var(--ink);
+  background: var(--rule);
+}
+
+.nav {
+  border-bottom: 1px solid var(--rule);
+  background: var(--bg);
+}
+
+.nav__list {
+  list-style: none;
+  display: flex;
+  gap: 0;
+  margin: 0;
+  padding: 0 1rem;
+  max-width: 76rem;
+  margin: 0 auto;
+  overflow-x: auto;
+}
+
+.nav__tab {
+  font-family: var(--font-label);
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 0.6rem 0.9rem 0.5rem;
+  border-bottom: 2.5px solid transparent;
+  color: var(--ink-secondary);
+  white-space: nowrap;
+}
+
+.nav__tab:hover {
+  color: var(--ink);
+}
+
+.nav__tab[aria-current="page"] {
+  color: var(--ink);
+  border-bottom-color: var(--accent);
+}
+
+.view {
+  flex: 1 1 auto;
+  width: 100%;
+  max-width: 76rem;
+  margin: 0 auto;
+  padding: 1rem 1rem 4rem;
+}
+
+.footer {
+  border-top: 1px solid var(--rule);
+  padding: 1rem;
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--ink-tertiary);
+}
+
+/* =========================================================================
+   Countdown + staleness
+   ========================================================================= */
+
+.meta-strip {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.35rem 0.9rem;
+  padding: 0.5rem 1rem 0.7rem;
+  max-width: 76rem;
+  margin: 0 auto;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+}
+
+.countdown {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.45rem;
+  font-family: var(--font-mono);
+}
+
+.countdown__label {
+  font-family: var(--font-label);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-size: 0.72rem;
+  color: var(--ink-secondary);
+}
+
+.countdown__digits {
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  font-size: 0.95rem;
+  letter-spacing: 0.01em;
+}
+
+.countdown--ok .countdown__digits {
+  color: var(--ink);
+}
+
+.countdown--soon .countdown__digits {
+  color: var(--warning);
+}
+
+.countdown--urgent .countdown__digits {
+  color: var(--danger);
+}
+
+.countdown--expired {
+  color: var(--danger);
+}
+
+.countdown--expired .countdown__digits {
+  color: var(--danger);
+  font-weight: 800;
+}
+
+.staleness {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--ink-tertiary);
+}
+
+.staleness--warn {
+  color: var(--danger);
+  font-weight: 700;
+}
+
+/* =========================================================================
+   Loading / error states
+   ========================================================================= */
+
+.status-page {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 3rem 1.5rem;
+  text-align: center;
+}
+
+.status-page__mark {
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  color: var(--ink-secondary);
+}
+
+.status-page__mark--pulse {
+  animation: pulse 1.4s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .status-page__mark--pulse {
+    animation: none;
+  }
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.status-page__title {
+  font-family: var(--font-label);
+  font-weight: 800;
+  font-size: 1.3rem;
+  color: var(--danger);
+}
+
+.status-page__detail {
+  max-width: 34rem;
+  color: var(--ink-secondary);
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+}
+
+.status-page__retry {
+  margin-top: 0.5rem;
+  border: 1.5px solid var(--ink);
+  padding: 0.5rem 1.2rem;
+  font-family: var(--font-label);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-size: 0.8rem;
+}
+
+.status-page__retry:hover {
+  background: var(--ink);
+  color: var(--bg);
+}
+
+/* =========================================================================
+   Shared: section labels, badges, rules
+   ========================================================================= */
+
+.section-label {
+  font-family: var(--font-label);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 0.78rem;
+  color: var(--ink-secondary);
+  margin: 0 0 0.6rem;
+}
+
+.hr {
+  border: none;
+  border-top: 1px solid var(--rule);
+  margin: 1.25rem 0;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 500;
+  padding: 0.12rem 0.4rem;
+  border: 1px solid var(--rule-strong);
+  color: var(--ink-secondary);
+  line-height: 1.5;
+}
+
+.badge--warning {
+  border-color: var(--warning);
+  color: var(--warning);
+  background: var(--warning-tint);
+  font-weight: 700;
+}
+
+/* The recoveries edge and the guessed-minutes warning are the two things no
+ * other tool surfaces — both get solid fills, not tinted outlines, so they
+ * read as a discovery/caution rather than a passive label. */
+.badge--recoveries {
+  border-color: var(--accent);
+  color: var(--accent-ink);
+  background: var(--accent);
+  font-weight: 800;
+}
+
+.badge--day {
+  border-color: var(--rule-strong);
+  color: var(--ink-tertiary);
+}
+
+.icon {
+  width: 1em;
+  height: 1em;
+  flex-shrink: 0;
+}
+
+/* =========================================================================
+   NOW view
+   ========================================================================= */
+
+.now-hero {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 1.25rem;
+  align-items: flex-end;
+  margin-bottom: 1.5rem;
+}
+
+.now-hero__title {
+  font-family: var(--font-label);
+  font-weight: 800;
+  font-size: clamp(1.5rem, 1.1rem + 1.4vw, 2rem);
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+
+.now-hero__sub {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--ink-secondary);
+  margin: 0.15rem 0 0;
+}
+
+/* The Now view's own display moment — bigger, tighter, load-bearing. */
+.display-title {
+  font-family: var(--font-label);
+  font-weight: 800;
+  font-size: clamp(2.75rem, 2.05rem + 3vw, 4rem);
+  line-height: 0.98;
+  letter-spacing: -0.02em;
+  margin: 0 0 0.9rem;
+}
+
+/* =========================================================================
+   Countdown hero (Now view) — the number the product exists to surface.
+   Semantic colour ramp: calm -> soon (<6h) -> urgent (<1h) -> expired.
+   ========================================================================= */
+
+.countdown-hero {
+  border: 1.5px solid var(--rule-strong);
+  background: var(--bg-raised);
+  box-shadow: var(--shadow-2);
+  padding: 1.1rem 1.4rem 1.3rem;
+  margin-bottom: 1.75rem;
+}
+
+.countdown-hero__label {
+  font-family: var(--font-label);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 0.78rem;
+  color: var(--ink-secondary);
+  margin: 0 0 0.3rem;
+}
+
+.countdown-hero__digits {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  font-size: clamp(2.5rem, 1.9rem + 2.6vw, 4rem);
+  line-height: 1;
+  letter-spacing: -0.01em;
+  margin: 0;
+  color: var(--ink);
+}
+
+.countdown-hero__days {
+  font-size: 0.42em;
+  font-weight: 700;
+  vertical-align: middle;
+}
+
+.countdown-hero__sep {
+  opacity: 0.45;
+  margin: 0 0.02em;
+}
+
+.countdown-hero__sub {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  margin: 0.5rem 0 0;
+}
+
+.countdown-hero--soon {
+  border-color: var(--warning);
+  background: var(--warning-tint);
+}
+
+.countdown-hero--soon .countdown-hero__digits,
+.countdown-hero--soon .countdown-hero__label {
+  color: var(--warning);
+}
+
+.countdown-hero--urgent {
+  border-color: var(--danger);
+  background: var(--danger-tint);
+  animation: hero-pulse 1.8s ease-in-out infinite;
+}
+
+.countdown-hero--urgent .countdown-hero__digits,
+.countdown-hero--urgent .countdown-hero__label {
+  color: var(--danger);
+}
+
+.countdown-hero--expired {
+  border-color: var(--danger);
+  border-width: 2px;
+  background: var(--danger-tint);
+}
+
+.countdown-hero--expired .countdown-hero__digits {
+  color: var(--danger);
+  font-size: clamp(2.25rem, 1.7rem + 2vw, 3.25rem);
+  letter-spacing: 0.02em;
+}
+
+.countdown-hero--expired .countdown-hero__label {
+  color: var(--danger);
+}
+
+.countdown-hero--expired .countdown-hero__sub {
+  color: var(--ink);
+}
+
+@keyframes hero-pulse {
+  0%,
+  100% {
+    box-shadow: var(--shadow-2);
+  }
+  50% {
+    box-shadow: 0 0 0 3px var(--danger-tint), var(--shadow-2);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .countdown-hero--urgent {
+    animation: none;
+  }
+}
+
+.deadline-banner {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.85rem 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.deadline-banner--expired {
+  background: var(--danger-tint);
+  border: 1px solid var(--danger);
+}
+
+.deadline-banner__title {
+  font-family: var(--font-label);
+  font-weight: 800;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  color: var(--danger);
+}
+
+.deadline-banner__detail {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--ink);
+}
+
+.checklist {
+  list-style: none;
+  margin: 0 0 1.75rem;
+  padding: 0;
+  border-top: 1px solid var(--rule-strong);
+}
+
+.checklist__item {
+  display: flex;
+  gap: 0.75rem;
+  padding: 0.65rem 0;
+  border-bottom: 1px solid var(--rule);
+  font-size: 0.92rem;
+}
+
+.checklist__item--warning {
+  background: var(--warning-tint);
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  margin: 0 -0.5rem;
+}
+
+.checklist__num {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  color: var(--ink-tertiary);
+  min-width: 1.4rem;
+  flex-shrink: 0;
+}
+
+.checklist__item--warning .checklist__num {
+  color: var(--warning);
+}
+
+.checklist__text {
+  flex: 1 1 auto;
+}
+
+.checklist__item--warning .checklist__text {
+  font-weight: 600;
+}
+
+.summary-row {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  margin-bottom: 1.5rem;
+}
+
+@media (max-width: 560px) {
+  .summary-row {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.summary-cell {
+  background: var(--bg);
+  padding: 0.65rem 0.85rem;
+}
+
+.summary-cell__label {
+  font-family: var(--font-label);
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--ink-tertiary);
+  margin: 0 0 0.15rem;
+}
+
+.summary-cell__value {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-size: 1.15rem;
+  font-weight: 700;
+}
+
+.summary-cell__value--over {
+  color: var(--danger);
+}
+
+.gameday-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.75rem;
+}
+
+.gameday-chip {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  padding: 0.4rem 0.7rem;
+  border: 1px solid var(--rule-strong);
+  min-width: 5.5rem;
+}
+
+.gameday-chip--today {
+  border-color: var(--accent);
+  background: var(--accent-tint);
+}
+
+.gameday-chip__day {
+  font-family: var(--font-label);
+  font-weight: 700;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+}
+
+.gameday-chip__count {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--ink-secondary);
+}
+
+.squad-group {
+  margin-bottom: 1.25rem;
+}
+
+.squad-group__label {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  border-bottom: 1px solid var(--rule-strong);
+  padding-bottom: 0.3rem;
+  margin-bottom: 0.15rem;
+}
+
+.player-row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.55rem 0;
+  border-bottom: 1px solid var(--rule);
+}
+
+.player-row--bench {
+  opacity: 0.75;
+}
+
+.player-row--untrusted {
+  border-bottom-style: dashed;
+}
+
+.player-row__name-group {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.player-row__name {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.player-row--captain .player-row__name {
+  font-weight: 800;
+  font-size: 1.08rem;
+}
+
+.player-row__team {
+  font-size: 0.76rem;
+  color: var(--ink-tertiary);
+}
+
+.captain-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.15rem;
+  height: 1.15rem;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--accent-ink);
+  font-family: var(--font-label);
+  font-weight: 800;
+  font-size: 0.66rem;
+  flex-shrink: 0;
+}
+
+.player-row__stats {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-shrink: 0;
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+}
+
+.player-row__points {
+  font-weight: 700;
+  min-width: 2.6rem;
+  text-align: right;
+}
+
+.player-row__value {
+  color: var(--ink-secondary);
+  min-width: 3rem;
+  text-align: right;
+}
+
+.bench-label {
+  margin: 1.5rem 0 0.15rem;
+}
+
+/* =========================================================================
+   Pitch — the Starting XI as a formation, not a flat list. Presentation
+   only: the underlying markup is still a plain grouped list, so a screen
+   reader gets GK -> DEF -> MID -> FWD in reading order regardless of the
+   visual layout. Below ~480px the rows collapse to a single stacked column,
+   which is the plain-list fallback the direction asks for.
+   ========================================================================= */
+
+.pitch {
+  position: relative;
+  background: var(--pitch-bg);
+  border: 1.5px solid var(--rule-strong);
+  box-shadow: var(--shadow-2);
+  padding: 1.5rem 1rem 1.1rem;
+  margin-bottom: 1.75rem;
+  overflow: hidden;
+}
+
+.pitch::before {
+  /* halfway line */
+  content: "";
+  position: absolute;
+  left: 4%;
+  right: 4%;
+  top: 50%;
+  height: 1px;
+  background: var(--pitch-line);
+}
+
+.pitch::after {
+  /* centre circle */
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 15rem;
+  height: 15rem;
+  border: 1px solid var(--pitch-line);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.pitch-row {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.6rem;
+  margin: 0 0 1.1rem;
+  list-style: none;
+  padding: 0;
+}
+
+.pitch-row:last-child {
+  margin-bottom: 0;
+}
+
+.pitch-card {
+  position: relative;
+  width: 9rem;
+  list-style: none;
+  animation: card-in 360ms cubic-bezier(0.16, 1, 0.3, 1) backwards;
+}
+
+/* The card wears its club's kit: a two-colour stripe across the top and a
+   quiet wash of the primary down the body (set inline from clubColours.ts,
+   since the colour is per-player data, not a static class). Kept low-alpha so
+   eleven cards still read as one pitch rather than a bag of sweets. */
+.pitch-card__inner {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: 6px;
+  background-color: rgba(7, 20, 16, 0.85);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+}
+
+.pitch-card__stripe {
+  display: block;
+  width: 100%;
+  height: 5px;
+  flex: none;
+}
+
+.pitch-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  padding: 0.45rem 0.5rem 0.5rem;
+  text-align: center;
+}
+
+/* Armband, not an inline chip: a roundel clipped to the card's top-right. */
+.armband-roundel {
+  position: absolute;
+  top: -0.35rem;
+  right: -0.35rem;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 1.15rem;
+  height: 1.15rem;
+  border-radius: 50%;
+  background: var(--armband, #f0b23e);
+  color: #221803;
+  font-family: var(--font-label);
+  font-size: 0.62rem;
+  font-weight: 800;
+  line-height: 1;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.pitch-row:nth-child(1) .pitch-card {
+  animation-delay: 0ms;
+}
+.pitch-row:nth-child(2) .pitch-card:nth-child(1) {
+  animation-delay: 40ms;
+}
+.pitch-row:nth-child(2) .pitch-card:nth-child(2) {
+  animation-delay: 80ms;
+}
+.pitch-row:nth-child(2) .pitch-card:nth-child(3) {
+  animation-delay: 120ms;
+}
+.pitch-row:nth-child(3) .pitch-card:nth-child(2) {
+  animation-delay: 40ms;
+}
+.pitch-row:nth-child(3) .pitch-card:nth-child(3) {
+  animation-delay: 80ms;
+}
+.pitch-row:nth-child(3) .pitch-card:nth-child(4) {
+  animation-delay: 120ms;
+}
+
+.pitch-card:hover {
+  border-color: var(--rule-strong);
+  box-shadow: var(--shadow-2);
+}
+
+.pitch-card--captain {
+  border-color: var(--accent);
+  border-width: 1.5px;
+}
+
+.pitch-card--untrusted {
+  border-style: dashed;
+}
+
+@keyframes card-in {
+  from {
+    opacity: 0.55;
+    transform: translateY(7px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pitch-card {
+    animation: none;
+  }
+}
+
+.pitch-card__name-row {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.pitch-card__name {
+  font-weight: 700;
+  font-size: 0.82rem;
+  line-height: 1.15;
+  overflow-wrap: anywhere;
+  color: #edf5ef;
+}
+
+.armband {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 1.3rem;
+  height: 1.05rem;
+  background: var(--accent);
+  color: var(--accent-ink);
+  font-family: var(--font-label);
+  font-weight: 800;
+  font-size: 0.62rem;
+  clip-path: polygon(0 0, 100% 0, 100% 70%, 50% 100%, 0 70%);
+}
+
+.pitch-card__team {
+  font-family: var(--font-mono);
+  font-size: 0.56rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #6f8f7d;
+}
+
+.pitch-card__badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+}
+
+.pitch-card__stats {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-top: 0.15rem;
+  padding-top: 0.35rem;
+  border-top: 1px solid var(--rule);
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+.pitch-card__value {
+  font-size: 0.72rem;
+  color: var(--ink-secondary);
+}
+
+.pitch-card__points {
+  font-weight: 800;
+  font-size: 1rem;
+}
+
+.pitch-legend {
+  font-family: var(--font-label);
+  font-weight: 700;
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ink-tertiary);
+  text-align: center;
+  margin: 0 0 0.4rem;
+}
+
+@media (max-width: 480px) {
+  /* Keep the FORMATION on a phone. An earlier version stacked each positional
+     row into a column here, which turned the pitch back into the flat list the
+     pitch exists to replace -- and a phone is where this gets read, minutes
+     before a deadline. Cards shrink instead: surname and projected points
+     only, since club and price are secondary when you are scanning shape. */
+  .pitch {
+    padding: 0.75rem 0.4rem;
+  }
+
+  .pitch-row {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.3rem;
+    align-items: stretch;
+  }
+
+  .pitch-card {
+    flex: 1 1 0;
+    min-width: 0;
+    max-width: 5.2rem;
+    padding: 0.35rem 0.25rem;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0.15rem;
+  }
+
+  /* secondary on a small screen: shape and points are what you scan for */
+  .pitch-card__team,
+  .pitch-card__value {
+    display: none;
+  }
+
+  .pitch-card__name {
+    font-size: 0.62rem;
+    line-height: 1.15;
+    overflow-wrap: anywhere;
+  }
+
+  .pitch-card__name-row {
+    justify-content: center;
+    gap: 0.15rem;
+  }
+
+  .pitch-card__stats {
+    border-top: none;
+    padding-top: 0;
+    margin-top: 0;
+    flex-direction: row;
+    justify-content: center;
+  }
+
+  .pitch-card__points {
+    font-size: 0.72rem;
+  }
+
+  .pitch-card__badges {
+    justify-content: center;
+  }
+
+  /* On a phone the badge label wraps and makes one card taller than the rest,
+     breaking the formation line. Keep the number, drop the words -- the
+     Players view carries the full label. */
+  .pitch-card .badge--recoveries {
+    font-size: 0.55rem;
+    padding: 0 0.2rem;
+    line-height: 1.4;
+    white-space: nowrap;
+  }
+
+  .pitch-card .badge--recoveries .badge__unit {
+    display: none;
+  }
+
+  /* the offset that fakes depth costs horizontal room we no longer have */
+  .pitch-row:nth-child(1) .pitch-card,
+  .pitch-row:nth-child(2) .pitch-card:nth-child(1),
+  .pitch-row:nth-child(2) .pitch-card:nth-child(2),
+  .pitch-row:nth-child(2) .pitch-card:nth-child(3),
+  .pitch-row:nth-child(3) .pitch-card:nth-child(2),
+  .pitch-row:nth-child(3) .pitch-card:nth-child(3),
+  .pitch-row:nth-child(3) .pitch-card:nth-child(4) {
+    transform: none;
+  }
+}
+
+/* =========================================================================
+   PLAN view
+   ========================================================================= */
+
+.plan-summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.limitless-banner {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.85rem 1rem;
+  border: 1.5px solid var(--accent);
+  background: var(--accent-tint);
+  margin-bottom: 1.5rem;
+}
+
+.limitless-banner__title {
+  font-family: var(--font-label);
+  font-weight: 800;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  color: var(--accent);
+}
+
+.limitless-banner__detail {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+}
+
+.plan-list {
+  border-top: 1px solid var(--rule-strong);
+}
+
+.plan-row {
+  display: grid;
+  grid-template-columns: 2.2rem 1fr auto;
+  gap: 0.75rem;
+  padding: 0.85rem 0;
+  border-bottom: 1px solid var(--rule);
+  align-items: start;
+}
+
+.plan-row__md {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: var(--ink-tertiary);
+  padding-top: 0.15rem;
+}
+
+.plan-row__body {
+  min-width: 0;
+}
+
+.plan-row__headline {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.3rem;
+}
+
+.plan-row__action {
+  font-family: var(--font-label);
+  font-weight: 700;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  padding: 0.1rem 0.4rem;
+}
+
+.plan-row--bank .plan-row__action {
+  color: var(--ink-tertiary);
+  border: 1px solid var(--rule-strong);
+}
+
+.plan-row--transfer .plan-row__action {
+  color: var(--accent-ink);
+  background: var(--accent);
+}
+
+.plan-row__transfer-detail {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.9rem;
+}
+
+.transfer-arrow {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.plan-row__meta {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--ink-secondary);
+}
+
+.plan-row__stats {
+  text-align: right;
+  font-family: var(--font-mono);
+  flex-shrink: 0;
+}
+
+.plan-row__projected {
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  font-size: 1rem;
+}
+
+.plan-row__hits {
+  color: var(--danger);
+  font-size: 0.75rem;
+}
+
+/* =========================================================================
+   PLAYERS view
+   ========================================================================= */
+
+.players-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.filter-group {
+  display: flex;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+}
+
+.filter-btn {
+  font-family: var(--font-label);
+  font-weight: 700;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  padding: 0.35rem 0.7rem;
+  border: 1px solid var(--rule-strong);
+  color: var(--ink-secondary);
+}
+
+.filter-btn[aria-pressed="true"] {
+  background: var(--ink);
+  color: var(--bg);
+  border-color: var(--ink);
+}
+
+.players-count {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--ink-tertiary);
+}
+
+.table-scroll {
+  overflow-x: auto;
+  border-top: 1px solid var(--rule-strong);
+  border-bottom: 1px solid var(--rule-strong);
+}
+
+.players-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+}
+
+.players-table th {
+  text-align: left;
+  padding: 0.5rem 0.6rem;
+  font-family: var(--font-label);
+  font-weight: 700;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--ink-secondary);
+  white-space: nowrap;
+  border-bottom: 1px solid var(--rule-strong);
+}
+
+.players-table th[aria-sort] button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.players-table th button:hover {
+  color: var(--ink);
+}
+
+.players-table td {
+  padding: 0.5rem 0.6rem;
+  border-bottom: 1px solid var(--rule);
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.players-table tbody tr:hover {
+  background: var(--accent-tint);
+}
+
+/* A caution the eye catches, not a fade-out: the warning tint spans the
+ * whole row (visible before any horizontal scroll) and the icon sits right
+ * in the name column, since that's what stops a captaincy decision. */
+.players-table tr.row--untrusted {
+  background: var(--warning-tint);
+}
+
+.players-table tr.row--untrusted:hover {
+  background: var(--accent-tint);
+}
+
+.col-name {
+  white-space: normal;
+  min-width: 11rem;
+}
+
+.player-name-cell {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-weight: 600;
+}
+
+.name-warn {
+  display: inline-flex;
+  color: var(--warning);
+  flex-shrink: 0;
+}
+
+.name-warn .icon {
+  width: 1.05em;
+  height: 1.05em;
+}
+
+.name-warn:hover {
+  color: var(--danger);
+}
+
+.player-team {
+  font-size: 0.76rem;
+  color: var(--ink-tertiary);
+  font-weight: 400;
+}
+
+.num {
+  font-family: var(--font-mono);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.recov-cell {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+.recov-value {
+  min-width: 2.4rem;
+  text-align: right;
+}
+
+.recov-value--elite {
+  font-weight: 800;
+  color: var(--accent-ink);
+  background: var(--accent);
+  padding: 0.05rem 0.3rem;
+}
+
+.recov-ticks {
+  display: inline-flex;
+  gap: 1.5px;
+}
+
+.recov-tick {
+  width: 4px;
+  height: 10px;
+  background: var(--rule-strong);
+}
+
+.recov-tick--on {
+  background: var(--accent);
+}
+
+.trust-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 800;
+  color: var(--bg);
+  background: var(--warning);
+  border: 1px solid var(--warning);
+  padding: 0.15rem 0.4rem;
+}
+
+.note-row td {
+  padding: 0 0.6rem 0.7rem;
+  border-bottom: 1px solid var(--rule);
+  white-space: normal;
+}
+
+.note-row__text {
+  font-size: 0.82rem;
+  color: var(--ink-secondary);
+  font-style: italic;
+  max-width: 40rem;
+}
+
+/* =========================================================================
+   TEAMS view
+   ========================================================================= */
+
+.teams-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.teams-table th {
+  text-align: left;
+  padding: 0.5rem 0.6rem;
+  font-family: var(--font-label);
+  font-weight: 700;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--ink-secondary);
+  border-bottom: 1px solid var(--rule-strong);
+}
+
+.teams-table td {
+  padding: 0.55rem 0.6rem;
+  border-bottom: 1px solid var(--rule);
+}
+
+.teams-table tr.row--eliminated {
+  color: var(--ink-tertiary);
+}
+
+.teams-table tr.row--eliminated .team-name {
+  text-decoration: line-through;
+  text-decoration-color: var(--rule-strong);
+}
+
+.team-name {
+  font-weight: 600;
+}
+
+.pot-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.5rem;
+  height: 1.5rem;
+  padding: 0 0.3rem;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 0.78rem;
+  border: 1px solid var(--rule-strong);
+}
+
+.eliminated-tag {
+  font-family: var(--font-label);
+  font-weight: 700;
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--danger);
+}
+
+/* =========================================================================
+   Responsive
+   ========================================================================= */
+
+@media (max-width: 640px) {
+  .brand__full {
+    display: none;
+  }
+
+  .player-row__team {
+    display: none;
+  }
+
+  .plan-row {
+    grid-template-columns: 1.6rem 1fr;
+  }
+
+  .plan-row__stats {
+    grid-column: 2;
+    text-align: left;
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 0.2rem;
+  }
+
+  .now-hero {
+    align-items: flex-start;
+  }
+}

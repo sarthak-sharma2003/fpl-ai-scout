@@ -1,0 +1,22 @@
+{
+ "schema": 1,
+ "generatedAt": "2026-09-11T22:50:16.422806+00:00",
+ "season": "2026-27",
+ "tour": 90,
+ "matchday": 2,
+ "lastMatchday": 17,
+ "deadline": "2026-10-13T16:45:00+00:00",
+ "budget": 100.0,
+ "maxPerClub": 3,
+ "gamedays": [
+  "2026-10-13",
+  "2026-10-14"
+ ],
+ "subsAllowed": 2,
+ "checklist": [
+  "MD2 spans 2 days (2026-10-13, 2026-10-14) \u2014 up to 2 manual subs allowed.",
+  "After day 1, reassess: move the armband to an unstarted player if your captain blanked. Top-5000 do this 44.6% of the time; average 6.1%.",
+  "Sub out anyone who did not play, before the next day kicks off.",
+  "WARNING: any manual change \u2014 a sub, a captain switch, even reordering the bench \u2014 disables auto-subs for this whole matchday, and reverting does not restore them."
+ ]
+}
