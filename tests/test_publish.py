@@ -8,6 +8,7 @@ import pytest
 from fplscout import db
 from fplscout.publish import (
     _confidence,
+    _element_map,
     _fatigue_note,
     _player_card,
     build_chips,
@@ -110,6 +111,16 @@ def test_build_rules_empty_file(tmp_path):
     rules_path = tmp_path / "rules.yaml"
     rules_path.write_text("rules: []\n")
     assert build_rules(rules_path) == []
+
+
+def test_element_map_scopes_to_season_and_keys_by_element_id():
+    con = db.connect(":memory:")
+    db.init_schema(con)
+    con.execute(
+        "INSERT INTO player_season (season, element_id, code) VALUES "
+        "('2026-27', 501, 3), ('2025-26', 501, 3)"
+    )
+    assert _element_map(con, "2026-27") == {501: 3}
 
 
 # --- build_league ----------------------------------------------------------

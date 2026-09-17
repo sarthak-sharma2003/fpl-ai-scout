@@ -11,6 +11,7 @@ const UCL_SCOUT_URL = 'https://sarthak-sharma2003.github.io/ucl-scout/';
  * data contract and deploy, not another route in this app. */
 const NAV = [
   { to: '/', label: 'Dashboard', end: true },
+  { to: '/my-team', label: 'My Team' },
   { to: '/players', label: 'Players' },
   { to: '/fixtures', label: 'Fixtures' },
   { to: '/chips', label: 'Chips' },

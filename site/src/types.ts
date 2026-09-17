@@ -202,6 +202,9 @@ export interface Projections {
   season: string;
   gw: number;
   players: PlayerProjection[];
+  /** FPL element_id -> our player code, for mapping the FPL API's picks
+   * (keyed by element_id) onto this published data (keyed by code). */
+  elements: Record<number, number>;
 }
 
 // ——— chips.json ———

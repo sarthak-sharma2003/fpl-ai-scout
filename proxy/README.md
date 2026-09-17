@@ -1,6 +1,12 @@
 # Ask Xabi proxy
 
-Holds the Gemini API key so visitors don't need their own.
+Holds the Gemini API key so visitors don't need their own. It also proxies a
+few read-only FPL API paths (`bootstrap-static/`, `entry/{id}/`,
+`entry/{id}/event/{gw}/picks/`) under `/fpl/`, for the "My Team" page's team
+import — fantasy.premierleague.com has no secret to hold, it just doesn't
+send CORS headers, so the browser can't call it directly and this Worker
+forwards the request and adds them. Responses are cached for 5 minutes
+(`Cache-Control: public, max-age=300`); any path outside that allowlist 404s.
 
 The site is static GitHub Pages, so it has nowhere to keep a secret — anything
 in the bundle is readable by anyone. This Worker is the one place a real key can
