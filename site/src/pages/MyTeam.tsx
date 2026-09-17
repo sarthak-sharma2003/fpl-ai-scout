@@ -89,11 +89,17 @@ function ImportForm({
       }
       const entry = (await entryRes.json()) as FplEntry;
 
-      const picksRes = await fetch(`${PROXY_URL}/fpl/entry/${id}/event/${gw}/picks/`);
+      // Current-GW picks only go public once the deadline passes, so a 404
+      // before the deadline is normal — the team as it stands IS last GW's
+      // squad, so fall back one gameweek before giving up.
+      let picksRes = await fetch(`${PROXY_URL}/fpl/entry/${id}/event/${gw}/picks/`);
+      if (picksRes.status === 404 && gw > 1) {
+        picksRes = await fetch(`${PROXY_URL}/fpl/entry/${id}/event/${gw - 1}/picks/`);
+      }
       if (!picksRes.ok) {
         throw new Error(
           picksRes.status === 404
-            ? "Couldn't load this gameweek's picks — the team may be private or it's pre-season. Use the manual picker instead."
+            ? "Couldn't load this team's picks — the team may be private or it's pre-season. Use the manual picker instead."
             : `FPL API error (${picksRes.status})`,
         );
       }
