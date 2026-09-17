@@ -377,6 +377,24 @@ CREATE TABLE IF NOT EXISTS match_odds (
     PRIMARY KEY (season, home_team_id, away_team_id)
 );
 
+-- Midweek European results per PL club (ingest/european.py): UCL/UEL/UECL
+-- fixtures from ESPN's public scoreboard. One row per (club, fixture) rather
+-- than per fixture pair, unlike match_odds — the opponent is usually a
+-- foreign club with no team_id of its own, so it's stored as a name.
+CREATE TABLE IF NOT EXISTS european_fixtures (
+    season TEXT NOT NULL,
+    competition TEXT NOT NULL,
+    espn_event_id TEXT NOT NULL,
+    team_id INTEGER NOT NULL,
+    opponent TEXT,
+    was_home BOOLEAN,
+    kickoff_time TIMESTAMP,
+    goals_for INTEGER,
+    goals_against INTEGER,
+    finished BOOLEAN,
+    PRIMARY KEY (season, competition, espn_event_id, team_id)
+);
+
 -- Per-player summer form (ingest/summer.py): goals in the 2026 World Cup and in
 -- club pre-season friendlies. Keyed on `code` alone, not (season, code): this is
 -- a one-off snapshot of the 2026 close season, consumed only by pipeline.py's
@@ -415,6 +433,7 @@ TABLES = [
     "rival_picks",
     "ep_next_archive",
     "match_odds",
+    "european_fixtures",
     "summer_form",
 ]
 

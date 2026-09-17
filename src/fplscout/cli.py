@@ -16,7 +16,7 @@ import yaml
 
 from fplscout import db
 from fplscout.features.build import write_features
-from fplscout.ingest import entry, league, live_gw, odds, summer, vaastav
+from fplscout.ingest import entry, european, league, live_gw, odds, summer, vaastav
 from fplscout.ingest.fpl_api import FplApiClient
 from fplscout.ingest.health import (
     archive_ep_next,
@@ -291,6 +291,14 @@ def refresh(
     odds_written = odds.sync_odds(con, cache_dir=raw_cache_dir / "odds", seasons=odds_seasons)
     typer.echo(
         "  " + ", ".join(f"{k}: {v}" for k, v in odds_written.items()) + " fixtures priced"
+    )
+
+    typer.echo("Loading European results (ESPN)...")
+    european_written = european.sync_european(
+        con, cache_dir=raw_cache_dir / "european", season=current_season
+    )
+    typer.echo(
+        "  " + ", ".join(f"{k}: {v}" for k, v in european_written.items()) + " fixtures"
     )
 
     # Needs `player_season` populated to resolve scorer names -> codes. Not a
