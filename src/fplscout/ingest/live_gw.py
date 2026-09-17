@@ -14,7 +14,7 @@ of source.
 
 from __future__ import annotations
 
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 
 import duckdb
 import pandas as pd
@@ -211,7 +211,7 @@ def sync_current_season(
     id_to_code = {e.id: e.code for e in players}
     id_to_position = {e.id: POSITION_MAP[e.element_type] for e in players}
 
-    summary_ttl = summary_cache_ttl(fixtures, now=datetime.now(timezone.utc))
+    summary_ttl = summary_cache_ttl(fixtures, now=datetime.now(UTC))
     rows = []
     for element in players:
         summary = client.element_summary(element.id, ttl_seconds=summary_ttl)

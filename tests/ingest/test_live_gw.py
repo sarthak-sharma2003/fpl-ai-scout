@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from datetime import UTC
 from pathlib import Path
 
 import httpx
@@ -192,7 +193,7 @@ def test_team_strength_falls_back_to_the_renamed_overall_fields():
 
 
 def test_summary_cache_ttl():
-    from datetime import datetime, timezone
+    from datetime import datetime
 
     from fplscout.ingest.fpl_api import TTL_ELEMENT_SUMMARY
     from fplscout.ingest.schemas import Fixture
@@ -207,7 +208,7 @@ def test_summary_cache_ttl():
             }
         )
 
-    now = datetime(2026, 9, 17, 12, 0, tzinfo=timezone.utc)
+    now = datetime(2026, 9, 17, 12, 0, tzinfo=UTC)
 
     # season not started: fall back to the default TTL
     assert live_gw.summary_cache_ttl([fixture(False, "2026-09-20T14:00:00Z")], now) == (
@@ -215,6 +216,6 @@ def test_summary_cache_ttl():
     )
     # last match finished 3 days ago (kickoff+2h): cache written since then is valid
     ttl = live_gw.summary_cache_ttl([fixture(True, "2026-09-14T10:00:00Z")], now)
-    assert ttl == (now - datetime(2026, 9, 14, 12, 0, tzinfo=timezone.utc)).total_seconds()
+    assert ttl == (now - datetime(2026, 9, 14, 12, 0, tzinfo=UTC)).total_seconds()
     # a fixture flagged finished with kickoff+2h still in the future: clamp to 0 (refetch)
     assert live_gw.summary_cache_ttl([fixture(True, "2026-09-17T11:00:00Z")], now) == 0.0

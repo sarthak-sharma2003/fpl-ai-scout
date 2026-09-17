@@ -26,10 +26,8 @@ import yaml
 from fplscout import pipeline
 from fplscout.decide import chip_planner
 from fplscout.decide.optimizer import (
-    CAPTAIN_Q90_WEIGHT,
     DEFAULT_HIT_COST,
     OptimizerInput,
-    optimize,
     top_alternative_moves,
 )
 from fplscout.decide.rotation import rotation_pairs
@@ -272,11 +270,9 @@ def build_dashboard(con: duckdb.DuckDBPyConnection, season: str, gw: int) -> dic
 def _dashboard_payload(
     season, gw, state, is_live, avg_points, deadline_row, ref,
     squad, xi, captain_code, vice_code, hits,
-    insight_text=None, alt_label=None,
+    insight_text=None,
 ) -> dict:
-    """Render a resolved (squad, xi, captain) into the dashboard JSON shape.
-    Shared by the recommended squad (build_dashboard) and any alternative build
-    (build_dashboard_alt), so both pitches look identical."""
+    """Render a resolved (squad, xi, captain) into the dashboard JSON shape."""
     ref_by_code = ref.set_index("code", drop=False)
 
     bench = ref_by_code[ref_by_code["code"].isin(squad - xi)]
@@ -312,7 +308,6 @@ def _dashboard_payload(
         "our_points": round(float(our_points), 1) if pd.notna(our_points) else None,
         "overall_rank": None,
         "mini_league": None,
-        "alt_label": alt_label,
         "insight": {
             "text": insight_text or STATE_TEXT.get(
                 state,
@@ -327,63 +322,6 @@ def _dashboard_payload(
         "bench_order": bench_order,
         "pitch": pitch,
     }
-
-
-def _alt_exclude_codes(path: Path = Path("config/alt_exclude.csv")) -> list[int]:
-    """Player codes to leave out of the alternative squad build. Empty if no
-    file — then no dashboard_alt.json is published."""
-    if not path.exists():
-        return []
-    return [int(c) for c in pd.read_csv(path)["code"]]
-
-
-def build_dashboard_alt(
-    con: duckdb.DuckDBPyConnection, season: str, gw: int, exclude_codes: list[int]
-) -> dict | None:
-    """A second 'what if I don't own these players' squad: re-run the wildcard
-    optimizer on the same projections with `exclude_codes` removed. None when
-    there's nothing to exclude or no optimal squad (frontend then hides the
-    toggle). Uses single-GW ev_points as total_ev — same basis build_transfers
-    already uses, and equal to the horizon EV in the pre-launch flat-EV period."""
-    if not exclude_codes:
-        return None
-    ref = _reference_frame(con, season, gw)
-    state = _season_state(con, season, gw)
-    avg_points = con.execute(
-        "SELECT SUM(average_entry_score) FROM gameweeks WHERE season = ? AND event <= ?",
-        [season, gw],
-    ).fetchone()[0]
-    deadline_row = con.execute(
-        "SELECT deadline_time FROM gameweeks WHERE season = ? AND event = ?", [season, gw]
-    ).fetchone()
-
-    proj = ref[["code", "position", "team_id", "price"]].copy()
-    proj["total_ev"] = ref["ev_points"]
-    proj["cap_ev"] = (
-        (1 - CAPTAIN_Q90_WEIGHT) * ref["ev_points"] + CAPTAIN_Q90_WEIGHT * ref["q90_points"]
-    )
-    proj = proj.dropna(subset=["total_ev"])
-    proj = proj[~proj["code"].isin(exclude_codes)]
-
-    result = optimize(
-        OptimizerInput(
-            projections=proj, current_squad=set(), purchase_prices={},
-            bank=1000, free_transfers=1, chip_mode="wildcard",
-        )
-    )
-    if result.status != "Optimal":
-        return None
-
-    excluded = ref[ref["code"].isin(exclude_codes)]["web_name"].tolist()
-    names = ", ".join(excluded) if excluded else "selected players"
-    return _dashboard_payload(
-        season, gw, state, state == "live", avg_points, deadline_row, ref,
-        squad=result.squad, xi=result.starting_xi,
-        captain_code=result.captain, vice_code=result.vice_captain, hits=result.hits,
-        insight_text=f"Alternative squad with {names} excluded — every other spot "
-        "re-optimized from scratch, so you can compare a build that skips them.",
-        alt_label=f"No {names}",
-    )
 
 
 def _rotation_cards(
@@ -1240,13 +1178,6 @@ def publish_all(
         "rules.json": build_rules(rules_path),
         "analytics.json": build_analytics(reports_dir, model_version),
     }
-
-    # optional second squad excluding config/alt_exclude.csv players (e.g. "no
-    # Haaland"), shown behind a toggle on the dashboard. Skipped when the file is
-    # absent or the build fails, so the site degrades to just the main squad.
-    alt = build_dashboard_alt(con, season, gw, _alt_exclude_codes())
-    if alt is not None:
-        files["dashboard_alt.json"] = alt
 
     written = {}
     for name, payload in files.items():

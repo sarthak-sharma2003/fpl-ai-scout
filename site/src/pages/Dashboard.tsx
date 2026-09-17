@@ -251,10 +251,7 @@ function GamePlan({ d, t }: { d: DashboardData; t: TransfersData }) {
 
 export default function Dashboard() {
   const dashMain = useJson<DashboardData>('dashboard.json');
-  const dashAlt = useJson<DashboardData>('dashboard_alt.json');
   const transfers = useJson<TransfersData>('transfers.json');
-  const [variant, setVariant] = useState<'main' | 'alt'>('main');
-  const altReady = dashAlt.status === 'ready' ? dashAlt.data : null;
   // transfers.json is a nice-to-have enhancement, not a hard dependency — a
   // failed or slow fetch here must not blank the whole dashboard, so it's
   // read separately rather than folded into the page's DataGate.
@@ -267,34 +264,10 @@ export default function Dashboard() {
         subtitle="The model's recommended squad for the gameweek — EV from the ML projections, formation and bench from the MILP optimizer."
       />
       <DataGate state={dashMain}>
-        {(dMain) => {
-          const d = variant === 'alt' && altReady ? altReady : dMain;
+        {(d) => {
           const formation = `${d.pitch.def.length}-${d.pitch.mid.length}-${d.pitch.fwd.length}`;
           return (
             <div className="flex flex-col gap-5">
-              {/* Squad variant toggle — only when an alternative build exists */}
-              {altReady && (
-                <div className="flex items-center gap-1.5 self-start rounded-md bg-pitch-800 p-1 ring-1 ring-line">
-                  {[
-                    { key: 'main' as const, label: 'Recommended' },
-                    { key: 'alt' as const, label: altReady.alt_label || 'Alternative' },
-                  ].map(({ key, label }) => (
-                    <button
-                      key={key}
-                      type="button"
-                      onClick={() => setVariant(key)}
-                      className={`rounded px-3 py-1.5 font-mono text-[10px] font-bold uppercase tracking-[0.16em] transition-colors ${
-                        variant === key
-                          ? 'bg-volt/[0.14] text-volt'
-                          : 'text-ink-500 hover:text-ink-300'
-                      }`}
-                    >
-                      {label}
-                    </button>
-                  ))}
-                </div>
-              )}
-
               {/* Header band */}
               <Card className="p-4 md:p-6">
                 <div className="flex flex-wrap items-start justify-between gap-x-6 gap-y-4">
