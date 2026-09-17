@@ -1,0 +1,312 @@
+{
+ "schema": 1,
+ "generatedAt": "2026-09-11T22:50:16.422806+00:00",
+ "season": "2026-27",
+ "tour": 90,
+ "matchday": 2,
+ "lastMatchday": 17,
+ "deadline": "2026-10-13T16:45:00+00:00",
+ "budget": 100.0,
+ "maxPerClub": 3,
+ "gamedays": [
+  "2026-10-13",
+  "2026-10-14"
+ ],
+ "subsAllowed": 2,
+ "checklist": [
+  "MD2 spans 2 days (2026-10-13, 2026-10-14) \u2014 up to 2 manual subs allowed.",
+  "After day 1, reassess: move the armband to an unstarted player if your captain blanked. Top-5000 do this 44.6% of the time; average 6.1%.",
+  "Sub out anyone who did not play, before the next day kicks off.",
+  "WARNING: any manual change \u2014 a sub, a captain switch, even reordering the bench \u2014 disables auto-subs for this whole matchday, and reverting does not restore them."
+ ],
+ "teams": [
+  {
+   "id": 52280,
+   "short": "ARS",
+   "name": "Arsenal",
+   "pot": 1,
+   "eliminated": false,
+   "elo": 1747
+  },
+  {
+   "id": 52747,
+   "short": "PSG",
+   "name": "Paris",
+   "pot": 1,
+   "eliminated": false,
+   "elo": 1734
+  },
+  {
+   "id": 50037,
+   "short": "BAY",
+   "name": "Bayern M\u00fcnchen",
+   "pot": 1,
+   "eliminated": false,
+   "elo": 1728
+  },
+  {
+   "id": 50080,
+   "short": "BAR",
+   "name": "Barcelona",
+   "pot": 1,
+   "eliminated": false,
+   "elo": 1652
+  },
+  {
+   "id": 50051,
+   "short": "RMA",
+   "name": "Real Madrid",
+   "pot": 1,
+   "eliminated": false,
+   "elo": 1650
+  },
+  {
+   "id": 52265,
+   "short": "BET",
+   "name": "Real Betis",
+   "pot": 2,
+   "eliminated": false,
+   "elo": 1639
+  },
+  {
+   "id": 7889,
+   "short": "LIV",
+   "name": "Liverpool",
+   "pot": 1,
+   "eliminated": false,
+   "elo": 1630
+  },
+  {
+   "id": 52683,
+   "short": "AVL",
+   "name": "Aston Villa",
+   "pot": 2,
+   "eliminated": false,
+   "elo": 1621
+  },
+  {
+   "id": 50137,
+   "short": "ROM",
+   "name": "Roma",
+   "pot": 2,
+   "eliminated": false,
+   "elo": 1619
+  },
+  {
+   "id": 52919,
+   "short": "MCI",
+   "name": "Man City",
+   "pot": 1,
+   "eliminated": false,
+   "elo": 1598
+  },
+  {
+   "id": 50149,
+   "short": "SPO",
+   "name": "Sporting CP",
+   "pot": 2,
+   "eliminated": false,
+   "elo": 1593
+  },
+  {
+   "id": 50124,
+   "short": "ATM",
+   "name": "Atleti",
+   "pot": 1,
+   "eliminated": false,
+   "elo": 1593
+  },
+  {
+   "id": 50138,
+   "short": "INT",
+   "name": "Inter",
+   "pot": 1,
+   "eliminated": false,
+   "elo": 1575
+  },
+  {
+   "id": 52758,
+   "short": "BVB",
+   "name": "B. Dortmund",
+   "pot": 2,
+   "eliminated": false,
+   "elo": 1571
+  },
+  {
+   "id": 59333,
+   "short": "BOD",
+   "name": "Bod\u00f8/Glimt",
+   "pot": 3,
+   "eliminated": false,
+   "elo": 1551
+  },
+  {
+   "id": 52692,
+   "short": "FEN",
+   "name": "Fenerbah\u00e7e",
+   "pot": 3,
+   "eliminated": false,
+   "elo": 1541
+  },
+  {
+   "id": 75797,
+   "short": "LIL",
+   "name": "Lille",
+   "pot": 3,
+   "eliminated": false,
+   "elo": 1531
+  },
+  {
+   "id": 50062,
+   "short": "PSV",
+   "name": "PSV",
+   "pot": 2,
+   "eliminated": false,
+   "elo": 1529
+  },
+  {
+   "id": 52682,
+   "short": "MUN",
+   "name": "Man Utd",
+   "pot": 2,
+   "eliminated": false,
+   "elo": 1525
+  },
+  {
+   "id": 50064,
+   "short": "POR",
+   "name": "Porto",
+   "pot": 2,
+   "eliminated": false,
+   "elo": 1523
+  },
+  {
+   "id": 52277,
+   "short": "LEN",
+   "name": "Lens",
+   "pot": 4,
+   "eliminated": false,
+   "elo": 1512
+  },
+  {
+   "id": 50067,
+   "short": "GAL",
+   "name": "Galatasaray",
+   "pot": 3,
+   "eliminated": false,
+   "elo": 1505
+  },
+  {
+   "id": 50043,
+   "short": "BRU",
+   "name": "Club Brugge",
+   "pot": 2,
+   "eliminated": false,
+   "elo": 1497
+  },
+  {
+   "id": 52749,
+   "short": "FEY",
+   "name": "Feyenoord",
+   "pot": 3,
+   "eliminated": false,
+   "elo": 1495
+  },
+  {
+   "id": 50136,
+   "short": "NAP",
+   "name": "Napoli",
+   "pot": 3,
+   "eliminated": false,
+   "elo": 1494
+  },
+  {
+   "id": 50107,
+   "short": "STU",
+   "name": "Stuttgart",
+   "pot": 4,
+   "eliminated": false,
+   "elo": 1489
+  },
+  {
+   "id": 52707,
+   "short": "SHK",
+   "name": "Shakhtar",
+   "pot": 3,
+   "eliminated": false,
+   "elo": 1487
+  },
+  {
+   "id": 79946,
+   "short": "COM",
+   "name": "Como",
+   "pot": 4,
+   "eliminated": false,
+   "elo": 1477
+  },
+  {
+   "id": 50129,
+   "short": "AEK",
+   "name": "AEK Athens",
+   "pot": 4,
+   "eliminated": false,
+   "elo": 1467
+  },
+  {
+   "id": 2603790,
+   "short": "RBL",
+   "name": "Leipzig",
+   "pot": 3,
+   "eliminated": false,
+   "elo": 1461
+  },
+  {
+   "id": 63405,
+   "short": "LASK",
+   "name": "LASK",
+   "pot": 4,
+   "eliminated": false,
+   "elo": 1433
+  },
+  {
+   "id": 52319,
+   "short": "VFK",
+   "name": "Viking",
+   "pot": 4,
+   "eliminated": false,
+   "elo": 1430
+  },
+  {
+   "id": 2609356,
+   "short": "SAB",
+   "name": "Sabah",
+   "pot": 4,
+   "eliminated": false,
+   "elo": 1428
+  },
+  {
+   "id": 70691,
+   "short": "VIL",
+   "name": "Villarreal",
+   "pot": 3,
+   "eliminated": false,
+   "elo": 1418
+  },
+  {
+   "id": 52498,
+   "short": "SLA",
+   "name": "Slavia Praha",
+   "pot": 4,
+   "eliminated": false,
+   "elo": 1397
+  },
+  {
+   "id": 52797,
+   "short": "SBR",
+   "name": "S. Bratislava",
+   "pot": 4,
+   "eliminated": false,
+   "elo": 1394
+  }
+ ]
+}
