@@ -285,6 +285,60 @@ def test_build_chips_marks_used_window(league_con):
     assert wc["available"] is False and wc["used_gw"] == 1
 
 
+def test_build_chips_plans_real_timing_for_an_unused_chip():
+    """End-to-end through chip_planner's real MILP-backed timing (previously
+    only exercised by the backtest, never by the live site) — a full 15-player
+    squad across all four positions so the optimizer has a feasible XI, mirroring
+    tests/decide/test_chip_planner.py's own minimal universe."""
+    con = db.connect(":memory:")
+    db.init_schema(con)
+    season, gw, entry_id = SEASON, 2, 300
+    squad = [
+        (1, "GKP", 1, 40, 20.0), (2, "GKP", 2, 40, 50.0),
+        (11, "DEF", 3, 40, 15.0), (12, "DEF", 4, 40, 15.0),
+        (13, "DEF", 5, 40, 15.0), (14, "DEF", 6, 40, 15.0), (15, "DEF", 7, 40, 15.0),
+        (21, "MID", 8, 40, 20.0), (22, "MID", 9, 40, 20.0), (23, "MID", 10, 40, 20.0),
+        (24, "MID", 11, 40, 20.0), (25, "MID", 12, 40, 20.0),
+        (31, "FWD", 13, 40, 25.0), (32, "FWD", 14, 40, 25.0), (33, "FWD", 15, 40, 25.0),
+    ]
+    for i, (code, position, team_id, price, _ev) in enumerate(squad):
+        con.execute("INSERT INTO players (code, web_name) VALUES (?, ?)", [code, f"P{code}"])
+        con.execute(
+            "INSERT INTO features (season, gw, fixture_id, code, team_id, position, value) "
+            "VALUES (?, ?, ?, ?, ?, ?, ?)",
+            [season, gw, 1000 + code, code, team_id, position, price],
+        )
+        con.execute(
+            "INSERT INTO our_picks (gw, code, position, multiplier, is_captain, "
+            "is_vice_captain) VALUES (?, ?, ?, 1, false, false)",
+            [gw, code, i + 1],
+        )
+    con.execute(
+        "INSERT INTO our_entry (entry_id, name, bank, free_transfers, last_synced_gw) "
+        "VALUES (?, 'Us', 0, 1, ?)",
+        [entry_id, gw],
+    )
+    # only gw 5 has coverage (mirrors evaluate_chip_windows' own "gw 6 missing,
+    # must not crash" case) — window runs 1..5, so gws_remaining = 5-2 = 3,
+    # exactly CHIP_URGENCY_GWS: exercises both planned_gw and the urgency flag.
+    con.execute(
+        "INSERT INTO chip_windows (season, chip_id, chip, number, start_event, "
+        "stop_event, chip_type) VALUES (?, 10, 'bboost', 1, 1, 5, 'team')",
+        [season],
+    )
+    ev_by_gw = pd.DataFrame({5: {code: ev for code, _, _, _, ev in squad}})
+    ev_by_gw.index.name = "code"
+
+    out = build_chips(con, season, gw, our_entry_id=entry_id, ev_by_gw=ev_by_gw)
+    con.close()
+
+    bboost = next(c for c in out["chips"] if c["chip"] == "bboost")
+    assert bboost["planned_gw"] == 5
+    assert bboost["planned_ev"] > 0
+    assert bboost["gws_remaining"] == 3
+    assert bboost["urgent"] is True
+
+
 # --- build_dashboard: real synced squad takes priority over the recommendation
 
 

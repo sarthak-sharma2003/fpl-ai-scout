@@ -24,6 +24,7 @@ import pandas as pd
 import yaml
 
 from fplscout import pipeline
+from fplscout.decide import chip_planner
 from fplscout.decide.optimizer import (
     CAPTAIN_Q90_WEIGHT,
     DEFAULT_HIT_COST,
@@ -727,6 +728,61 @@ CHIP_GUIDANCE = {
     ),
 }
 
+# Chips don't roll over: an unused one expires at its window's stop_gw (plan
+# §5 DoD), so flag it as urgent this close to closing rather than let it lapse
+# silently.
+CHIP_URGENCY_GWS = 3
+
+
+def _chip_plan_by_id(
+    con: duckdb.DuckDBPyConnection,
+    windows: pd.DataFrame,
+    used_by_window: dict[int, int],
+    our_entry_id: int | None,
+    ref: pd.DataFrame,
+    ev_by_gw: pd.DataFrame | None,
+) -> dict[int, chip_planner.ChipRecommendation]:
+    """Real EV-driven timing for every not-yet-used chip window, reusing
+    chip_planner.evaluate_chip_windows/plan_chips (previously only exercised by
+    the backtest) — this is what actually answers "when should I fire it",
+    instead of the static CHIP_GUIDANCE text alone. Needs a synced squad
+    (skipped otherwise, same gate as the wildcard/free-hit this-week numbers)."""
+    if ev_by_gw is None or our_entry_id is None:
+        return {}
+    window_by_id = {
+        int(w["chip_id"]): chip_planner.ChipWindow(
+            chip=w["chip"], start_gw=int(w["start_event"]), stop_gw=int(w["stop_event"])
+        )
+        for _, w in windows.iterrows()
+        if int(w["chip_id"]) not in used_by_window
+        and pd.notna(w["start_event"]) and pd.notna(w["stop_event"])
+    }
+    if not window_by_id:
+        return {}
+    state = load_state(con, our_entry_id)
+    if not state or not state.squad:
+        return {}
+    projections_by_gw = pipeline.chip_projection_frames(ref, ev_by_gw)
+    base_input = OptimizerInput(
+        projections=pd.DataFrame(columns=["code", "position", "team_id", "price", "total_ev"]),
+        current_squad=set(state.squad),
+        purchase_prices=state.purchase_prices,
+        bank=state.bank if state.bank is not None else 0,
+        free_transfers=state.free_transfers if state.free_transfers is not None else 1,
+    )
+    candidate_windows = list(window_by_id.values())
+    ev_by_chip_gw = chip_planner.evaluate_chip_windows(
+        candidate_windows, projections_by_gw, base_input
+    )
+    recs = chip_planner.plan_chips(candidate_windows, ev_by_chip_gw)
+    plan_by_id = {}
+    for chip_id, window in window_by_id.items():
+        for rec in recs:
+            if rec.chip == window.chip and window.start_gw <= rec.gw <= window.stop_gw:
+                plan_by_id[chip_id] = rec
+                break
+    return plan_by_id
+
 
 def build_chips(
     con: duckdb.DuckDBPyConnection,
@@ -734,11 +790,16 @@ def build_chips(
     gw: int,
     our_entry_id: int | None = None,
     horizon: int = 12,
+    ev_by_gw: pd.DataFrame | None = None,
 ) -> dict:
     """Chip windows (live from the API, never hardcoded), our usage state, the
     honest this-week observables per chip, and the DGW/BGW radar the timing
     decisions actually hinge on. Wildcard/free-hit deltas need an in-season
-    prior squad (squad_state) — until then they're presented as guidance only."""
+    prior squad (squad_state) — until then they're presented as guidance only.
+
+    `ev_by_gw` (undecayed EV, code x gw — the same frame rotations already use)
+    additionally unlocks a real `planned_gw`/`planned_ev` per not-yet-used chip
+    window, not just guidance text; see _chip_plan_by_id."""
     windows = con.execute(
         "SELECT chip_id, chip, number, start_event, stop_event FROM chip_windows "
         "WHERE season = ? ORDER BY chip, start_event",
@@ -790,22 +851,34 @@ def build_chips(
         "freehit": None,
     }
 
+    chip_plan_by_id = _chip_plan_by_id(con, windows, used_by_window, our_entry_id, ref, ev_by_gw)
+
     chips_out = []
     for _, w in windows.iterrows():
         chip_id = int(w["chip_id"])
+        unused = chip_id not in used_by_window
+        stop_gw = int(w["stop_event"]) if pd.notna(w["stop_event"]) else None
+        gws_remaining = stop_gw - gw if unused and stop_gw is not None else None
+        plan = chip_plan_by_id.get(chip_id)
         chips_out.append({
             "chip": w["chip"],
             "chip_id": chip_id,
             "start_gw": int(w["start_event"]) if pd.notna(w["start_event"]) else None,
-            "stop_gw": int(w["stop_event"]) if pd.notna(w["stop_event"]) else None,
-            "available": chip_id not in used_by_window,
+            "stop_gw": stop_gw,
+            "available": unused,
             "used_gw": used_by_window.get(chip_id),
             "active_now": (
                 pd.notna(w["start_event"]) and pd.notna(w["stop_event"])
-                and int(w["start_event"]) <= gw <= int(w["stop_event"])
+                and int(w["start_event"]) <= gw <= stop_gw
             ),
             "this_week": this_week.get(w["chip"]),
             "guidance": CHIP_GUIDANCE.get(w["chip"], ""),
+            "planned_gw": plan.gw if plan else None,
+            "planned_ev": round(plan.ev, 2) if plan else None,
+            "gws_remaining": gws_remaining,
+            "urgent": (
+                gws_remaining is not None and gws_remaining <= CHIP_URGENCY_GWS
+            ),
         })
 
     # DGW/BGW radar over the upcoming horizon — the thing chip timing hinges on
@@ -1162,7 +1235,7 @@ def publish_all(
         "transfers.json": build_transfers(con, season, gw, ev_by_gw=ev_by_gw),
         "fixtures.json": build_fixtures(con, season, gw),
         "signals.json": build_signals(con, season, gw),
-        "chips.json": build_chips(con, season, gw, our_entry_id=our_entry_id),
+        "chips.json": build_chips(con, season, gw, our_entry_id=our_entry_id, ev_by_gw=ev_by_gw),
         "league.json": build_league(con, season, gw, our_entry_id=our_entry_id),
         "rules.json": build_rules(rules_path),
         "analytics.json": build_analytics(reports_dir, model_version),

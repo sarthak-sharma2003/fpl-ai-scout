@@ -1,6 +1,39 @@
 from __future__ import annotations
 
+import pandas as pd
+
 from fplscout import db, pipeline
+
+
+def test_chip_projection_frames_reshapes_per_gw_ev_for_the_optimizer():
+    """chip_planner.evaluate_chip_windows needs one {code, position, team_id,
+    price, total_ev} frame per candidate gw — this is the only thing that
+    reshapes live_horizon_ev's per_gw=True output into that shape."""
+    ref = pd.DataFrame({
+        "code": [1, 2, 3],
+        "position": ["GKP", "DEF", "MID"],
+        "team_id": [10, 20, 30],
+        "price": [45, 50, 80],
+    })
+    ev_by_gw = pd.DataFrame({5: {1: 2.0, 2: 3.0}, 6: {1: 2.5, 3: 4.0}})
+    ev_by_gw.index.name = "code"
+
+    frames = pipeline.chip_projection_frames(ref, ev_by_gw)
+
+    assert set(frames) == {5, 6}
+    gw5 = frames[5].set_index("code")
+    assert set(gw5.index) == {1, 2}  # code 3 has no gw-5 EV, correctly dropped
+    assert gw5.loc[1, "total_ev"] == 2.0
+    assert gw5.loc[1, "position"] == "GKP" and gw5.loc[1, "price"] == 45
+
+
+def test_chip_projection_frames_empty_gw_column_is_dropped():
+    ref = pd.DataFrame({
+        "code": [1], "position": ["GKP"], "team_id": [10], "price": [45],
+    })
+    ev_by_gw = pd.DataFrame({7: {99: 1.0}})  # code not in ref at all
+    ev_by_gw.index.name = "code"
+    assert pipeline.chip_projection_frames(ref, ev_by_gw) == {}
 
 
 def test_live_availability_factor_prefers_chance_then_status():

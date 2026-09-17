@@ -546,3 +546,31 @@ def live_horizon_ev(
     # applied here too. total_ev_for_optimizer's fallback does NOT: it scales
     # the projections frame, which generate_projections already boosted.
     return ev.mul(ev.index.to_series().map(summer_boost(con, season)).fillna(1.0), axis=0)
+
+
+def chip_projection_frames(
+    ref: pd.DataFrame, ev_by_gw: pd.DataFrame
+) -> dict[int, pd.DataFrame]:
+    """`ev_by_gw` (code index, gw columns, undecayed EV from live_horizon_ev's
+    per_gw=True) + `ref`'s identity/price columns -> one {code, position,
+    team_id, price, total_ev} frame per gw, for chip_planner.evaluate_chip_windows.
+    Chip timing cares about that one week's score, not a horizon-decayed sum —
+    unlike total_ev_for_optimizer, which collapses the horizon for the normal
+    weekly transfer decision.
+
+    Only ever covers gw+1 .. gw+HORIZON (ev_by_gw's own columns): a chip window
+    stretching further out just yields no candidate rows past that point, so
+    evaluate_chip_windows silently skips them rather than planning off
+    projections beyond where this model is trusted (see models/horizon.py).
+    """
+    static_cols = ref[["code", "position", "team_id", "price"]].dropna(
+        subset=["position", "team_id", "price"]
+    )
+    out = {}
+    for gw in ev_by_gw.columns:
+        ev = ev_by_gw[gw].reset_index()
+        ev.columns = ["code", "total_ev"]
+        merged = static_cols.merge(ev, on="code", how="inner").dropna(subset=["total_ev"])
+        if len(merged):
+            out[int(gw)] = merged
+    return out
