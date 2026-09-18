@@ -152,10 +152,15 @@ def latest_reference_point(con: duckdb.DuckDBPyConnection) -> tuple[str, int]:
     return row[0], row[1]
 
 
-def live_availability_factor(con: duckdb.DuckDBPyConnection) -> dict[int, float]:
+def live_availability_factor(
+    con: duckdb.DuckDBPyConnection, decision_gw: int | None = None
+) -> dict[int, float]:
     """code -> live availability factor read from `players`' bootstrap-static
     snapshot (see `fplscout refresh` / models/minutes.py::apply_availability).
-    Inference-only — never touches training data."""
+    Inference-only — never touches training data.
+
+    `decision_gw` enables the gameweek-scoped rows of the lineup watchlist
+    below; without it only the self-dissolving preseason rows apply."""
     rows = con.execute(
         "SELECT code, status, chance_of_playing_next_round FROM players"
     ).fetchall()
@@ -190,20 +195,44 @@ def live_availability_factor(con: duckdb.DuckDBPyConnection) -> dict[int, float]
             "AND minutes >= 60"
         ).fetchall()
     }
-    for code, start_prob in _lineup_watch_factor().items():
-        if code in factor and code not in started:
+    # A row carrying a `gw` is a statement about THAT gameweek specifically —
+    # late team news, a rest, a rotation the manager telegraphed — not a
+    # preseason guess, so the self-dissolve above must not silently discard it
+    # just because the player has started before. An established starter being
+    # out for one week is the normal case for this kind of row, and FPL's own
+    # `status` does not flag it. It applies only while that gameweek is the
+    # decision gameweek, so it expires on its own.
+    for code, (start_prob, row_gw) in _lineup_watch_factor().items():
+        if code not in factor:
+            continue
+        if row_gw is not None:
+            if row_gw == decision_gw:
+                factor[code] *= start_prob
+        elif code not in started:
             factor[code] *= start_prob
     return factor
 
 
 def _lineup_watch_factor(
     path: Path = Path("config/lineup_watch.csv"),
-) -> dict[int, float]:
-    """code -> manual start_prob from the lineup watchlist. Empty if no file."""
+) -> dict[int, tuple[float, int | None]]:
+    """code -> (manual start_prob, gw or None) from the lineup watchlist.
+
+    `gw` is optional and absent from older files: no gw means the row is a
+    preseason guess that self-dissolves once the player starts a real match,
+    while a gw pins the row to that one gameweek (see the caller). Empty if no
+    file.
+    """
     if not path.exists():
         return {}
     df = pd.read_csv(path)
-    return dict(zip(df["code"].astype(int), df["start_prob"].astype(float), strict=True))
+    gws = (
+        df["gw"] if "gw" in df.columns else pd.Series([None] * len(df), index=df.index)
+    )
+    return {
+        int(code): (float(prob), None if pd.isna(gw) else int(gw))
+        for code, prob, gw in zip(df["code"], df["start_prob"], gws, strict=True)
+    }
 
 
 def summer_boost(con: duckdb.DuckDBPyConnection, season: str) -> dict[int, float]:
@@ -314,7 +343,7 @@ def generate_projections(
 
     preds, feat = project_gw(
         models.minutes_model, models.dc_model, models.points_models, target_df, teams,
-        availability_factor=live_availability_factor(con),
+        availability_factor=live_availability_factor(con, gw),
     )
     # preds and feat share target_df's row order/length exactly (project_gw derives
     # both from it without reordering) — positional concat, not a merge on `code`,
@@ -463,7 +492,7 @@ def unpickable(
     news says he is back in two gameweeks stays pickable — that is a real, and
     often good, wildcard buy.
     """
-    factor = live_availability_factor(con)
+    factor = live_availability_factor(con, decision_gw)
     back = availability_return_gw(con, season)
     horizon_end = decision_gw + HORIZON - 1
     out: set[int] = set()
@@ -539,7 +568,7 @@ def live_horizon_ev(
     ev = horizon.build_horizon_ev(
         models.minutes_model, models.dc_model, models.points_models,
         base_rows, fixtures, teams, decision_gw=gw, horizon=HORIZON, decay=DECAY,
-        max_gw=max_gw, availability_factor=live_availability_factor(con),
+        max_gw=max_gw, availability_factor=live_availability_factor(con, gw),
         return_gw=availability_return_gw(con, season), per_gw=per_gw,
     )
     # This EV is built independently of `projections`, so it needs the boost

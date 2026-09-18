@@ -222,3 +222,47 @@ def test_xi_minutes_floor_exempts_players_who_have_actually_started():
     # code 1 has started; code 2's cameo leaves the cold-start bar in place
     assert pipeline.xi_minutes_floor(con, "2026-27", 3, "v1") == {2}
     con.close()
+
+
+def test_lineup_watch_gw_row_survives_the_self_dissolve_but_only_for_that_gw(
+    tmp_path, monkeypatch
+):
+    """A dated row is late team news about ONE gameweek, not a preseason guess.
+
+    The self-dissolve exists to stop a stale hand-entered 0.0 making an in-form
+    starter unbuyable — but an established starter being out for a single week
+    is the normal case here, and FPL's `status` still reads available, so the
+    dissolve must not silently discard it.
+    """
+    import duckdb
+
+    from fplscout import pipeline
+
+    read_watch = pipeline._lineup_watch_factor
+    watch = tmp_path / "lineup_watch.csv"
+    watch.write_text(
+        "code,player,start_prob,note,gw\n"
+        "1,Preseason,0.0,guess,\n"      # undated: self-dissolving
+        "2,OutThisWeek,0.0,team news,5\n"  # dated: applies at gw 5 only
+    )
+    monkeypatch.setattr(pipeline, "_lineup_watch_factor", lambda _p=watch: read_watch(_p))
+
+    con = duckdb.connect()
+    con.execute(
+        "CREATE TABLE players AS SELECT * FROM (VALUES (1, 'a', NULL), (2, 'a', NULL)) "
+        "t(code, status, chance_of_playing_next_round)"
+    )
+    # BOTH players have started a real match, so the dissolve applies to both
+    con.execute(
+        "CREATE TABLE player_gw_history AS SELECT * FROM (VALUES "
+        "('2026-27', 1, 1, 90), ('2026-27', 1, 2, 90)) t(season, gw, code, minutes)"
+    )
+
+    at_gw5 = pipeline.live_availability_factor(con, decision_gw=5)
+    assert at_gw5[1] == 1.0  # undated guess dissolved, as before
+    assert at_gw5[2] == 0.0  # dated row still bites at its own gameweek
+
+    # ...and expires on its own once the gameweek moves on
+    assert pipeline.live_availability_factor(con, decision_gw=6)[2] == 1.0
+    # no gw given (callers that don't know it): dated rows simply don't apply
+    assert pipeline.live_availability_factor(con)[2] == 1.0
