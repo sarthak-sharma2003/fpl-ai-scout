@@ -105,7 +105,10 @@ function ImportForm({
       }
       const picksData = (await picksRes.json()) as FplPicksResponse;
       const picks = picksData.picks ?? [];
-      const codes = picks.map((pk) => proj.elements[pk.element]).filter((c): c is number => c != null);
+      // elements can be missing on a cached pre-upgrade projections.json
+      const codes = picks
+        .map((pk) => (proj.elements ?? {})[pk.element])
+        .filter((c): c is number => c != null);
       if (codes.length !== 15) {
         throw new Error("Couldn't map this squad onto current player data. Use the manual picker instead.");
       }

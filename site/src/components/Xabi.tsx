@@ -189,7 +189,7 @@ export default function Xabi() {
   }, [turns, busy]);
 
   async function ask(question: string) {
-    if (!ready || (!apiKey && !PROXY_URL)) return;
+    if (!ready || !apiKey) return;
     const system = buildSystem(dash.data, proj.data, transfers.data, rules.data);
     const history: Turn[] = [...turns, { role: 'user', text: question }];
     setTurns([...history, { role: 'assistant', text: '' }]);
@@ -197,13 +197,10 @@ export default function Xabi() {
     setBusy(true);
     setError(null);
     try {
-      // A visitor's own key wins over the shared one: they asked for it, and
-      // it keeps their questions off the proxy's quota. Without a key we point
-      // the same SDK at the Worker, which swaps in the real key server-side —
-      // so there is no second request path to keep working.
-      const ai = apiKey
-        ? new GoogleGenAI({ apiKey })
-        : new GoogleGenAI({ apiKey: 'unused-proxy-holds-the-real-one', httpOptions: { baseUrl: PROXY_URL } });
+      // BYO key only (the 08-23 funding decision): the Worker proxy is for the
+      // FPL passthrough, not a shared Gemini key — deploying it must not
+      // silently switch keyless visitors onto our quota.
+      const ai = new GoogleGenAI({ apiKey });
       const stream = await ai.models.generateContentStream({
         model: MODEL,
         contents: history.map((t) => ({
