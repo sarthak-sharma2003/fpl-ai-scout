@@ -237,6 +237,7 @@ def simulate_season(
     transfer_penalty: float = TRANSFER_PENALTY,
     max_hits: int | None = MAX_HITS_PER_GW,
     captain_q90_weight: float = CAPTAIN_Q90_WEIGHT,
+    hit_cost: float = DECISION_HIT_COST,
     prepared: PreparedSeason | None = None,
 ) -> SeasonResult:
     if prepared is None:
@@ -302,7 +303,7 @@ def simulate_season(
             bank=bank,
             free_transfers=free_transfers,
             chip_mode="wildcard" if is_initial_draft else chip_mode,
-            hit_cost=DECISION_HIT_COST,
+            hit_cost=hit_cost,
             transfer_penalty=transfer_penalty,
             max_hits=max_hits,
         )

@@ -85,6 +85,13 @@ function toSquadPlayer(p: PlayerProjection): SquadPlayer {
  * owned that keeps every club at ≤3 players. Returns the top `limit` swaps
  * with gain > 0, best first.
  *
+ * Ranks on horizon_ev (the decay-summed 8-GW forecast our own optimizer uses),
+ * NOT the single-gameweek ev_points bestXI uses: you keep a transfer for weeks,
+ * so ranking it on one gameweek chases noise — the mistake the horizon work
+ * measured at +76/+86 pts a season. Falls back to ev_points only when the
+ * horizon is absent (pre-season, no future fixtures to forecast over), so gains
+ * are in whichever unit actually ranked them.
+ *
  * Selling price is approximated as the player's current listed price — real
  * FPL selling price can be lower after a price drop, but this app has no
  * purchase-history to compute that from (same simplification the rest of the
@@ -104,6 +111,13 @@ export function transferSuggestions(
     if (p.team) clubCounts.set(p.team, (clubCounts.get(p.team) ?? 0) + 1);
   }
 
+  // One ranking scale for both sides of a swap. An owned player's horizon EV
+  // lives in allPlayers (the squad card only carries this week's ev), so look
+  // it up by code; a player missing from the pool keeps their card's ev.
+  const rank = (p: PlayerProjection) => p.horizon_ev ?? p.ev_points;
+  const rankByCode = new Map(allPlayers.map((p) => [p.code, rank(p)]));
+  const rankOwned = (p: SquadPlayer) => rankByCode.get(p.code) ?? ev(p);
+
   const suggestions: TransferSuggestion[] = [];
   for (const out of squad) {
     const budget = (out.price ?? 0) + bank;
@@ -119,11 +133,12 @@ export function transferSuggestions(
           ? clubCountWithoutOut + 1
           : (candidate.team ? (clubCounts.get(candidate.team) ?? 0) : 0) + 1;
       if (clubAfter > 3) continue;
-      if (!bestIn || candidate.ev_points > bestIn.ev_points) bestIn = candidate;
+      if (!bestIn || rank(candidate) > rank(bestIn)) bestIn = candidate;
     }
 
-    if (bestIn && bestIn.ev_points > ev(out)) {
-      suggestions.push({ out, in: toSquadPlayer(bestIn), gain: bestIn.ev_points - ev(out) });
+    const outRank = rankOwned(out);
+    if (bestIn && rank(bestIn) > outRank) {
+      suggestions.push({ out, in: toSquadPlayer(bestIn), gain: rank(bestIn) - outRank });
     }
   }
 

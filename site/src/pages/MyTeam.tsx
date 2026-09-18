@@ -416,7 +416,15 @@ function Results({
       </div>
 
       <div>
-        <Eyebrow>Transfer suggestions</Eyebrow>
+        <Eyebrow
+          action={
+            <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-ink-500">
+              gain over next 8 GWs
+            </span>
+          }
+        >
+          Transfer suggestions
+        </Eyebrow>
         {transfers.length === 0 ? (
           <p className="text-sm text-ink-500">No single swap beats holding your squad.</p>
         ) : (

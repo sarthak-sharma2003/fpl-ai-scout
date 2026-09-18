@@ -1102,18 +1102,32 @@ def _element_map(con: duckdb.DuckDBPyConnection, season: str) -> dict[int, int]:
     return {int(element_id): int(code) for element_id, code in rows}
 
 
-def build_player_projections(ref: pd.DataFrame) -> dict[int, dict]:
+def build_player_projections(
+    ref: pd.DataFrame, horizon_ev: pd.Series | None = None
+) -> dict[int, dict]:
     """code -> per-GW EV breakdown, the static equivalent of
-    GET /api/players/{id}/projection."""
+    GET /api/players/{id}/projection.
+
+    `horizon_ev` is total_ev_for_optimizer's decay-summed 8-GW forecast — the
+    SAME basis our own optimizer ranks transfers on. It ships alongside the
+    single-gameweek ev_points because the two answer different questions and
+    must not be swapped: ev_points picks this week's XI and captain (the
+    armband pays now), horizon_ev decides transfers (a transfer you keep for
+    weeks). Without it the site could only offer visitors the single-gameweek
+    basis, which is the short-sighted one the horizon work measured as worth
+    +76/+86 pts a season to replace.
+    """
     out = {}
     for _, r in ref.iterrows():
         if pd.isna(r["ev_points"]):
             continue
+        h_ev = None if horizon_ev is None else horizon_ev.get(int(r["code"]))
         entry = {
             "code": int(r["code"]), "name": r["web_name"], "position": r["position"],
             "team": r["team_short"],
             "price": round(r["price"] / 10, 1) if pd.notna(r["price"]) else None,
             "ev_points": round(r["ev_points"], 2),
+            "horizon_ev": round(float(h_ev), 2) if h_ev is not None and pd.notna(h_ev) else None,
             "q10_points": round(r["q10_points"], 2) if pd.notna(r["q10_points"]) else None,
             "q90_points": round(r["q90_points"], 2) if pd.notna(r["q90_points"]) else None,
             "ev_minutes": round(r["ev_minutes"], 1) if pd.notna(r["ev_minutes"]) else None,
@@ -1173,9 +1187,16 @@ def publish_all(
     # (projections holds the decision gameweek alone). No models_dir, as in
     # tests, just means no rotations section.
     ev_by_gw = None
+    horizon_ev = None
     if models_dir is not None and model_version is not None:
         models = pipeline.load_production_models(models_dir, model_version)
         ev_by_gw = pipeline.live_horizon_ev(con, models, season, gw, per_gw=True)
+        # The optimizer's own transfer basis, published so the site can rank
+        # visitors' transfers on it too (see build_player_projections). Same
+        # function the CLI's `optimize` calls, rather than a re-derived decay
+        # sum over ev_by_gw — the horizon's per-step weighting is not something
+        # to reimplement in a second place and get subtly wrong.
+        horizon_ev = pipeline.total_ev_for_optimizer(con, models, season, gw, ref)
 
     files: dict[str, object] = {
         "dashboard.json": build_dashboard(con, season, gw),
@@ -1195,7 +1216,7 @@ def publish_all(
         path.write_text(text)
         written[name] = len(text)
 
-    player_projections = build_player_projections(ref)
+    player_projections = build_player_projections(ref, horizon_ev)
     for code, payload in player_projections.items():
         text = json.dumps(payload, indent=2)
         (players_dir / f"{code}.json").write_text(text)

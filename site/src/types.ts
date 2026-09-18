@@ -185,6 +185,9 @@ export interface PlayerProjection {
   team: string | null;
   price: number;
   ev_points: number;
+  /** decay-summed 8-GW forecast — the basis the optimizer ranks TRANSFERS on.
+   * null pre-season (no fixtures beyond the decision GW to forecast over). */
+  horizon_ev: number | null;
   q10_points: number | null;
   q90_points: number | null;
   ev_minutes: number | null;

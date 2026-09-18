@@ -14,6 +14,7 @@ from fplscout.publish import (
     build_chips,
     build_dashboard,
     build_league,
+    build_player_projections,
     build_rules,
     build_transfers,
 )
@@ -111,6 +112,37 @@ def test_build_rules_empty_file(tmp_path):
     rules_path = tmp_path / "rules.yaml"
     rules_path.write_text("rules: []\n")
     assert build_rules(rules_path) == []
+
+
+def test_player_projections_carry_horizon_ev_without_overwriting_ev_points():
+    # The two EVs answer different questions (this week's XI vs a transfer held
+    # for weeks) and are published side by side — a regression that dropped
+    # horizon_ev would silently return the site to single-GW transfer ranking.
+    ref = pd.DataFrame(
+        [
+            {
+                "code": 7, "web_name": "A", "position": "MID", "team_short": "ARS",
+                "price": 75, "ev_points": 4.0, "q10_points": 1.0, "q90_points": 9.0,
+                "ev_minutes": 85.0, "p_appearance": 0.9, "p_60_plus": 0.8,
+                "p_clean_sheet": 0.3, "model_version": "v1",
+            },
+            {
+                "code": 8, "web_name": "B", "position": "FWD", "team_short": "CHE",
+                "price": 60, "ev_points": 3.0, "q10_points": 0.0, "q90_points": 7.0,
+                "ev_minutes": 70.0, "p_appearance": 0.8, "p_60_plus": 0.6,
+                "p_clean_sheet": 0.2, "model_version": "v1",
+            },
+        ]
+    )
+    horizon = pd.Series({7: 18.5}, name="total_ev")
+    out = build_player_projections(ref, horizon)
+
+    assert out[7]["ev_points"] == 4.0
+    assert out[7]["horizon_ev"] == 18.5
+    # a player the horizon didn't cover still publishes, with a null horizon
+    assert out[8]["horizon_ev"] is None
+    # and with no horizon at all (pre-season), every player is still published
+    assert build_player_projections(ref)[7]["horizon_ev"] is None
 
 
 def test_element_map_scopes_to_season_and_keys_by_element_id():
