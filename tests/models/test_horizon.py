@@ -81,3 +81,35 @@ def test_return_gw_overrides_the_fade_but_never_gameweek_zero():
     # no published date -> old linear fade survives, absence is not availability
     assert at_gw5[3] == 1.0
     assert fade(2, 3)[3] == pytest.approx(0.5)
+
+
+def test_widening_never_grants_a_fringe_player_minutes_he_has_not_earned():
+    import numpy as np
+
+    from fplscout.models.horizon import widen_minutes_proba
+
+    # [p0, p1_59, p60_plus]. The starter average is 80% to reach 60 minutes.
+    pos_avg = np.array([[0.05, 0.15, 0.80], [0.05, 0.15, 0.80]])
+    # row 0: a fringe player (20% to start). row 1: a nailed starter (95%).
+    own = np.array([[0.50, 0.30, 0.20], [0.02, 0.03, 0.95]])
+    mins = lambda p: p @ np.array([0.0, 30.0, 90.0])  # noqa: E731
+
+    # fully widened (h >= 6), with the shipped asymmetry
+    out = widen_minutes_proba(own, pos_avg, widen=1.0, widen_up=0.0)
+    # the fringe player keeps his own estimate — doubt must not promote him
+    assert out[0] == pytest.approx(own[0])
+    # the nailed starter IS dragged toward the starter average: "he might be rotated"
+    assert mins(out[1]) < mins(own[1])
+
+    # the old symmetric behavior, kept reachable for the sweep, does promote him
+    old = widen_minutes_proba(own, pos_avg, widen=1.0, widen_up=1.0)
+    assert mins(old[0]) > mins(own[0]) + 20  # ~27 -> ~76 expected minutes
+
+    # h=0 is never widened either way
+    assert widen_minutes_proba(own, pos_avg, widen=0.0, widen_up=0.0) == pytest.approx(own)
+
+    # rows stay valid probability distributions
+    for w_up in (0.0, 0.5, 1.0):
+        got = widen_minutes_proba(own, pos_avg, widen=0.6, widen_up=w_up)
+        assert got.sum(axis=1) == pytest.approx([1.0, 1.0])
+        assert (got >= 0).all()

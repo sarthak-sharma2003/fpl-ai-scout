@@ -35,6 +35,20 @@ UNCERTAINTY_WIDEN_PER_STEP = 0.15  # h=0: no widening; h>=6: fully at position a
 # minutes model's own 60+ class.
 STARTER_P60 = 0.5
 
+# How much of the widening applies to players currently BELOW the starter
+# average. Widening is meant to express doubt about a future gameweek, and it
+# is symmetric in form but not in effect: blending everyone toward the starter
+# average drags a nailed starter slightly down (correct — "he might be
+# rotated") while handing a sub-starter a promotion he has not earned. A 42%-
+# to-start rotation risk arrived at the far end of the horizon with a nailed
+# starter's minutes, and the points head then applied his per-90 rate — which
+# is flattering precisely BECAUSE it comes from a small cameo sample — to all
+# of them. That systematically over-rates fringe players with big per-90
+# numbers against nailed, lower-ceiling starters.
+# 0.0 = never widen upward, 1.0 = the old symmetric behavior. Measured in
+# data/reports/horizon_widen_up_2026-09-18.md.
+WIDEN_UP = 0.0
+
 
 def _team_fixtures_long(fixtures: pd.DataFrame) -> pd.DataFrame:
     """One row per (season, gw, team_id, fixture_id): opponent, venue, fdr, and
@@ -106,6 +120,25 @@ def _dc_matchup_stats(
     )
 
 
+def widen_minutes_proba(
+    own_proba: np.ndarray, pos_avg: np.ndarray, widen: float, widen_up: float
+) -> np.ndarray:
+    """Blend each player's [p0, p1_59, p60_plus] toward the position's STARTER
+    average by `widen`, the uncertainty about a gameweek that far out.
+
+    Doubt may only ever cost a player minutes, never grant them. A player
+    already below the starter average is blended by `widen * widen_up` instead
+    (see WIDEN_UP); at the default 0.0 they simply keep their own estimate,
+    which already prices their rotation risk. Without that asymmetry the blend
+    hands a fringe player a nailed starter's minutes by the far end of the
+    horizon, and the points head applies his cameo-sample per-90 rate to them.
+    """
+    widen_by_row = np.where(
+        own_proba[:, 2] < pos_avg[:, 2], widen * widen_up, widen
+    )[:, None]
+    return (1 - widen_by_row) * own_proba + widen_by_row * pos_avg
+
+
 def build_horizon_ev(
     minutes_model,
     dc_model: team_goals.DixonColesModel,
@@ -120,6 +153,7 @@ def build_horizon_ev(
     availability_factor: dict[int, float] | None = None,
     return_gw: dict[int, int] | None = None,
     per_gw: bool = False,
+    widen_up: float = WIDEN_UP,
 ) -> pd.Series | pd.DataFrame:
     """base_rows: this season's leak-safe feature rows AT decision_gw only (one
     per player) — the frozen "how good is this player right now" snapshot.
@@ -227,7 +261,7 @@ def build_horizon_ev(
         orig_row_idx = base_rows.set_index("code").index.get_indexer(merged["code"])
         own_proba = base_mins_proba[orig_row_idx]
         pos_avg = np.array([position_avg_proba[p] for p in merged["position"]])
-        widened_proba = (1 - widen) * own_proba + widen * pos_avg
+        widened_proba = widen_minutes_proba(own_proba, pos_avg, widen, widen_up)
 
         if availability_factor is not None:
             factor0 = merged["code"].map(availability_factor).fillna(1.0).to_numpy()

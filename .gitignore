@@ -27,6 +27,7 @@ data/reports/*
 # code comments already cite them by path.
 !data/reports/*_sweep.md
 !data/reports/hit_threshold_and_hurdle_2026-09-18.md
+!data/reports/horizon_widen_up_2026-09-18.md
 *.csv
 !tests/fixtures/**/*.csv
 # the one CSV that must live in git: pre-deadline ep_next snapshots accumulated
