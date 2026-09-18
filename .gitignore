@@ -21,6 +21,12 @@ data/reports/*
 # and `fplscout backtest` whenever the model/data materially changes.
 !data/reports/phase3_validation_latest.json
 !data/reports/phase6_backtest_latest.json
+# …and the experiment write-ups that record what was TRIED AND REJECTED. These
+# are the only defence against re-proposing a dead idea from first principles,
+# so unlike the regenerable run reports above they have to survive a clone —
+# code comments already cite them by path.
+!data/reports/*_sweep.md
+!data/reports/hit_threshold_and_hurdle_2026-09-18.md
 *.csv
 !tests/fixtures/**/*.csv
 # the one CSV that must live in git: pre-deadline ep_next snapshots accumulated
