@@ -142,7 +142,7 @@ function ImportForm({
           <button
             type="submit"
             disabled={busy}
-            className="rounded-md bg-volt px-4 py-2 font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-ink-100 disabled:opacity-40"
+            className="rounded-md bg-volt px-4 py-2 font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-accent-ink disabled:opacity-40"
           >
             {busy ? 'Importing…' : 'Import team'}
           </button>
@@ -213,7 +213,7 @@ function ManualPicker({ proj, onSaved }: { proj: Projections; onSaved: (s: Saved
             type="button"
             disabled={!complete}
             onClick={() => onSaved({ codes, bank: remaining, source: 'manual' })}
-            className="rounded-md bg-volt px-4 py-2 font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-ink-100 disabled:opacity-40"
+            className="rounded-md bg-volt px-4 py-2 font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-accent-ink disabled:opacity-40"
           >
             Save squad
           </button>
@@ -254,7 +254,7 @@ function ManualPicker({ proj, onSaved }: { proj: Projections; onSaved: (s: Saved
               type="button"
               onClick={() => setPos(p)}
               className={`px-2.5 py-1.5 font-mono text-[10px] font-bold uppercase tracking-[0.1em] transition-colors ${
-                pos === p ? 'bg-volt text-ink-100' : 'bg-pitch-900/60 text-ink-500 hover:text-ink-100'
+                pos === p ? 'bg-volt text-accent-ink' : 'bg-pitch-900/60 text-ink-500 hover:text-ink-100'
               }`}
             >
               {p}
@@ -293,7 +293,7 @@ function ManualPicker({ proj, onSaved }: { proj: Projections; onSaved: (s: Saved
                   <td className="px-2 py-2 text-right font-mono text-xs text-ink-300 tabular-nums">
                     {p.price.toFixed(1)}
                   </td>
-                  <td className="px-2 py-2 text-right text-[13px] font-bold text-volt tabular-nums">
+                  <td className="px-2 py-2 text-right text-[13px] font-bold text-volt-deep tabular-nums">
                     {p.ev_points.toFixed(2)}
                   </td>
                   <td className="py-2 pl-2 pr-3 text-right">
@@ -302,7 +302,7 @@ function ManualPicker({ proj, onSaved }: { proj: Projections; onSaved: (s: Saved
                       onClick={() => toggle(p)}
                       disabled={blocked}
                       className={`rounded-sm px-2 py-1 font-mono text-[10px] font-bold uppercase tracking-[0.1em] ${
-                        owned ? 'bg-danger/15 text-danger' : 'bg-volt/15 text-volt disabled:opacity-30'
+                        owned ? 'bg-danger/15 text-danger' : 'bg-volt/15 text-volt-deep disabled:opacity-30'
                       }`}
                     >
                       {owned ? 'Remove' : 'Add'}
@@ -359,7 +359,7 @@ function Results({
         <button
           type="button"
           onClick={onReset}
-          className="rounded-md border border-line px-3 py-1.5 font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-ink-300 transition-colors hover:border-volt/40 hover:text-volt"
+          className="rounded-md border border-line px-3 py-1.5 font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-ink-300 transition-colors hover:border-volt/40 hover:text-volt-deep"
         >
           Start over
         </button>
@@ -444,7 +444,7 @@ function Results({
                   </span>
                   <span className="truncate font-mono text-xs font-bold text-ink-100">{t.in.name}</span>
                 </div>
-                <span className="shrink-0 font-mono text-[11px] font-bold tabular-nums text-volt">
+                <span className="shrink-0 font-mono text-[11px] font-bold tabular-nums text-volt-deep">
                   +{t.gain.toFixed(2)}
                 </span>
               </div>
@@ -496,7 +496,7 @@ export default function MyTeam() {
                     type="button"
                     onClick={() => setMode(key)}
                     className={`rounded px-3 py-1.5 font-mono text-[10px] font-bold uppercase tracking-[0.16em] transition-colors ${
-                      mode === key ? 'bg-volt/[0.14] text-volt' : 'text-ink-500 hover:text-ink-300'
+                      mode === key ? 'bg-volt/[0.14] text-volt-deep' : 'text-ink-500 hover:text-ink-300'
                     }`}
                   >
                     {label}

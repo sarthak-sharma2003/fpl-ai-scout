@@ -27,7 +27,7 @@ function SignalList({ rows, positive }: { rows: SignalCard[]; positive: boolean 
           </span>
           <span
             className={`shrink-0 font-mono text-sm font-bold tabular-nums ${
-              positive ? 'text-volt' : 'text-danger'
+              positive ? 'text-volt-deep' : 'text-danger'
             }`}
           >
             {fmtBalance(s.transfers_balance)}

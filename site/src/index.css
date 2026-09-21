@@ -10,14 +10,20 @@
      paper raised      #faf7f0   → pitch-850 (cards)      == ucl --bg-raised
      ink strong        #1b1811   → ink-100   (primary text) == ucl --ink
      ink secondary     #5c5748   → ink-300                 == ucl --ink-secondary
-     ink tertiary      #8d876f   → ink-500                 == ucl --ink-tertiary
+     ink tertiary      #706a57   → ink-500                 == ucl --ink-tertiary
+                                   (deepened from #8d876f: the old value read
+                                   3.4:1 on a card, under the 4.5 floor)
      rule              #d1cdc4   → line (solid; ucl uses an ink-alpha rgba
                                    composited on the same paper, same result)
      accent (shared)   #7b74c9   → volt       == ucl --accent (muted periwinkle,
                                    replaces both the old volt lime and ucl's
-                                   deeper indigo)
-     accent deep       #5b54a8   → volt-deep  (hover/emphasis, richer text)
-     accent-on text    ink-100   (dark text sits on solid accent fills)
+                                   deeper indigo). FILLS, rules and rings only.
+     accent deep       #5b54a8   → volt-deep  — every accent TEXT run, because
+                                   volt itself only reaches 3.8:1 on a card.
+                                   In the dark theme "deep" means lighter.
+     accent-on text    accent-ink (near-black, legible on a solid volt fill in
+                                   both themes; ink-100 flips with the theme
+                                   and so cannot do this job)
      warning           #9c6b12   → armband    == ucl --warning family
      danger            #c14e62   → danger     == ucl --danger family (shared
                                    with fwd, as this file already did)
@@ -48,17 +54,63 @@
 
   --color-ink-100: #1b1811;
   --color-ink-300: #5c5748;
-  --color-ink-500: #8d876f;
+  --color-ink-500: #706a57;
 
   --color-volt: #7b74c9;
   --color-volt-deep: #5b54a8;
-  --color-armband: #9c6b12;
-  --color-danger: #c14e62;
+  /* text that sits ON a solid volt fill; dark in both themes because volt
+     stays a mid-light periwinkle in both. */
+  --color-accent-ink: #0b0907;
+  --color-armband: #8c6010;
+  --color-danger: #ba4759;
 
-  --color-gkp: #b8862b;
-  --color-def: #3b7fa6;
-  --color-mid: #2f8f73;
-  --color-fwd: #c14e62;
+  --color-gkp: #8d6716;
+  --color-def: #37769b;
+  --color-mid: #2a7a62;
+  --color-fwd: #ba4759;
+}
+
+/* ——— Night stock ———
+   The same publication printed on black paper, not an inversion: a warm,
+   low-chroma ink-black ground (hue stays in the paper's 40° family, so cards
+   read as stock rather than as a blue "dark mode" chrome), the paper white
+   returning as the primary ink, and the periwinkle accent lifted until it
+   carries 7:1 on the ground. Position hues climb in lightness by the same
+   amount so GKP/DEF/MID/FWD stay as mutually distinguishable as on paper.
+   This is the house default: `data-theme` is always set explicitly by the
+   inline resolver in index.html, which picks night unless the header toggle
+   has stored day. So this is the only dark block — no duplicated
+   prefers-color-scheme copy, and the paper ramp above is now the opt-in. */
+:root[data-theme='dark'] {
+  --color-pitch-950: #121110;
+  --color-pitch-900: #191715;
+  --color-pitch-850: #1f1d1a;
+  --color-pitch-800: #26231f;
+  --color-pitch-700: #2e2b26;
+  --color-line: #37332d;
+
+  --color-ink-100: #f3efe5;
+  --color-ink-300: #b3ab99;
+  --color-ink-500: #918a78;
+
+  --color-volt: #a29bf0;
+  /* "deep" means more emphatic, not literally darker: on black stock the
+     richer accent is the lighter one. */
+  --color-volt-deep: #b8b1f6;
+  --color-armband: #e0a63f;
+  --color-danger: #ef8298;
+
+  --color-gkp: #e0ad4a;
+  --color-def: #6ab5dd;
+  --color-mid: #4ec69f;
+  --color-fwd: #ef8298;
+}
+
+:root {
+  color-scheme: light;
+}
+:root[data-theme='dark'] {
+  color-scheme: dark;
 }
 
 * {
@@ -82,7 +134,8 @@ body {
 }
 
 ::selection {
-  background: rgba(123, 116, 201, 0.28);
+  background: color-mix(in oklab, var(--color-volt) 32%, transparent);
+  color: var(--color-ink-100);
 }
 
 ::-webkit-scrollbar {

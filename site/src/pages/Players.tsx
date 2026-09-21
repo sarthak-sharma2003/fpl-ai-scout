@@ -166,7 +166,7 @@ function Explorer({ proj }: { proj: Projections }) {
               }}
               className={`px-2.5 py-1.5 font-mono text-[10px] font-bold uppercase tracking-[0.1em] transition-colors ${
                 pos === p
-                  ? 'bg-volt text-ink-100'
+                  ? 'bg-volt text-accent-ink'
                   : 'bg-pitch-900/60 text-ink-500 hover:text-ink-100'
               }`}
             >
@@ -203,7 +203,7 @@ function Explorer({ proj }: { proj: Projections }) {
                 }}
                 className={`px-2 py-1.5 font-mono text-[10px] font-bold uppercase tracking-[0.08em] transition-colors ${
                   sort === key
-                    ? 'bg-pitch-700 text-volt'
+                    ? 'bg-pitch-700 text-volt-deep'
                     : 'bg-pitch-900/60 text-ink-500 hover:text-ink-100'
                 }`}
               >
@@ -253,7 +253,7 @@ function Explorer({ proj }: { proj: Projections }) {
         <button
           type="button"
           onClick={() => setShown(shown + PAGE)}
-          className="mx-auto rounded-md border border-line bg-pitch-900/60 px-4 py-2 font-mono text-[11px] font-bold uppercase tracking-[0.14em] text-ink-300 transition-colors hover:border-volt/40 hover:text-volt"
+          className="mx-auto rounded-md border border-line bg-pitch-900/60 px-4 py-2 font-mono text-[11px] font-bold uppercase tracking-[0.14em] text-ink-300 transition-colors hover:border-volt/40 hover:text-volt-deep"
         >
           Show {Math.min(PAGE, filtered.length - shown)} more · {filtered.length - shown} left
         </button>
@@ -301,7 +301,7 @@ function PlayerRows({
         <td className="px-2 py-2 text-right font-mono text-xs text-ink-300 tabular-nums">
           {p.price.toFixed(1)}
         </td>
-        <td className="px-2 py-2 text-right text-[15px] font-bold text-volt tabular-nums">
+        <td className="px-2 py-2 text-right text-[15px] font-bold text-volt-deep tabular-nums">
           {p.ev_points.toFixed(2)}
         </td>
         <td className="px-3 py-2">

@@ -40,7 +40,7 @@ function PairBars({
       </div>
       <span
         className={`w-14 shrink-0 text-right font-mono text-xs font-bold tabular-nums ${
-          tone === 'volt' ? 'text-volt' : 'text-ink-300'
+          tone === 'volt' ? 'text-volt-deep' : 'text-ink-300'
         }`}
       >
         {v.toFixed(digits)}
@@ -71,7 +71,7 @@ function SplitCard({ split }: { split: SplitSummary }) {
         <span
           className={`rounded-sm px-2 py-0.5 font-mono text-[9px] font-bold uppercase tracking-[0.14em] ring-1 ${
             split.beats_naive
-              ? 'bg-volt/10 text-volt ring-volt/40'
+              ? 'bg-volt/10 text-volt-deep ring-volt/40'
               : 'bg-danger/10 text-danger ring-danger/40'
           }`}
         >
@@ -173,7 +173,7 @@ function BacktestBlock({ backtest }: { backtest: NonNullable<AnalyticsData['back
                     style={{ left: `${(target / scaleMax) * 100}%` }}
                   />
                 </div>
-                <span className="w-12 shrink-0 text-right font-mono text-sm font-bold text-volt tabular-nums">
+                <span className="w-12 shrink-0 text-right font-mono text-sm font-bold text-volt-deep tabular-nums">
                   {s.total_points}
                 </span>
               </div>
@@ -231,7 +231,7 @@ export default function Analytics() {
                     <span
                       className={`rounded-sm px-2 py-0.5 font-mono text-[9px] font-bold uppercase tracking-[0.14em] ring-1 ${
                         a.validation.beats_naive_decision
-                          ? 'bg-volt/10 text-volt ring-volt/40'
+                          ? 'bg-volt/10 text-volt-deep ring-volt/40'
                           : 'bg-danger/10 text-danger ring-danger/40'
                       }`}
                     >

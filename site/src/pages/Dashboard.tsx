@@ -53,7 +53,7 @@ function Countdown({ deadline, generatedAt }: { deadline: string | null; generat
           <p className="mb-1 font-mono text-[10px] uppercase tracking-[0.16em] text-ink-500">
             Deadline passed
           </p>
-          <p className="font-display text-lg font-bold leading-tight text-volt">
+          <p className="font-display text-lg font-bold leading-tight text-volt-deep">
             Gameweek in progress
           </p>
           {ageHours != null && (
@@ -198,7 +198,7 @@ function GamePlan({ d, t }: { d: DashboardData; t: TransfersData }) {
                 </div>
                 <span
                   className={`shrink-0 font-mono text-[11px] font-bold tabular-nums ${
-                    m.net_ev >= 0 ? 'text-volt' : 'text-danger'
+                    m.net_ev >= 0 ? 'text-volt-deep' : 'text-danger'
                   }`}
                 >
                   {m.net_ev >= 0 ? '+' : ''}
@@ -309,7 +309,7 @@ export default function Dashboard() {
                   />
                 </div>
                 <div className="mt-5 rounded-r-md border-l-2 border-volt bg-volt/[0.05] px-4 py-3">
-                  <p className="mb-1 font-mono text-[10px] font-bold uppercase tracking-[0.22em] text-volt">
+                  <p className="mb-1 font-mono text-[10px] font-bold uppercase tracking-[0.22em] text-volt-deep">
                     Model briefing
                   </p>
                   <p className="text-sm leading-relaxed text-ink-300">{d.insight.text}</p>

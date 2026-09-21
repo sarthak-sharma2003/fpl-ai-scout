@@ -53,7 +53,7 @@ function SwapCard({ move }: { move: TransferMove }) {
         <PosBadge pos={move.out.position} />
         <span
           className={`rounded-sm px-2 py-0.5 font-mono text-[11px] font-bold tabular-nums ${
-            positive ? 'bg-volt/10 text-volt ring-1 ring-volt/30' : 'bg-danger/10 text-danger ring-1 ring-danger/30'
+            positive ? 'bg-volt/10 text-volt-deep ring-1 ring-volt/30' : 'bg-danger/10 text-danger ring-1 ring-danger/30'
           }`}
         >
           {positive ? '+' : ''}
@@ -75,12 +75,12 @@ function SwapCard({ move }: { move: TransferMove }) {
           →
         </span>
         <div className="min-w-0 text-right">
-          <p className="font-mono text-[9px] font-bold uppercase tracking-[0.2em] text-volt/90">In</p>
+          <p className="font-mono text-[9px] font-bold uppercase tracking-[0.2em] text-volt-deep/90">In</p>
           <p className="truncate font-semibold text-ink-100">{move.in.name}</p>
           <p className="font-mono text-[10px] uppercase text-ink-500">
             {move.in.team ?? '—'} · £{move.in.price != null ? move.in.price.toFixed(1) : '—'}m
           </p>
-          <p className="mt-1 font-mono text-xs font-bold text-volt tabular-nums">
+          <p className="mt-1 font-mono text-xs font-bold text-volt-deep tabular-nums">
             EV {move.compare.in_ev != null ? move.compare.in_ev.toFixed(2) : '—'}
           </p>
         </div>
@@ -99,7 +99,7 @@ function RotationCard({ rot }: { rot: Rotation }) {
             {rot.owned.name} <span className="text-ink-500">///</span> {rot.partner.name}
           </p>
         </div>
-        <span className="shrink-0 rounded-sm bg-volt/10 px-2 py-0.5 font-mono text-[11px] font-bold text-volt tabular-nums ring-1 ring-volt/30">
+        <span className="shrink-0 rounded-sm bg-volt/10 px-2 py-0.5 font-mono text-[11px] font-bold text-volt-deep tabular-nums ring-1 ring-volt/30">
           +{rot.net_gain.toFixed(2)} EV
         </span>
       </div>
@@ -112,7 +112,7 @@ function RotationCard({ rot }: { rot: Rotation }) {
               className="grid grid-cols-[3rem_1fr_auto] items-baseline gap-2 font-mono text-xs tabular-nums"
             >
               <span className="text-ink-500">GW{w.gw}</span>
-              <span className={`truncate ${partner ? 'text-volt' : 'text-ink-100'}`}>
+              <span className={`truncate ${partner ? 'text-volt-deep' : 'text-ink-100'}`}>
                 {partner ? rot.partner.name : rot.owned.name} · {partner ? w.partner_opp : w.owned_opp}
               </span>
               <span className="text-ink-300">{(partner ? w.partner_ev : w.owned_ev).toFixed(1)}</span>

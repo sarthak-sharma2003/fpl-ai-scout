@@ -4,7 +4,14 @@
     {
       "name": "site",
       "url": "http://localhost:5173",
-      "port": 5173
+      "port": 5173,
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [
+        "--prefix",
+        "site",
+        "run",
+        "dev"
+      ]
     },
     {
       "name": "ucl",

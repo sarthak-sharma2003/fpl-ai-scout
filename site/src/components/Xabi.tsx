@@ -139,7 +139,7 @@ function ApiKeyGate({ onSave }: { onSave: (key: string) => void }) {
           href="https://aistudio.google.com/apikey"
           target="_blank"
           rel="noreferrer"
-          className="text-volt underline"
+          className="text-volt-deep underline"
         >
           Google AI Studio
         </a>
@@ -156,7 +156,7 @@ function ApiKeyGate({ onSave }: { onSave: (key: string) => void }) {
       />
       <button
         type="submit"
-        className="mt-3 w-full rounded-sm bg-volt px-3 py-2 font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-ink-100 disabled:opacity-40"
+        className="mt-3 w-full rounded-sm bg-volt px-3 py-2 font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-accent-ink disabled:opacity-40"
         disabled={!value.trim()}
       >
         Save key
@@ -239,7 +239,7 @@ export default function Xabi() {
     return (
       <button
         onClick={() => setOpen(true)}
-        className="fixed bottom-5 right-5 z-30 rounded-full bg-volt px-5 py-3 font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-ink-100 shadow-lg"
+        className="fixed bottom-5 right-5 z-30 rounded-full bg-volt px-5 py-3 font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-accent-ink shadow-lg"
       >
         Ask Xabi
       </button>
@@ -313,7 +313,7 @@ export default function Xabi() {
             <button
               type="submit"
               disabled={!ready || busy || !draft.trim()}
-              className="rounded-sm bg-volt px-3 py-2 font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-ink-100 disabled:opacity-40"
+              className="rounded-sm bg-volt px-3 py-2 font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-accent-ink disabled:opacity-40"
             >
               {busy ? '…' : 'Ask'}
             </button>

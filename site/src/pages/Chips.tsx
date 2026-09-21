@@ -48,7 +48,7 @@ function StatusBadge({ chip }: { chip: ChipInfo }) {
   }
   if (chip.available && chip.active_now) {
     return (
-      <span className="rounded-sm bg-volt/10 px-2 py-0.5 font-mono text-[9px] font-bold uppercase tracking-[0.14em] text-volt ring-1 ring-volt/40">
+      <span className="rounded-sm bg-volt/10 px-2 py-0.5 font-mono text-[9px] font-bold uppercase tracking-[0.14em] text-volt-deep ring-1 ring-volt/40">
         Playable now
       </span>
     );
@@ -81,7 +81,7 @@ function ThisWeek({ chip }: { chip: ChipInfo }) {
             Bench EV this week
           </span>
           <span
-            className={`font-display text-xl font-bold leading-none tabular-nums ${ok ? 'text-volt' : 'text-armband'}`}
+            className={`font-display text-xl font-bold leading-none tabular-nums ${ok ? 'text-volt-deep' : 'text-armband'}`}
           >
             {tw.bench_ev.toFixed(1)}
           </span>
@@ -110,7 +110,7 @@ function ThisWeek({ chip }: { chip: ChipInfo }) {
           {tw.name}
         </span>
         {tw.extra_ev != null && (
-          <span className="font-mono text-[11px] font-bold text-volt tabular-nums">
+          <span className="font-mono text-[11px] font-bold text-volt-deep tabular-nums">
             +{tw.extra_ev.toFixed(2)} extra EV
           </span>
         )}
@@ -165,7 +165,7 @@ function Radar({ data }: { data: ChipsResponse }) {
               {r.dgw_teams.map((t) => (
                 <span
                   key={`d${t}`}
-                  className="rounded-sm bg-volt/10 px-2 py-0.5 font-mono text-[10px] font-bold uppercase tracking-wide text-volt ring-1 ring-volt/30"
+                  className="rounded-sm bg-volt/10 px-2 py-0.5 font-mono text-[10px] font-bold uppercase tracking-wide text-volt-deep ring-1 ring-volt/30"
                 >
                   {t} ×2
                 </span>

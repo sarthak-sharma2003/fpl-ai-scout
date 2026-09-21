@@ -23,7 +23,7 @@ const CHIP_ABBR: Record<string, string> = {
 const N_RIVALS = 7;
 
 function Movement({ rank, last }: { rank: number; last: number }) {
-  if (rank < last) return <span className="font-mono text-[10px] text-volt">▲{last - rank}</span>;
+  if (rank < last) return <span className="font-mono text-[10px] text-volt-deep">▲{last - rank}</span>;
   if (rank > last) return <span className="font-mono text-[10px] text-danger">▼{rank - last}</span>;
   return <span className="font-mono text-[10px] text-ink-500">—</span>;
 }
@@ -88,7 +88,7 @@ function StandingsTable({ data }: { data: LeagueResponse }) {
             <p className="flex items-center gap-1.5 font-semibold leading-tight text-ink-100">
               {e.entry_name}
               {e.is_us && (
-                <span className="rounded-sm bg-volt/15 px-1 py-px font-mono text-[8px] font-bold uppercase tracking-[0.12em] text-volt">
+                <span className="rounded-sm bg-volt/15 px-1 py-px font-mono text-[8px] font-bold uppercase tracking-[0.12em] text-volt-deep">
                   us
                 </span>
               )}
@@ -227,7 +227,7 @@ function Coverage({ rows }: { rows: OwnershipRow[] }) {
               <span className="truncate font-medium text-ink-100">{r.name}</span>
               <span className="font-mono text-[9px] uppercase text-ink-500">{r.team}</span>
               {r.we_own && (
-                <span title="In our squad" className="font-mono text-[9px] font-bold text-volt">
+                <span title="In our squad" className="font-mono text-[9px] font-bold text-volt-deep">
                   ✓ ours
                 </span>
               )}
@@ -261,7 +261,7 @@ function Differentials({ data }: { data: NonNullable<LeagueResponse['differentia
       <Eyebrow>Differentials</Eyebrow>
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
-          <p className="mb-2 font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-volt">
+          <p className="mb-2 font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-volt-deep">
             Our edges · ≤1 rival owns
           </p>
           <ul className="flex flex-col gap-1.5">
@@ -276,7 +276,7 @@ function Differentials({ data }: { data: NonNullable<LeagueResponse['differentia
                   <span className="font-mono text-[9px] uppercase text-ink-500">{p.team}</span>
                 </span>
                 <span className="flex shrink-0 items-baseline gap-2">
-                  <span className="font-display text-base font-bold leading-none text-volt tabular-nums">
+                  <span className="font-display text-base font-bold leading-none text-volt-deep tabular-nums">
                     {p.ev != null ? p.ev.toFixed(2) : '—'}
                   </span>
                   <span className="font-mono text-[9px] text-ink-500">×{p.n_owned}</span>

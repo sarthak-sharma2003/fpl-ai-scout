@@ -4,7 +4,23 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#071410" />
+    <meta name="theme-color" content="#121110" />
+    <!-- Resolve the theme before first paint. Night is the house default —
+         the OS preference is deliberately NOT consulted, so a first visit
+         looks the same on every machine; only a press of the header toggle
+         (which writes the key read here) moves anyone to day. The stylesheet
+         has no prefers-color-scheme copy of the dark ramp, so data-theme must
+         always be set here. -->
+    <script>
+      (function () {
+        var t;
+        try { t = localStorage.getItem('theme'); } catch (e) {}
+        if (t !== 'dark' && t !== 'light') t = 'dark';
+        document.documentElement.dataset.theme = t;
+        document.querySelector('meta[name=theme-color]').content =
+          t === 'dark' ? '#121110' : '#f4f0e6';
+      })();
+    </script>
     <meta name="description" content="Xabi's Long-Xo — model-driven Fantasy Premier League squad, transfer, and chip recommendations." />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />

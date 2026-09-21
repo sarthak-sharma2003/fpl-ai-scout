@@ -27,7 +27,7 @@ export function Eyebrow({ children, action }: { children: ReactNode; action?: Re
 export function StateBadge({ state }: { state: string }) {
   if (state === 'live') {
     return (
-      <span className="inline-flex items-center gap-1.5 rounded-sm bg-volt/10 px-2 py-0.5 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-volt ring-1 ring-volt/40">
+      <span className="inline-flex items-center gap-1.5 rounded-sm bg-volt/10 px-2 py-0.5 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-volt-deep ring-1 ring-volt/40">
         <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-volt" />
         Live
       </span>

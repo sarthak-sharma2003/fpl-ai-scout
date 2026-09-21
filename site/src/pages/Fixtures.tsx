@@ -35,7 +35,7 @@ function OppCell({ ticks }: { ticks: FixtureTick[] }) {
   return (
     <div className="relative flex h-11 flex-col gap-px">
       {isDgw && (
-        <span className="absolute -right-1 -top-1 z-10 grid h-3.5 w-3.5 place-items-center rounded-sm bg-volt font-mono text-[8px] font-bold text-ink-100">
+        <span className="absolute -right-1 -top-1 z-10 grid h-3.5 w-3.5 place-items-center rounded-sm bg-volt font-mono text-[8px] font-bold text-accent-ink">
           2
         </span>
       )}
@@ -102,7 +102,7 @@ export default function Fixtures() {
                 ))}
                 <span className="font-mono text-[9px] uppercase tracking-[0.12em] text-ink-500">
                   H home · A away ·{' '}
-                  <span className="text-volt">2</span> double GW
+                  <span className="text-volt-deep">2</span> double GW
                 </span>
               </div>
 

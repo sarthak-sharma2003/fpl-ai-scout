@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import { useState, type ReactNode } from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
 import { useJson } from '../lib/useJson';
 import Xabi from './Xabi';
@@ -27,7 +27,7 @@ function Wordmark() {
   return (
     <NavLink to="/" className="block shrink-0 leading-none" aria-label="Xabi's Long-Xo — home">
       <span className="font-display text-[22px] font-bold uppercase italic leading-none tracking-tight text-ink-100">
-        Xabi's&nbsp;<span className="text-volt">Long-Xo</span>
+        Xabi's&nbsp;<span className="text-volt-deep">Long-Xo</span>
       </span>
       <span className="mt-1 block font-mono text-[8px] uppercase tracking-[0.34em] text-ink-500">
         FPL 26/27 war room
@@ -62,9 +62,67 @@ function NavItem({ to, label, end, external }: {
 function navClass({ isActive }: { isActive: boolean }) {
   return `flex items-center whitespace-nowrap border-b-2 px-2.5 pb-2 pt-2.5 font-mono text-[11px] font-bold uppercase tracking-[0.14em] transition-colors md:pb-0 md:pt-0 ${
     isActive
-      ? 'border-volt text-volt'
+      ? 'border-volt text-volt-deep'
       : 'border-transparent text-ink-500 hover:text-ink-100'
   }`;
+}
+
+/** Floodlights: day/night stock for the whole war room.
+ *
+ * index.html resolves `data-theme` before first paint (stored choice, else
+ * night), so this only flips it and records a deliberate choice — nothing is
+ * written to localStorage until the manager actually presses it, so a first
+ * visit is night everywhere. */
+function Floodlights() {
+  const [theme, setTheme] = useState(
+    () => (document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light'),
+  );
+  const next = theme === 'dark' ? 'light' : 'dark';
+
+  function flip() {
+    document.documentElement.dataset.theme = next;
+    const meta = document.querySelector<HTMLMetaElement>('meta[name=theme-color]');
+    if (meta) meta.content = next === 'dark' ? '#121110' : '#f4f0e6';
+    try {
+      localStorage.setItem('theme', next);
+    } catch {
+      /* private mode — the flip still holds for this session */
+    }
+    setTheme(next);
+  }
+
+  return (
+    <button
+      type="button"
+      onClick={flip}
+      title={`Switch to ${next} stock`}
+      className="flex items-center gap-1.5 rounded-sm border border-line px-2 py-1 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-ink-500 transition-colors hover:border-volt/50 hover:text-ink-100"
+    >
+      <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" aria-hidden>
+        {theme === 'dark' ? (
+          /* moon — offer the night we are already in as the current state */
+          <path
+            fill="currentColor"
+            d="M20.2 14.6A8.6 8.6 0 0 1 9.4 3.8a8.6 8.6 0 1 0 10.8 10.8Z"
+          />
+        ) : (
+          <>
+            <circle cx="12" cy="12" r="4.4" fill="currentColor" />
+            <path
+              d="M12 1.8v2.6M12 19.6v2.6M22.2 12h-2.6M4.4 12H1.8M19.2 4.8l-1.9 1.9M6.7 17.3l-1.9 1.9M19.2 19.2l-1.9-1.9M6.7 6.7 4.8 4.8"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+            />
+          </>
+        )}
+      </svg>
+      <span className="hidden sm:inline">{theme === 'dark' ? 'Night' : 'Day'}</span>
+      <span className="sr-only">
+        Current theme: {theme}. Press to switch to {next}.
+      </span>
+    </button>
+  );
 }
 
 function Footer() {
@@ -95,12 +153,17 @@ export default function Layout() {
           <div className="py-2.5 md:py-3">
             <Wordmark />
           </div>
-          {/* Desktop nav: broadcast-ticker tabs, volt underline on air */}
-          <nav className="hidden items-stretch overflow-x-auto md:flex">
-            {NAV.map((item) => (
-              <NavItem key={item.to} {...item} />
-            ))}
-          </nav>
+          <div className="flex min-w-0 items-stretch gap-4">
+            {/* Desktop nav: broadcast-ticker tabs, volt underline on air */}
+            <nav className="hidden min-w-0 items-stretch overflow-x-auto md:flex [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+              {NAV.map((item) => (
+                <NavItem key={item.to} {...item} />
+              ))}
+            </nav>
+            <div className="flex shrink-0 items-center py-2.5 md:py-3">
+              <Floodlights />
+            </div>
+          </div>
         </div>
         {/* Mobile nav: scrollable strip under the wordmark */}
         <nav className="flex overflow-x-auto border-t border-line/60 px-2 md:hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
