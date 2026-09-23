@@ -19,13 +19,18 @@ This module is split into two layers:
 
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 
+import numpy as np
 import pandas as pd
+from scipy.optimize import linear_sum_assignment
 
 from fplscout.decide.optimizer import OptimizationResult, OptimizerInput, optimize
 
-HALF_SEASON_SPLIT_GW = 19  # unused first-half chips expire here, per plan §5 DoD
+# A wildcard's value is the squad you keep afterwards, so it is scored over this
+# many weeks from the candidate GW. Fixed, so every candidate is judged on the
+# same span (a truncated span would favour early weeks by construction).
+WILDCARD_LOOKAHEAD = 4
 
 
 def dgw_bgw_counts(fixtures: pd.DataFrame) -> pd.DataFrame:
@@ -109,24 +114,31 @@ class ChipRecommendation:
 def plan_chips(
     chip_windows: list[ChipWindow], ev_by_chip_gw: dict[tuple[str, int], float]
 ) -> list[ChipRecommendation]:
-    """Pick the best GW within each chip's valid window. `ev_by_chip_gw` is
-    precomputed by the caller (evaluate_chip_windows() or a backtest loop) —
-    kept as a plain dict here so this scheduling logic is testable without ever
-    invoking the optimizer."""
-    recommendations = []
-    for window in chip_windows:
-        candidates = {
-            gw: ev
-            for (chip, gw), ev in ev_by_chip_gw.items()
-            if chip == window.chip and window.start_gw <= gw <= window.stop_gw
-        }
-        if not candidates:
-            continue
-        best_gw = max(candidates, key=candidates.get)
-        recommendations.append(
-            ChipRecommendation(chip=window.chip, gw=best_gw, ev=candidates[best_gw])
-        )
-    return recommendations
+    """Assign each chip window a GW inside it, at most one chip per GW (FPL
+    rule), maximising total EV: a max-weight matching of windows to GWs.
+    Picking each chip's best week independently put TC, FH and WC all on GW8.
+    Every window with a candidate gets a week, since first-half chips are lost
+    at the GW19 deadline. `ev_by_chip_gw` is precomputed by the caller, so this
+    is testable without the optimizer."""
+    cands = [
+        {gw: ev for (chip, gw), ev in ev_by_chip_gw.items()
+         if chip == w.chip and w.start_gw <= gw <= w.stop_gw}
+        for w in chip_windows
+    ]
+    rows = [i for i, c in enumerate(cands) if c]
+    gws = sorted({gw for c in cands for gw in c})
+    if not rows:
+        return []
+    invalid = -1e9
+    score = np.full((len(rows), len(gws)), invalid)
+    for r, i in enumerate(rows):
+        for gw, ev in cands[i].items():
+            score[r, gws.index(gw)] = ev
+    return [
+        ChipRecommendation(chip=chip_windows[rows[r]].chip, gw=gws[c], ev=float(score[r, c]))
+        for r, c in zip(*linear_sum_assignment(score, maximize=True), strict=True)
+        if score[r, c] > invalid
+    ]
 
 
 def chip_alert(current_gw: int, current_week_ev: float, planned: ChipRecommendation) -> bool:
@@ -185,9 +197,26 @@ def evaluate_chip_windows(
                 fh_result = optimize(fh_input)
                 ev = free_hit_ev(fh_result, normal_result)
             elif window.chip == "wildcard":
-                wc_input = OptimizerInput(**{**vars(normal_input), "chip_mode": "wildcard"})
-                wc_result = optimize(wc_input)
-                ev = wildcard_ev(wc_result, normal_result)
+                # Same like-for-like comparison as cli.optimize: the rebuild vs
+                # the weekly free transfers you'd get anyway over the same span,
+                # neither paying the churn penalty. Scoring it on one week made
+                # it a free hit (identical EV, same GW).
+                span = [projections_by_gw.get(w) for w in range(gw, gw + WILDCARD_LOOKAHEAD)]
+                if any(f is None for f in span):
+                    continue
+                span_input = replace(
+                    normal_input,
+                    projections=pd.concat(span)
+                    .groupby(["code", "position", "team_id", "price"], as_index=False)["total_ev"]
+                    .sum(),
+                )
+                wc_result = optimize(replace(span_input, chip_mode="wildcard"))
+                rolling = optimize(
+                    replace(span_input, free_transfers=WILDCARD_LOOKAHEAD, transfer_penalty=0.0)
+                )
+                if wc_result.status != "Optimal" or rolling.status != "Optimal":
+                    continue
+                ev = wildcard_ev(wc_result, rolling)
             else:
                 continue
             ev_by_chip_gw[(window.chip, gw)] = ev

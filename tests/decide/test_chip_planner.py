@@ -111,6 +111,23 @@ def test_plan_chips_skips_window_with_no_candidates():
     assert recs == []
 
 
+def test_plan_chips_one_chip_per_gw_maximising_total():
+    # The live GW6 bug: every chip's best week was GW8. FH keeps GW8 (biggest
+    # loss if moved), WC takes its runner-up, TC its runner-up.
+    windows = [
+        ChipWindow(chip="3xc", start_gw=1, stop_gw=19),
+        ChipWindow(chip="freehit", start_gw=2, stop_gw=19),
+        ChipWindow(chip="wildcard", start_gw=2, stop_gw=19),
+    ]
+    ev_lookup = {
+        ("3xc", 8): 7.6, ("3xc", 9): 7.0,
+        ("freehit", 8): 20.5, ("freehit", 9): 10.0,
+        ("wildcard", 8): 12.0, ("wildcard", 10): 11.0,
+    }
+    recs = {r.chip: r.gw for r in plan_chips(windows, ev_lookup)}
+    assert recs == {"freehit": 8, "3xc": 9, "wildcard": 10}
+
+
 def test_chip_alert_fires_at_planned_gw():
     planned = ChipRecommendation(chip="3xc", gw=12, ev=14.1)
     assert chip_alert(current_gw=12, current_week_ev=1.0, planned=planned) is True

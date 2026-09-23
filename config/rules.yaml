@@ -73,6 +73,9 @@ rules:
       DGW one returns 15-25. The one defensible early chip is the first
       wildcard around GW4-9 when your draft has genuinely broken (injuries,
       form collapse), because its value is squad repair, not fixture capture.
+      This is second-half advice: first-half chips are lost at the GW19
+      deadline, so the planner spreads them across the best weeks it can see,
+      one chip per gameweek (FPL allows only one).
     enabled: true
     kind: strategy
     source: "fantasyfootballfix.com top-50 chip usage 24/25; allaboutfpl.com 25/26 guide"
