@@ -42,7 +42,7 @@ Known scope limitations, not oversights:
 
 from __future__ import annotations
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 
 import duckdb
 import pandas as pd
@@ -239,6 +239,7 @@ def simulate_season(
     captain_q90_weight: float = CAPTAIN_Q90_WEIGHT,
     hit_cost: float = DECISION_HIT_COST,
     prepared: PreparedSeason | None = None,
+    rules: tuple = (),
 ) -> SeasonResult:
     if prepared is None:
         prepared = prepare_season(con, season, train_seasons)
@@ -278,6 +279,17 @@ def simulate_season(
         gw_universe["cap_ev"] = gw_universe["code"].map(cap_ev).fillna(0.0)
         gw_universe["price"] = gw_universe["price"].astype(int)
 
+        # Strategy rules (backtest/strategies.py): restrict who may be bought /
+        # started, or replace the EV. Owned players always stay in the pool --
+        # dropping one makes the squad-continuity constraint infeasible.
+        xi_excluded: set[int] = set()
+        for rule in rules:
+            gw_universe = rule(gw, gw_universe)
+        if "buy_ok" in gw_universe:
+            gw_universe = gw_universe[gw_universe["buy_ok"] | gw_universe["code"].isin(squad)]
+        if "start_ok" in gw_universe:
+            xi_excluded = set(gw_universe.loc[~gw_universe["start_ok"], "code"])
+
         is_initial_draft = gw == 1
 
         chip_mode = None
@@ -306,8 +318,12 @@ def simulate_season(
             hit_cost=hit_cost,
             transfer_penalty=transfer_penalty,
             max_hits=max_hits,
+            xi_excluded=xi_excluded,
         )
         opt_result = optimize(opt_input)
+        if opt_result.status != "Optimal" and xi_excluded:
+            # too few eligible starters to field a legal XI: start anyone
+            opt_result = optimize(replace(opt_input, xi_excluded=set()))
         if opt_result.status != "Optimal":
             # infeasible (e.g. a player disappeared from the universe) -> keep
             # the existing squad untouched this GW rather than crash the replay
@@ -329,6 +345,9 @@ def simulate_season(
             hits = 0 if is_initial_draft else opt_result.hits
             buys = opt_result.transfers_in
             sells = opt_result.transfers_out
+            if "cap_rank" in gw_universe and len(starting_xi) >= 2:
+                rank = dict(zip(gw_universe["code"], gw_universe["cap_rank"], strict=False))
+                captain, vice_captain = sorted(starting_xi, key=lambda c: -rank.get(c, 0))[:2]
 
         price_lookup = dict(zip(gw_universe["code"], gw_universe["price"], strict=False))
         sale_value = sum(
