@@ -23,16 +23,21 @@ SEASONS = {
     "2024-25": ["2021-22", "2022-23", "2023-24"],
     "2025-26": ["2021-22", "2022-23", "2023-24", "2024-25"],
 }
+# The live season so far: real results for the GWs played. Shown beside, never
+# pooled into the mean -- 5 GWs is far too short to rank anything on its own.
+LIVE = {"2026-27": ["2021-22", "2022-23", "2023-24", "2024-25", "2025-26"]}
+MY_ENTRY = 5874404
 
 
 def run(season: str) -> None:
     con = duckdb.connect(str(DB), read_only=True)
-    prepared = prepare_season(con, season, SEASONS[season])
+    train = {**SEASONS, **LIVE}[season]
+    prepared = prepare_season(con, season, train)
     rules = make_rules(load_history(con, season))
     out = {}
     for name, rule_names in STRATEGIES.items():
         r = simulate_season(
-            con, season, SEASONS[season], prepared=prepared,
+            con, season, train, prepared=prepared,
             rules=tuple(rules[n] for n in rule_names),
         )
         out[name] = {
@@ -46,6 +51,8 @@ def run(season: str) -> None:
 
 def report() -> None:
     data = {s: json.loads((OUT / f"strategy_sweep_{s}.json").read_text()) for s in SEASONS}
+    live = {s: json.loads(p.read_text()) for s in LIVE
+            if (p := OUT / f"strategy_sweep_{s}.json").exists()}
     base = "baseline (model)"
     rows = []
     for name in STRATEGIES:
@@ -54,13 +61,26 @@ def report() -> None:
                  for a, b in zip(data[s][name]["gw_scores"], data[s][base]["gw_scores"], strict=True)]
         mean_d = sum(diffs) / len(diffs)
         sd = (sum((d - mean_d) ** 2 for d in diffs) / (len(diffs) - 1)) ** 0.5
-        hits = [data[s][name]["hits"] for s in SEASONS]
-        rows.append((name, totals, sum(totals) / len(totals), mean_d, sd / len(diffs) ** 0.5, hits))
-    lines = ["| strategy | " + " | ".join(SEASONS) + " | mean | vs base /GW (±1 se) | hits |",
-             "|---|" + "---|" * (len(SEASONS) + 4)]
-    for name, totals, mean, d, se, hits in sorted(rows, key=lambda r: -r[2]):
-        lines.append(f"| {name} | " + " | ".join(map(str, totals))
-                     + f" | {mean:.0f} | {d:+.2f} (±{se:.2f}) | {'/'.join(map(str, hits))} |")
+        wins = sum(t > sum(data[s][base]["gw_scores"]) for t, s in zip(totals, SEASONS, strict=True))
+        live_tot = [sum(live[s][name]["gw_scores"]) for s in live]
+        rows.append((name, totals, sum(totals) / len(totals), mean_d, sd / len(diffs) ** 0.5,
+                     wins, live_tot))
+    cols = list(SEASONS) + [f"{s} GW1-{len(live[s][base]['gw_scores'])}" for s in live]
+    lines = ["| strategy | " + " | ".join(cols) + " | mean (hist) | vs base /GW (±1 se) | seasons won |",
+             "|---|" + "---|" * (len(cols) + 3)]
+    for name, totals, mean, d, se, wins, live_tot in sorted(rows, key=lambda r: -r[2]):
+        lines.append(f"| {name} | " + " | ".join(str(int(t)) for t in totals + live_tot)
+                     + f" | {mean:.0f} | {d:+.2f} (±{se:.2f}) | {wins}/{len(SEASONS)} |")
+    if live:
+        con = duckdb.connect(str(DB), read_only=True)
+        for s in live:
+            n = len(live[s][base]["gw_scores"])
+            mine = con.execute(
+                "SELECT total_points FROM rival_gw WHERE season = ? AND entry_id = ? AND gw = ?",
+                [s, MY_ENTRY, n],
+            ).fetchone()
+            if mine:
+                lines.append(f"\nYour real team, {s} GW1-{n}: {mine[0]} (net of hits)")
     print("\n".join(lines))
 
 
@@ -68,5 +88,5 @@ if __name__ == "__main__":
     if sys.argv[1:] == ["--report"]:
         report()
     else:
-        for season in sys.argv[1:] or SEASONS:
+        for season in sys.argv[1:] or {**SEASONS, **LIVE}:
             run(season)

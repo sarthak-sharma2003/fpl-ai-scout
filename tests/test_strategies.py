@@ -14,11 +14,17 @@ def _hist():
         "total_points": [2, 2, 6, 0, 2, 20],
         "selected": [10, 5, 10, 5, 10, 5],
         "transfers_balance": [1, -1, 1, -1, 1, 1],
+        "team_id": [1, 2, 1, 2, 1, 2],
+        "position": ["MID", "FWD"] * 3,
+        "goals_scored": [1, 0, 1, 0, 0, 5],
+        "xgi": [0.9, 0.1, 0.8, 0.0, 0.1, 3.0],
+        "was_home": [True, False, False, True, False, True],
     })
 
 
 def _uni():
-    return pd.DataFrame({"code": [1, 2], "price": [100, 50], "total_ev": [1.0, 1.0]})
+    return pd.DataFrame({"code": [1, 2], "price": [100, 50], "total_ev": [1.0, 1.0],
+                         "cap_ev": [5.0, 1.0], "team_id": [1, 2], "position": ["MID", "FWD"]})
 
 
 def test_rules_only_see_past_gameweeks():
@@ -36,3 +42,16 @@ def test_rules_combine_with_and():
     rules = make_rules(_hist())
     uni = rules["momentum"](3, rules["template"](3, _uni()))
     assert uni["buy_ok"].tolist() == [True, False]
+
+
+def test_round_two_rules(monkeypatch):
+    import fplscout.backtest.strategies as st
+    monkeypatch.setattr(st, "XGI_TOP_N", 1)
+    monkeypatch.setattr(st, "TOP_ATTACK_TEAMS", 1)
+    rules = make_rules(_hist())
+    # GW3's huge xGI/goals for code 2 must not leak into the GW3 decision
+    assert rules["xgi_top"](3, _uni())["buy_ok"].tolist() == [True, False]
+    assert rules["top_attack_teams"](3, _uni())["buy_ok"].tolist() == [True, False]
+    # home captain reads only the decision GW's venue: code 2 is home in GW3
+    ranked = rules["home_captain"](3, _uni())["cap_rank"].tolist()
+    assert ranked[1] > ranked[0]

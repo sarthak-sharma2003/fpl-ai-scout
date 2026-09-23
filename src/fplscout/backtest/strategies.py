@@ -17,7 +17,11 @@ import pandas as pd
 from fplscout.backtest.simulator import DECAY, HORIZON
 
 TEMPLATE_TOP_N = 150  # "template" pool: the N most-owned players last GW
+DIFFERENTIAL_TOP_N = 20  # "differential": never buy the N most-owned
 FORM_WINDOW = 4
+TOP_ATTACK_TEAMS = 6  # attackers only from the N highest-scoring clubs
+XGI_TOP_N = 60  # attackers only from the N best by recent xGI
+ATTACK = ("MID", "FWD")
 
 
 def load_history(con: duckdb.DuckDBPyConnection, season: str) -> pd.DataFrame:
@@ -25,7 +29,9 @@ def load_history(con: duckdb.DuckDBPyConnection, season: str) -> pd.DataFrame:
     return con.execute(
         "SELECT gw, code, SUM(starts) AS starts, SUM(minutes) AS minutes, "
         "SUM(total_points) AS total_points, MAX(selected) AS selected, "
-        "MAX(transfers_balance) AS transfers_balance "
+        "MAX(transfers_balance) AS transfers_balance, MAX(team_id) AS team_id, "
+        "MAX(position) AS position, SUM(goals_scored) AS goals_scored, "
+        "SUM(expected_goal_involvements) AS xgi, BOOL_OR(was_home) AS was_home "
         "FROM player_gw_history WHERE season = ? GROUP BY gw, code",
         [season],
     ).df()
@@ -81,6 +87,44 @@ def make_rules(history: pd.DataFrame) -> dict[str, callable]:
         uni["total_ev"] = f * sum(DECAY**k for k in range(HORIZON))
         return uni
 
+    def differential(gw, uni):
+        p = past(gw, 1)
+        if p.empty:
+            return uni
+        top = set(p.nlargest(DIFFERENTIAL_TOP_N, "selected")["code"])
+        return _and(uni, "buy_ok", set(uni["code"]) - top)
+
+    def _attack_only(uni, ok):
+        # restricts MID/FWD buys only; GK/DEF untouched
+        return _and(uni, "buy_ok", ok | set(uni.loc[~uni["position"].isin(ATTACK), "code"]))
+
+    def top_attack_teams(gw, uni):
+        h = history[(history["gw"] < gw) & (history["gw"] >= gw - 6)]
+        if h.empty:
+            return uni
+        teams = h.groupby("team_id")["goals_scored"].sum().nlargest(TOP_ATTACK_TEAMS).index
+        return _attack_only(uni, set(uni.loc[uni["team_id"].isin(teams), "code"]))
+
+    def xgi_top(gw, uni):
+        h = history[(history["gw"] < gw) & (history["gw"] >= gw - FORM_WINDOW)]
+        if h.empty:
+            return uni
+        xgi = h[h["position"].isin(ATTACK)].groupby("code")["xgi"].sum()
+        return _attack_only(uni, set(xgi.nlargest(XGI_TOP_N).index))
+
+    def home_captain(gw, uni):
+        # was_home of the decision GW's own fixture is known before the deadline
+        home = set(history.loc[(history["gw"] == gw) & history["was_home"], "code"])
+        uni["cap_rank"] = uni["cap_ev"] - 100 * ~uni["code"].isin(home)
+        return uni
+
+    def form_captain(gw, uni):
+        h = history[(history["gw"] < gw) & (history["gw"] >= gw - FORM_WINDOW)]
+        if h.empty:
+            return uni
+        uni["cap_rank"] = uni["code"].map(h.groupby("code")["total_points"].sum()).fillna(0)
+        return uni
+
     def premium_captain(gw, uni):
         uni["cap_rank"] = uni["price"]
         return uni
@@ -92,6 +136,11 @@ def make_rules(history: pd.DataFrame) -> dict[str, callable]:
         "momentum": momentum,
         "form_ev": form_ev,
         "premium_captain": premium_captain,
+        "differential": differential,
+        "top_attack_teams": top_attack_teams,
+        "xgi_top": xgi_top,
+        "home_captain": home_captain,
+        "form_captain": form_captain,
     }
 
 
@@ -107,4 +156,13 @@ STRATEGIES: dict[str, list[str]] = {
     "nailed3 + template": ["nailed3", "template"],
     "started + premium captain": ["started_last", "premium_captain"],
     "form + started": ["form_ev", "started_last"],
+    # round 2
+    "differential (skip top-20 owned)": ["differential"],
+    "attackers from top-6 scoring clubs": ["top_attack_teams"],
+    "attackers top-60 by xGI": ["xgi_top"],
+    "home captain": ["home_captain"],
+    "form captain": ["form_captain"],
+    "started + template + xGI": ["started_last", "template", "xgi_top"],
+    "started + top-6 attack": ["started_last", "top_attack_teams"],
+    "started + template + home captain": ["started_last", "template", "home_captain"],
 }
