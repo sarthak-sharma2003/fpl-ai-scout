@@ -1,0 +1,58 @@
+name: Live strategy replay
+
+# Weekly: replay every backtest/strategies.py strategy over the 2026-27 GWs
+# played so far, on real results, beside the real team's score. None of these
+# strategies were tuned on this season, so the column it grows is the honest
+# out-of-sample test the historical sweep can't give. Tuesday, after Monday's
+# games and bonus are settled.
+on:
+  schedule:
+    - cron: "0 8 * * 2"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  replay:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: pip
+      - name: Install pipeline
+        run: pip install -e .
+
+      # Read-only reuse of deploy.yml's API cache; this job never saves it.
+      - name: Restore API cache
+        uses: actions/cache/restore@v4
+        with:
+          path: data/raw
+          key: raw-cache-
+          restore-keys: raw-cache-
+
+      - name: Refresh data
+        run: fplscout refresh
+
+      - name: Replay 2026-27
+        run: |
+          python scripts/strategy_sweep.py 2026-27
+          { echo "# Live strategy replay — updated $(date -u +%F)"; echo
+            echo "Generated weekly by .github/workflows/strategy-live.yml. Analysis: strategy_sweep_2026-09-23.md."; echo
+            python scripts/strategy_sweep.py --report; } > data/reports/strategy_live_2026-27.md
+
+      - name: Commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -f data/reports/strategy_sweep_2026-27.json data/reports/strategy_live_2026-27.md
+          if ! git diff --staged --quiet; then
+            git commit -m "Weekly live strategy replay [skip ci]"
+            # refresh rewrote ep_next_archive.csv; deploy.yml owns that file
+            git reset --hard HEAD
+            git pull --rebase origin main
+            git push origin HEAD:main
+          fi
