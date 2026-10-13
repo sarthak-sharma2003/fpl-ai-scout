@@ -56,21 +56,32 @@ def report() -> None:
     base = "baseline (model)"
     rows = []
     for name in STRATEGIES:
-        totals = [sum(data[s][name]["gw_scores"]) for s in SEASONS]
-        diffs = [a - b for s in SEASONS
-                 for a, b in zip(data[s][name]["gw_scores"], data[s][base]["gw_scores"], strict=True)]
-        mean_d = sum(diffs) / len(diffs)
-        sd = (sum((d - mean_d) ** 2 for d in diffs) / (len(diffs) - 1)) ** 0.5
-        wins = sum(t > sum(data[s][base]["gw_scores"]) for t, s in zip(totals, SEASONS, strict=True))
-        live_tot = [sum(live[s][name]["gw_scores"]) for s in live]
-        rows.append((name, totals, sum(totals) / len(totals), mean_d, sd / len(diffs) ** 0.5,
-                     wins, live_tot))
+        # Strategies added after the historical sweep was last run have no
+        # history yet: show them on the live season alone rather than crash
+        # (2026-10-13: the weekly job died on "starts weight 0.25").
+        hist = [s for s in SEASONS if name in data[s]]
+        totals = [sum(data[s][name]["gw_scores"]) if name in data[s] else None for s in SEASONS]
+        diffs = [a - b for s in hist
+                 for a, b in zip(data[s][name]["gw_scores"], data[s][base]["gw_scores"],
+                                 strict=True)]
+        mean_d = sum(diffs) / len(diffs) if diffs else None
+        se = ((sum((d - mean_d) ** 2 for d in diffs) / (len(diffs) - 1)) ** 0.5
+              / len(diffs) ** 0.5 if len(diffs) > 1 else None)
+        wins = sum(sum(data[s][name]["gw_scores"]) > sum(data[s][base]["gw_scores"]) for s in hist)
+        live_tot = [sum(live[s][name]["gw_scores"]) if name in live[s] else None for s in live]
+        mean = sum(t for t in totals if t is not None) / len(hist) if hist else None
+        rows.append((name, totals, mean, mean_d, se, wins, len(hist), live_tot))
     cols = list(SEASONS) + [f"{s} GW1-{len(live[s][base]['gw_scores'])}" for s in live]
-    lines = ["| strategy | " + " | ".join(cols) + " | mean (hist) | vs base /GW (±1 se) | seasons won |",
+    lines = ["| strategy | " + " | ".join(cols)
+             + " | mean (hist) | vs base /GW (±1 se) | seasons won |",
              "|---|" + "---|" * (len(cols) + 3)]
-    for name, totals, mean, d, se, wins, live_tot in sorted(rows, key=lambda r: -r[2]):
-        lines.append(f"| {name} | " + " | ".join(str(int(t)) for t in totals + live_tot)
-                     + f" | {mean:.0f} | {d:+.2f} (±{se:.2f}) | {wins}/{len(SEASONS)} |")
+    fmt = lambda v: "—" if v is None else str(int(v))  # noqa: E731
+    for name, totals, mean, d, se, wins, n_hist, live_tot in sorted(
+            rows, key=lambda r: -(r[2] if r[2] is not None else -1e9)):
+        vs = "—" if d is None else f"{d:+.2f} (±{se:.2f})" if se is not None else f"{d:+.2f}"
+        lines.append(f"| {name} | " + " | ".join(fmt(t) for t in totals + live_tot)
+                     + f" | {'—' if mean is None else f'{mean:.0f}'} | {vs} | "
+                     + (f"{wins}/{n_hist}" if n_hist else "no history yet") + " |")
     if live:
         con = duckdb.connect(str(DB), read_only=True)
         for s in live:
