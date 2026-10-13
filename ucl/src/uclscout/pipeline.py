@@ -517,24 +517,26 @@ def build_plan(ctx: Context, *, current_squad: set[int] | None = None,
     for note, kw2 in attempts:
         only_first = kw2.pop("first_only", False)
         hh = {min(head): head[min(head)]} if only_first else head
+        head_kw = dict(
+            current_squad=current_squad,
+            budget=budgets,
+            max_per_club=clubs,
+            allow_wildcard=not wildcard_used,
+            initial_free=free_transfers if current_squad else plan.FREE_PER_MATCHDAY,
+            time_limit=time_limit,
+            **kw2,
+        )
         try:
-            p = plan.plan_horizon(
-                hh,
-                current_squad=current_squad,
-                budget=budgets,
-                max_per_club=clubs,
-                allow_wildcard=not wildcard_used,
-                initial_free=free_transfers if current_squad else plan.FREE_PER_MATCHDAY,
-                time_limit=time_limit,
-                wildcard_hold=hold,
-                **kw2,
-            )
+            p = plan.plan_horizon(hh, wildcard_hold=hold, **head_kw)
             p.note = note
             break
         except RuntimeError as e:
             last_err = e
     else:
         raise RuntimeError(f"no feasible plan after fallbacks: {last_err}")
+    p.chip_check["wildcard"] = wildcard_check(
+        p, hh, head_kw, hold=hold, used=wildcard_used,
+        fresh=not current_squad, only_first=only_first)
 
     if tail_plans and not only_first:
         wc_spent = wildcard_used or any(a.chip == "wildcard" for a in p.actions)
@@ -558,14 +560,62 @@ def build_plan(ctx: Context, *, current_squad: set[int] | None = None,
             owned = (owned | {b.player.id for b in a.buys}) - {
                 s.player.id for s in a.sells}
         squads[a.matchday] = set(owned)
+    p.limitless = None
+    bar = plan.LIMITLESS_HOLD_VALUE
     if limitless_used:
-        p.limitless = None
+        p.chip_check["limitless"] = {"advice": "used", "bar": bar}
         return p
-    try:
-        planned = {a.matchday for a in p.actions}
-        p.limitless = plan.limitless_matchday(
-            {md: v for md, v in h.items() if md in planned}, squads,
-            budget=budgets, max_per_club=clubs, decay_from=first_md)
-    except ValueError:
-        p.limitless = None
+    planned = {a.matchday for a in p.actions}
+    gains = plan.limitless_gains(
+        {md: v for md, v in h.items() if md in planned}, squads,
+        budget=budgets, max_per_club=clubs)
+    p.limitless = plan.best_limitless(gains, decay_from=first_md, min_gain=bar)
+    top = plan.best_limitless(gains, decay_from=first_md,
+                              min_gain=float("-inf"))
+    if p.limitless and p.limitless[0] == first_md:
+        p.limitless_squad = gains[first_md][1]
+    p.chip_check["limitless"] = {
+        "advice": ("hold" if p.limitless is None
+                   else "play" if p.limitless[0] == first_md else "planned"),
+        "matchday": (p.limitless or top or (None, None))[0],
+        "gain": _r1((p.limitless or top or (None, None))[1]),
+        "thisMatchday": _r1(gains[first_md][0]) if first_md in gains else None,
+        "bar": bar,
+        "checked": sorted(gains),
+    }
     return p
+
+
+def _r1(x: float | None) -> float | None:
+    return None if x is None else round(float(x), 1)
+
+
+def wildcard_check(p: plan.Plan, hh: dict, head_kw: dict, *, hold: float,
+                   used: bool, fresh: bool, only_first: bool) -> dict:
+    """The wildcard's verdict for this run, published whatever it says.
+
+    The plan spends the wildcard only where it beats holding it by `hold`
+    (WILDCARD_HOLD_VALUE, raised to its best knockout use). When it does not,
+    a second solve with no hold value says what the best use inside the
+    planned stretch WOULD gain -- the number the manager compares to the bar.
+    """
+    out: dict = {"bar": round(hold, 1)}
+    if used:
+        return {**out, "advice": "used"}
+    if fresh:
+        return {**out, "advice": "hold",
+                "reason": "every transfer is already free on this matchday"}
+    at = next((a.matchday for a in p.actions if a.chip == "wildcard"), None)
+    if at is not None:
+        return {**out, "advice": "play" if at == min(hh) else "planned",
+                "matchday": at}
+    if only_first or len(hh) < 2:
+        return {**out, "advice": "hold"}
+    try:
+        probe = plan.plan_horizon(hh, wildcard_hold=0.0, **head_kw)
+    except RuntimeError:
+        return {**out, "advice": "hold"}
+    best = next((a.matchday for a in probe.actions if a.chip == "wildcard"),
+                None)
+    gain = max(0.0, probe.objective - p.objective) if best else 0.0
+    return {**out, "advice": "hold", "matchday": best, "gain": _r1(gain)}

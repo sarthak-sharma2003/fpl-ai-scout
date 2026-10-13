@@ -44,7 +44,20 @@ export interface SquadPick extends Player {
   captain: boolean;
 }
 
+/** One chip's verdict for this run; "hold" is an answer too. */
+export interface ChipCheck {
+  advice: "play" | "planned" | "hold" | "used";
+  matchday?: number | null;
+  /** projected points gained at `matchday` (vs free transfers / your XI) */
+  gain?: number | null;
+  /** what playing it must beat */
+  bar: number;
+  reason?: string;
+}
+
 export interface SquadData extends Meta {
+  /** every chip, checked on every run (pipeline.build_plan) */
+  chips?: Record<string, ChipCheck>;
   squad: {
     cost: number;
     xiPoints: number;
@@ -92,6 +105,7 @@ export interface PlanAction {
 export interface PlanData extends Meta {
   totalProjected: number;
   limitless: { matchday: number; gain: number } | null;
+  chips?: Record<string, ChipCheck>;
   actions: PlanAction[];
 }
 

@@ -137,3 +137,22 @@ def test_club_with_no_fixture_is_owned_at_zero_not_dropped():
     assert sum(p.player.team_id == 1 for p in md13.squad) >= 3
     assert all(p.player.team_id != 1 or p.points == 0 for p in md12.squad)
     assert len(md12.xi) == 11 and md13.free_available == 5
+
+
+def test_limitless_is_checked_on_every_matchday_and_held_below_its_bar():
+    from uclscout.plan import best_limitless, limitless_gains
+    players = _pool()
+    held = _held(players)
+    mds = [2, 3, 4]
+    h = _horizon(players, mds)
+    gains = limitless_gains(h, {md: held for md in mds})
+    # every legal matchday is evaluated, gains are non-negative
+    assert sorted(gains) == mds
+    assert all(g >= -1e-6 for g, _ in gains.values())
+    top = best_limitless(gains, min_gain=float("-inf"))
+    assert top is not None and top[0] in mds
+    # the advice is to hold whenever no matchday clears the bar
+    assert best_limitless(gains, min_gain=top[1] + 1.0) is None
+    # equal gains: the nearer matchday wins (later ones are discounted)
+    flat = {md: (5.0, None) for md in mds}
+    assert best_limitless(flat, min_gain=0.0) == (2, 5.0)

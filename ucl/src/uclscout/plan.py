@@ -148,6 +148,13 @@ class Plan:
     # the solver's own objective: decayed points net of hits, churn and the
     # wildcard bar -- what `pipeline.build_plan` compares plans on
     objective: float = 0.0
+    # Every chip is checked on every run and the verdict published, "hold"
+    # included: the manager should see that it was looked at, and by how much
+    # it missed. chip -> {advice, matchday, gain, bar, ...}; see
+    # `pipeline.build_plan`.
+    chip_check: dict[str, dict] = field(default_factory=dict)
+    # the squad to pick when Limitless is advised for the plan's first matchday
+    limitless_squad: Squad | None = None
 
     def summary(self) -> str:
         lines = [a.describe() for a in self.actions]
@@ -491,28 +498,22 @@ LIMITLESS_CANDIDATES = 40     # per position; a Limitless 15 never needs more
 LIMITLESS_HOLD_VALUE = WILDCARD_HOLD_VALUE
 
 
-def limitless_matchday(
+def limitless_gains(
     horizon: dict[int, list[Projection]],
     squad_by_md: dict[int, set[int]],
     *,
     budget: float | Mapping[int, float] = 100.0,
     max_per_club: int | Mapping[int, int] = 3,
     min_start: float = 70.0,
-    decay_from: int | None = None,
-    min_gain: float = LIMITLESS_HOLD_VALUE,
-) -> tuple[int, float]:
-    """Best matchday to play Limitless, and what it gains there.
+) -> dict[int, tuple[float, Squad]]:
+    """What Limitless would gain on each matchday it is legal on, and the
+    squad it would pick there (matchday -> (gain, squad)).
 
     Decoupled from the path: Limitless reverts, so it changes nothing else.
-    Matchdays are compared on the gain discounted like the planner discounts
-    points (a gain six matchdays out is less certain than one next week); the
-    gain returned is the undiscounted one at the chosen matchday. Raises
-    ValueError when no matchday gains `min_gain`: hold the chip.
+    The gain is the unlimited-budget squad's XI + captain over the best XI the
+    planned squad of that matchday can field.
     """
-    if not horizon:
-        raise ValueError("no legal Limitless matchday")
-    decay_from = min(horizon) if decay_from is None else decay_from
-    best: tuple[float, int, float] | None = None
+    out: dict[int, tuple[float, Squad]] = {}
     for md, projs in horizon.items():
         if md in UNLIMITED_MATCHDAYS:
             continue
@@ -530,15 +531,57 @@ def limitless_matchday(
                               min_start=min_start, unlimited_budget=True)
         except (ValueError, RuntimeError):
             continue
-        gain = rich.total_points - held_xi_points(owned, min_start)
+        out[md] = (rich.total_points - held_xi_points(owned, min_start), rich)
+    return out
+
+
+def best_limitless(gains: dict[int, tuple[float, Squad]], *,
+                   decay_from: int | None = None,
+                   min_gain: float = LIMITLESS_HOLD_VALUE
+                   ) -> tuple[int, float] | None:
+    """The matchday to play Limitless on, or None to hold it.
+
+    Matchdays are compared on the gain discounted like the planner discounts
+    points (a gain six matchdays out is less certain than one next week); the
+    gain returned is the undiscounted one at the chosen matchday. Only
+    matchdays gaining at least `min_gain` qualify.
+    """
+    if not gains:
+        return None
+    decay_from = min(gains) if decay_from is None else decay_from
+    best: tuple[float, int, float] | None = None
+    for md, (gain, _) in gains.items():
         if gain < min_gain:
             continue
         score = gain * HORIZON_DECAY ** (md - decay_from)
         if best is None or score > best[0]:
             best = (score, md, gain)
+    return None if best is None else (best[1], best[2])
+
+
+def limitless_matchday(
+    horizon: dict[int, list[Projection]],
+    squad_by_md: dict[int, set[int]],
+    *,
+    budget: float | Mapping[int, float] = 100.0,
+    max_per_club: int | Mapping[int, int] = 3,
+    min_start: float = 70.0,
+    decay_from: int | None = None,
+    min_gain: float = LIMITLESS_HOLD_VALUE,
+) -> tuple[int, float]:
+    """Best matchday to play Limitless, and what it gains there (see
+    `limitless_gains`, `best_limitless`). Raises ValueError when no matchday
+    gains `min_gain`: hold the chip.
+    """
+    if not horizon:
+        raise ValueError("no legal Limitless matchday")
+    gains = limitless_gains(horizon, squad_by_md, budget=budget,
+                            max_per_club=max_per_club, min_start=min_start)
+    best = best_limitless(gains, decay_from=min(horizon) if decay_from is None
+                          else decay_from, min_gain=min_gain)
     if best is None:
         raise ValueError("no legal Limitless matchday")
-    return best[1], best[2]
+    return best
 
 
 def rotation_pairs(

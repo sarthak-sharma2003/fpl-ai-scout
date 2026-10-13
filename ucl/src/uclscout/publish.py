@@ -177,6 +177,12 @@ def build(ctx: pipeline.Context, out_dir: Path, *,
         "limitless": ({"matchday": the_plan.limitless[0],
                        "gain": round(the_plan.limitless[1], 1)}
                       if the_plan.limitless else None),
+        # every chip's verdict for this run, "hold" included (see
+        # pipeline.build_plan): the page and the alert show it was checked
+        "chips": the_plan.chip_check,
+        # what to pick if Limitless is advised for THIS matchday
+        "limitlessSquad": (_squad(the_plan.limitless_squad)
+                           if the_plan.limitless_squad else None),
         "actions": [
             {
                 "matchday": a.matchday,
@@ -204,7 +210,8 @@ def build(ctx: pipeline.Context, out_dir: Path, *,
     eliminated = ctx.eliminated
     files = {
         "meta.json": meta,
-        "squad.json": {**meta, "squad": squad_payload},
+        "squad.json": {**meta, "squad": squad_payload,
+                       "chips": the_plan.chip_check},
         "players.json": {**meta,
                          "players": [_player(x) for x in projections[:400]]},
         "plan.json": plan_json,

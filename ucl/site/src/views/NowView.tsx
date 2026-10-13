@@ -1,5 +1,5 @@
 import { useId, useState } from "react";
-import type { SquadData, SquadPick } from "../types";
+import type { ChipCheck, SquadData, SquadPick } from "../types";
 import { formatDay, formatMoney } from "../lib/format";
 import { useCountdown } from "../lib/useCountdown";
 import { WarningIcon } from "../components/Icons";
@@ -51,6 +51,7 @@ export function NowView({ squad }: { squad: SquadData }) {
       )}
 
       {s.moves && <MovesCard moves={s.moves} bankAfter={s.bankAfter} />}
+      {squad.chips && <ChipsCard chips={squad.chips} />}
 
       <div className="summary-row">
         <div className="summary-cell">
@@ -153,6 +154,45 @@ function MovesCard({
           </div>
         )}
         {bankAfter != null && <div className="plan-row__meta">Bank after: {formatMoney(bankAfter)}</div>}
+      </div>
+    </section>
+  );
+}
+
+const CHIP_NAME: Record<string, string> = { wildcard: "Wildcard", limitless: "Limitless" };
+const CHIP_BASIS: Record<string, string> = {
+  wildcard: "over spending free transfers",
+  limitless: "over your best XI",
+};
+
+function chipLine(key: string, c: ChipCheck): string {
+  const name = CHIP_NAME[key] ?? key;
+  const basis = CHIP_BASIS[key] ?? "";
+  const gain = c.gain != null ? `+${c.gain.toFixed(1)} pts ${basis}` : "";
+  if (c.advice === "used") return `${name}: already used.`;
+  if (c.advice === "play") return `${name}: PLAY IT THIS MATCHDAY${gain ? ` (${gain})` : ""}.`;
+  if (c.advice === "planned") return `${name}: hold for now. Planned for MD${c.matchday}${gain ? ` (${gain})` : ""}.`;
+  if (c.reason) return `${name}: hold (${c.reason}).`;
+  if (c.matchday == null || !c.gain) return `${name}: hold. No matchday gains anything ${basis} (bar to play: +${c.bar}).`;
+  return `${name}: hold. Best use MD${c.matchday}: ${gain} (bar to play: +${c.bar}).`;
+}
+
+/** Chips are checked on every run; the card says so even when the answer is "hold". */
+function ChipsCard({ chips }: { chips: Record<string, ChipCheck> }) {
+  const keys = ["wildcard", "limitless"].filter((k) => chips[k]);
+  if (keys.length === 0) return null;
+  const play = keys.some((k) => chips[k].advice === "play");
+  return (
+    <section className="plan-row" aria-label="Chips, checked this run">
+      <div className="plan-row__body">
+        <div className="plan-row__headline">
+          <span className="plan-row__action">{play ? "Play a chip" : "Chips: checked, hold"}</span>
+        </div>
+        <ul className="plan-row__transfer-detail">
+          {keys.map((k) => (
+            <li key={k}>{chipLine(k, chips[k])}</li>
+          ))}
+        </ul>
       </div>
     </section>
   );

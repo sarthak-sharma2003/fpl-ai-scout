@@ -131,6 +131,7 @@ def _ucl_body(squad: dict, plan: dict) -> str:
     if squad.get("checklist"):
         out.append("\n## Matchday checklist")
         out += [f"- {c}" for c in squad["checklist"]]
+    out += _ucl_chips(plan)
     nxt = plan.get("actions", [])[1:4]
     if nxt:
         out.append("\n## Coming up")
@@ -140,6 +141,53 @@ def _ucl_body(squad: dict, plan: dict) -> str:
                    "did something different, edit that file — it advances automatically "
                    "after each deadline assuming you made the moves above._")
     return "\n".join(out)
+
+
+_UCL_CHIP_NAMES = {"wildcard": "Wildcard", "limitless": "Limitless"}
+_UCL_CHIP_BASIS = {"wildcard": "over spending free transfers",
+                   "limitless": "over your best XI"}
+
+
+def _ucl_chips(plan: dict) -> list[str]:
+    """Every chip's verdict for this run, "hold" included -- the planner
+    checks them on every run, and the alert says so (pipeline.build_plan)."""
+    chips = plan.get("chips") or {}
+    if not chips:
+        return []
+    out = ["\n## Chips (checked this run)"]
+    for key in ("wildcard", "limitless"):
+        c = chips.get(key)
+        if not c:
+            continue
+        name, basis = _UCL_CHIP_NAMES[key], _UCL_CHIP_BASIS[key]
+        bar, gain, md = c.get("bar"), c.get("gain"), c.get("matchday")
+        advice = c.get("advice")
+        if advice == "used":
+            out.append(f"- {name}: already used.")
+        elif advice == "play":
+            out.append(f"- **{name}: PLAY IT THIS MATCHDAY**"
+                       + (f" (+{gain} pts {basis}; bar +{bar})." if gain is not None
+                          else "."))
+        elif advice == "planned":
+            out.append(f"- {name}: hold for now. Planned for MD{md}"
+                       + (f" (+{gain} pts {basis})." if gain is not None else "."))
+        elif c.get("reason"):
+            out.append(f"- {name}: hold ({c['reason']}).")
+        elif md is None or not gain:
+            out.append(f"- {name}: hold. No matchday gains anything {basis} "
+                       f"(bar to play: +{bar}).")
+        else:
+            out.append(f"- {name}: hold. Best use MD{md}: +{gain} pts {basis} "
+                       f"(bar to play: +{bar}).")
+    lsq = plan.get("limitlessSquad")
+    if (chips.get("limitless") or {}).get("advice") == "play" and lsq:
+        cap = lsq.get("captainId")
+        out.append("\n**Limitless squad** (unlimited budget, this matchday only):")
+        out += [f"- {p['pos']} {p['name']} ({p['team']}) {p['points']:.1f}"
+                + (" (C)" if p["id"] == cap else "")
+                + ("" if p.get("starting") else " — bench")
+                for p in lsq.get("picks", [])]
+    return out
 
 
 def ucl_alert(now: datetime) -> Alert | None:
