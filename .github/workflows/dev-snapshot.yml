@@ -1,0 +1,66 @@
+name: Dev data snapshot
+
+# On demand: build the full DuckDB exactly as the deploy does (vaastav history,
+# live FPL API, football-data.co.uk odds, ESPN Europe) and push it as parquet,
+# plus the UEFA UCL fantasy archive and raw current feeds, to the `dev-db`
+# branch. Lets backtests run in environments that cannot reach those hosts,
+# on the same inputs CI uses. Restore locally with scripts/import_parquet.py.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: pip
+      - run: pip install -e . -e ./ucl
+      - name: Restore API cache
+        uses: actions/cache/restore@v4
+        with:
+          path: data/raw
+          key: raw-cache-
+          restore-keys: raw-cache-
+      - name: Refresh data
+        run: fplscout refresh
+      - name: Export
+        run: |
+          snap=$(mktemp -d)
+          python scripts/export_live.py data/fpl.duckdb "$snap/db" --all
+          cp -r data/raw/odds "$snap/odds" 2>/dev/null || true
+          mkdir -p "$snap/ucl/raw"
+          cd ucl
+          python -m uclscout.cli archive --out "$snap/ucl/archive_players.csv" --tours 30,40,50,60,70,80 || true
+          python - "$snap/ucl/raw" <<'PY'
+          import json, sys
+          from pathlib import Path
+          from uclscout import feeds
+          out = Path(sys.argv[1])
+          c = feeds.fetch(f"constraints/constraints_{feeds.CURRENT_TOUR}.json")
+          (out / "constraints.json").write_text(json.dumps(c))
+          for name, path in [
+              ("teams", f"teams/teams_{feeds.CURRENT_TOUR}_en.json"),
+              ("fixtures", f"fixtures/fixtures_{feeds.CURRENT_TOUR}_en.json"),
+          ]:
+              (out / f"{name}.json").write_text(json.dumps(feeds.fetch(path)))
+          md = int(c["data"]["value"]["matchdayId"])
+          for tour, mdx in [(feeds.CURRENT_TOUR, m) for m in range(1, md + 1)] + [(80, 1)]:
+              try:
+                  p = feeds.fetch(f"players/players_{tour}_en_{mdx}.json")
+                  (out / f"players_{tour}_{mdx}.json").write_text(json.dumps(p))
+              except Exception as e:
+                  print("skip", tour, mdx, e)
+          PY
+          cd "$snap"
+          git init -q -b dev-db
+          git add -A
+          git -c user.name="github-actions[bot]" \
+              -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
+              commit -qm "dev snapshot $(date -u +%FT%TZ)"
+          git push -qf "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" HEAD:dev-db

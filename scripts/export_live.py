@@ -6,7 +6,9 @@ JSON) to the `live-data` branch so any checkout can `git fetch origin
 live-data` and work against real current-season data. Historical seasons are
 left out: they rebuild from vaastav anywhere.
 
-usage: python scripts/export_live.py data/fpl.duckdb OUT_DIR
+usage: python scripts/export_live.py data/fpl.duckdb OUT_DIR [--all]
+  --all  every season, not just the live one (dev-snapshot.yml: a full dev DB
+         for environments that cannot reach football-data.co.uk / the FPL API)
 """
 
 from __future__ import annotations
@@ -17,7 +19,7 @@ from pathlib import Path
 import duckdb
 
 
-def main(db_path: str, out_dir: str) -> None:
+def main(db_path: str, out_dir: str, everything: bool = False) -> None:
     out = Path(out_dir)
     out.mkdir(parents=True, exist_ok=True)
     con = duckdb.connect(db_path, read_only=True)
@@ -29,7 +31,8 @@ def main(db_path: str, out_dir: str) -> None:
         cols = {r[0] for r in con.execute(
             "SELECT column_name FROM information_schema.columns WHERE table_name = ?",
             [t]).fetchall()}
-        where = f"WHERE season = '{season}'" if "season" in cols else ""
+        where = (f"WHERE season = '{season}'"
+                 if "season" in cols and not everything else "")
         n = con.execute(f"SELECT count(*) FROM {t} {where}").fetchone()[0]
         if n == 0:
             continue
@@ -40,4 +43,4 @@ def main(db_path: str, out_dir: str) -> None:
 
 
 if __name__ == "__main__":
-    main(*sys.argv[1:3])
+    main(sys.argv[1], sys.argv[2], "--all" in sys.argv[3:])
