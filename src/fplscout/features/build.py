@@ -29,6 +29,8 @@ import duckdb
 import numpy as np
 import pandas as pd
 
+from fplscout.gameweek import decision_gameweek
+
 WINDOWS = (3, 5, 10)
 DECAY = 0.8
 
@@ -175,10 +177,7 @@ def _upcoming_universe(con: duckdb.DuckDBPyConnection) -> pd.DataFrame:
     have none, so this returns empty and behavior is byte-identical there.
     Player universe/prices come from `player_season`, populated for the live
     season by ingest/live_gw.py from bootstrap (value = now_cost)."""
-    nxt = con.execute(
-        "SELECT season, MIN(event) FROM gameweeks WHERE NOT finished "
-        "GROUP BY season ORDER BY season DESC LIMIT 1"
-    ).fetchone()
+    nxt = decision_gameweek(con)
     if nxt is None:
         return pd.DataFrame()
     season, event = nxt

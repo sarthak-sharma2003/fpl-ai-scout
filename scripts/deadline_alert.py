@@ -60,7 +60,7 @@ def fpl_alert(now: datetime) -> Alert | None:
         return None
     con = duckdb.connect(str(db), read_only=True)
     row = con.execute(
-        "SELECT season, gw, deadline_time FROM gameweeks "
+        "SELECT season, event, deadline_time FROM gameweeks "
         "WHERE deadline_time > ? ORDER BY deadline_time LIMIT 1",
         [now.replace(tzinfo=None)],
     ).fetchone()

@@ -27,6 +27,7 @@ from pathlib import Path
 import duckdb
 import pandas as pd
 
+from fplscout.gameweek import decision_gameweek
 from fplscout.models import horizon, minutes, points, team_goals
 from fplscout.models.dataset import load_dataset
 from fplscout.models.train import _team_goals_lookup, project_gw
@@ -133,17 +134,15 @@ def load_production_models(models_dir: Path, version: str) -> ProductionModels:
 def latest_reference_point(con: duckdb.DuckDBPyConnection) -> tuple[str, int]:
     """(season, gw) projections should target.
 
-    Live season in progress (an unfinished event in `gameweeks`): the NEXT
-    unplayed gameweek — the deadline actually being decided. Feature rows for
+    Live season in progress (an unfinished event in `gameweeks`): the
+    gameweek whose deadline is next (fplscout.gameweek — NOT simply the first
+    unfinished one, which is the locked gameweek all weekend). Feature rows for
     it exist as upcoming-GW synthetic rows (issue #5, features/build.py).
     Otherwise (every season in the DB fully played — the pre-26/27 demo state):
     the most recently completed gameweek, as before."""
-    live = con.execute(
-        "SELECT season, MIN(event) FROM gameweeks WHERE NOT finished "
-        "GROUP BY season ORDER BY season DESC LIMIT 1"
-    ).fetchone()
+    live = decision_gameweek(con)
     if live is not None:
-        return live[0], live[1]
+        return live
     row = con.execute(
         "SELECT season, MAX(gw) FROM player_gw_history "
         "WHERE season = (SELECT MAX(season) FROM player_gw_history) "
