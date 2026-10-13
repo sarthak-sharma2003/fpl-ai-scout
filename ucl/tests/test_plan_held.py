@@ -67,3 +67,33 @@ def test_no_free_squad_slots():
     a = plan.actions[0]
     after = (held - {s.player.id for s in a.sells}) | {b.player.id for b in a.buys}
     assert after == {p.player.id for p in a.squad}
+
+
+def test_three_forced_moves_take_a_hit_instead_of_infeasible():
+    """Three owned players can never start; two free transfers. The plan must
+    pay a hit (or wildcard) -- before the carry fix it was 'Infeasible'."""
+    players = _pool()
+    held = _held(players)
+    defs = sorted(i for i in held if next(p for p in players if p.id == i).pos == "DEF")
+    dead = set(defs[:3])        # only 2 playable DEF left; XI needs 3
+    plan = plan_horizon(_horizon(players, [2, 3, 4], zero=dead),
+                        current_squad=held, budget=200.0, time_limit=30)
+    first = plan.actions[0]
+    assert len(first.xi) == 11
+    assert len(first.buys) >= 1
+    for a in plan.actions:
+        assert len(a.squad) == 15
+        assert a.chip or len(a.buys) <= a.free_available + a.hits
+
+
+def test_hit_before_last_matchday_is_allowed():
+    players = _pool()
+    held = _held(players)
+    # every owned DEF and MID is dead: far more than 2 moves are needed at MD2
+    dead = {i for i in held
+            if next(p for p in players if p.id == i).pos in ("DEF", "MID")}
+    plan = plan_horizon(_horizon(players, [2, 3, 4, 5], zero=dead),
+                        current_squad=held, budget=200.0, time_limit=30,
+                        allow_wildcard=False)
+    first = plan.actions[0]
+    assert first.hits >= 1 and len(first.xi) == 11

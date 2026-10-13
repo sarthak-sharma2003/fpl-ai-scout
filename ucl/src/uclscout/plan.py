@@ -59,7 +59,14 @@ POOL_SIZE = 130          # candidates kept for the multi-period solve
 # for a fraction of a point is how a planner talks itself into churn. The first
 # run of this sold Kane at MD3 and bought him back at MD4. This is the bar a
 # transfer must clear even when it costs no points.
-CHURN_PENALTY = 0.35
+# Raised from 0.35 (2026-10-13): planning the real MD2 squad at 0.35 sold Kane
+# at MD3 and bought him back at MD5, chasing opponent-strength swings.
+CHURN_PENALTY = 1.0
+# The horizon ends at the last PUBLISHED fixtures (MD8 until the knockout draw),
+# so it cannot see what the wildcard is worth later. Spending it must beat
+# holding it by this much inside the horizon. On the real MD2 squad the
+# wildcard bought only +6.5 projected points over MD2-8 vs two free transfers.
+WILDCARD_HOLD_VALUE = 10.0
 
 
 @dataclass
@@ -98,6 +105,7 @@ class Plan:
     limitless: tuple[int, float] | None      # (matchday, points gained)
     total_points: float
     budget: float = 100.0
+    note: str = ""                           # set when a fallback was needed
 
     def summary(self) -> str:
         lines = [a.describe() for a in self.actions]
@@ -179,9 +187,11 @@ def plan_horizon(
         pulp.lpSum(pts(i, md) * start[i][md] + pts(i, md) * capt[i][md]
                    for i in pool_ids for md in mds)
         - pulp.lpSum(hit_cost * hits[md] for md in mds)
-        # every transfer pays the churn bar, including "free" ones
+        - pulp.lpSum(WILDCARD_HOLD_VALUE * wc[md] for md in mds)
+        # every transfer pays the churn bar, including "free" ones (the opening
+        # build of a fresh squad is not a transfer)
         - pulp.lpSum(CHURN_PENALTY * buy[i][md]
-                     for i in pool_ids for md in mds[1:])
+                     for i in pool_ids for md in (mds[1:] if fresh else mds))
     )
 
     # The XI gate relaxes per matchday exactly as the single-matchday optimizer's
@@ -209,7 +219,7 @@ def plan_horizon(
             p = by_md[md][i]
             m += start[i][md] <= own[i][md]
             m += capt[i][md] <= start[i][md]
-            if p.minutes.expected < gate[md] or not p.player.available:
+            if p.minutes.start_equiv < gate[md] or not p.player.available:
                 m += start[i][md] == 0
             if not p.can_captain:
                 m += capt[i][md] == 0
@@ -223,6 +233,11 @@ def plan_horizon(
             m += sell[i][first] == 0
         else:
             m += own[i][first] == opening + buy[i][first] - sell[i][first]
+            # no phantom buy-and-sell of the same player, and you cannot sell
+            # someone you do not own (free on a wildcard otherwise)
+            m += buy[i][first] + sell[i][first] <= 1
+            if not opening:
+                m += sell[i][first] == 0
         for prev, md in itertools.pairwise(mds):
             m += own[i][md] == own[i][prev] + buy[i][md] - sell[i][md]
             m += buy[i][md] + sell[i][md] <= 1
@@ -250,9 +265,19 @@ def plan_horizon(
                 # (or a chip) is not spending free transfers to be banked
                 m += carry[md] == 0
             else:
+                # Unused = available - bought, floored at 0. A hit or a
+                # wildcard at `prev` makes (available - bought) negative; the
+                # old `carry <= available - bought` then demanded carry <= -1,
+                # so ANY hit or wildcard before the final matchday was
+                # infeasible -- and a squad needing three moves at once could
+                # not be planned at all (MD2 2026-27: "plan infeasible").
+                # Adding hits[prev] restores the floor (hits >= the overspend),
+                # and a wildcard's unlimited buys carry nothing.
                 prev_avail = FREE_PER_MATCHDAY + (carry[prev] if k > 1 else 0)
-                m += carry[md] <= prev_avail - pulp.lpSum(buy[i][prev]
-                                                          for i in pool_ids)
+                m += carry[md] <= (prev_avail
+                                   - pulp.lpSum(buy[i][prev] for i in pool_ids)
+                                   + hits[prev] + big * wc[prev])
+                m += carry[md] <= 1 - wc[prev]
     # A wildcard on the LAST matchday of the horizon has no future to pay off,
     # so the solver parks it there for free. It is also genuinely near-worthless
     # in the real game: MD9 and MD11 hand out unlimited transfers anyway, so a

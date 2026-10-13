@@ -70,7 +70,7 @@ def _feasible_gate(P: list[Projection], min_start: float) -> tuple[float, str]:
     for gate in (min_start, 60.0, 45.0, 30.0, 0.0):
         if gate > min_start:
             continue
-        pool = [p for p in P if p.minutes.expected >= gate]
+        pool = [p for p in P if p.minutes.start_equiv >= gate]
         if len(pool) < XI_SIZE:
             continue
         if all(sum(1 for p in pool if p.player.pos == pos) >= n
@@ -105,7 +105,7 @@ def optimize(
     min_start, gate_note = _feasible_gate(P, min_start)
     # The Gordon guard bars imputed minutes from the armband, but if NOTHING
     # has observed minutes it bars every player and the solve is infeasible.
-    captain_guard = any(p.can_captain and p.minutes.expected >= min_start
+    captain_guard = any(p.can_captain and p.minutes.start_equiv >= min_start
                         for p in P)
     if not captain_guard:
         gate_note = " ".join(filter(None, [
@@ -135,7 +135,7 @@ def optimize(
     for i in idx:
         m += st[i] <= sq[i]
         m += cp[i] <= st[i]
-        if P[i].minutes.expected < min_start:
+        if P[i].minutes.start_equiv < min_start:
             m += st[i] == 0                       # the minutes gate
         if captain_guard and not P[i].can_captain:
             m += cp[i] == 0                       # the Gordon guard

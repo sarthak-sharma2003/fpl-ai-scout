@@ -51,10 +51,26 @@ class Minutes:
     expected: float
     source: MinutesSource
     note: str = ""
+    # P(starts), where we can estimate it. Gates and captaincy ask "will he
+    # START", which expected minutes answers badly: a nailed winger subbed off
+    # at 70' every week has 70 expected minutes and used to fail a 70-minute XI
+    # gate that a centre-back sails through (docs/GAPS.md #3).
+    p_start: float | None = None
 
     @property
     def trusted(self) -> bool:
         return self.source.observed
+
+    @property
+    def start_equiv(self) -> float:
+        """Minutes-scale number for the XI gate, driven by P(start) when known.
+
+        A certain starter maps to 84, a certain non-starter to 12, so the
+        existing 70/60/45-minute gates read as P(start) ~ 0.81/0.67/0.46.
+        """
+        if self.p_start is None:
+            return self.expected
+        return self.p_start * START_MINUTES + (1 - self.p_start) * SUB_MINUTES
 
 
 @dataclass(frozen=True)
@@ -71,7 +87,7 @@ class Projection:
     @property
     def can_captain(self) -> bool:
         """Never hand the armband to a player whose minutes we invented."""
-        return self.minutes.trusted and self.minutes.expected >= 60
+        return self.minutes.trusted and self.minutes.start_equiv >= 60
 
     @property
     def value_per_million(self) -> float:
@@ -93,31 +109,76 @@ def price_prior_minutes(value: float) -> float:
 TRUSTED_MINUTES = 270.0
 TRUSTED_SHARE = 0.6
 
+# A nailed starter still averages ~82% of his club's minutes (late subs, the odd
+# rest), so a minutes SHARE converts to P(start) by dividing by this.
+NAILED_SHARE = 0.82
+START_MINUTES, SUB_MINUTES = 84.0, 12.0
+# Last season's UCL at the SAME club, as a prior. UEFA zeroes every cumulative
+# stat when MD1 locks, so from MD2 the live feed holds one matchday per player;
+# without this the projection was a price guess plus one match of noise.
+# Per minute it counts half as much as this season's; in the minutes blend the
+# whole prior season is worth this many matchdays of current evidence.
+PRIOR_SEASON_WEIGHT = 0.5
+PRIOR_SEASON_MATCHDAYS = 3.0
+
+
+@dataclass(frozen=True)
+class PriorSeason:
+    """One player's previous-season UCL totals, at the club he is at now."""
+    points: int
+    minutes: int
+    club_peak_minutes: float       # his club's iron man that season
+
+    @property
+    def share(self) -> float:
+        return (min(1.0, self.minutes / self.club_peak_minutes)
+                if self.club_peak_minutes > 0 else 0.0)
+
+
+def p_start_from_share(share: float) -> float:
+    return max(0.0, min(1.0, share / NAILED_SHARE))
+
 
 def observed_minutes_needed(team_peak_minutes: float) -> float:
     """How many minutes count as a real sample, given the season's length."""
     return min(TRUSTED_MINUTES, TRUSTED_SHARE * max(0.0, team_peak_minutes))
 
 
-def _positional_base(players: list[Player]) -> dict[str, float]:
-    """Median points/90 per position among players with a real sample."""
+def _positional_base(players: list[Player],
+                     prior: dict[int, PriorSeason] | None = None
+                     ) -> dict[str, float]:
+    """Median points/90 per position among players with a real sample.
+
+    Early in a season nobody has 450 minutes, so last season's totals stand in
+    -- otherwise every position fell back to the same flat 3.0.
+    """
     out = {}
     for pos in ("GK", "DEF", "MID", "FWD"):
         rates = [p.total_points / (p.minutes / 90)
                  for p in players if p.pos == pos and p.minutes >= 450]
+        if not rates and prior:
+            rates = [prior[p.id].points / (prior[p.id].minutes / 90)
+                     for p in players
+                     if p.pos == pos and p.id in prior and prior[p.id].minutes >= 450]
         out[pos] = median(rates) if rates else 3.0
     return out
 
 
-def shrunk_points_per90(p: Player, base: float) -> float:
+def shrunk_points_per90(p: Player, base: float,
+                        prior: PriorSeason | None = None) -> float:
     """Rate regressed toward the positional mean by sample size.
 
     A player with no minutes lands on the prior; a player with a full season
-    keeps almost all of his own rate.
+    keeps almost all of his own rate. Last season at the same club, when
+    known, enters as down-weighted extra evidence.
     """
-    prior = base * (0.6 + 0.4 * min(2.0, p.value / 8.0))
-    return ((p.total_points + prior * (PSEUDO_MINUTES / 90))
-            / ((p.minutes + PSEUDO_MINUTES) / 90))
+    base_prior = base * (0.6 + 0.4 * min(2.0, p.value / 8.0))
+    pts, mins = float(p.total_points), float(p.minutes)
+    if prior is not None and prior.minutes > 0:
+        pts += PRIOR_SEASON_WEIGHT * prior.points
+        mins += PRIOR_SEASON_WEIGHT * prior.minutes
+    return ((pts + base_prior * (PSEUDO_MINUTES / 90))
+            / ((mins + PSEUDO_MINUTES) / 90))
 
 
 def opponent_adjustment(own_pot: int, opp_pot: int, home: bool) -> float:
@@ -138,6 +199,7 @@ def estimate_minutes(
     predicted_lineups: dict[int, bool] | None = None,
     domestic_minutes: dict[int, float] | None = None,
     changed_club: bool = False,
+    prior: PriorSeason | None = None,
 ) -> Minutes:
     """Expected minutes for one player, preferring observed sources.
 
@@ -177,12 +239,28 @@ def estimate_minutes(
             "changed clubs since last season -- prior minutes were elsewhere",
         )
 
+    # Last season at this club, blended with this season's share. This
+    # season's matchdays count one each (a 0 when he did not play is real
+    # evidence once his club has played); the prior season counts as
+    # PRIOR_SEASON_MATCHDAYS. (`changed_club` already returned above, so a
+    # prior here is always same-club.)
+    if prior is not None and prior.minutes > 0:
+        n_now = team_peak_minutes / 90.0
+        share_now = (min(1.0, p.minutes / team_peak_minutes)
+                     if team_peak_minutes > 0 else 0.0)
+        share = ((share_now * n_now + prior.share * PRIOR_SEASON_MATCHDAYS)
+                 / (n_now + PRIOR_SEASON_MATCHDAYS))
+        return Minutes(90.0 * share * doubt, MinutesSource.OBSERVED_UCL,
+                       "UCL minutes share, this season + last at this club",
+                       p_start=p_start_from_share(share) * doubt)
+
     # team_peak_minutes ~= the club's games * 90, so this normalises share.
     if team_peak_minutes > 0 and p.minutes > 0:
         share = min(90.0, 90.0 * p.minutes / team_peak_minutes)
         if p.minutes >= observed_minutes_needed(team_peak_minutes):
             return Minutes(share * doubt, MinutesSource.OBSERVED_UCL,
-                           "UCL minutes share")
+                           "UCL minutes share",
+                           p_start=p_start_from_share(share / 90.0) * doubt)
 
     return Minutes(
         price_prior_minutes(p.value) * doubt,
@@ -200,6 +278,7 @@ def project(
     domestic_minutes: dict[int, float] | None = None,
     moved_clubs: set[int] | None = None,
     strength_adj=None,
+    prior_season: dict[int, PriorSeason] | None = None,
 ) -> list[Projection]:
     """Project every available player for one matchday.
 
@@ -207,7 +286,8 @@ def project(
     `strength_adj(own_team_id, opp_team_id, home) -> float` overrides the crude
     seeding-pot adjustment; pass the Elo-backed one from `strength.py`.
     """
-    base = _positional_base(players)
+    prior_season = prior_season or {}
+    base = _positional_base(players, prior_season)
     pot = {t.id: t.pot for t in teams}
     peak: dict[int, float] = {}
     for p in players:
@@ -223,8 +303,9 @@ def project(
             predicted_lineups=predicted_lineups,
             domestic_minutes=domestic_minutes,
             changed_club=bool(moved_clubs and p.id in moved_clubs),
+            prior=prior_season.get(p.id),
         )
-        rate = shrunk_points_per90(p, base[p.pos])
+        rate = shrunk_points_per90(p, base[p.pos], prior_season.get(p.id))
         adj = (strength_adj(p.team_id, opp_id, home) if strength_adj
                else opponent_adjustment(pot.get(p.team_id, 3),
                                         pot.get(opp_id, 3), home))

@@ -138,6 +138,7 @@ def build(ctx: pipeline.Context, out_dir: Path, *,
     plan_json = {
         **meta,
         "totalProjected": round(the_plan.total_points, 1),
+        "planNote": the_plan.note,
         "limitless": ({"matchday": the_plan.limitless[0],
                        "gain": round(the_plan.limitless[1], 1)}
                       if the_plan.limitless else None),

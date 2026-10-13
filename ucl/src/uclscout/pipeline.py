@@ -1,7 +1,7 @@
 """End-to-end: live feeds -> Elo -> projections -> squad -> multi-matchday plan."""
 from __future__ import annotations
 
-from dataclasses import dataclass, replace
+from dataclasses import dataclass, field, replace
 from datetime import UTC, datetime
 
 from . import domestic, feeds, plan, project, strength
@@ -46,6 +46,9 @@ class Context:
     players: list[feeds.Player]
     elo: dict[int, float]
     moved_clubs: set[int]      # players whose prior stats were at another club
+    # last season's UCL totals for players still at the same club (empty at
+    # MD1, when the live feed itself still carries last season's numbers)
+    prior_season: dict[int, project.PriorSeason] = field(default_factory=dict)
 
     @property
     def team_by_id(self) -> dict[int, feeds.Team]:
@@ -70,8 +73,26 @@ class Context:
         return out
 
 
+def prior_season_stats(current: list[feeds.Player], previous: list[feeds.Player],
+                       moved: set[int]) -> dict[int, project.PriorSeason]:
+    """Last season's UCL totals for everyone still at the same club."""
+    peak: dict[int, float] = {}
+    for p in previous:
+        peak[p.team_id] = max(peak.get(p.team_id, 0.0), float(p.minutes))
+    prev = {p.id: p for p in previous}
+    out = {}
+    for p in current:
+        q = prev.get(p.id)
+        if q is None or p.id in moved or q.team_id != p.team_id or q.minutes <= 0:
+            continue
+        out[p.id] = project.PriorSeason(q.total_points, q.minutes,
+                                        peak.get(q.team_id, 0.0))
+    return out
+
+
 def detect_transfers(current: list[feeds.Player],
-                     previous_tour: int = PREVIOUS_TOUR) -> set[int]:
+                     previous_tour: int = PREVIOUS_TOUR,
+                     previous: list[feeds.Player] | None = None) -> set[int]:
     """Players at a different club than last season.
 
     UEFA publishes a player's CURRENT club alongside his PRIOR-season stats and
@@ -81,7 +102,9 @@ def detect_transfers(current: list[feeds.Player],
     the consequence is only that he is barred from captaincy.
     """
     try:
-        before = {p.id: p.team_id for p in feeds.players(previous_tour, 1)}
+        if previous is None:
+            previous = feeds.players(previous_tour, 1)
+        before = {p.id: p.team_id for p in previous}
     except Exception:                                        # noqa: BLE001
         return set()
     return {p.id for p in current
@@ -115,11 +138,20 @@ def load(tour: int = feeds.CURRENT_TOUR, *, fit_strength: bool = True) -> Contex
     mds = feeds.matchdays(tour)
     pl = feeds.players(tour, c.matchday)
     elo = fit_ratings(teams, tour) if fit_strength else {}
-    return Context(tour, c, teams, mds, pl, elo, detect_transfers(pl))
+    try:
+        # a completed season's files all carry its season-final totals
+        previous = feeds.players(PREVIOUS_TOUR, 1)
+    except Exception:                                        # noqa: BLE001
+        previous = []
+    moved = detect_transfers(pl, previous=previous) if previous else set()
+    prior = (prior_season_stats(pl, previous, moved)
+             if previous and c.matchday > 1 else {})
+    return Context(tour, c, teams, mds, pl, elo, moved, prior)
 
 
 def project_matchday(ctx: Context, md: int, **kw) -> list[project.Projection]:
     kw.setdefault("moved_clubs", ctx.moved_clubs)
+    kw.setdefault("prior_season", ctx.prior_season)
     return project.project(
         ctx.players, ctx.teams, ctx.opponents_for(md),
         strength_adj=ctx.strength_adj, **kw,
@@ -198,14 +230,34 @@ def build_plan(ctx: Context, *, current_squad: set[int] | None = None,
         _keep_held(ctx, h, current_squad)
     budget = (squad_budget(ctx, current_squad, bank) if current_squad
               else ctx.constraints.budget)
-    p = plan.plan_horizon(
-        h,
-        current_squad=current_squad,
-        budget=budget,
-        max_per_club=ctx.constraints.max_per_club,
-        allow_wildcard=not wildcard_used,
-        time_limit=time_limit,
-    )
+    # A publish that dies leaves the site on stale advice right before a
+    # deadline, which is worse than slightly-relaxed advice. Each fallback is
+    # recorded on the plan so the page and the alert can say so.
+    attempts = [
+        ("", {}),
+        ("minutes gate dropped", {"min_start": 0.0}),
+        ("planned this matchday only", {"min_start": 0.0,
+                                        "first_only": True}),
+    ]
+    last_err: Exception | None = None
+    for note, kw2 in attempts:
+        hh = {min(h): h[min(h)]} if kw2.pop("first_only", False) and h else h
+        try:
+            p = plan.plan_horizon(
+                hh,
+                current_squad=current_squad,
+                budget=budget,
+                max_per_club=ctx.constraints.max_per_club,
+                allow_wildcard=not wildcard_used,
+                time_limit=time_limit,
+                **kw2,
+            )
+            p.note = note
+            break
+        except RuntimeError as e:
+            last_err = e
+    else:
+        raise RuntimeError(f"no feasible plan after fallbacks: {last_err}")
     p.budget = budget
     squads: dict[int, set[int]] = {}
     owned = set(current_squad or (
