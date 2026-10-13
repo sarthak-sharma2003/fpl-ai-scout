@@ -28,6 +28,7 @@ import duckdb
 import pandas as pd
 
 from fplscout.gameweek import decision_gameweek
+from fplscout.ingest import lineups
 from fplscout.models import horizon, minutes, points, team_goals
 from fplscout.models.dataset import load_dataset
 from fplscout.models.train import _team_goals_lookup, project_gw
@@ -401,6 +402,7 @@ def generate_projections(
     preds, feat = project_gw(
         models.minutes_model, models.dc_model, models.points_models, target_df, teams,
         availability_factor=model_availability_overlay(con, season, gw),
+        lineup=lineups.lineup_inputs(con, season, gw),
     )
     # preds and feat share target_df's row order/length exactly (project_gw derives
     # both from it without reordering) — positional concat, not a merge on `code`,
@@ -627,6 +629,7 @@ def live_horizon_ev(
         base_rows, fixtures, teams, decision_gw=gw, horizon=HORIZON, decay=DECAY,
         max_gw=max_gw, availability_factor=model_availability_overlay(con, season, gw),
         return_gw=availability_return_gw(con, season), per_gw=per_gw,
+        lineup=lineups.lineup_inputs(con, season, gw),
     )
     # This EV is built independently of `projections`, so it needs the boost
     # applied here too. total_ev_for_optimizer's fallback does NOT: it scales

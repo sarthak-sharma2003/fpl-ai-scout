@@ -111,6 +111,7 @@ def project_gw(
     df: pd.DataFrame,
     teams: pd.DataFrame,
     availability_factor: dict[int, float] | None = None,
+    lineup: tuple[dict[int, float], set[int]] | None = None,
 ) -> tuple[pd.DataFrame, pd.DataFrame]:
     """Given already-trained models, produce EV projections for the rows in `df`
     — typically one gameweek's worth from `models.dataset.load_dataset()`.
@@ -128,6 +129,10 @@ def project_gw(
     re-deriving them.
     """
     mins_proba = minutes.predict_proba(minutes_model, df)
+    if lineup is not None and lineup[0]:
+        # predicted line-ups, live decision gameweek only (ingest/lineups.py)
+        from fplscout.ingest.lineups import apply_overlay
+        mins_proba = apply_overlay(mins_proba, df["code"], df["team_id"], *lineup)
     if availability_factor is not None:
         factor = df["code"].map(availability_factor).fillna(1.0).to_numpy()
         mins_proba = minutes.apply_availability(mins_proba, factor)

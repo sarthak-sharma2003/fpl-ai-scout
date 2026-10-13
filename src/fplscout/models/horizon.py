@@ -180,6 +180,7 @@ def build_horizon_ev(
     return_gw: dict[int, int] | None = None,
     per_gw: bool = False,
     widen_up: float = WIDEN_UP,
+    lineup: tuple[dict[int, float], set[int]] | None = None,
 ) -> pd.Series | pd.DataFrame:
     """base_rows: this season's leak-safe feature rows AT decision_gw only (one
     per player) — the frozen "how good is this player right now" snapshot.
@@ -214,6 +215,11 @@ def build_horizon_ev(
     # fixture, is both correct and required (code must be a unique index below).
     base_rows = base_rows.drop_duplicates(subset="code", keep="first").reset_index(drop=True)
     base_mins_proba = minutes.predict_proba(minutes_model, base_rows)
+    if lineup is not None and lineup[0]:
+        # predicted line-ups describe the decision week only: h=0's proba
+        from fplscout.ingest.lineups import apply_overlay
+        base_mins_proba = apply_overlay(base_mins_proba, base_rows["code"],
+                                        base_rows["team_id"], *lineup)
     use_pd = all(c in base_rows.columns for c in PD_COLUMNS)
     if use_pd:
         neutral_rows = neutralize_pd(base_rows)

@@ -16,10 +16,12 @@ import yaml
 
 from fplscout import db
 from fplscout.features.build import write_features
+from fplscout.gameweek import decision_gameweek
 from fplscout.ingest import (
     entry,
     european,
     league,
+    lineups,
     live_gw,
     odds,
     predeadline,
@@ -334,6 +336,20 @@ def refresh(
         typer.echo(f"  history rows: {n_hist}, live-season backfill rows: {n_back}")
     except Exception as e:  # noqa: BLE001
         typer.echo(f"  WARNING: pre-deadline signals not refreshed: {e}")
+
+    # Predicted line-ups for the decision gameweek (inference-time overlay on
+    # the minutes model, ingest/lineups.py). Network; never fails the refresh.
+    try:
+        dg = decision_gameweek(con)
+        if dg is not None:
+            deadline = con.execute(
+                "SELECT deadline_time FROM gameweeks WHERE season = ? AND event = ?", list(dg)
+            ).fetchone()
+            if deadline and deadline[0] is not None:
+                summary = lineups.sync_rotowire(con, dg[0], dg[1], deadline[0])
+                typer.echo(f"Predicted line-ups (RotoWire) for GW{dg[1]}: {summary}")
+    except Exception as e:  # noqa: BLE001
+        typer.echo(f"  WARNING: predicted line-ups not refreshed: {e}")
 
     typer.echo("Building feature store...")
     n_features = write_features(con)

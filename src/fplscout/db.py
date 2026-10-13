@@ -372,6 +372,21 @@ CREATE TABLE IF NOT EXISTS predeadline_signals (
     PRIMARY KEY (season, gw, code)
 );
 
+-- Predicted line-ups pulled before each deadline (ingest/lineups.py): an
+-- inference-time overlay today, archived so it can become a point-in-time
+-- training feature once there is enough history.
+CREATE TABLE IF NOT EXISTS lineup_snapshots (
+    season TEXT NOT NULL,
+    gw INTEGER NOT NULL,
+    code BIGINT NOT NULL,
+    team_id INTEGER,
+    source TEXT NOT NULL,
+    level DOUBLE,
+    committed_at TIMESTAMP,
+    fetched_at TIMESTAMP,
+    PRIMARY KEY (season, gw, code, source)
+);
+
 CREATE TABLE IF NOT EXISTS ep_next_archive (
     snapshot_time TIMESTAMP NOT NULL,
     code BIGINT NOT NULL,
@@ -456,6 +471,7 @@ TABLES = [
     "european_fixtures",
     "summer_form",
     "predeadline_signals",
+    "lineup_snapshots",
 ]
 
 
