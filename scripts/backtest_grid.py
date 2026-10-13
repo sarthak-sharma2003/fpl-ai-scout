@@ -25,6 +25,7 @@ import duckdb
 
 from fplscout.backtest import simulator as sim
 from fplscout.backtest.strategies import load_history, make_rules
+from fplscout.models import points
 
 SEASONS = ["2021-22", "2022-23", "2023-24", "2024-25", "2025-26"]
 
@@ -39,7 +40,10 @@ def main() -> None:
     a = ap.parse_args()
     prep_over = json.loads(a.prep)
     for k, v in prep_over.items():
-        setattr(sim, k, v)
+        if k == "SEED":          # model bagging seed, for multi-seed evaluation
+            points.set_seed(int(v))
+        else:
+            setattr(sim, k, v)
     t0 = time.time()
     con = duckdb.connect(a.db, read_only=True)
     train = SEASONS[: SEASONS.index(a.season)]

@@ -151,6 +151,40 @@ def latest_reference_point(con: duckdb.DuckDBPyConnection) -> tuple[str, int]:
     return row[0], row[1]
 
 
+# Explicit preference for starters (backtest/strategies.py::starts_weight):
+# EV x ((1 - w) + w * start share over the player's last 5 club gameweeks).
+# 0.0 = off. Set from the backtest sweep, never tuned against a live score.
+STARTS_PREFERENCE_W = 0.0
+STARTS_WINDOW = 5
+
+
+def starts_multiplier(
+    con: duckdb.DuckDBPyConnection, season: str, gw: int, w: float = STARTS_PREFERENCE_W
+) -> dict[int, float]:
+    """code -> EV multiplier favouring players who actually start.
+
+    Same rule as the backtest's starts_weight: start share over each player's
+    last STARTS_WINDOW gameweeks before `gw` (this season), 0.5 for a player
+    with none (unknown is not nailed). Empty (no change) when w is 0 or the
+    season has no played gameweek yet."""
+    if w <= 0:
+        return {}
+    hist = con.execute(
+        """
+        SELECT code, gw, SUM(starts) > 0 AS started
+        FROM player_gw_history WHERE season = ? AND gw < ?
+        GROUP BY code, gw
+        """,
+        [season, gw],
+    ).df()
+    if hist.empty:
+        return {}
+    last = hist.sort_values("gw").groupby("code").tail(STARTS_WINDOW)
+    share = last.groupby("code")["started"].mean()
+    codes = [r[0] for r in con.execute("SELECT code FROM players").fetchall()]
+    return {c: (1 - w) + w * float(share.get(c, 0.5)) for c in codes}
+
+
 def model_availability_overlay(
     con: duckdb.DuckDBPyConnection, season: str, decision_gw: int
 ) -> dict[int, float]:

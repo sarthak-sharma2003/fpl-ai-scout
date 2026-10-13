@@ -52,6 +52,7 @@ EXTRA_FEATURE_COLUMNS = [
 ALL_FEATURE_COLUMNS = FEATURE_COLUMNS + EXTRA_FEATURE_COLUMNS
 
 MEAN_PARAMS = {
+    "deterministic": True, "force_row_wise": True, "num_threads": 4,
     "objective": "regression",
     "metric": "rmse",
     "learning_rate": 0.05,
@@ -60,6 +61,7 @@ MEAN_PARAMS = {
     "verbose": -1,
 }
 QUANTILE_PARAMS_TEMPLATE = {
+    "deterministic": True, "force_row_wise": True, "num_threads": 4,
     "objective": "quantile",
     "learning_rate": 0.05,
     "num_leaves": 31,
@@ -84,12 +86,23 @@ NUM_BOOST_ROUND = 200
 HURDLE = True
 XPTS_TARGET = True
 COND_PARAMS = {
+    "deterministic": True, "force_row_wise": True, "num_threads": 4,
     "objective": "regression", "metric": "rmse", "learning_rate": 0.03,
     "num_leaves": 31, "min_data_in_leaf": 100, "feature_fraction": 0.8,
     "bagging_fraction": 0.8, "bagging_freq": 1, "lambda_l2": 1.0,
     "seed": 7, "verbose": -1,
 }
 COND_ROUNDS = 500
+# Run-to-run determinism matters more than it looks: two identical backtest
+# replays differed by up to 289 season points because thread-order float
+# noise changed a few splits and the transfer path diverged from there.
+# Fixed threads + row-wise histograms make a replay reproducible; the bagging
+# seed is the one deliberate source of variation (set_seed, for multi-seed
+# evaluation).
+
+
+def set_seed(seed: int) -> None:
+    COND_PARAMS.update(seed=seed, bagging_seed=seed, feature_fraction_seed=seed)
 GOAL_PTS = {"GKP": 6, "DEF": 6, "MID": 5, "FWD": 4}
 CS_PTS = {"GKP": 4, "DEF": 4, "MID": 1, "FWD": 0}
 

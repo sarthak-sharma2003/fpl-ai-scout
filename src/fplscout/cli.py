@@ -527,6 +527,11 @@ def optimize(settings_path: Path = typer.Option(DEFAULT_SETTINGS_PATH, "--settin
     roster = pipeline.roster_snapshot(con, season, gw)
     models = pipeline.load_production_models(REPO_ROOT / "data" / "models", model_version)
     total_ev = pipeline.total_ev_for_optimizer(con, models, season, gw, proj)
+    # explicit preference for players who start (pipeline.STARTS_PREFERENCE_W)
+    starts_mult = pipeline.starts_multiplier(con, season, gw)
+    if starts_mult:
+        total_ev = total_ev * total_ev.index.to_series().map(starts_mult).fillna(1.0)
+        proj["cap_ev"] = proj["cap_ev"] * proj["code"].map(starts_mult).fillna(1.0)
     # must read projections before the connection closes
     xi_excluded = pipeline.xi_minutes_floor(con, season, gw, model_version)
 

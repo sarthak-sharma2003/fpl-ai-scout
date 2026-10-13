@@ -266,3 +266,27 @@ def test_lineup_watch_gw_row_survives_the_self_dissolve_but_only_for_that_gw(
     assert pipeline.live_availability_factor(con, decision_gw=6)[2] == 1.0
     # no gw given (callers that don't know it): dated rows simply don't apply
     assert pipeline.live_availability_factor(con)[2] == 1.0
+
+
+def test_starts_multiplier_prefers_recent_starters():
+    import duckdb
+
+    from fplscout import db, pipeline
+
+    con = duckdb.connect()
+    db.init_schema(con)
+    rows = []
+    for gw in range(1, 7):
+        rows.append(("2026-27", gw, 100 + gw, 1, 1, "x"))          # code 1 starts every week
+        rows.append(("2026-27", gw, 100 + gw, 2, int(gw % 2), "x"))  # code 2 every other week
+    con.executemany(
+        "INSERT INTO player_gw_history (season, gw, fixture_id, code, element_id, starts, "
+        "source) VALUES (?, ?, ?, ?, 0, ?, ?)", rows)
+    con.executemany("INSERT INTO players (code, web_name) VALUES (?, ?)",
+                    [(1, "a"), (2, "b"), (3, "new")])
+    m = pipeline.starts_multiplier(con, "2026-27", 7, w=0.5)
+    assert m[1] == 1.0
+    assert abs(m[2] - (0.5 + 0.5 * 0.4)) < 1e-9     # GW2..6: started 2 of 5
+    assert m[3] == 0.75                               # no history -> share 0.5
+    assert pipeline.starts_multiplier(con, "2026-27", 7, w=0.0) == {}
+    assert pipeline.starts_multiplier(con, "2026-27", 1, w=0.5) == {}
