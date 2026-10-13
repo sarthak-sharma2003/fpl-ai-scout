@@ -6,7 +6,8 @@
         --out data/reports/bt/2024-25_decay0.9.json
 
 `--prep` overrides simulator module constants that shape the EV the season is
-prepared with (DECAY, HORIZON); `--grid` entries are simulate_season keyword
+prepared with (DECAY, HORIZON), the model seed (SEED) or the minutes model
+(MINUTES: {"params": {...}, "rounds": n}); `--grid` entries are simulate_season keyword
 overrides, which are cheap because they reuse the prepared season. Run by
 .github/workflows/backtest.yml as a matrix; also runnable locally.
 
@@ -25,7 +26,7 @@ import duckdb
 
 from fplscout.backtest import simulator as sim
 from fplscout.backtest.strategies import load_history, make_rules
-from fplscout.models import points
+from fplscout.models import minutes, points
 
 SEASONS = ["2021-22", "2022-23", "2023-24", "2024-25", "2025-26"]
 
@@ -42,6 +43,10 @@ def main() -> None:
     for k, v in prep_over.items():
         if k == "SEED":          # model bagging seed, for multi-seed evaluation
             points.set_seed(int(v))
+        elif k == "MINUTES":     # minutes-model overrides {"params": {...}, "rounds": n}
+            minutes.LGB_PARAMS.update(v.get("params", {}))
+            if "rounds" in v:
+                minutes.NUM_BOOST_ROUND = int(v["rounds"])
         else:
             setattr(sim, k, v)
     t0 = time.time()
