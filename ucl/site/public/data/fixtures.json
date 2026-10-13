@@ -1,6 +1,6 @@
 {
  "schema": 1,
- "generatedAt": "2026-10-13T10:05:35.097122+00:00",
+ "generatedAt": "2026-10-13T13:04:30.820743+00:00",
  "season": "2026-27",
  "tour": 90,
  "matchday": 2,
@@ -577,15 +577,27 @@
      "lineupAnnounced": false
     },
     {
+     "home": 52498,
+     "away": 70691,
+     "kickoff": "2026-11-25T17:45:00+00:00",
+     "lineupAnnounced": false
+    },
+    {
      "home": 2609356,
      "away": 50080,
      "kickoff": "2026-11-25T17:45:00+00:00",
      "lineupAnnounced": false
     },
     {
-     "home": 52498,
-     "away": 70691,
-     "kickoff": "2026-11-25T17:45:00+00:00",
+     "home": 52707,
+     "away": 52692,
+     "kickoff": "2026-11-25T20:00:00+00:00",
+     "lineupAnnounced": false
+    },
+    {
+     "home": 52747,
+     "away": 50137,
+     "kickoff": "2026-11-25T20:00:00+00:00",
      "lineupAnnounced": false
     },
     {
@@ -595,8 +607,14 @@
      "lineupAnnounced": false
     },
     {
-     "home": 52747,
-     "away": 50137,
+     "home": 50138,
+     "away": 50107,
+     "kickoff": "2026-11-25T20:00:00+00:00",
+     "lineupAnnounced": false
+    },
+    {
+     "home": 75797,
+     "away": 50037,
      "kickoff": "2026-11-25T20:00:00+00:00",
      "lineupAnnounced": false
     },
@@ -609,24 +627,6 @@
     {
      "home": 50124,
      "away": 52319,
-     "kickoff": "2026-11-25T20:00:00+00:00",
-     "lineupAnnounced": false
-    },
-    {
-     "home": 50138,
-     "away": 50107,
-     "kickoff": "2026-11-25T20:00:00+00:00",
-     "lineupAnnounced": false
-    },
-    {
-     "home": 52707,
-     "away": 52692,
-     "kickoff": "2026-11-25T20:00:00+00:00",
-     "lineupAnnounced": false
-    },
-    {
-     "home": 75797,
-     "away": 50037,
      "kickoff": "2026-11-25T20:00:00+00:00",
      "lineupAnnounced": false
     }
@@ -660,14 +660,8 @@
      "lineupAnnounced": false
     },
     {
-     "home": 50137,
-     "away": 50149,
-     "kickoff": "2026-12-08T20:00:00+00:00",
-     "lineupAnnounced": false
-    },
-    {
-     "home": 50080,
-     "away": 52919,
+     "home": 52682,
+     "away": 2603790,
      "kickoff": "2026-12-08T20:00:00+00:00",
      "lineupAnnounced": false
     },
@@ -684,26 +678,32 @@
      "lineupAnnounced": false
     },
     {
+     "home": 50080,
+     "away": 52919,
+     "kickoff": "2026-12-08T20:00:00+00:00",
+     "lineupAnnounced": false
+    },
+    {
+     "home": 50137,
+     "away": 50149,
+     "kickoff": "2026-12-08T20:00:00+00:00",
+     "lineupAnnounced": false
+    },
+    {
      "home": 52683,
      "away": 52747,
      "kickoff": "2026-12-08T20:00:00+00:00",
      "lineupAnnounced": false
     },
     {
-     "home": 52682,
-     "away": 2603790,
-     "kickoff": "2026-12-08T20:00:00+00:00",
+     "home": 52265,
+     "away": 79946,
+     "kickoff": "2026-12-09T17:45:00+00:00",
      "lineupAnnounced": false
     },
     {
      "home": 52797,
      "away": 52707,
-     "kickoff": "2026-12-09T17:45:00+00:00",
-     "lineupAnnounced": false
-    },
-    {
-     "home": 52265,
-     "away": 79946,
      "kickoff": "2026-12-09T17:45:00+00:00",
      "lineupAnnounced": false
     },
@@ -738,14 +738,14 @@
      "lineupAnnounced": false
     },
     {
-     "home": 63405,
-     "away": 52692,
+     "home": 52277,
+     "away": 59333,
      "kickoff": "2026-12-09T20:00:00+00:00",
      "lineupAnnounced": false
     },
     {
-     "home": 52277,
-     "away": 59333,
+     "home": 63405,
+     "away": 52692,
      "kickoff": "2026-12-09T20:00:00+00:00",
      "lineupAnnounced": false
     }
@@ -773,14 +773,20 @@
      "lineupAnnounced": false
     },
     {
-     "home": 50107,
-     "away": 50043,
+     "home": 50138,
+     "away": 7889,
      "kickoff": "2027-01-19T20:00:00+00:00",
      "lineupAnnounced": false
     },
     {
-     "home": 50138,
-     "away": 7889,
+     "home": 50129,
+     "away": 50137,
+     "kickoff": "2027-01-19T20:00:00+00:00",
+     "lineupAnnounced": false
+    },
+    {
+     "home": 50051,
+     "away": 63405,
      "kickoff": "2027-01-19T20:00:00+00:00",
      "lineupAnnounced": false
     },
@@ -803,21 +809,9 @@
      "lineupAnnounced": false
     },
     {
-     "home": 50129,
-     "away": 50137,
+     "home": 50107,
+     "away": 50043,
      "kickoff": "2027-01-19T20:00:00+00:00",
-     "lineupAnnounced": false
-    },
-    {
-     "home": 50051,
-     "away": 63405,
-     "kickoff": "2027-01-19T20:00:00+00:00",
-     "lineupAnnounced": false
-    },
-    {
-     "home": 52692,
-     "away": 70691,
-     "kickoff": "2027-01-20T17:45:00+00:00",
      "lineupAnnounced": false
     },
     {
@@ -827,14 +821,26 @@
      "lineupAnnounced": false
     },
     {
-     "home": 52265,
-     "away": 52280,
+     "home": 52692,
+     "away": 70691,
+     "kickoff": "2027-01-20T17:45:00+00:00",
+     "lineupAnnounced": false
+    },
+    {
+     "home": 50149,
+     "away": 50080,
      "kickoff": "2027-01-20T20:00:00+00:00",
      "lineupAnnounced": false
     },
     {
-     "home": 2603790,
-     "away": 52707,
+     "home": 52682,
+     "away": 50037,
+     "kickoff": "2027-01-20T20:00:00+00:00",
+     "lineupAnnounced": false
+    },
+    {
+     "home": 52265,
+     "away": 52280,
      "kickoff": "2027-01-20T20:00:00+00:00",
      "lineupAnnounced": false
     },
@@ -851,20 +857,14 @@
      "lineupAnnounced": false
     },
     {
+     "home": 2603790,
+     "away": 52707,
+     "kickoff": "2027-01-20T20:00:00+00:00",
+     "lineupAnnounced": false
+    },
+    {
      "home": 52319,
      "away": 50062,
-     "kickoff": "2027-01-20T20:00:00+00:00",
-     "lineupAnnounced": false
-    },
-    {
-     "home": 52682,
-     "away": 50037,
-     "kickoff": "2027-01-20T20:00:00+00:00",
-     "lineupAnnounced": false
-    },
-    {
-     "home": 50149,
-     "away": 50080,
      "kickoff": "2027-01-20T20:00:00+00:00",
      "lineupAnnounced": false
     }
@@ -879,18 +879,6 @@
    ],
    "matches": [
     {
-     "home": 52919,
-     "away": 50149,
-     "kickoff": "2027-01-27T20:00:00+00:00",
-     "lineupAnnounced": false
-    },
-    {
-     "home": 52280,
-     "away": 2609356,
-     "kickoff": "2027-01-27T20:00:00+00:00",
-     "lineupAnnounced": false
-    },
-    {
      "home": 50080,
      "away": 79946,
      "kickoff": "2027-01-27T20:00:00+00:00",
@@ -903,8 +891,20 @@
      "lineupAnnounced": false
     },
     {
-     "home": 52758,
-     "away": 50129,
+     "home": 50136,
+     "away": 52319,
+     "kickoff": "2027-01-27T20:00:00+00:00",
+     "lineupAnnounced": false
+    },
+    {
+     "home": 52749,
+     "away": 2603790,
+     "kickoff": "2027-01-27T20:00:00+00:00",
+     "lineupAnnounced": false
+    },
+    {
+     "home": 50062,
+     "away": 50107,
      "kickoff": "2027-01-27T20:00:00+00:00",
      "lineupAnnounced": false
     },
@@ -939,32 +939,20 @@
      "lineupAnnounced": false
     },
     {
-     "home": 63405,
-     "away": 50064,
-     "kickoff": "2027-01-27T20:00:00+00:00",
-     "lineupAnnounced": false
-    },
-    {
      "home": 52797,
      "away": 50138,
      "kickoff": "2027-01-27T20:00:00+00:00",
      "lineupAnnounced": false
     },
     {
-     "home": 50062,
-     "away": 50107,
+     "home": 52758,
+     "away": 50129,
      "kickoff": "2027-01-27T20:00:00+00:00",
      "lineupAnnounced": false
     },
     {
-     "home": 52749,
-     "away": 2603790,
-     "kickoff": "2027-01-27T20:00:00+00:00",
-     "lineupAnnounced": false
-    },
-    {
-     "home": 50136,
-     "away": 52319,
+     "home": 63405,
+     "away": 50064,
      "kickoff": "2027-01-27T20:00:00+00:00",
      "lineupAnnounced": false
     },
@@ -983,6 +971,18 @@
     {
      "home": 7889,
      "away": 52277,
+     "kickoff": "2027-01-27T20:00:00+00:00",
+     "lineupAnnounced": false
+    },
+    {
+     "home": 52919,
+     "away": 50149,
+     "kickoff": "2027-01-27T20:00:00+00:00",
+     "lineupAnnounced": false
+    },
+    {
+     "home": 52280,
+     "away": 2609356,
      "kickoff": "2027-01-27T20:00:00+00:00",
      "lineupAnnounced": false
     }
