@@ -1,6 +1,6 @@
 {
  "schema": 1,
- "generatedAt": "2026-10-13T08:22:43.541570+00:00",
+ "generatedAt": "2026-10-13T08:32:28.773600+00:00",
  "season": "2026-27",
  "tour": 90,
  "matchday": 2,
@@ -8,6 +8,7 @@
  "deadline": "2026-10-13T16:45:00+00:00",
  "budget": 100.0,
  "maxPerClub": 3,
+ "round": "league",
  "gamedays": [
   "2026-10-13",
   "2026-10-14"
@@ -34,6 +35,7 @@
   "matchRate": 0.992,
   "note": "MD2: 36 clubs kick off within 40h"
  },
+ "survivalNote": "2000 simulations; 126 league matches and 0 drawn knockout matches still to play",
  "teams": [
   {
    "id": 52280,
@@ -41,7 +43,15 @@
    "name": "Arsenal",
    "pot": 1,
    "eliminated": false,
-   "elo": 1747
+   "elo": 1747,
+   "pAlive": {
+    "top8": 0.629,
+    "playoff": 0.339,
+    "r16": 0.861,
+    "qf": 0.6,
+    "sf": 0.387,
+    "final": 0.237
+   }
   },
   {
    "id": 52747,
@@ -49,7 +59,15 @@
    "name": "Paris",
    "pot": 1,
    "eliminated": false,
-   "elo": 1734
+   "elo": 1734,
+   "pAlive": {
+    "top8": 0.648,
+    "playoff": 0.32,
+    "r16": 0.881,
+    "qf": 0.578,
+    "sf": 0.393,
+    "final": 0.239
+   }
   },
   {
    "id": 50037,
@@ -57,7 +75,15 @@
    "name": "Bayern M\u00fcnchen",
    "pot": 1,
    "eliminated": false,
-   "elo": 1728
+   "elo": 1728,
+   "pAlive": {
+    "top8": 0.65,
+    "playoff": 0.323,
+    "r16": 0.875,
+    "qf": 0.581,
+    "sf": 0.382,
+    "final": 0.237
+   }
   },
   {
    "id": 50080,
@@ -65,7 +91,15 @@
    "name": "Barcelona",
    "pot": 1,
    "eliminated": false,
-   "elo": 1652
+   "elo": 1652,
+   "pAlive": {
+    "top8": 0.463,
+    "playoff": 0.462,
+    "r16": 0.734,
+    "qf": 0.411,
+    "sf": 0.214,
+    "final": 0.115
+   }
   },
   {
    "id": 50051,
@@ -73,7 +107,15 @@
    "name": "Real Madrid",
    "pot": 1,
    "eliminated": false,
-   "elo": 1650
+   "elo": 1650,
+   "pAlive": {
+    "top8": 0.482,
+    "playoff": 0.44,
+    "r16": 0.765,
+    "qf": 0.437,
+    "sf": 0.229,
+    "final": 0.124
+   }
   },
   {
    "id": 52265,
@@ -81,7 +123,15 @@
    "name": "Real Betis",
    "pot": 2,
    "eliminated": false,
-   "elo": 1639
+   "elo": 1639,
+   "pAlive": {
+    "top8": 0.422,
+    "playoff": 0.49,
+    "r16": 0.717,
+    "qf": 0.412,
+    "sf": 0.225,
+    "final": 0.107
+   }
   },
   {
    "id": 7889,
@@ -89,7 +139,15 @@
    "name": "Liverpool",
    "pot": 1,
    "eliminated": false,
-   "elo": 1630
+   "elo": 1630,
+   "pAlive": {
+    "top8": 0.499,
+    "playoff": 0.435,
+    "r16": 0.752,
+    "qf": 0.421,
+    "sf": 0.226,
+    "final": 0.101
+   }
   },
   {
    "id": 52683,
@@ -97,7 +155,15 @@
    "name": "Aston Villa",
    "pot": 2,
    "eliminated": false,
-   "elo": 1621
+   "elo": 1621,
+   "pAlive": {
+    "top8": 0.446,
+    "playoff": 0.467,
+    "r16": 0.722,
+    "qf": 0.395,
+    "sf": 0.196,
+    "final": 0.098
+   }
   },
   {
    "id": 50137,
@@ -105,7 +171,15 @@
    "name": "Roma",
    "pot": 2,
    "eliminated": false,
-   "elo": 1619
+   "elo": 1619,
+   "pAlive": {
+    "top8": 0.219,
+    "playoff": 0.556,
+    "r16": 0.548,
+    "qf": 0.289,
+    "sf": 0.156,
+    "final": 0.081
+   }
   },
   {
    "id": 52919,
@@ -113,7 +187,15 @@
    "name": "Man City",
    "pot": 1,
    "eliminated": false,
-   "elo": 1598
+   "elo": 1598,
+   "pAlive": {
+    "top8": 0.384,
+    "playoff": 0.5,
+    "r16": 0.667,
+    "qf": 0.344,
+    "sf": 0.163,
+    "final": 0.08
+   }
   },
   {
    "id": 50149,
@@ -121,7 +203,15 @@
    "name": "Sporting CP",
    "pot": 2,
    "eliminated": false,
-   "elo": 1593
+   "elo": 1593,
+   "pAlive": {
+    "top8": 0.383,
+    "playoff": 0.508,
+    "r16": 0.68,
+    "qf": 0.362,
+    "sf": 0.163,
+    "final": 0.073
+   }
   },
   {
    "id": 50124,
@@ -129,7 +219,15 @@
    "name": "Atleti",
    "pot": 1,
    "eliminated": false,
-   "elo": 1593
+   "elo": 1593,
+   "pAlive": {
+    "top8": 0.138,
+    "playoff": 0.525,
+    "r16": 0.428,
+    "qf": 0.2,
+    "sf": 0.086,
+    "final": 0.043
+   }
   },
   {
    "id": 50138,
@@ -137,7 +235,15 @@
    "name": "Inter",
    "pot": 1,
    "eliminated": false,
-   "elo": 1575
+   "elo": 1575,
+   "pAlive": {
+    "top8": 0.159,
+    "playoff": 0.518,
+    "r16": 0.435,
+    "qf": 0.203,
+    "sf": 0.097,
+    "final": 0.048
+   }
   },
   {
    "id": 52758,
@@ -145,7 +251,15 @@
    "name": "B. Dortmund",
    "pot": 2,
    "eliminated": false,
-   "elo": 1571
+   "elo": 1571,
+   "pAlive": {
+    "top8": 0.278,
+    "playoff": 0.55,
+    "r16": 0.579,
+    "qf": 0.276,
+    "sf": 0.126,
+    "final": 0.06
+   }
   },
   {
    "id": 59333,
@@ -153,7 +267,15 @@
    "name": "Bod\u00f8/Glimt",
    "pot": 3,
    "eliminated": false,
-   "elo": 1551
+   "elo": 1551,
+   "pAlive": {
+    "top8": 0.101,
+    "playoff": 0.48,
+    "r16": 0.33,
+    "qf": 0.147,
+    "sf": 0.068,
+    "final": 0.028
+   }
   },
   {
    "id": 52692,
@@ -161,7 +283,15 @@
    "name": "Fenerbah\u00e7e",
    "pot": 3,
    "eliminated": false,
-   "elo": 1541
+   "elo": 1541,
+   "pAlive": {
+    "top8": 0.165,
+    "playoff": 0.539,
+    "r16": 0.441,
+    "qf": 0.193,
+    "sf": 0.082,
+    "final": 0.035
+   }
   },
   {
    "id": 75797,
@@ -169,7 +299,15 @@
    "name": "Lille",
    "pot": 3,
    "eliminated": false,
-   "elo": 1531
+   "elo": 1531,
+   "pAlive": {
+    "top8": 0.05,
+    "playoff": 0.414,
+    "r16": 0.23,
+    "qf": 0.096,
+    "sf": 0.04,
+    "final": 0.018
+   }
   },
   {
    "id": 50062,
@@ -177,7 +315,15 @@
    "name": "PSV",
    "pot": 2,
    "eliminated": false,
-   "elo": 1529
+   "elo": 1529,
+   "pAlive": {
+    "top8": 0.143,
+    "playoff": 0.519,
+    "r16": 0.376,
+    "qf": 0.163,
+    "sf": 0.061,
+    "final": 0.022
+   }
   },
   {
    "id": 52682,
@@ -185,7 +331,15 @@
    "name": "Man Utd",
    "pot": 2,
    "eliminated": false,
-   "elo": 1525
+   "elo": 1525,
+   "pAlive": {
+    "top8": 0.259,
+    "playoff": 0.558,
+    "r16": 0.521,
+    "qf": 0.216,
+    "sf": 0.083,
+    "final": 0.037
+   }
   },
   {
    "id": 50064,
@@ -193,7 +347,15 @@
    "name": "Porto",
    "pot": 2,
    "eliminated": false,
-   "elo": 1523
+   "elo": 1523,
+   "pAlive": {
+    "top8": 0.072,
+    "playoff": 0.472,
+    "r16": 0.28,
+    "qf": 0.114,
+    "sf": 0.045,
+    "final": 0.019
+   }
   },
   {
    "id": 52277,
@@ -201,7 +363,15 @@
    "name": "Lens",
    "pot": 4,
    "eliminated": false,
-   "elo": 1512
+   "elo": 1512,
+   "pAlive": {
+    "top8": 0.249,
+    "playoff": 0.56,
+    "r16": 0.511,
+    "qf": 0.217,
+    "sf": 0.086,
+    "final": 0.029
+   }
   },
   {
    "id": 50067,
@@ -209,7 +379,15 @@
    "name": "Galatasaray",
    "pot": 3,
    "eliminated": false,
-   "elo": 1505
+   "elo": 1505,
+   "pAlive": {
+    "top8": 0.049,
+    "playoff": 0.392,
+    "r16": 0.24,
+    "qf": 0.093,
+    "sf": 0.036,
+    "final": 0.013
+   }
   },
   {
    "id": 50043,
@@ -217,7 +395,15 @@
    "name": "Club Brugge",
    "pot": 2,
    "eliminated": false,
-   "elo": 1497
+   "elo": 1497,
+   "pAlive": {
+    "top8": 0.067,
+    "playoff": 0.415,
+    "r16": 0.243,
+    "qf": 0.101,
+    "sf": 0.045,
+    "final": 0.015
+   }
   },
   {
    "id": 52749,
@@ -225,7 +411,15 @@
    "name": "Feyenoord",
    "pot": 3,
    "eliminated": false,
-   "elo": 1495
+   "elo": 1495,
+   "pAlive": {
+    "top8": 0.064,
+    "playoff": 0.448,
+    "r16": 0.261,
+    "qf": 0.097,
+    "sf": 0.032,
+    "final": 0.012
+   }
   },
   {
    "id": 50136,
@@ -233,7 +427,15 @@
    "name": "Napoli",
    "pot": 3,
    "eliminated": false,
-   "elo": 1494
+   "elo": 1494,
+   "pAlive": {
+    "top8": 0.078,
+    "playoff": 0.461,
+    "r16": 0.282,
+    "qf": 0.11,
+    "sf": 0.042,
+    "final": 0.015
+   }
   },
   {
    "id": 50107,
@@ -241,7 +443,15 @@
    "name": "Stuttgart",
    "pot": 4,
    "eliminated": false,
-   "elo": 1489
+   "elo": 1489,
+   "pAlive": {
+    "top8": 0.251,
+    "playoff": 0.547,
+    "r16": 0.498,
+    "qf": 0.188,
+    "sf": 0.073,
+    "final": 0.03
+   }
   },
   {
    "id": 52707,
@@ -249,7 +459,15 @@
    "name": "Shakhtar",
    "pot": 3,
    "eliminated": false,
-   "elo": 1487
+   "elo": 1487,
+   "pAlive": {
+    "top8": 0.124,
+    "playoff": 0.487,
+    "r16": 0.339,
+    "qf": 0.128,
+    "sf": 0.046,
+    "final": 0.019
+   }
   },
   {
    "id": 79946,
@@ -257,7 +475,15 @@
    "name": "Como",
    "pot": 4,
    "eliminated": false,
-   "elo": 1477
+   "elo": 1477,
+   "pAlive": {
+    "top8": 0.16,
+    "playoff": 0.567,
+    "r16": 0.409,
+    "qf": 0.158,
+    "sf": 0.064,
+    "final": 0.017
+   }
   },
   {
    "id": 50129,
@@ -265,7 +491,15 @@
    "name": "AEK Athens",
    "pot": 4,
    "eliminated": false,
-   "elo": 1467
+   "elo": 1467,
+   "pAlive": {
+    "top8": 0.167,
+    "playoff": 0.559,
+    "r16": 0.397,
+    "qf": 0.147,
+    "sf": 0.046,
+    "final": 0.013
+   }
   },
   {
    "id": 2603790,
@@ -273,7 +507,15 @@
    "name": "Leipzig",
    "pot": 3,
    "eliminated": false,
-   "elo": 1461
+   "elo": 1461,
+   "pAlive": {
+    "top8": 0.04,
+    "playoff": 0.376,
+    "r16": 0.201,
+    "qf": 0.074,
+    "sf": 0.026,
+    "final": 0.008
+   }
   },
   {
    "id": 63405,
@@ -281,7 +523,15 @@
    "name": "LASK",
    "pot": 4,
    "eliminated": false,
-   "elo": 1433
+   "elo": 1433,
+   "pAlive": {
+    "top8": 0.036,
+    "playoff": 0.312,
+    "r16": 0.165,
+    "qf": 0.057,
+    "sf": 0.022,
+    "final": 0.007
+   }
   },
   {
    "id": 52319,
@@ -289,7 +539,15 @@
    "name": "Viking",
    "pot": 4,
    "eliminated": false,
-   "elo": 1430
+   "elo": 1430,
+   "pAlive": {
+    "top8": 0.021,
+    "playoff": 0.318,
+    "r16": 0.133,
+    "qf": 0.041,
+    "sf": 0.011,
+    "final": 0.004
+   }
   },
   {
    "id": 2609356,
@@ -297,7 +555,15 @@
    "name": "Sabah",
    "pot": 4,
    "eliminated": false,
-   "elo": 1428
+   "elo": 1428,
+   "pAlive": {
+    "top8": 0.036,
+    "playoff": 0.34,
+    "r16": 0.143,
+    "qf": 0.042,
+    "sf": 0.013,
+    "final": 0.004
+   }
   },
   {
    "id": 70691,
@@ -305,7 +571,15 @@
    "name": "Villarreal",
    "pot": 3,
    "eliminated": false,
-   "elo": 1418
+   "elo": 1418,
+   "pAlive": {
+    "top8": 0.036,
+    "playoff": 0.303,
+    "r16": 0.151,
+    "qf": 0.046,
+    "sf": 0.016,
+    "final": 0.004
+   }
   },
   {
    "id": 52498,
@@ -313,7 +587,15 @@
    "name": "Slavia Praha",
    "pot": 4,
    "eliminated": false,
-   "elo": 1397
+   "elo": 1397,
+   "pAlive": {
+    "top8": 0.012,
+    "playoff": 0.231,
+    "r16": 0.095,
+    "qf": 0.031,
+    "sf": 0.011,
+    "final": 0.001
+   }
   },
   {
    "id": 52797,
@@ -321,7 +603,15 @@
    "name": "S. Bratislava",
    "pot": 4,
    "eliminated": false,
-   "elo": 1394
+   "elo": 1394,
+   "pAlive": {
+    "top8": 0.02,
+    "playoff": 0.264,
+    "r16": 0.11,
+    "qf": 0.034,
+    "sf": 0.011,
+    "final": 0.004
+   }
   }
  ]
 }
