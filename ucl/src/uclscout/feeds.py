@@ -36,7 +36,11 @@ UEFA_TZ = ZoneInfo("Europe/Zurich")
 
 SKILL = {1: "GK", 2: "DEF", 3: "MID", 4: "FWD"}
 # "" fit | NIS not in squad | I injured | D doubtful | S suspended
-UNAVAILABLE = {"NIS", "I", "S"}
+# | E eliminated: the club is out of the competition. Never seen live yet; the
+# completed 2025-26 feed marks every player of the 34 clubs that did not reach
+# the final "E", and nobody at the two finalists.
+UNAVAILABLE = {"NIS", "I", "S", "E"}
+ELIMINATED = "E"
 
 _UA = "ucl-scout/0.1 (+https://github.com/)"
 # feeds are CDN-cached at max-age=95; polling faster gains nothing
@@ -108,6 +112,21 @@ class Match:
     away_id: int
     lineup_announced: bool
     status: str
+    # Final score once played; None before kickoff or if the feed omits it.
+    home_goals: int | None = None
+    away_goals: int | None = None
+
+
+def _goals(v: Any) -> int | None:
+    """A score field, or None. UEFA sends "" before kickoff, and "1:1"-style
+    strings in some aggregate fields -- anything that is not a plain count is
+    treated as unknown rather than allowed to raise."""
+    s = str(v if v is not None else "").strip()
+    return int(s) if s.isdigit() else None
+
+
+def _live(m: dict) -> bool:
+    return "1" in (str(m.get("isLive") or ""), str(m.get("matchStatus") or ""))
 
 
 @dataclass(frozen=True)
@@ -176,9 +195,15 @@ def teams(tour: int = CURRENT_TOUR) -> list[Team]:
 
 
 def matchdays(tour: int = CURRENT_TOUR) -> list[Matchday]:
+    return parse_matchdays(fetch(f"fixtures/fixtures_{tour}_en.json"))
+
+
+def parse_matchdays(payload: dict) -> list[Matchday]:
+    """The fixtures feed, from an already-fetched payload (the replay reads
+    archived ones from disk)."""
     ctx = "fixtures"
     out = []
-    for md in _value(fetch(f"fixtures/fixtures_{tour}_en.json"), ctx):
+    for md in _value(payload, ctx):
         mid = int(_req(md, "mdId", ctx))
         matches = [
             Match(
@@ -189,6 +214,11 @@ def matchdays(tour: int = CURRENT_TOUR) -> list[Matchday]:
                 away_id=int(_req(m, "atId", ctx)),
                 lineup_announced=bool(int(m.get("lineupAnnounced") or 0)),
                 status=str(m.get("matchStatus") or ""),
+                # finished matches read matchStatus "2" / isLive 2, unplayed
+                # "0" / 0; a "1" is taken to be in progress, whose score is
+                # not a result yet
+                home_goals=None if _live(m) else _goals(m.get("htScore")),
+                away_goals=None if _live(m) else _goals(m.get("atScore")),
             )
             for m in (md.get("match") or [])
         ]

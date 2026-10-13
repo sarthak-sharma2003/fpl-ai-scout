@@ -71,6 +71,13 @@ export interface SquadData extends Meta {
 
 export interface PlanAction {
   matchday: number;
+  /** league | playoff | r16 | qf | sf | final */
+  round?: string;
+  /** projected before the knockout draw: P(club still in) x a generic opponent */
+  generic?: boolean;
+  /** a free rebuild (MD9, MD11): every transfer is free */
+  unlimited?: boolean;
+  maxPerClub?: number;
   chip: string | null;
   banking: boolean;
   freeAvailable: number;

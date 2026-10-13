@@ -84,10 +84,22 @@ def plan_cmd(
 def backtest(
     csv: Path = typer.Option(Path("data/archive_players.csv")),
     season: str = typer.Option("2024-25"),
+    policies: str = typer.Option(
+        "hold,planner,random",
+        help="comma-separated: hold, planner, random, rules, playing, alive, "
+             "rotation (the last four need --raw)"),
+    raw: Path = typer.Option(
+        None, help="directory of fixtures_{tour}.json dumps (this season's "
+                   "and earlier ones, for Elo); enables the knockout policies"),
 ) -> None:
     """Replay a completed season."""
-    from .backtest import compare
-    for r in compare(csv, season):
+    from .backtest import compare, load_fixtures
+    fixtures = None
+    if raw is not None:
+        tour = next(t for t, s in feeds.SEASONS.items() if s == season)
+        fixtures = load_fixtures(raw, tour)
+    names = [p.strip() for p in policies.split(",") if p.strip()]
+    for r in compare(csv, season, names, fixtures=fixtures):
         typer.echo(str(r))
 
 
