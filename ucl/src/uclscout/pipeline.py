@@ -4,7 +4,7 @@ from __future__ import annotations
 from dataclasses import dataclass, field, replace
 from datetime import UTC, datetime
 
-from . import domestic, feeds, plan, project, strength
+from . import domestic, feeds, lineups, plan, project, strength
 
 ARCHIVED_TOURS = [30, 40, 50, 60, 70, 80]
 PREVIOUS_TOUR = 80          # 2025-26, for detecting who changed clubs
@@ -49,6 +49,11 @@ class Context:
     # last season's UCL totals for players still at the same club (empty at
     # MD1, when the live feed itself still carries last season's numbers)
     prior_season: dict[int, project.PriorSeason] = field(default_factory=dict)
+    # predicted-line-up P(start), valid for `lineup_matchday` ONLY: the sources
+    # describe each club's next match, never a later one
+    lineup_probs: dict[int, float] = field(default_factory=dict)
+    lineup_matchday: int | None = None
+    lineup_report: lineups.LineupReport | None = None
 
     @property
     def team_by_id(self) -> dict[int, feeds.Team]:
@@ -132,7 +137,8 @@ def fit_ratings(teams: list[feeds.Team], tour: int,
     return strength.fit_elo(results, pots)
 
 
-def load(tour: int = feeds.CURRENT_TOUR, *, fit_strength: bool = True) -> Context:
+def load(tour: int = feeds.CURRENT_TOUR, *, fit_strength: bool = True,
+         predicted_lineups: bool = True) -> Context:
     c = feeds.constraints(tour)
     teams = feeds.teams(tour)
     mds = feeds.matchdays(tour)
@@ -146,12 +152,47 @@ def load(tour: int = feeds.CURRENT_TOUR, *, fit_strength: bool = True) -> Contex
     moved = detect_transfers(pl, previous=previous) if previous else set()
     prior = (prior_season_stats(pl, previous, moved)
              if previous and c.matchday > 1 else {})
-    return Context(tour, c, teams, mds, pl, elo, moved, prior)
+    ctx = Context(tour, c, teams, mds, pl, elo, moved, prior)
+    if predicted_lineups:
+        attach_lineups(ctx)
+    return ctx
+
+
+def attach_lineups(ctx: Context, *, now: datetime | None = None,
+                   data: dict | None = None) -> None:
+    """Predicted-line-up P(start) for the next open matchday, where trustworthy.
+
+    Only clubs kicking off within `lineups.FRESH_HOURS` are asked for: further
+    out, a club's "next match" may be a league game in between. Never raises --
+    no line-ups just means the observed-minutes projection, as before.
+    """
+    now = now or datetime.now(UTC)
+    md = next_open_matchday(ctx, now)
+    this = next((m for m in ctx.matchdays if m.id == md), None)
+    fresh = lineups.fresh_clubs(this, now)
+    if not fresh:
+        ctx.lineup_report = lineups.LineupReport(
+            note=f"MD{md}: no club kicks off within "
+                 f"{lineups.FRESH_HOURS:.0f}h; not fetched")
+        return
+    try:
+        rep = lineups.start_probabilities(ctx.players, ctx.teams,
+                                          clubs=fresh, data=data)
+    except Exception as e:                                   # noqa: BLE001
+        ctx.lineup_report = lineups.LineupReport(
+            note=f"line-ups failed: {type(e).__name__}: {e}"[:200])
+        return
+    rep.note = (f"MD{md}: {len(fresh)} clubs kick off within "
+                f"{lineups.FRESH_HOURS:.0f}h")
+    ctx.lineup_probs, ctx.lineup_matchday, ctx.lineup_report = rep.probs, md, rep
 
 
 def project_matchday(ctx: Context, md: int, **kw) -> list[project.Projection]:
     kw.setdefault("moved_clubs", ctx.moved_clubs)
     kw.setdefault("prior_season", ctx.prior_season)
+    # line-ups describe each club's NEXT match: never project them further out
+    if md == ctx.lineup_matchday and ctx.lineup_probs:
+        kw.setdefault("predicted_lineups", ctx.lineup_probs)
     return project.project(
         ctx.players, ctx.teams, ctx.opponents_for(md),
         strength_adj=ctx.strength_adj, **kw,

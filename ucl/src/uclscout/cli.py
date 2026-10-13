@@ -116,6 +116,11 @@ def publish_cmd(
     files = publish.build(ctx, out, held=held, time_limit=time_limit)
     for name, path in files.items():
         typer.echo(f"  {name:16} {path.stat().st_size:>8,} bytes")
+    rep = ctx.lineup_report
+    if rep is not None:
+        typer.echo(f"  {rep.summary()} [{rep.note}]")
+        if rep.unmatched:
+            typer.echo(f"  unmatched sample: {'; '.join(rep.unmatched[:8])}")
 
 
 @app.command()

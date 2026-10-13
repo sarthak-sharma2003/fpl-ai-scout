@@ -12,7 +12,7 @@ from dataclasses import asdict
 from datetime import UTC, datetime
 from pathlib import Path
 
-from . import pipeline
+from . import captaincy, pipeline
 from . import plan as planning
 from .optimize import Squad
 from .project import Projection
@@ -34,6 +34,8 @@ def _player(p: Projection) -> dict:
         "minutesSource": p.minutes.source.value,
         "minutesTrusted": p.minutes.trusted,
         "minutesNote": p.minutes.note,
+        "pStart": (round(p.minutes.p_start, 2)
+                   if p.minutes.p_start is not None else None),
         "canCaptain": p.can_captain,
         "opponentAdj": round(p.opponent_adj, 3),
         "owned": p.player.selected_pct,
@@ -91,6 +93,24 @@ def _held_squad(a: planning.MatchdayAction, held: HeldSquad,
     }
 
 
+def _apply_captain(squad: dict, switch: captaincy.CaptainSwitch,
+                   plan_first: planning.MatchdayAction | None) -> None:
+    """Make the published armband the switch-aware one, everywhere it shows.
+
+    The planner captains on the mean; `captaincy` may prefer an earlier-day
+    player because the one-way switch is an option on him. The page must
+    show one captain, so the squad and this matchday's plan row agree with it.
+    """
+    cap = switch.captain
+    squad["captainSwitch"] = switch.as_json()
+    squad["captainId"] = cap.player.id
+    squad["totalPoints"] = round(squad["xiPoints"] + cap.points, 1)
+    for pick in squad["picks"]:
+        pick["captain"] = pick["id"] == cap.player.id
+    if plan_first is not None:
+        plan_first.captain = cap
+
+
 def build(ctx: pipeline.Context, out_dir: Path, *,
           current_squad: set[int] | None = None,
           held: HeldSquad | None = None,
@@ -119,6 +139,10 @@ def build(ctx: pipeline.Context, out_dir: Path, *,
         "checklist": planning.matchday_checklist(
             md, this_md.gamedays if this_md else [],
             this_md.subs_allowed if this_md else 0),
+        # which predicted line-ups fed this matchday, so a page (or a human)
+        # can tell "no line-ups yet" from "line-ups used"
+        "lineups": (ctx.lineup_report.as_json()
+                    if ctx.lineup_report is not None else None),
     }
 
     the_plan = pipeline.build_plan(
@@ -135,6 +159,15 @@ def build(ctx: pipeline.Context, out_dir: Path, *,
         squad_payload = _held_squad(first, held, the_plan.budget)
     else:
         squad_payload = None
+    if squad_payload is not None:
+        xi = (the_plan.opening_squad.xi if the_plan.opening_squad
+              else first.xi if first else [])
+        switch = captaincy.plan_captaincy(xi)
+        if switch is not None:
+            _apply_captain(squad_payload, switch, plan_first=first)
+            line = captaincy.checklist_line(switch)
+            if line:
+                meta["checklist"].insert(1, line)
     plan_json = {
         **meta,
         "totalProjected": round(the_plan.total_points, 1),

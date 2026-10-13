@@ -18,7 +18,7 @@ captain. If we are guessing, the guess is visible and it is constrained.
 from __future__ import annotations
 
 import enum
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from statistics import median
 
 from .feeds import Player, Team
@@ -196,33 +196,85 @@ def estimate_minutes(
     p: Player,
     team_peak_minutes: float,
     *,
-    predicted_lineups: dict[int, bool] | None = None,
+    predicted_lineups: dict[int, float] | None = None,
     domestic_minutes: dict[int, float] | None = None,
     changed_club: bool = False,
     prior: PriorSeason | None = None,
 ) -> Minutes:
     """Expected minutes for one player, preferring observed sources.
 
-    Order of preference is the whole point: a published XI beats current-season
-    domestic minutes, which beat prior UCL minutes at the same club, which beat
-    a guess from price.
+    Order of preference is the whole point: a predicted XI for this match beats
+    current-season domestic minutes, which beat prior UCL minutes at the same
+    club, which beat a guess from price. The predicted XI is BLENDED with the
+    best of the others rather than replacing it (`blend_lineup`). A doubtful
+    ("D") player has minutes and P(start) halved, whatever the source.
     """
     if p.status in {"NIS", "I", "S"}:
         return Minutes(0.0, MinutesSource.OBSERVED_UCL, f"status={p.status}")
 
-    doubt = 0.5 if p.status == "D" else 1.0
-
+    m = _observed_minutes(p, team_peak_minutes,
+                          domestic_minutes=domestic_minutes,
+                          changed_club=changed_club, prior=prior)
     if predicted_lineups is not None and p.id in predicted_lineups:
-        starting = predicted_lineups[p.id]
-        return Minutes(
-            (82.0 if starting else 15.0) * doubt,
-            MinutesSource.PREDICTED_LINEUP,
-            "published XI" if starting else "named on bench",
-        )
+        m = blend_lineup(m, float(predicted_lineups[p.id]))
+    if p.status == "D":
+        m = replace(m, expected=m.expected * 0.5,
+                    p_start=None if m.p_start is None else m.p_start * 0.5)
+    return m
 
+
+# How far a predicted line-up outweighs the season's evidence. The line-up is
+# about THIS match and the record is about earlier ones, so the line-up leads;
+# but it is a prediction, and a nailed starter "benched" by one scrape should
+# not vanish. Against a guess from price the line-up is nearly everything.
+LINEUP_WEIGHT = 0.8
+LINEUP_WEIGHT_VS_IMPUTED = 0.9
+
+
+def blend_lineup(observed: Minutes, p_lineup: float) -> Minutes:
+    """Mix a predicted-line-up P(start) into an observed minutes estimate.
+
+    P(start) = w * line-up + (1 - w) * the record's own P(start), and expected
+    minutes follow from it with the player's own minutes-when-starting (a
+    centre-back plays 90, a winger is hooked at 70) and SUB_MINUTES for a
+    non-start -- itself already an EXPECTED figure: about half of benched
+    players get on, for ~25 minutes. Without the player's own start length
+    every predicted starter would drift to 84, moving defenders and attackers
+    for no reason but the formula.
+    """
+    p_lineup = max(0.0, min(1.0, p_lineup))
+    span = START_MINUTES - SUB_MINUTES
+    if observed.p_start is not None:
+        p_obs = observed.p_start
+    else:
+        p_obs = max(0.0, min(1.0, (observed.expected - SUB_MINUTES) / span))
+    start_len = START_MINUTES      # a fringe record says little about starts
+    if p_obs >= 0.5:
+        start_len = (observed.expected - (1 - p_obs) * SUB_MINUTES) / p_obs
+        start_len = max(60.0, min(90.0, start_len))
+    w = LINEUP_WEIGHT if observed.trusted else LINEUP_WEIGHT_VS_IMPUTED
+    p = w * p_lineup + (1 - w) * p_obs
+    return Minutes(
+        p * start_len + (1 - p) * SUB_MINUTES,
+        MinutesSource.PREDICTED_LINEUP,
+        f"predicted line-ups P(start) {p_lineup:.0%}, "
+        f"blended with {observed.source.value} ({p_obs:.0%})",
+        p_start=p,
+    )
+
+
+def _observed_minutes(
+    p: Player,
+    team_peak_minutes: float,
+    *,
+    domestic_minutes: dict[int, float] | None = None,
+    changed_club: bool = False,
+    prior: PriorSeason | None = None,
+) -> Minutes:
+    """The best season-level estimate, before line-ups and before doubt."""
     if domestic_minutes is not None and p.id in domestic_minutes:
         return Minutes(
-            min(90.0, domestic_minutes[p.id]) * doubt,
+            min(90.0, domestic_minutes[p.id]),
             MinutesSource.OBSERVED_DOMESTIC,
             "current-season league minutes per appearance",
         )
@@ -234,7 +286,7 @@ def estimate_minutes(
     # season's archive, and demotes him to a guess, where he belongs.
     if changed_club:
         return Minutes(
-            price_prior_minutes(p.value) * doubt,
+            price_prior_minutes(p.value),
             MinutesSource.IMPUTED_PRICE,
             "changed clubs since last season -- prior minutes were elsewhere",
         )
@@ -250,20 +302,20 @@ def estimate_minutes(
                      if team_peak_minutes > 0 else 0.0)
         share = ((share_now * n_now + prior.share * PRIOR_SEASON_MATCHDAYS)
                  / (n_now + PRIOR_SEASON_MATCHDAYS))
-        return Minutes(90.0 * share * doubt, MinutesSource.OBSERVED_UCL,
+        return Minutes(90.0 * share, MinutesSource.OBSERVED_UCL,
                        "UCL minutes share, this season + last at this club",
-                       p_start=p_start_from_share(share) * doubt)
+                       p_start=p_start_from_share(share))
 
     # team_peak_minutes ~= the club's games * 90, so this normalises share.
     if team_peak_minutes > 0 and p.minutes > 0:
         share = min(90.0, 90.0 * p.minutes / team_peak_minutes)
         if p.minutes >= observed_minutes_needed(team_peak_minutes):
-            return Minutes(share * doubt, MinutesSource.OBSERVED_UCL,
+            return Minutes(share, MinutesSource.OBSERVED_UCL,
                            "UCL minutes share",
-                           p_start=p_start_from_share(share / 90.0) * doubt)
+                           p_start=p_start_from_share(share / 90.0))
 
     return Minutes(
-        price_prior_minutes(p.value) * doubt,
+        price_prior_minutes(p.value),
         MinutesSource.IMPUTED_PRICE,
         "no observed minutes -- guessed from price; cannot captain",
     )
@@ -274,7 +326,7 @@ def project(
     teams: list[Team],
     opponents: dict[int, tuple[int, bool, str]],
     *,
-    predicted_lineups: dict[int, bool] | None = None,
+    predicted_lineups: dict[int, float] | None = None,
     domestic_minutes: dict[int, float] | None = None,
     moved_clubs: set[int] | None = None,
     strength_adj=None,
@@ -361,10 +413,16 @@ def demo():
                              team_peak_minutes=90.0)
     assert cameo.source is MinutesSource.IMPUTED_PRICE, cameo.source
 
-    # A published XI outranks everything.
-    m3 = estimate_minutes(settled, 1000.0, predicted_lineups={2: False})
-    assert m3.source is MinutesSource.PREDICTED_LINEUP
-    assert m3.expected < 30, "benched in a published XI must project low"
+    # A predicted XI leads everything -- but is blended, not obeyed: benched
+    # by every source, a settled starter projects low and is still not zero.
+    m3 = estimate_minutes(settled, 1000.0, predicted_lineups={2: 0.0})
+    assert m3.source is MinutesSource.PREDICTED_LINEUP and m3.trusted
+    assert m3.expected < 30, "benched in a predicted XI must project low"
+    assert m3.p_start is not None and 0.0 < m3.p_start < 0.3, m3.p_start
+    # ...and a price-guess player named in the XI becomes a likely starter.
+    guess = estimate_minutes(transferred, 1500.0, predicted_lineups={1: 0.9})
+    assert guess.source is MinutesSource.PREDICTED_LINEUP
+    assert guess.start_equiv >= 70, guess
 
     # A settled starter who CHANGED CLUBS is demoted to a guess: his prior
     # minutes were somewhere else. This is the Gordon case exactly.

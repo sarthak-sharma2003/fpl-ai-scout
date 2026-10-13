@@ -15,6 +15,13 @@ uclscout --help
 
 ## Data
 
+Predicted line-ups (`uclscout.lineups`) come from three free scrapes —
+RotoWire, Sportsgambler, FutbolFantasy — republished as JSON by
+[knapsack-football-formations](https://github.com/pabloroldan98/knapsack-football-formations).
+That repo has no licence, so the files are fetched at run time and never
+committed here. They feed P(start) for the next open matchday only, and any
+source failing just drops that source.
+
 The historical archive (`uclscout.archive`) gives real per-matchday POINTS,
 price, and ownership. Season component stats (goals, assists, minutes,
 clean sheets, etc.) are only available as season-final totals, not broken out

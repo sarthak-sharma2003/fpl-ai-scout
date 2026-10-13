@@ -146,6 +146,9 @@ class Player:
     recoveries: int                # raw ball recoveries; 1 fantasy pt per 3
     motm: int
     as_of_matchday: int
+    # "Kylian Mbappé" where `name` is "K. Mbappé". Optional: only line-up name
+    # matching reads it, and a missing one must not break the feed.
+    full_name: str = ""
 
     @property
     def available(self) -> bool:
@@ -227,6 +230,7 @@ def players(tour: int = CURRENT_TOUR, matchday: int = 1) -> list[Player]:
             recoveries=int(p.get("bR") or 0),
             motm=int(p.get("mOM") or 0),
             as_of_matchday=matchday,
+            full_name=str(p.get("pFName") or p.get("latinName") or ""),
         ))
     return out
 

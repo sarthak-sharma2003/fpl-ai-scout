@@ -163,6 +163,13 @@ manager, and make manual subs **96.2%** against **15.0%**. MD1 spans three days
 (Tue/Wed/Thu), so it applies immediately. The tool tells you to do the thing and
 then does not help you do it.
 
+**Captain switch: FIXED 2026-10-13.** `captaincy.plan_captaincy` picks the
+pre-deadline armband with the one-way switch priced in (an early-day captain
+backed by the best later-day XI player), and publishes the rule
+`squad.captainSwitch = {captainId, switchTo, switchIfBelow}` plus a checklist
+line ("If he scores 5 or fewer, switch to ..."). Which player to sub is still a
+reminder only.
+
 ### 10. `rotation_pairs()` is dead code
 
 Written, tested, called by nothing — not `publish`, not the CLI, not the site.
