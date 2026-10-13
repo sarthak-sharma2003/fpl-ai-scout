@@ -1,11 +1,11 @@
 {
  "schema": 1,
- "generatedAt": "2026-10-13T13:20:23.871071+00:00",
+ "generatedAt": "2026-10-13T20:04:03.674890+00:00",
  "season": "2026-27",
  "tour": 90,
  "matchday": 2,
  "lastMatchday": 17,
- "deadline": "2026-10-13T16:45:00+00:00",
+ "deadline": "2026-10-14T16:45:00+00:00",
  "budget": 100.0,
  "maxPerClub": 3,
  "round": "league",
@@ -28,11 +28,11 @@
    "sportsgambler"
   ],
   "failed": [],
-  "players": 1171,
-  "clubs": 36,
-  "matched": 1336,
-  "listed": 1348,
-  "matchRate": 0.991,
-  "note": "MD2: 36 clubs kick off within 40h"
+  "players": 602,
+  "clubs": 18,
+  "matched": 666,
+  "listed": 674,
+  "matchRate": 0.988,
+  "note": "MD2: 18 clubs kick off within 40h"
  }
 }
