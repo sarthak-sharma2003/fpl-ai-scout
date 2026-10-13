@@ -77,3 +77,24 @@ def test_hit_leaves_two_next_matchday():
     p = _plan(sells=[(1, 5.0), (2, 5.0), (3, 5.0)], buys=[(97, 5.0), (98, 5.0), (99, 5.0)])
     new, _ = squadfile.advance(SQ, p, now=AFTER, next_matchday=3)
     assert new.free_transfers == 2
+
+
+def _at(md):
+    return HeldSquad(ids=frozenset(range(1, 16)), matchday=md, bank=0.5,
+                     free_transfers=3)
+
+
+def test_into_the_knockouts_bank_rises_and_carry_stops():
+    # MD8 -> MD9: EUR100m becomes EUR105m, added to the bank exactly once
+    new, _ = squadfile.advance(_at(8), _plan(md=8), now=AFTER, next_matchday=9)
+    assert new.bank == 5.5
+    # MD9 -> MD10: no rise again; MD10's own allowance (2), nothing carried
+    nxt, _ = squadfile.advance(new, _plan(md=9), now=AFTER, next_matchday=10)
+    assert nxt.bank == 5.5 and nxt.free_transfers == 2
+
+
+def test_knockout_allowances_do_not_roll():
+    for nxt, free in ((12, 3), (13, 5), (14, 3), (17, 5)):
+        new, _ = squadfile.advance(_at(nxt - 1), _plan(md=nxt - 1), now=AFTER,
+                                   next_matchday=nxt)
+        assert new.free_transfers == free, nxt

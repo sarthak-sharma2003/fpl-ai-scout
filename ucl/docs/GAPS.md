@@ -121,6 +121,42 @@ The measured edge of this whole project is **entirely in the knockouts**
 is slightly *worse* than the crowd). The one thing that generates that edge is
 not wired in.
 
+**Fixed 2026-10-13.** Three layers, all in the live pipeline:
+
+1. *Out means out.* A club flagged `isEliminated`, or whose players carry
+   status `E` (how the completed 2025-26 feed marks all 34 non-finalists),
+   projects nothing; `E` is now an unavailable status like `I`/`NIS`/`S`.
+   A club with no fixture on a drawn knockout matchday (out, or a top-8 bye
+   at MD9-10) is in the plan at **zero**, not dropped -- before, the planner
+   silently removed anyone missing from any matchday, which at MD9 would
+   have thrown every top-8 player out of the pool for the R16.
+2. *Who will still be in.* `knockout.simulate` is a Monte Carlo (2,000 runs,
+   <1 s) of the rest of the season on the same Elo and Elo->goals map the
+   projections use: Poisson league results to a table, the real 2024+
+   bracket seeding into the play-offs and R16, two-legged ties, a neutral
+   final. Everything the feed already knows is fact (results, drawn
+   pairings, eliminations). It gives P(club plays matchday md) and the mean
+   opponent rating when it does. Assumptions are listed in the module.
+3. *Weighting.* A knockout matchday not yet drawn projects
+   P(plays) x (points vs a generic opponent of that expected rating, neutral
+   venue). Published to `teams.json` as `pAlive` per round.
+
+Archive replay (`backtest.Policy`, form-only policy, net points):
+
+| | 2024-25 | 2025-26 | |
+|---|---|---|---|
+| planner (as before) | 709 | 704 | |
+| + per-round rules in the simulator | 774 | 723 | +65 / +19 |
+| + **zero a club with no fixture** | **902** | **879** | **+128 / +156** |
+| + P(alive)-weighted transfers | 895 | 922 | -7 / +43 |
+| + second-leg rotation (#8) | 891 | 908 | -4 / -14 |
+
+The elimination signal replicates (+92 in the old sweep, +128/+156 here) and
+is the only step clearly above the ~50-point noise of two seasons. The
+P(alive) lookahead is noise-level (+36 over both); it is what makes the
+horizon past MD8 meaningful at all, so it stays, but it is not a measured
+win. Nothing was tuned on these totals.
+
 ### 6. The horizon stops at MD8
 
 Knockout fixtures are undrawn, so the planner sees MD1–8 of 17. Consequences:
@@ -129,6 +165,26 @@ had to be explicitly barred from the horizon's last matchday to stop the solver
 parking it there. The chip-timing answer — the most defensible original edge
 this project has, since **no public source gives a numeric EV for either chip** —
 cannot be computed until the bracket exists.
+
+**Fixed 2026-10-13.** `pipeline.horizon` runs to MD17: drawn matchdays as
+before, undrawn knockout ones P(alive)-weighted (#5). The plan is solved in
+stretches split at the free rebuilds (MD2-8 | MD9-10 | MD11-17): unlimited
+transfers at MD9 and MD11 make the stretches independent except for the one
+wildcard, which `build_plan` prices explicitly -- spending it in the league
+phase must beat `max(WILDCARD_HOLD_VALUE, its best knockout gain)`. A full
+season plan for the real squad solves in ~6 s.
+
+What it showed, honestly: before the draw the knockout wildcard is worth
+**0.0** projected points (from MD2 and from MD8). A P(alive)-weighted generic
+projection moves every club's players together round to round, so the free
+rebuilds already buy the best squad. The wildcard's knockout value is real but
+only becomes visible once a round is drawn; so `WILDCARD_HOLD_VALUE` stays at
+10 as the residual for what a deterministic plan cannot see (documented in
+`plan.py`, not tuned). Limitless had the same problem in reverse: once it was
+computed at all (an injured bench player made every matchday "illegal", so it
+was always `None`), the best use for the MD2 squad was +4.2 at MD2. It now
+needs `LIMITLESS_HOLD_VALUE` (= 10) to be advised; below that the advice is to
+hold it. League-phase advice for MD2 and MD3 is unchanged move for move.
 
 ### 7. Per-round rules are not modelled
 
@@ -141,12 +197,36 @@ Both change mid-season and the planner holds one value for the whole horizon:
 
 A plan spanning the boundary is over-constrained and under-funded late.
 
+**Fixed 2026-10-13.** `knockout` holds the round table (budget, club cap, free
+transfers) and `plan_horizon` takes budget and max-per-club per matchday. The
+EUR5m rise is added once: to knockout matchdays when the funds were measured in
+the league phase, and to the squad file's bank when `advance` crosses MD8->MD9.
+Knockout transfer allowances (2 before MD10; 3 before MD12/14/16; 5 before
+MD13/15/17; nothing carries) are constants. Secondary sources give "5 before
+the QF and the final, 3 before second legs"; the fixtures feed of both
+completed seasons agrees and fills the gaps (`subsAllowed` 2/3/5 as above,
+`maxSubsCf` 1 in the league phase and 0 in every knockout matchday) -- still
+unverified as rules text. The feed's own `maxTeamPlayers` wins for the
+matchday it describes.
+
 ### 8. Two-legged ties are not modelled
 
 From MD9 each round is two matchdays against the same opponent, and the feed
 carries `htAggScore`/`atAggScore`. Nothing uses it. A club 3–0 up rotates the
 second leg; a club 3–0 down may throw everything forward. Both are strong,
 knowable minutes signals and both are invisible.
+
+**Done 2026-10-13, small on purpose.** `htAggScore`/`atAggScore` cannot be
+trusted: populated in 2024-25 second legs, "0"/"0" throughout 2025-26. The
+lead is read from the first-leg RESULT instead. Measured on every two-legged
+tie of both seasons: of the first-leg regulars at the 13 clubs 3+ up, 27.5%
+scored under 2 in the second leg vs 22.4% in close ties (~7% fewer starts),
+but their points per regular did not fall (1.19x league average vs
+1.13-1.17x). So a club 3+ up gets a 0.93 haircut on minutes, P(start) and
+points, and the trailing side is left alone (3+ down was the WORST bucket,
+0.81x -- the "throws everything forward" story is not in the data). Replay:
+-4 / -14, noise. Kept because the start-rate effect is real and the cost is
+small; it is the first thing to drop if it keeps reading negative.
 
 ---
 
@@ -230,6 +310,8 @@ Not everything is a gap. These were measured, not assumed:
 2. **#2, #3** — the minutes model is the single largest input and is wrong
    twice over.
 3. **#5** — the biggest measured signal, currently unused, and it lands at MD9.
+   *(done 2026-10-13)*
 4. **#4** — before the first planned transfer is acted on.
 5. **#9** — cheap, and the largest behavioural edge in the research.
-6. **#6, #7, #8** — when the knockout bracket is drawn.
+6. **#6, #7, #8** — when the knockout bracket is drawn. *(done 2026-10-13,
+   ahead of the draw; re-check the chip bars once a round is drawn)*

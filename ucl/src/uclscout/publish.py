@@ -12,7 +12,7 @@ from dataclasses import asdict
 from datetime import UTC, datetime
 from pathlib import Path
 
-from . import captaincy, pipeline
+from . import captaincy, knockout, pipeline
 from . import plan as planning
 from .optimize import Squad
 from .project import Projection
@@ -134,6 +134,7 @@ def build(ctx: pipeline.Context, out_dir: Path, *,
                      else ctx.constraints.deadline).isoformat(),
         "budget": ctx.constraints.budget,
         "maxPerClub": ctx.constraints.max_per_club,
+        "round": knockout.round_of(md),
         "gamedays": this_md.gamedays if this_md else [],
         "subsAllowed": this_md.subs_allowed if this_md else 0,
         "checklist": planning.matchday_checklist(
@@ -179,6 +180,12 @@ def build(ctx: pipeline.Context, out_dir: Path, *,
         "actions": [
             {
                 "matchday": a.matchday,
+                "round": knockout.round_of(a.matchday),
+                # projected before the draw: P(club still in) x a generic
+                # opponent, so a direction rather than a fixture-level call
+                "generic": a.generic,
+                "unlimited": a.unlimited,
+                "maxPerClub": knockout.max_per_club(a.matchday),
                 "chip": a.chip,
                 "banking": a.banking,
                 "freeAvailable": a.free_available,
@@ -194,6 +201,7 @@ def build(ctx: pipeline.Context, out_dir: Path, *,
         ],
     }
 
+    eliminated = ctx.eliminated
     files = {
         "meta.json": meta,
         "squad.json": {**meta, "squad": squad_payload},
@@ -210,8 +218,15 @@ def build(ctx: pipeline.Context, out_dir: Path, *,
                           "lineupAnnounced": m2.lineup_announced}
                          for m2 in m.matches]}
             for m in ctx.matchdays]},
-        "teams.json": {**meta, "teams": [
-            {**asdict(t), "elo": round(ctx.rating(t.id))}
+        "teams.json": {**meta,
+                       "survivalNote": (ctx.survival.note
+                                        if ctx.survival is not None else None),
+                       "teams": [
+            {**asdict(t), "elo": round(ctx.rating(t.id)),
+             "eliminated": t.eliminated or t.id in eliminated,
+             # P(reaching each knockout round), from knockout.simulate
+             "pAlive": (ctx.survival.p_round(t.id)
+                        if ctx.survival is not None else None)}
             for t in sorted(ctx.teams, key=lambda t: -ctx.rating(t.id))]},
     }
 

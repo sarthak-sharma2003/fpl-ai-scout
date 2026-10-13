@@ -56,18 +56,29 @@ def historical_results(tours: list[int]) -> list[Result]:
             payload = fetch(f"fixtures/fixtures_{tour}_en.json")
         except Exception:                                    # noqa: BLE001
             continue
-        for md in payload["data"]["value"]:
-            for m in md.get("match") or []:
-                hs, as_ = str(m.get("htScore", "")), str(m.get("atScore", ""))
-                if not hs.strip().isdigit() or not as_.strip().isdigit():
-                    continue                                  # unplayed
-                out.append(Result(
-                    date=parse_uefa_time(m["dateTime"]).isoformat(),
-                    home_id=int(m["htId"]), away_id=int(m["atId"]),
-                    home_goals=int(hs), away_goals=int(as_),
-                    season=SEASONS.get(tour, str(tour)),
-                ))
+        out += results_from_payload(payload, SEASONS.get(tour, str(tour)))
     return sorted(out, key=lambda r: r.date)
+
+
+def results_from_payload(payload: dict, season: str,
+                         before_matchday: int | None = None) -> list[Result]:
+    """Played matches in one fixtures payload, optionally only those of
+    matchdays strictly before `before_matchday` (the replay's leak guard)."""
+    out: list[Result] = []
+    for md in payload["data"]["value"]:
+        if before_matchday is not None and int(md["mdId"]) >= before_matchday:
+            continue
+        for m in md.get("match") or []:
+            hs, as_ = str(m.get("htScore", "")), str(m.get("atScore", ""))
+            if not hs.strip().isdigit() or not as_.strip().isdigit():
+                continue                                      # unplayed
+            out.append(Result(
+                date=parse_uefa_time(m["dateTime"]).isoformat(),
+                home_id=int(m["htId"]), away_id=int(m["atId"]),
+                home_goals=int(hs), away_goals=int(as_),
+                season=season,
+            ))
+    return out
 
 
 def fit_elo(results: list[Result], pots: dict[int, int] | None = None

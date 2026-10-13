@@ -1,4 +1,6 @@
 """Planning off a squad you already own (the normal in-season case)."""
+from dataclasses import replace
+
 from uclscout.feeds import Player
 from uclscout.optimize import SQUAD_SHAPE
 from uclscout.plan import plan_horizon
@@ -97,3 +99,41 @@ def test_hit_before_last_matchday_is_allowed():
                         allow_wildcard=False)
     first = plan.actions[0]
     assert first.hits >= 1 and len(first.xi) == 11
+
+
+def _boost(h, team, mds, extra):
+    """Make one club's players worth `extra` more on the given matchdays."""
+    for md in mds:
+        h[md] = [p if p.player.team_id != team else
+                 replace(p, points=p.points + extra) for p in h[md]]
+
+
+def test_budget_and_club_cap_are_per_matchday():
+    """A tight budget at MD8 and a looser one at MD9 (EUR100m -> 105m); 3 per
+    club in the league phase, 4 at the play-offs. Each matchday obeys its own.
+    Club 1 (four players, one per position) is far better than the rest."""
+    players = [replace(p, value=4.5) if p.team_id == 1 else p for p in _pool()]
+    h = _horizon(players, [8, 9])
+    _boost(h, 1, [8, 9], 6.0)
+    plan = plan_horizon(h, budget={8: 75.0, 9: 80.0},
+                        max_per_club={8: 3, 9: 4}, time_limit=30)
+    md8, md9 = plan.actions
+    for a, cap, budget in ((md8, 3, 75.0), (md9, 4, 80.0)):
+        clubs = [p.player.team_id for p in a.squad]
+        assert clubs.count(1) == cap, (a.matchday, clubs.count(1))
+        assert sum(p.player.value for p in a.squad) <= budget + 1e-6
+
+
+def test_club_with_no_fixture_is_owned_at_zero_not_dropped():
+    """A club with no MD12 fixture is absent from MD12's projections. It must
+    stay ownable -- here it is the best buy for MD13 -- and score 0 at MD12."""
+    players = _pool()
+    h = _horizon(players, [12, 13])
+    h[12] = [p for p in h[12] if p.player.team_id != 1]
+    _boost(h, 1, [13], 6.0)
+    plan = plan_horizon(h, budget=200.0, max_per_club={12: 4, 13: 5},
+                        time_limit=30)
+    md12, md13 = plan.actions
+    assert sum(p.player.team_id == 1 for p in md13.squad) >= 3
+    assert all(p.player.team_id != 1 or p.points == 0 for p in md12.squad)
+    assert len(md12.xi) == 11 and md13.free_available == 5

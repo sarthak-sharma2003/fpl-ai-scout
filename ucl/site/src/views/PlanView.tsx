@@ -36,17 +36,23 @@ export function PlanView({ plan }: { plan: PlanData }) {
 function PlanRow({ action }: { action: PlanAction }) {
   const isTransfer = action.sells.length > 0 || action.buys.length > 0;
   const rowClass = isTransfer ? "plan-row plan-row--transfer" : "plan-row plan-row--bank";
+  const label = action.unlimited ? "Rebuild" : isTransfer ? "Transfer" : "Bank";
 
   return (
     <div className={rowClass}>
       <span className="plan-row__md">{String(action.matchday).padStart(2, "0")}</span>
       <div className="plan-row__body">
         <div className="plan-row__headline">
-          <span className="plan-row__action">{isTransfer ? "Transfer" : "Bank"}</span>
+          <span className="plan-row__action">{label}</span>
           {action.chip && <span className="badge badge--recoveries">{action.chip}</span>}
+          {action.generic && <span className="badge badge--day">projected · not drawn yet</span>}
           {action.hits > 0 && <span className="badge badge--warning">−{action.hits * 4} hit</span>}
         </div>
-        {isTransfer ? (
+        {isTransfer && action.unlimited ? (
+          <div className="plan-row__meta">
+            {action.buys.length} change{action.buys.length === 1 ? "" : "s"} with unlimited transfers
+          </div>
+        ) : isTransfer ? (
           <div className="plan-row__transfer-detail">
             {action.sells.map((s) => (
               <span key={s.id}>{s.name}</span>

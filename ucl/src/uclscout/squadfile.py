@@ -15,6 +15,8 @@ from dataclasses import dataclass, field, replace
 from datetime import datetime
 from pathlib import Path
 
+from . import knockout
+
 _HEADER = re.compile(
     r"^#\s*(matchday|bank|wildcard_used|limitless_used|free_transfers)\s*:\s*(\S+)")
 FREE_PER_MATCHDAY, MAX_CARRY = 2, 1
@@ -111,13 +113,20 @@ def advance(sq: HeldSquad, plan_json: dict, *, now: datetime,
     bank = sq.bank + sum(p["value"] for p in sells.values()) - sum(
         p["value"] for p in buys.values())
     chip = act.get("chip")
-    # one unused free transfer carries; a chip or a hit leaves none spare
-    unused = 0 if chip else max(0, sq.free_transfers - len(buys))
+    if knockout.carries(next_matchday):
+        # one unused free transfer carries; a chip or a hit leaves none spare
+        unused = 0 if chip else max(0, sq.free_transfers - len(buys))
+        free = FREE_PER_MATCHDAY + min(MAX_CARRY, unused)
+    else:
+        # knockouts: each matchday has its own allowance, nothing rolls over
+        free = knockout.free_transfers(next_matchday) or FREE_PER_MATCHDAY
+    if sq.matchday <= knockout.LAST_LEAGUE_MD < next_matchday:
+        bank += knockout.KO_BUDGET_RISE      # EUR100m -> EUR105m
     new = replace(
         sq, ids=frozenset(ids), matchday=next_matchday, bank=round(bank, 1),
         wildcard_used=sq.wildcard_used or chip == "wildcard",
         limitless_used=sq.limitless_used or chip == "limitless",
-        free_transfers=FREE_PER_MATCHDAY + min(MAX_CARRY, unused),
+        free_transfers=free,
     )
     moves = ", ".join(f"{sells[s]['name']} -> {buys[b]['name']}"
                       for s, b in zip(sells, buys)) or "no transfers"
