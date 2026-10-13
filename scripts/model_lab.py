@@ -121,8 +121,9 @@ def load(con, seasons: list[str]) -> pd.DataFrame:
     df = df.merge(extra.drop(columns=["gw"]), on=["season", "code", "fixture_id"], how="left")
     crowd = _crowd_features(con, seasons)
     df = df.merge(crowd, on=["season", "code", "gw"], how="left")
-    pdl = _predeadline()
-    df = df.merge(pdl, on=["season", "gw", "code"], how="left")
+    if not set(PD_COLS) <= set(df.columns):     # load_dataset carries them since v2
+        pdl = _predeadline()
+        df = df.merge(pdl, on=["season", "gw", "code"], how="left")
     df[PD_COLS] = df[PD_COLS].fillna(-1.0)
     return df
 
@@ -244,7 +245,7 @@ def run_variant(name: str, opts: dict, train: pd.DataFrame, test: pd.DataFrame,
             kx, ky = pav(p_va.to_numpy()[mv], va["total_points"].to_numpy(float)[mv])
             out[mt] = np.interp(pred.to_numpy()[mt], kx, ky)
         return out
-    mfeats = list(FEATURE_COLUMNS) + (PD_COLS if opts.get("pd") else [])
+    mfeats = list(dict.fromkeys(list(FEATURE_COLUMNS) + (PD_COLS if opts.get("pd") else [])))
     if opts.get("pd"):
         y = minutes_class(train["actual_minutes"])
         ds = lgb.Dataset(train[mfeats], label=y, categorical_feature=CATEGORICAL_COLUMNS,
@@ -268,6 +269,7 @@ def run_variant(name: str, opts: dict, train: pd.DataFrame, test: pd.DataFrame,
         feats += ["own_rel_lag1", "tb_rel_lag1"]
     if opts.get("pd"):
         feats += PD_COLS
+    feats = list(dict.fromkeys(feats))
     target = xpts_target(tr) if opts.get("xpts") else tr["total_points"].astype(float)
     params = REG_PARAMS if opts.get("reg") else points.MEAN_PARAMS
     rounds = 500 if opts.get("reg") else points.NUM_BOOST_ROUND
