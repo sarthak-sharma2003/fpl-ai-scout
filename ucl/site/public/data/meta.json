@@ -1,38 +1,40 @@
 {
  "schema": 1,
- "generatedAt": "2026-10-13T20:04:03.674890+00:00",
+ "generatedAt": "2026-10-13T23:31:28.493182+00:00",
  "season": "2026-27",
  "tour": 90,
- "matchday": 2,
+ "matchday": 3,
  "lastMatchday": 17,
- "deadline": "2026-10-14T16:45:00+00:00",
+ "deadline": "2026-10-20T16:45:00+00:00",
+ "subs": {
+  "matchday": 2,
+  "deadline": "2026-10-14T16:45:00+00:00",
+  "gameday": "2026-10-14",
+  "manualSubs": 2
+ },
  "budget": 100.0,
  "maxPerClub": 3,
  "round": "league",
  "gamedays": [
-  "2026-10-13",
-  "2026-10-14"
+  "2026-10-20",
+  "2026-10-21"
  ],
  "subsAllowed": 2,
  "checklist": [
-  "MD2 spans 2 days (2026-10-13, 2026-10-14) \u2014 up to 2 manual subs allowed.",
-  "Captain H. Kane (Tue). If he scores 5 or fewer, switch the armband to M. Bartra before Wed's kick-offs \u2014 the switch is one-way.",
+  "MD3 spans 2 days (2026-10-20, 2026-10-21) \u2014 up to 2 manual subs allowed.",
+  "Captain L. Yamal (Tue). If he scores 7 or fewer, switch the armband to H. Kane before Wed's kick-offs \u2014 the switch is one-way.",
   "After day 1, reassess: move the armband to an unstarted player if your captain blanked. Top-5000 do this 44.6% of the time; average 6.1%.",
   "Sub out anyone who did not play, before the next day kicks off.",
   "WARNING: any manual change \u2014 a sub, a captain switch, even reordering the bench \u2014 disables auto-subs for this whole matchday, and reverting does not restore them."
  ],
  "lineups": {
-  "sources": [
-   "futbolfantasy",
-   "rotowire",
-   "sportsgambler"
-  ],
+  "sources": [],
   "failed": [],
-  "players": 602,
-  "clubs": 18,
-  "matched": 666,
-  "listed": 674,
-  "matchRate": 0.988,
-  "note": "MD2: 18 clubs kick off within 40h"
+  "players": 0,
+  "clubs": 0,
+  "matched": 0,
+  "listed": 0,
+  "matchRate": 0.0,
+  "note": "MD3: no club kicks off within 40h; not fetched"
  }
 }
