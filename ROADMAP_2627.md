@@ -57,8 +57,15 @@ operational continuation and supersedes it where they disagree.
   - UCL knockouts modelled to the final (`ucl/src/uclscout/knockout.py`):
     elimination, P(alive), per-round budget/club cap/transfers.
   - `HORIZON=5` beat 8 by +1.99 ± 0.81/GW on the tuning seasons (sweep
-    38364728486, older code) — being re-validated on current main before any
-    change; `CHIP_HORIZON` keeps the chip view at 8 weeks either way.
+    38364728486) but did NOT replicate on current main: −0.55 ± 0.85/GW
+    tuning, +0.39 ± 1.60 holdout (run 38372486723). The old edge was most
+    likely the wrong-opponent horizon odds (fixed this morning), which a
+    shorter horizon simply saw less of. HORIZON stays 8; `CHIP_HORIZON`
+    keeps the chip view at 8 weeks independently.
+  - Replays are NOT bit-identical across CI runs: identical configs differed
+    from GW1 in 7 of 8 season-seeds (runner CPUs differ; LightGBM's
+    `deterministic` only holds on the same hardware). Treat it as seed noise:
+    paired diffs, several seeds, never one season total.
 
 **Invariant changes:**
 - §2.3 is superseded for PRE-DEADLINE snapshots: status/chance/news/ep_next
