@@ -52,7 +52,21 @@ export interface SquadData extends Meta {
     captainId: number;
     byDay: Record<string, number>;
     picks: SquadPick[];
-  };
+    /** Present when the squad is YOUR held squad (config/squad.txt), not a
+     * from-scratch build: the moves to make before this deadline. */
+    held?: boolean;
+    budget?: number;
+    bankAfter?: number;
+    trackedSince?: string;
+    moves?: {
+      buys: Player[];
+      sells: Player[];
+      hits: number;
+      chip: string | null;
+      freeAvailable: number;
+      summary: string;
+    };
+  } | null;
 }
 
 export interface PlanAction {

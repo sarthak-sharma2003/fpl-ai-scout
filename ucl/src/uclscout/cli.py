@@ -6,7 +6,7 @@ from pathlib import Path
 
 import typer
 
-from . import feeds, pipeline, plan, publish
+from . import feeds, pipeline, plan, publish, squadfile
 
 app = typer.Typer(add_completion=False, help="UEFA Champions League Fantasy scout.")
 
@@ -15,14 +15,8 @@ SITE_DATA = Path("site/public/data")
 
 def _squad_ids(path: Path | None) -> set[int]:
     """Your current squad, one UEFA player id per line (# comments allowed)."""
-    if not path or not path.exists():
-        return set()
-    out = set()
-    for line in path.read_text(encoding="utf-8").splitlines():
-        line = line.split("#")[0].strip()
-        if line.isdigit():
-            out.add(int(line))
-    return out
+    held = squadfile.read(path) if path else None
+    return set(held.ids) if held else set()
 
 
 @app.command()
@@ -118,10 +112,42 @@ def publish_cmd(
 ) -> None:
     """Write the static JSON the site reads."""
     ctx = pipeline.load()
-    files = publish.build(ctx, out, current_squad=_squad_ids(squad_file) or None,
-                          time_limit=time_limit)
+    held = squadfile.read(squad_file) if squad_file else None
+    files = publish.build(ctx, out, held=held, time_limit=time_limit)
     for name, path in files.items():
         typer.echo(f"  {name:16} {path.stat().st_size:>8,} bytes")
+
+
+@app.command()
+def advance(
+    squad_file: Path = typer.Option(..., "--squad"),
+    plan_file: Path = typer.Option(SITE_DATA / "plan.json", "--plan"),
+) -> None:
+    """After a deadline, apply the moves the site recommended to the squad file.
+
+    Run BEFORE `publish` overwrites plan.json: the plan on disk is then the one
+    that was live at the deadline. Does nothing until the deadline has passed,
+    or if the plan was built for a different squad -- it never guesses.
+    """
+    held = squadfile.read(squad_file)
+    plan_json = squadfile.load_plan(plan_file)
+    if held is None or plan_json is None:
+        typer.echo("advance: no squad file or no published plan; nothing to do")
+        return
+    mds = sorted(m.id for m in feeds.matchdays())
+    nxt = next((m for m in mds if m > held.matchday), held.matchday + 1)
+    res = squadfile.advance(held, plan_json, now=datetime.now(UTC),
+                            next_matchday=nxt)
+    if res is None:
+        typer.echo(f"advance: squad stays at MD{held.matchday}")
+        return
+    new, desc = res
+    names = {p.id: f"{p.pos:3} {p.name} ({p.team})"
+             for p in feeds.players(feeds.CURRENT_TOUR,
+                                    feeds.constraints().matchday)}
+    squadfile.write(squad_file, new, names)
+    typer.echo(f"advance: applied {desc}; squad now goes into MD{new.matchday}, "
+               f"bank EUR{new.bank:.1f}m")
 
 
 if __name__ == "__main__":

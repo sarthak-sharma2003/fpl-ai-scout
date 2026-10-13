@@ -12,11 +12,23 @@ const POS_LABEL: Record<string, string> = { GK: "Goalkeeper", DEF: "Defenders", 
 
 export function NowView({ squad }: { squad: SquadData }) {
   const s = squad.squad;
+  // hooks before any early return (rules of hooks)
+  const expired = useCountdown(squad.deadline).urgency === "expired";
+  if (!s) {
+    return (
+      <div role="alert" className="deadline-banner deadline-banner--expired">
+        <WarningIcon />
+        <div>
+          <div className="deadline-banner__title">No squad for MD{squad.matchday}</div>
+          <div className="deadline-banner__detail">The planner produced no squad this run. Check the Plan view.</div>
+        </div>
+      </div>
+    );
+  }
   const starters = s.picks.filter((p) => p.starting);
   const bench = s.picks.filter((p) => !p.starting).sort((a, b) => b.points - a.points);
   const captain = s.picks.find((p) => p.captain);
   const over = s.cost > squad.budget;
-  const expired = useCountdown(squad.deadline).urgency === "expired";
 
   return (
     <div>
@@ -37,6 +49,8 @@ export function NowView({ squad }: { squad: SquadData }) {
           </div>
         </div>
       )}
+
+      {s.moves && <MovesCard moves={s.moves} bankAfter={s.bankAfter} />}
 
       <div className="summary-row">
         <div className="summary-cell">
@@ -103,6 +117,44 @@ export function NowView({ squad }: { squad: SquadData }) {
         })}
       </ol>
     </div>
+  );
+}
+
+/** Banking is a decision, not an absence of one: the card always says which. */
+function MovesCard({
+  moves,
+  bankAfter,
+}: {
+  moves: NonNullable<NonNullable<SquadData["squad"]>["moves"]>;
+  bankAfter?: number;
+}) {
+  const transfer = moves.buys.length > 0 || moves.sells.length > 0;
+  return (
+    <section className="plan-row plan-row--transfer" aria-label="Do this before the deadline">
+      <div className="plan-row__body">
+        <div className="plan-row__headline">
+          <span className="plan-row__action">
+            {moves.chip ? `Play ${moves.chip}` : transfer ? "Make these transfers" : "Bank your transfers"}
+          </span>
+          {moves.hits > 0 && <span className="badge badge--warning">−{moves.hits * 4} hit</span>}
+        </div>
+        {transfer ? (
+          <ul className="plan-row__transfer-detail">
+            {moves.sells.map((out, i) => (
+              <li key={out.id}>
+                {out.name} <span className="transfer-arrow">&rarr;</span> {moves.buys[i]?.name ?? "—"}
+                {moves.buys[i] && ` (${formatMoney(moves.buys[i].value)})`}
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <div className="plan-row__meta">
+            Keep the squad. {moves.freeAvailable} free transfer{moves.freeAvailable === 1 ? "" : "s"} available.
+          </div>
+        )}
+        {bankAfter != null && <div className="plan-row__meta">Bank after: {formatMoney(bankAfter)}</div>}
+      </div>
+    </section>
   );
 }
 

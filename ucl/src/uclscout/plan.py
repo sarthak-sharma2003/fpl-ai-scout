@@ -32,7 +32,15 @@ from dataclasses import dataclass, field
 
 import pulp
 
-from .optimize import SQUAD_SHAPE, SQUAD_SIZE, XI_MAX, XI_MIN, XI_SIZE, Squad
+from .optimize import (
+    SQUAD_SHAPE,
+    SQUAD_SIZE,
+    XI_MAX,
+    XI_MIN,
+    XI_SIZE,
+    Squad,
+    _feasible_gate,
+)
 from .optimize import optimize as pick_squad
 from .project import Projection
 
@@ -64,6 +72,8 @@ class MatchdayAction:
     free_available: int = 0
     hits: int = 0
     xi_points: float = 0.0
+    xi: list[Projection] = field(default_factory=list)
+    squad: list[Projection] = field(default_factory=list)   # all 15 after moves
 
     @property
     def banking(self) -> bool:
@@ -87,6 +97,7 @@ class Plan:
     opening_squad: Squad | None
     limitless: tuple[int, float] | None      # (matchday, points gained)
     total_points: float
+    budget: float = 100.0
 
     def summary(self) -> str:
         lines = [a.describe() for a in self.actions]
@@ -173,6 +184,10 @@ def plan_horizon(
                      for i in pool_ids for md in mds[1:])
     )
 
+    # The XI gate relaxes per matchday exactly as the single-matchday optimizer's
+    # does: a hard 70-minute gate on a horizon where nobody has 70 observed
+    # minutes forces the solver to buy its way to a legal XI with hits.
+    gate = {md: _feasible_gate(horizon[md], min_start)[0] for md in mds}
     for md in mds:
         m += pulp.lpSum(own[i][md] for i in pool_ids) == SQUAD_SIZE
         m += pulp.lpSum(start[i][md] for i in pool_ids) == XI_SIZE
@@ -194,7 +209,7 @@ def plan_horizon(
             p = by_md[md][i]
             m += start[i][md] <= own[i][md]
             m += capt[i][md] <= start[i][md]
-            if p.minutes.expected < min_start or not p.player.available:
+            if p.minutes.expected < gate[md] or not p.player.available:
                 m += start[i][md] == 0
             if not p.can_captain:
                 m += capt[i][md] == 0
@@ -271,6 +286,8 @@ def plan_horizon(
             free_available=int(FREE_PER_MATCHDAY + (carry[md].value() or 0)),
             hits=int(hits[md].value() or 0),
             xi_points=got,
+            xi=sorted(xi, key=lambda p: -p.points),
+            squad=[by_md[md][i] for i in pool_ids if on(own[i][md])],
         ))
 
     opening = None

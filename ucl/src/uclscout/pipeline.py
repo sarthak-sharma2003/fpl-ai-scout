@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, replace
+from datetime import UTC, datetime
 
 from . import domestic, feeds, plan, project, strength
 
@@ -125,10 +126,26 @@ def project_matchday(ctx: Context, md: int, **kw) -> list[project.Projection]:
     )
 
 
+def next_open_matchday(ctx: Context, now: datetime | None = None) -> int:
+    """The first matchday whose deadline is still ahead.
+
+    UEFA keeps `matchdayId` on a matchday until it has finished, so between the
+    deadline and the last final whistle the feed's "current" matchday is one
+    you can no longer change. Planning it again would re-advise moves that are
+    already locked in.
+    """
+    now = now or datetime.now(UTC)
+    md = ctx.constraints.matchday
+    by_id = {m.id: m for m in ctx.matchdays}
+    while md in by_id and by_id[md].deadline <= now:
+        md += 1
+    return md
+
+
 def horizon(ctx: Context, upto: int | None = None, **kw
             ) -> dict[int, list[project.Projection]]:
     """Projections for every remaining matchday with published fixtures."""
-    start = ctx.constraints.matchday
+    start = next_open_matchday(ctx)
     end = upto or max((m.id for m in ctx.matchdays), default=start)
     out = {}
     for md in range(start, end + 1):
@@ -139,16 +156,57 @@ def horizon(ctx: Context, upto: int | None = None, **kw
     return out
 
 
+def squad_budget(ctx: Context, held: set[int], bank: float) -> float:
+    """What a held squad can spend: its 15 at today's prices plus the bank.
+
+    UCL prices move between matchdays, so the nominal EUR100m is wrong for a
+    squad bought earlier -- risers have grown it, fallers shrunk it.
+    """
+    value = {p.id: p.value for p in ctx.players}
+    if not held or any(i not in value for i in held):
+        return ctx.constraints.budget
+    return round(sum(value[i] for i in held) + bank, 1)
+
+
+def _keep_held(ctx: Context, h: dict[int, list[project.Projection]],
+               held: set[int]) -> None:
+    """Give owned players a zero projection where they have none.
+
+    `project` skips unavailable players and clubs without a fixture, and the
+    planner only models players projected in every matchday -- so an injured
+    owned player silently fell out of the squad, and the plan "bought" his
+    replacement without selling him. He must stay: benchable, sellable, worth 0.
+    """
+    by_id = {p.id: p for p in ctx.players}
+    for projs in h.values():
+        have = {x.player.id for x in projs}
+        for pid in held - have:
+            if pid in by_id:
+                projs.append(project.Projection(
+                    by_id[pid],
+                    project.Minutes(0.0, project.MinutesSource.OBSERVED_UCL,
+                                    "unavailable or no fixture"),
+                    0.0, 1.0, 0.0, None, None, None))
+
+
 def build_plan(ctx: Context, *, current_squad: set[int] | None = None,
+               bank: float = 0.0, wildcard_used: bool = False,
+               limitless_used: bool = False,
                time_limit: int = 120, **kw) -> plan.Plan:
     h = horizon(ctx, **kw)
+    if current_squad:
+        _keep_held(ctx, h, current_squad)
+    budget = (squad_budget(ctx, current_squad, bank) if current_squad
+              else ctx.constraints.budget)
     p = plan.plan_horizon(
         h,
         current_squad=current_squad,
-        budget=ctx.constraints.budget,
+        budget=budget,
         max_per_club=ctx.constraints.max_per_club,
+        allow_wildcard=not wildcard_used,
         time_limit=time_limit,
     )
+    p.budget = budget
     squads: dict[int, set[int]] = {}
     owned = set(current_squad or (
         {x.player.id for x in p.opening_squad.picks} if p.opening_squad else set()))
@@ -156,6 +214,9 @@ def build_plan(ctx: Context, *, current_squad: set[int] | None = None,
         owned = (owned | {b.player.id for b in a.buys}) - {
             s.player.id for s in a.sells}
         squads[a.matchday] = set(owned)
+    if limitless_used:
+        p.limitless = None
+        return p
     try:
         p.limitless = plan.limitless_matchday(
             h, squads, budget=ctx.constraints.budget,

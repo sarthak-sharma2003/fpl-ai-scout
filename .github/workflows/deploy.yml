@@ -37,6 +37,8 @@ permissions:
   contents: write
   pages: write
   id-token: write
+  # deadline_alert.py opens/updates one "DO THIS" issue per FPL/UCL deadline
+  issues: write
 
 jobs:
   build-and-deploy:
@@ -99,6 +101,12 @@ jobs:
       - name: Publish §8 JSON to site/public/data
         run: fplscout publish
 
+      # The markdown DO THIS sheet the deadline alert embeds. Rendering only:
+      # the pipeline above already wrote projections + the recommendation.
+      - name: Render DO THIS sheet
+        continue-on-error: true
+        run: fplscout report --skip-pipeline > /dev/null
+
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
@@ -130,10 +138,36 @@ jobs:
           ruff check src tests
           pytest -q
 
+      # The UCL planner cannot read the real team (UEFA needs a login), so
+      # config/squad.txt stands in for it. Once a deadline has passed, apply
+      # the moves that were live on the site at that deadline -- BEFORE
+      # publish overwrites plan.json with advice for the next matchday.
+      - name: Advance tracked UCL squad past a finished deadline
+        continue-on-error: true
+        working-directory: ucl
+        run: |
+          mkdir -p "$RUNNER_TEMP/logs"
+          python -m uclscout.cli advance --squad config/squad.txt 2>&1 | tee "$RUNNER_TEMP/logs/ucl_advance.log"
+
       - name: Regenerate UCL data from live feeds
         continue-on-error: true
         working-directory: ucl
-        run: python -m uclscout.cli publish --time-limit 240
+        run: |
+          set -o pipefail
+          mkdir -p "$RUNNER_TEMP/logs"
+          python -m uclscout.cli publish --squad config/squad.txt --time-limit 240 2>&1 | tee "$RUNNER_TEMP/logs/ucl_publish.log"
+
+      # Committed so /ucl's fallback is the latest good data, not September's,
+      # and so the next run's `advance` sees the advice that was actually live.
+      - name: Commit UCL squad + data
+        continue-on-error: true
+        run: |
+          git add ucl/config/squad.txt ucl/site/public/data
+          if ! git diff --staged --quiet; then
+            git commit -m "UCL data refresh [skip ci]"
+            git pull --rebase origin main
+            git push origin HEAD:main
+          fi
 
       - name: Warn if published UCL data is stale
         continue-on-error: true
@@ -171,3 +205,36 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deploy
         uses: actions/deploy-pages@v4
+
+      - name: Open/update deadline alert issues
+        if: always()
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p "$RUNNER_TEMP/logs"
+          python scripts/deadline_alert.py 2>&1 | tee "$RUNNER_TEMP/logs/deadline_alert.log"
+
+      # Current-season slice of the DB + everything published, force-pushed as
+      # a single commit to the `live-data` branch: lets any dev checkout (incl.
+      # sandboxes that cannot reach the FPL/UEFA APIs) see exactly what the
+      # site saw. History is not kept; main stays clean.
+      - name: Snapshot live data to the live-data branch
+        if: always()
+        continue-on-error: true
+        run: |
+          snap=$(mktemp -d)
+          mkdir -p "$snap/fpl" "$snap/ucl" "$snap/reports"
+          cp -r site/public/data/. "$snap/fpl/" || true
+          cp -r ucl/site/public/data/. "$snap/ucl/" || true
+          cp ucl/config/squad.txt "$snap/ucl/" || true
+          cp data/reports/weekly_*.md "$snap/reports/" 2>/dev/null || true
+          cp -r "$RUNNER_TEMP/logs" "$snap/logs" 2>/dev/null || true
+          python scripts/export_live.py data/fpl.duckdb "$snap/db" || true
+          cd "$snap"
+          git init -q -b live-data
+          git add -A
+          git -c user.name="github-actions[bot]" \
+              -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
+              commit -qm "live data $(date -u +%FT%TZ) run ${{ github.run_id }}"
+          git push -qf "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" HEAD:live-data
