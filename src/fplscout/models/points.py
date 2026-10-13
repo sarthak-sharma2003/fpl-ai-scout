@@ -39,8 +39,9 @@ from __future__ import annotations
 import lightgbm as lgb
 import numpy as np
 import pandas as pd
+from scipy.stats import poisson
 
-from fplscout.models.dataset import CATEGORICAL_COLUMNS, FEATURE_COLUMNS
+from fplscout.models.dataset import CATEGORICAL_COLUMNS, COMPONENT_COLUMNS, FEATURE_COLUMNS
 
 POSITIONS = ["GKP", "DEF", "MID", "FWD"]
 
@@ -51,6 +52,7 @@ EXTRA_FEATURE_COLUMNS = [
 ALL_FEATURE_COLUMNS = FEATURE_COLUMNS + EXTRA_FEATURE_COLUMNS
 
 MEAN_PARAMS = {
+    "deterministic": True, "force_row_wise": True, "num_threads": 4,
     "objective": "regression",
     "metric": "rmse",
     "learning_rate": 0.05,
@@ -59,6 +61,7 @@ MEAN_PARAMS = {
     "verbose": -1,
 }
 QUANTILE_PARAMS_TEMPLATE = {
+    "deterministic": True, "force_row_wise": True, "num_threads": 4,
     "objective": "quantile",
     "learning_rate": 0.05,
     "num_leaves": 31,
@@ -66,6 +69,81 @@ QUANTILE_PARAMS_TEMPLATE = {
     "verbose": -1,
 }
 NUM_BOOST_ROUND = 200
+
+# --- 2026-10-13 model upgrade (scripts/model_lab.py, holdouts 2023-24/2024-25,
+# 4 seeds; top-K realized pts per pick 4.12/4.32 -> 4.66/4.52, per-GW Spearman
+# among regulars .297/.302 -> .419/.394, RMSE 1.976/1.964 -> 1.879/1.883,
+# together with the pre-deadline availability features in dataset.py) --
+#
+# HURDLE: E[pts] = P(60+) E[pts | 60+] + P(1-59) E[pts | 1-59]. The direct
+# regressor had to learn availability and quality from one zero-inflated
+# target; the conditional heads only ever see players who played, and the
+# minutes model alone owns "will he play" -- i.e. starts drive the EV.
+# XPTS_TARGET: the conditional heads train on points with goal/assist/clean-
+# sheet luck swapped for its expectation (xpts_target), so they learn chance
+# quality instead of finishing noise. The q10/q90 heads stay on raw points:
+# they exist to describe the real spread.
+HURDLE = True
+XPTS_TARGET = True
+COND_PARAMS = {
+    "deterministic": True, "force_row_wise": True, "num_threads": 4,
+    "objective": "regression", "metric": "rmse", "learning_rate": 0.03,
+    "num_leaves": 31, "min_data_in_leaf": 100, "feature_fraction": 0.8,
+    "bagging_fraction": 0.8, "bagging_freq": 1, "lambda_l2": 1.0,
+    "seed": 7, "verbose": -1,
+}
+COND_ROUNDS = 500
+# Run-to-run determinism matters more than it looks: two identical backtest
+# replays differed by up to 289 season points because thread-order float
+# noise changed a few splits and the transfer path diverged from there.
+# Fixed threads + row-wise histograms make a replay reproducible; the bagging
+# seed is the one deliberate source of variation (set_seed, for multi-seed
+# evaluation).
+
+
+def set_seed(seed: int) -> None:
+    COND_PARAMS.update(seed=seed, bagging_seed=seed, feature_fraction_seed=seed)
+GOAL_PTS = {"GKP": 6, "DEF": 6, "MID": 5, "FWD": 4}
+CS_PTS = {"GKP": 4, "DEF": 4, "MID": 1, "FWD": 0}
+
+
+def xpts_target(df: pd.DataFrame) -> pd.Series:
+    """total_points with goal/assist/clean-sheet/conceded luck replaced by its
+    expectation given the player's actual xG, xA and xGC.
+
+    Appearance, bonus, saves, cards and DefCon stay realized. Rows without
+    xG data (or 0 minutes) keep total_points unchanged, so the target degrades
+    to the old one rather than inventing anything. A training TARGET only --
+    the realized components are outcomes and never features.
+    """
+    if not set(COMPONENT_COLUMNS) <= set(df.columns):
+        return df["total_points"].astype(float)
+    pos = df["position"].astype(str)
+    gpts = pos.map(GOAL_PTS).astype(float)
+    cspts = pos.map(CS_PTS).astype(float)
+    mins = df["actual_minutes"].fillna(0)
+    xg, xa, xgc = df["expected_goals"], df["expected_assists"], df["expected_goals_conceded"]
+    has = (xg.notna() & xa.notna() & xgc.notna() & (mins > 0)).to_numpy()
+    gk_def = pos.isin(["GKP", "DEF"]).to_numpy()
+
+    real = (df["goals_scored"].fillna(0) * gpts + df["assists"].fillna(0) * 3
+            + df["clean_sheets"].fillna(0) * cspts).to_numpy(float)
+    real = real - np.where(gk_def, np.floor(df["goals_conceded"].fillna(0) / 2), 0)
+
+    lam = xgc.fillna(0).to_numpy(float)
+    p_cs = np.exp(-lam) * (mins.to_numpy() >= 60)
+    k = np.arange(0, 11)
+    e_half = (poisson.pmf(k[None, :], lam[:, None]) * np.floor(k / 2)[None, :]).sum(axis=1)
+    expected = (xg.fillna(0).to_numpy(float) * gpts.to_numpy() + xa.fillna(0).to_numpy(float) * 3
+                + p_cs * cspts.to_numpy() - np.where(gk_def, e_half, 0))
+    out = df["total_points"].astype(float).to_numpy().copy()
+    out[has] = (df["total_points"].to_numpy(float) - real + expected)[has]
+    return pd.Series(out, index=df.index)
+
+
+def _fit(X: pd.DataFrame, y: pd.Series, params: dict, rounds: int) -> lgb.Booster:
+    ds = lgb.Dataset(X, label=y, categorical_feature=CATEGORICAL_COLUMNS, free_raw_data=False)
+    return lgb.train(params, ds, num_boost_round=rounds)
 
 
 def add_model_features(
@@ -98,6 +176,7 @@ def train(
     Positions with fewer than min_rows training rows are skipped (their
     predictions come back NaN); tests with tiny fixtures lower it."""
     models: dict[str, dict[str, lgb.Booster]] = {}
+    target = xpts_target(train_df) if XPTS_TARGET else train_df["total_points"].astype(float)
     for position in POSITIONS:
         sub = train_df[train_df["position"] == position]
         if len(sub) < min_rows:
@@ -107,14 +186,28 @@ def train(
         dataset = lgb.Dataset(
             X, label=y, categorical_feature=CATEGORICAL_COLUMNS, free_raw_data=False
         )
-        mean_model = lgb.train(MEAN_PARAMS, dataset, num_boost_round=NUM_BOOST_ROUND)
+        cond: dict[str, lgb.Booster] = {}
+        if HURDLE and "actual_minutes" in sub:
+            m60 = sub["actual_minutes"] >= 60
+            msub = (sub["actual_minutes"] > 0) & (sub["actual_minutes"] < 60)
+            # a head needs real data; tiny test fixtures fall back to direct
+            need = max(min_rows, 30)
+            if m60.sum() >= need and msub.sum() >= need:
+                cond["mean60"] = _fit(sub.loc[m60, feature_columns],
+                                      target.loc[sub.index][m60], COND_PARAMS, COND_ROUNDS)
+                cond["meansub"] = _fit(sub.loc[msub, feature_columns],
+                                       target.loc[sub.index][msub], COND_PARAMS, COND_ROUNDS)
+        if cond:
+            mean_model = cond["mean60"]      # gain reporting reads "mean"
+        else:
+            mean_model = lgb.train(MEAN_PARAMS, dataset, num_boost_round=NUM_BOOST_ROUND)
 
         q_models = {}
         for alpha, name in [(0.1, "q10"), (0.9, "q90")]:
             params = {**QUANTILE_PARAMS_TEMPLATE, "alpha": alpha}
             q_models[name] = lgb.train(params, dataset, num_boost_round=NUM_BOOST_ROUND)
 
-        models[position] = {"mean": mean_model, **q_models}
+        models[position] = {"mean": mean_model, **cond, **q_models}
     return models
 
 
@@ -132,7 +225,14 @@ def predict(
         if not mask.any():
             continue
         X = df.loc[mask, feature_columns]
-        out.loc[mask, "ev_points"] = position_models["mean"].predict(X)
+        if "mean60" in position_models and "mins_p60_plus" in df:
+            # hurdle: the minutes model's probabilities carry availability
+            out.loc[mask, "ev_points"] = (
+                df.loc[mask, "mins_p60_plus"].to_numpy() * position_models["mean60"].predict(X)
+                + df.loc[mask, "mins_p1_59"].to_numpy() * position_models["meansub"].predict(X)
+            )
+        else:
+            out.loc[mask, "ev_points"] = position_models["mean"].predict(X)
         out.loc[mask, "q10_points"] = position_models["q10"].predict(X)
         out.loc[mask, "q90_points"] = position_models["q90"].predict(X)
     return out

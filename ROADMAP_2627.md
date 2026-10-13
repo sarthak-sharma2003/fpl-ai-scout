@@ -5,6 +5,52 @@ worker model — with zero prior conversation context. Read this before touching
 anything. The original build plan is `FPL_AI_SCOUT_PLAN.md`; this file is the
 operational continuation and supersedes it where they disagree.
 
+## 0. 2026-10-13 update — read this first
+
+**What changed** (commits on main, 2026-10-13):
+
+- **Deploys were dead ~a week**: unpinned PuLP 4.0 removed `LpVariable.dicts`.
+  Major versions of key deps are now capped (`pyproject.toml`, `ucl/pyproject.toml`).
+- **Decision gameweek** = first unfinished event with a FUTURE deadline
+  (`fplscout/gameweek.py`). The old "first unfinished" rule advised on the
+  locked gameweek from Friday's deadline until FPL flagged it finished.
+- **Model v2** (`models/points.py`, `models/dataset.py`, `ingest/predeadline.py`):
+  - pre-deadline availability + FPL `ep_next` as features (fplcache snapshots via
+    the Dastan extraction; live snapshot each refresh while the deadline is ahead);
+  - hurdle EV = P(60+)·E[pts|60+] + P(1-59)·E[pts|1-59];
+  - conditional heads trained on an xPts target (goal/assist/CS luck → expectation);
+  - DGW fixtures share the first fixture's pre-deadline form (leak fix);
+  - deterministic LightGBM (fixed threads); `points.set_seed` for multi-seed evals.
+  Lab (`scripts/model_lab.py`): top-K realized pts/pick 4.12/4.32 → 4.66/4.52,
+  per-GW Spearman among regulars .30 → .41/.39. Season replays (CI sweep):
+  production 1806/1972/2171 (22-23..24-25) vs v2 ~1930/2150/2190;
+  2025-26 holdout 1862 → 1913 (3 seeds).
+- **Starts preference** (`pipeline.STARTS_PREFERENCE_W = 0.5`): EV × (0.5 + 0.5 ·
+  start share over last 5 GWs) — the manager's call, validated: 2025-26 holdout
+  1913 → 1980 (3 seeds, +1.77/GW ± 1.11). Weight 1.0 and hard nailed-only
+  filters LOST 2.6-3.7/GW on the tuning seasons.
+- **UCL**: planned off the real squad (`ucl/config/squad.txt`, advanced after
+  each deadline), last-season prior, P(start) gate, predicted line-ups
+  (`ucl/src/uclscout/lineups.py`), captain-switch advice, carry-constraint fix.
+- **Ops**: deadline alert issues (`scripts/deadline_alert.py`), `live-data`
+  branch (published JSON + live-season parquet, every deploy), `dev-db`
+  branch (full DB as parquet, `dev-snapshot.yml`), `backtest.yml` sweep →
+  `backtest-results` branch.
+
+**Invariant changes:**
+- §2.3 is superseded for PRE-DEADLINE snapshots: status/chance/news/ep_next
+  taken from a bootstrap captured before the deadline (fplcache, our own live
+  snapshot) ARE legitimate features. End-of-season snapshots (vaastav
+  players_raw) still never are.
+- §2.5 understated noise: identical replays differed by up to 289 season
+  points before determinism. Judge decision changes on paired per-GW diffs,
+  multiple seeds, all tuning seasons; touch 2025-26 once.
+
+**Next (evidence-ranked):** RotoWire predicted-line-up overlay for the FPL
+minutes model (measured: start log-loss −8%, 22/22 GWs, flagged regulars
+score 1.2 pts less — see `docs/lineups_fpl_2026-10.md`); market team strength
+for UCL; all-competition minutes load (FPL-Core-Insights); price-change model.
+
 ## 1. Where things stand
 
 | Done | Commit | What |

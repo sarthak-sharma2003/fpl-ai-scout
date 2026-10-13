@@ -35,6 +35,10 @@ jobs:
           restore-keys: raw-cache-
 
       - name: Refresh data
+        # authenticated GitHub API for the fplcache snapshot index
+        # (ingest/predeadline.py); shared runner IPs exhaust the anonymous limit
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
         run: fplscout refresh
 
       - name: Replay 2026-27

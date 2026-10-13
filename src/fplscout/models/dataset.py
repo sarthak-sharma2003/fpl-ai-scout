@@ -21,6 +21,14 @@ from __future__ import annotations
 import duckdb
 import pandas as pd
 
+PD_COLUMNS = ["pd_status_risk", "pd_chance", "pd_has_news", "pd_ep_next"]
+# Realized match components. Never features (they ARE the outcome) -- only the
+# xPts training target reads them (models/points.py::xpts_target).
+COMPONENT_COLUMNS = [
+    "goals_scored", "assists", "clean_sheets", "goals_conceded",
+    "expected_goals", "expected_assists", "expected_goals_conceded",
+]
+
 FEATURE_COLUMNS = [
     "roll3_points", "roll5_points", "roll10_points",
     "roll3_minutes", "roll5_minutes", "roll10_minutes",
@@ -45,6 +53,9 @@ FEATURE_COLUMNS = [
     "prev_season_minutes", "prev_season_points_per90", "prev_season_xgi_per90",
     "prev_season_starts_share", "played_prev_season",
     "value", "price_band", "promoted_team", "position",
+    # pre-deadline availability + FPL's own ep_next (ingest/predeadline.py):
+    # what the manager could see before the deadline, -1 where unknown
+    *PD_COLUMNS,
 ]
 
 CATEGORICAL_COLUMNS = ["position", "price_band"]
@@ -63,12 +74,22 @@ def load_dataset(
     since they need targets."""
     placeholders = ", ".join(["?"] * len(seasons))
     join = "JOIN" if require_targets else "LEFT JOIN"
+    component_sql = ", ".join(f"h.{c}" for c in COMPONENT_COLUMNS)
     df = con.execute(
         f"""
-        SELECT f.*, h.total_points, h.minutes AS actual_minutes
+        SELECT f.*, h.total_points, h.minutes AS actual_minutes,
+               {component_sql},
+               COALESCE(p.status_risk, -1) AS pd_status_risk,
+               COALESCE(p.chance_playing, -1) AS pd_chance,
+               COALESCE(p.has_news, -1) AS pd_has_news,
+               COALESCE(p.ep_next, -1) AS pd_ep_next
         FROM features f
         {join} player_gw_history h
           ON f.season = h.season AND f.code = h.code AND f.fixture_id = h.fixture_id
+        -- one pre-deadline snapshot per GAMEWEEK: both fixtures of a double
+        -- gameweek get the same pre-deadline view
+        LEFT JOIN predeadline_signals p
+          ON f.season = p.season AND f.gw = p.gw AND f.code = p.code
         WHERE f.season IN ({placeholders})
         """,
         seasons,

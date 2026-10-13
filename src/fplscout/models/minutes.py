@@ -17,6 +17,7 @@ import pandas as pd
 from fplscout.models.dataset import CATEGORICAL_COLUMNS, FEATURE_COLUMNS, minutes_class
 
 LGB_PARAMS = {
+    "deterministic": True, "force_row_wise": True, "num_threads": 4,
     "objective": "multiclass",
     "num_class": 3,
     "learning_rate": 0.05,

@@ -19,6 +19,7 @@ from fplscout.backtest.simulator import DECAY, HORIZON
 TEMPLATE_TOP_N = 150  # "template" pool: the N most-owned players last GW
 DIFFERENTIAL_TOP_N = 20  # "differential": never buy the N most-owned
 FORM_WINDOW = 4
+STARTS_WINDOW = 5  # "start share" = started gameweeks / his last 5 club gameweeks
 TOP_ATTACK_TEAMS = 6  # attackers only from the N highest-scoring clubs
 XGI_TOP_N = 60  # attackers only from the N best by recent xGI
 ATTACK = ("MID", "FWD")
@@ -129,6 +130,39 @@ def make_rules(history: pd.DataFrame) -> dict[str, callable]:
         uni["cap_rank"] = uni["price"]
         return uni
 
+    def start_share(gw: int, n: int = STARTS_WINDOW) -> pd.Series:
+        """code -> share of his last n club gameweeks he STARTED (gw < decision).
+        Players with no history this season read 0.5: unknown, not nailed."""
+        p = past(gw, n)
+        return p.assign(s=p["starts"] > 0).groupby("code")["s"].mean()
+
+    def starts_weight(w: float):
+        """Prefer the nailed starter: EV x ((1 - w) + w * start share).
+
+        The model's EV already prices minutes; this is the manager's explicit
+        preference on top of it -- a player who starts every week beats one
+        with a couple more expected minutes but a patchy start record.
+        """
+        def rule(gw, uni):
+            if gw == 1:
+                return uni
+            share = uni["code"].map(start_share(gw)).fillna(0.5)
+            mult = (1 - w) + w * share
+            uni["total_ev"] = uni["total_ev"] * mult
+            uni["cap_ev"] = uni["cap_ev"] * mult
+            return uni
+        return rule
+
+    def nailed_buy(k: int = 3):
+        """Only BUY players who started at least k of their last 5."""
+        def rule(gw, uni):
+            p = past(gw, STARTS_WINDOW)
+            if p.empty:
+                return uni
+            starts = p.assign(s=p["starts"] > 0).groupby("code")["s"].sum()
+            return _and(uni, "buy_ok", set(starts.index[starts >= k]))
+        return rule
+
     return {
         "started_last": started_last,
         "nailed3": nailed3,
@@ -141,6 +175,12 @@ def make_rules(history: pd.DataFrame) -> dict[str, callable]:
         "xgi_top": xgi_top,
         "home_captain": home_captain,
         "form_captain": form_captain,
+        "starts_w25": starts_weight(0.25),
+        "starts_w50": starts_weight(0.5),
+        "starts_w75": starts_weight(0.75),
+        "starts_w100": starts_weight(1.0),
+        "nailed_buy3": nailed_buy(3),
+        "nailed_buy4": nailed_buy(4),
     }
 
 
@@ -165,4 +205,12 @@ STRATEGIES: dict[str, list[str]] = {
     "started + template + xGI": ["started_last", "template", "xgi_top"],
     "started + top-6 attack": ["started_last", "top_attack_teams"],
     "started + template + home captain": ["started_last", "template", "home_captain"],
+    # round 3 (2026-10-13): explicit preference for starts over expected minutes
+    "starts weight 0.25": ["starts_w25"],
+    "starts weight 0.5": ["starts_w50"],
+    "starts weight 0.75": ["starts_w75"],
+    "starts weight 1.0": ["starts_w100"],
+    "nailed buys (3 of 5)": ["nailed_buy3"],
+    "nailed buys (4 of 5)": ["nailed_buy4"],
+    "starts weight 0.5 + nailed buys (3 of 5)": ["starts_w50", "nailed_buy3"],
 }

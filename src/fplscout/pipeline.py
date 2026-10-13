@@ -151,8 +151,64 @@ def latest_reference_point(con: duckdb.DuckDBPyConnection) -> tuple[str, int]:
     return row[0], row[1]
 
 
+# Explicit preference for starters (backtest/strategies.py::starts_weight):
+# EV x ((1 - w) + w * start share over the player's last 5 club gameweeks).
+# The manager's call ("the guy who starts beats a couple more expected
+# minutes"), then tested: tuning seasons 2022-23..2024-25 +0.55/GW (±1.15) at
+# 0.5 while 1.0 and hard nailed-only filters LOST 2.6-3.7/GW; one-shot
+# 2025-26 holdout, 3 model seeds: +1.77/GW (±1.11), 1913 -> 1980 mean season.
+STARTS_PREFERENCE_W = 0.5
+STARTS_WINDOW = 5
+
+
+def starts_multiplier(
+    con: duckdb.DuckDBPyConnection, season: str, gw: int, w: float = STARTS_PREFERENCE_W
+) -> dict[int, float]:
+    """code -> EV multiplier favouring players who actually start.
+
+    Same rule as the backtest's starts_weight: start share over each player's
+    last STARTS_WINDOW gameweeks before `gw` (this season), 0.5 for a player
+    with none (unknown is not nailed). Empty (no change) when w is 0 or the
+    season has no played gameweek yet."""
+    if w <= 0:
+        return {}
+    hist = con.execute(
+        """
+        SELECT code, gw, SUM(starts) > 0 AS started
+        FROM player_gw_history WHERE season = ? AND gw < ?
+        GROUP BY code, gw
+        """,
+        [season, gw],
+    ).df()
+    if hist.empty:
+        return {}
+    last = hist.sort_values("gw").groupby("code").tail(STARTS_WINDOW)
+    share = last.groupby("code")["started"].mean()
+    codes = [r[0] for r in con.execute("SELECT code FROM players").fetchall()]
+    return {c: (1 - w) + w * float(share.get(c, 0.5)) for c in codes}
+
+
+def model_availability_overlay(
+    con: duckdb.DuckDBPyConnection, season: str, decision_gw: int
+) -> dict[int, float]:
+    """The availability multiplier to apply ON TOP of the models' projection.
+
+    Since 2026-10-13 the minutes and points models read pre-deadline status,
+    chance of playing and news as features (ingest/predeadline.py), so
+    scaling by chance again would count a 75% doubt twice. When the decision
+    gameweek has a pre-deadline snapshot only the manual lineup watchlist
+    applies; without one (snapshot failed) the old live overlay stands in.
+    """
+    has_snapshot = con.execute(
+        "SELECT count(*) FROM predeadline_signals WHERE season = ? AND gw = ?",
+        [season, decision_gw],
+    ).fetchone()[0] > 0
+    return live_availability_factor(con, decision_gw, include_live_status=not has_snapshot)
+
+
 def live_availability_factor(
-    con: duckdb.DuckDBPyConnection, decision_gw: int | None = None
+    con: duckdb.DuckDBPyConnection, decision_gw: int | None = None,
+    include_live_status: bool = True,
 ) -> dict[int, float]:
     """code -> live availability factor read from `players`' bootstrap-static
     snapshot (see `fplscout refresh` / models/minutes.py::apply_availability).
@@ -165,7 +221,9 @@ def live_availability_factor(
     ).fetchall()
     factor = {}
     for code, status, chance in rows:
-        if chance is not None:
+        if not include_live_status:
+            factor[code] = 1.0
+        elif chance is not None:
             factor[code] = chance / 100.0
         elif status is None or status == "a":
             # NULL status = never synced (refresh hasn't run since the column
@@ -342,7 +400,7 @@ def generate_projections(
 
     preds, feat = project_gw(
         models.minutes_model, models.dc_model, models.points_models, target_df, teams,
-        availability_factor=live_availability_factor(con, gw),
+        availability_factor=model_availability_overlay(con, season, gw),
     )
     # preds and feat share target_df's row order/length exactly (project_gw derives
     # both from it without reordering) — positional concat, not a merge on `code`,
@@ -567,7 +625,7 @@ def live_horizon_ev(
     ev = horizon.build_horizon_ev(
         models.minutes_model, models.dc_model, models.points_models,
         base_rows, fixtures, teams, decision_gw=gw, horizon=HORIZON, decay=DECAY,
-        max_gw=max_gw, availability_factor=live_availability_factor(con, gw),
+        max_gw=max_gw, availability_factor=model_availability_overlay(con, season, gw),
         return_gw=availability_return_gw(con, season), per_gw=per_gw,
     )
     # This EV is built independently of `projections`, so it needs the boost

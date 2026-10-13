@@ -70,6 +70,10 @@ jobs:
           restore-keys: raw-cache-
 
       - name: Refresh data (vaastav history + live FPL API)
+        # authenticated GitHub API for the fplcache snapshot index
+        # (ingest/predeadline.py); shared runner IPs exhaust the anonymous limit
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
         run: fplscout refresh
 
       # Persist today's ep_next snapshot (refresh merged the committed CSV into

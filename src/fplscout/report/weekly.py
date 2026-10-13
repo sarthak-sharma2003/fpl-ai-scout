@@ -63,6 +63,14 @@ def render_weekly(con: duckdb.DuckDBPyConnection, season: str, gw: int) -> str:
 
         return sorted(codes, key=key)
 
+    def bench_order(codes) -> list[int]:
+        """Outfield by EV, best first, then the keeper -- the order the site's
+        dashboard shows (publish._dashboard_payload); FPL autosubs top-down."""
+        def key(c: int):
+            pos, ev = players.get(c, UNKNOWN)[1], players.get(c, UNKNOWN)[2]
+            return (pos == "GKP", -(ev if ev is not None else -99.0))
+        return sorted(codes, key=key)
+
     out = [
         f"# DO THIS — {season} GW{gw}",
         "",
@@ -74,10 +82,8 @@ def render_weekly(con: duckdb.DuckDBPyConnection, season: str, gw: int) -> str:
         "## Starting XI",
         *[f"- {line(c)}" for c in by_position(xi)],
         "",
-        "## Bench",
-        # ponytail: bench ORDER isn't persisted in recommendations yet — listed
-        # unordered; add a bench_order column when it matters
-        *[f"- {line(c)}" for c in by_position(set(squad) - xi)],
+        "## Bench (in this order — autosubs go top to bottom)",
+        *[f"{k}. {line(c)}" for k, c in enumerate(bench_order(set(squad) - xi), 1)],
     ]
     if transfers:
         out += ["", "## Transfers", *[f"- {t}" for t in transfers]]
