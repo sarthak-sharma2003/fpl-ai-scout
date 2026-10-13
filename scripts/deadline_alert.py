@@ -116,6 +116,12 @@ def _ucl_body(squad: dict, plan: dict) -> str:
     if cap:
         out.append(f"\n**Captain:** {cap['name']} ({cap['team']}, plays {cap.get('day')}) — "
                    f"{cap['points']:.1f} projected")
+    sw = s.get("captainSwitch")
+    if sw and sw.get("switchTo"):
+        name = {p["id"]: p["name"] for p in picks}
+        out.append(f"**Captain switch:** if {name.get(sw.get('captainId'), '?')} scores "
+                   f"under {sw.get('switchIfBelow')} points, move the armband to "
+                   f"{name.get(sw['switchTo'], '?')} before the next day's kick-offs.")
     out.append("\n## Starting XI")
     out += [f"- {p['pos']} {p['name']} ({p['team']}) {p['points']:.1f} — {p.get('day')}"
             for p in xi]

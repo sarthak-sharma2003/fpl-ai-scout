@@ -131,7 +131,7 @@ jobs:
         working-directory: ucl
         run: |
           set -e
-          for m in feeds strength project optimize plan backtest; do
+          for m in feeds strength project optimize plan captaincy backtest; do
             echo "--- $m"
             python -m uclscout.$m || echo "  (no self-check)"
           done
