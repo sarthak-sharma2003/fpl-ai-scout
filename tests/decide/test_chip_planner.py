@@ -185,3 +185,82 @@ def test_evaluate_chip_windows_never_recommends_outside_valid_gw():
     recs = plan_chips(windows, ev_by_chip_gw)
     assert len(recs) == 1
     assert recs[0].gw == 5
+
+
+def _universe(owned_ev: float, pool_ev: float) -> tuple[pd.DataFrame, set[int]]:
+    """15 owned players at `owned_ev` and 15 more at `pool_ev`, all one price,
+    every player at his own club."""
+    rows, owned, code = [], set(), 0
+    for ev, own in ((owned_ev, True), (pool_ev, False)):
+        for pos, n in (("GKP", 2), ("DEF", 5), ("MID", 5), ("FWD", 3)):
+            for _ in range(n):
+                code += 1
+                rows.append(_player(code, pos, code, 40, ev))
+                if own:
+                    owned.add(code)
+    return pd.DataFrame(rows), owned
+
+
+def _wc_input(owned: set[int]) -> OptimizerInput:
+    # the live decision's transfer rules (simulator.DECISION_HIT_COST etc.):
+    # with free hits the no-wildcard path would rebuild in week one anyway
+    return OptimizerInput(
+        projections=None, current_squad=owned,
+        purchase_prices=dict.fromkeys(owned, 40), bank=0, free_transfers=1,
+        hit_cost=6, transfer_penalty=1.5, max_hits=1,
+    )
+
+
+def test_simulated_wildcard_beats_one_transfer_a_week_on_a_broken_squad():
+    from fplscout.decide.chip_planner import simulate_wildcard_gains
+
+    universe, owned = _universe(owned_ev=1.0, pool_ev=5.0)
+    frames = {gw: universe for gw in (7, 8, 9)}
+    gains = simulate_wildcard_gains(frames, _wc_input(owned), decay=1.0)
+    assert set(gains) == {7, 8, 9}
+    # rebuilding now beats rebuilding later, which beats never
+    assert gains[7] > gains[8] > gains[9] > 0
+    # the no-wildcard path still upgrades a player a week: the wildcard's
+    # week-one edge is the 14 players it fixes early, not all 15 x 3 weeks
+    assert gains[7] < 15 * 4.0 * 3
+
+
+def test_simulated_wildcard_is_worthless_on_the_best_squad():
+    from fplscout.decide.chip_planner import simulate_wildcard_gains
+
+    universe, owned = _universe(owned_ev=5.0, pool_ev=1.0)
+    gains = simulate_wildcard_gains({7: universe, 8: universe}, _wc_input(owned), decay=1.0)
+    assert all(abs(g) < 1e-6 for g in gains.values())
+
+
+def test_chip_verdicts_play_only_when_planned_now_and_over_the_bar():
+    from fplscout.decide.chip_planner import chip_verdicts
+
+    windows = [ChipWindow("3xc", 1, 19), ChipWindow("bboost", 1, 19),
+               ChipWindow("3xc", 20, 38)]
+    ev = {("3xc", 7): 9.0, ("3xc", 8): 5.0, ("bboost", 7): 10.0, ("bboost", 9): 16.0}
+    plan = plan_chips(windows[:2], ev)
+    v = chip_verdicts(7, windows, ev, plan, bars={"3xc": 8.0, "bboost": 15.0})
+    assert v[("3xc", 1, 19)]["advice"] == "play"
+    assert v[("bboost", 1, 19)]["advice"] == "planned"
+    assert v[("bboost", 1, 19)]["planned_gw"] == 9
+    assert v[("3xc", 20, 38)]["advice"] == "not_yet"
+    # below the bar this week: hold, whatever the plan says
+    v = chip_verdicts(7, windows, ev, plan, bars={"3xc": 10.0, "bboost": 15.0})
+    assert v[("3xc", 1, 19)]["advice"] == "hold"
+
+
+def test_chip_bars_fall_as_the_window_runs_out():
+    from fplscout.decide.chip_planner import chip_verdicts
+
+    windows = [ChipWindow("3xc", 1, 19), ChipWindow("bboost", 1, 19)]
+    ev = {("3xc", 18): 3.0, ("bboost", 19): 4.0}
+    plan = plan_chips(windows, ev)
+    bars = {"3xc": 8.0, "bboost": 15.0}
+    # two chips, two weeks left: no spare week, so no bar -- play them
+    v = chip_verdicts(18, windows, ev, plan, bars=bars)
+    assert v[("3xc", 1, 19)]["bar"] == 0.0
+    assert v[("3xc", 1, 19)]["advice"] == "play"
+    assert v[("bboost", 1, 19)]["advice"] == "planned"
+    # plenty of weeks left: the full bar applies
+    assert chip_verdicts(7, windows, ev, plan, bars=bars)[("3xc", 1, 19)]["bar"] == 8.0

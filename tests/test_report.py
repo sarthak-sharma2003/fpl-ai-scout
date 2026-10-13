@@ -41,3 +41,26 @@ def test_render_weekly_names_captain_and_sections():
     with pytest.raises(ValueError, match="no recommendation"):
         render_weekly(con, "2026-27", 2)
     con.close()
+
+
+def test_weekly_sheet_lists_every_chip_verdict_hold_included():
+    from fplscout.report.weekly import render_chips
+
+    chips = {"season": "2026-27", "reference_gw": 7, "chips": [
+        {"chip": "3xc", "start_gw": 1, "stop_gw": 19, "advice": "play", "bar": 8.0,
+         "this_week_ev": 9.2, "this_week": {"name": "Haaland"}, "planned_gw": 7,
+         "planned_ev": 9.2},
+        {"chip": "wildcard", "start_gw": 2, "stop_gw": 19, "advice": "hold", "bar": 15.0,
+         "this_week_ev": 14.1, "planned_gw": 7, "planned_ev": 14.1},
+        {"chip": "bboost", "start_gw": 1, "stop_gw": 19, "advice": "planned", "bar": 15.0,
+         "this_week_ev": 9.0, "planned_gw": 11, "planned_ev": 16.3},
+        {"chip": "freehit", "start_gw": 2, "stop_gw": 19, "advice": "used", "used_gw": 5},
+        {"chip": "wildcard", "start_gw": 20, "stop_gw": 38, "advice": "not_yet"},
+    ]}
+    text = "\n".join(render_chips(chips, 7))
+    assert "## Chips (checked this run)" in text
+    assert "**Triple Captain: PLAY IT THIS WEEK**" in text and "Haaland +9.2" in text
+    assert "Wildcard: hold" in text and "misses the bar" in text
+    assert "Bench Boost: hold for now, planned GW11 (+16.3)" in text
+    assert "Free Hit: used (GW5)" in text
+    assert "Second-half chips (Wildcard): not open yet" in text

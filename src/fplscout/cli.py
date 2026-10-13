@@ -510,7 +510,7 @@ def optimize(settings_path: Path = typer.Option(DEFAULT_SETTINGS_PATH, "--settin
         MAX_HITS_PER_GW,
         TRANSFER_PENALTY,
     )
-    from fplscout.decide.chip_planner import wildcard_ev
+    from fplscout.decide.chip_planner import simulate_wildcard_gains, wildcard_ev
     from fplscout.decide.optimizer import CAPTAIN_Q90_WEIGHT, OptimizerInput
     from fplscout.decide.optimizer import optimize as run_optimizer
     from fplscout.decide.squad_state import chip_available, load_state
@@ -556,6 +556,11 @@ def optimize(settings_path: Path = typer.Option(DEFAULT_SETTINGS_PATH, "--settin
     wildcard_ok = (
         bool(state and state.squad)
         and chip_available(con, season, gw, team_id, "wildcard")
+    )
+    # week-by-week EV, for pricing the wildcard by simulating both paths
+    ev_by_gw = (
+        pipeline.live_horizon_ev(con, models, season, gw, per_gw=True)
+        if wildcard_ok and gw >= WILDCARD_EARLIEST_GW else None
     )
     # Owned players priced/positioned WITHOUT the unpickable filter that
     # roster_snapshot applies: a long-term-injured player we own is exactly the
@@ -655,6 +660,24 @@ def optimize(settings_path: Path = typer.Option(DEFAULT_SETTINGS_PATH, "--settin
             f"  wildcard not considered before GW{WILDCARD_EARLIEST_GW} "
             "(rules.yaml chip-hold-discipline)"
         )
+    elif mode == "transfer" and wildcard_ok and ev_by_gw is not None:
+        # Both paths simulated week by week -- the wildcard now, or one free
+        # transfer a week -- each then spending transfers as the weekly advice
+        # would. The single-solve comparison below handed the no-wildcard path
+        # all eight weeks' transfers in week one, so a rebuild "gained" ~+2 on
+        # almost any squad. Same number the published chip verdict uses.
+        frames = pipeline.chip_projection_frames(projections_df, ev_by_gw)
+        gain = simulate_wildcard_gains(
+            frames, base_input, decay=pipeline.DECAY, max_start_weeks=1,
+            static=projections_df[["code", "position", "team_id", "price"]],
+        ).get(gw)
+        if gain is not None:
+            typer.echo(
+                f"  wildcard now vs a free transfer a week, simulated GW{gw}-"
+                f"{max(frames)}: gain {gain:+.1f} (bar: {WILDCARD_MIN_GAIN:.1f})"
+            )
+            if gain >= WILDCARD_MIN_GAIN:
+                wildcard_gain = round(gain, 1)
     elif mode == "transfer" and wildcard_ok:
         wc_result = run_optimizer(replace(base_input, chip_mode="wildcard"))
         # Compare like with like, which the old comparison did not. It put a
@@ -867,6 +890,8 @@ def report(
     """The weekly one-command op (plan §8): project -> optimize -> publish,
     then render the 'DO THIS' markdown sheet to data/reports/ and stdout.
     Run `fplscout refresh` first on a real gameweek (it's the network step)."""
+    import json
+
     from fplscout import pipeline
     from fplscout.report.weekly import render_weekly
 
@@ -879,7 +904,13 @@ def report(
     settings = load_settings(settings_path)
     con = db.connect(REPO_ROOT / settings["paths"]["duckdb"])
     season, gw = pipeline.latest_reference_point(con)
-    sheet = render_weekly(con, season, gw)
+    # the chip verdicts `publish` just wrote (the sheet is rendered after it)
+    chips_path = REPO_ROOT / "site" / "public" / "data" / "chips.json"
+    try:
+        chips = json.loads(chips_path.read_text())
+    except (OSError, TypeError, ValueError):     # no sheet section, never a failure
+        chips = None
+    sheet = render_weekly(con, season, gw, chips=chips)
     con.close()
 
     reports_dir = REPO_ROOT / "data" / "reports"

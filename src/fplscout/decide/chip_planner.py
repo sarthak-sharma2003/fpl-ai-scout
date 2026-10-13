@@ -25,12 +25,36 @@ import numpy as np
 import pandas as pd
 from scipy.optimize import linear_sum_assignment
 
-from fplscout.decide.optimizer import OptimizationResult, OptimizerInput, optimize
+from fplscout.decide.optimizer import (
+    XI_BOUNDS,
+    XI_SIZE,
+    OptimizationResult,
+    OptimizerInput,
+    _selling_price,
+    optimize,
+)
 
 # A wildcard's value is the squad you keep afterwards, so it is scored over this
 # many weeks from the candidate GW. Fixed, so every candidate is judged on the
 # same span (a truncated span would favour early weeks by construction).
+# Kept for the single-solve comparator `wildcard_ev`; evaluate_chip_windows now
+# prices the wildcard by simulating both paths (simulate_wildcard_gains).
 WILDCARD_LOOKAHEAD = 4
+
+# FPL since 2024-25: free transfers bank up to five, and a wildcard or free hit
+# keeps the ones you had banked.
+MAX_BANKED_FT = 5
+REAL_HIT_COST = 4.0
+
+# What a chip has to be worth before the weekly check says "play it now".
+# Judgement calls, NOT swept constants (the replay has no chip decisions to tune
+# them on): each sits at what a good-but-not-exceptional week for that chip is
+# worth in this model's units, so the advice waits for a real opportunity
+# instead of firing on the first legal week. The wildcard's matches
+# cli.WILDCARD_MIN_GAIN. They drop to zero once the chips still unused need
+# every remaining week of their window (see chip_verdicts), because an expired
+# chip is worth nothing.
+PLAY_BARS = {"wildcard": 15.0, "freehit": 12.0, "bboost": 15.0, "3xc": 8.0}
 
 
 def dgw_bgw_counts(fixtures: pd.DataFrame) -> pd.DataFrame:
@@ -157,6 +181,8 @@ def evaluate_chip_windows(
     chip_windows: list[ChipWindow],
     projections_by_gw: dict[int, pd.DataFrame],
     base_input: OptimizerInput,
+    decay: float = 0.84,
+    static: pd.DataFrame | None = None,
 ) -> dict[tuple[str, int], float]:
     """Drives the optimizer across every feasible candidate GW in each chip's
     window. Expensive (one solve per candidate GW, some chips need two solves to
@@ -164,7 +190,16 @@ def evaluate_chip_windows(
     projections it already has for that GW, not a full standalone horizon scan.
     """
     ev_by_chip_gw: dict[tuple[str, int], float] = {}
+    wc_gains: dict[int, float] | None = None
     for window in chip_windows:
+        if window.chip == "wildcard":
+            if wc_gains is None:
+                wc_gains = simulate_wildcard_gains(projections_by_gw, base_input,
+                                                   decay=decay, static=static)
+            for gw, gain in wc_gains.items():
+                if window.start_gw <= gw <= window.stop_gw:
+                    ev_by_chip_gw[("wildcard", gw)] = gain
+            continue
         for gw in range(window.start_gw, window.stop_gw + 1):
             if gw not in projections_by_gw:
                 continue
@@ -221,3 +256,203 @@ def evaluate_chip_windows(
                 continue
             ev_by_chip_gw[(window.chip, gw)] = ev
     return ev_by_chip_gw
+
+
+# --------------------------------------------------------------------------
+# The wildcard, priced by simulating both paths.
+#
+# The single-solve comparator (wildcard_ev against "N free transfers at once")
+# is biased whichever N it uses: N = the horizon (as cli.optimize did) hands the
+# no-wildcard path eight transfers in week one, each scoring for all eight
+# weeks -- so a wildcard gained ~+2 on almost any squad -- while N = 4 over four
+# weeks inflates it. Real free transfers arrive one a week, so the k-th one
+# only scores for the weeks after it. Simulating both paths week by week (the
+# same optimizer, one free transfer a week, real hit costs) is the comparison
+# the decision is actually about.
+
+
+_STATIC = ["code", "position", "team_id", "price"]
+
+
+def _decision_frame(projections_by_gw: dict[int, pd.DataFrame], gws: list[int],
+                    k: int, decay: float, owned: set[int],
+                    static: pd.DataFrame) -> pd.DataFrame:
+    """The optimizer's input at gws[k]: each player's EV over the rest of the
+    path, decayed from that week (what total_ev is for the live decision).
+    Owned players with no projection are carried at zero EV, as cli.optimize
+    does: a player absent from the MILP would be dropped for free instead of
+    costing a transfer."""
+    parts = []
+    for j, g in enumerate(gws[k:]):
+        f = projections_by_gw[g][[*_STATIC, "total_ev"]].copy()
+        f["total_ev"] = f["total_ev"] * decay**j
+        parts.append(f)
+    frame = (pd.concat(parts)
+             .groupby(_STATIC, as_index=False)["total_ev"]
+             .sum())
+    missing = owned - set(frame["code"])
+    if missing:
+        fill = static[static["code"].isin(missing)].drop_duplicates("code").copy()
+        fill["total_ev"] = 0.0
+        frame = pd.concat([frame, fill[[*_STATIC, "total_ev"]]], ignore_index=True)
+    return frame
+
+
+def week_points(frame: pd.DataFrame, squad: set[int]) -> float:
+    """Best legal XI plus captain from `squad` on one week's EV. Greedy is exact
+    here: each position's minimum from its best players, then the remaining
+    places from the best of the rest under each maximum."""
+    own = frame[frame["code"].isin(squad)].sort_values("total_ev", ascending=False)
+    xi: list[float] = []
+    count = dict.fromkeys(XI_BOUNDS, 0)
+    taken: set[int] = set()
+    for pos, (lo, _) in XI_BOUNDS.items():
+        for row in own[own["position"] == pos].head(lo).itertuples():
+            xi.append(row.total_ev)
+            taken.add(row.code)
+            count[pos] += 1
+    for row in own.itertuples():
+        if len(xi) >= XI_SIZE:
+            break
+        if row.code in taken or count[row.position] >= XI_BOUNDS[row.position][1]:
+            continue
+        xi.append(row.total_ev)
+        taken.add(row.code)
+        count[row.position] += 1
+    return float(sum(xi) + (max(xi) if xi else 0.0))
+
+
+@dataclass
+class _PathState:
+    squad: set[int]
+    purchase_prices: dict[int, int]
+    bank: int
+    free_transfers: int
+
+
+def _step(projections_by_gw, gws, k, state: _PathState, base_input: OptimizerInput,
+          decay: float, chip_mode: str | None,
+          static: pd.DataFrame) -> tuple[float, _PathState] | None:
+    frame = _decision_frame(projections_by_gw, gws, k, decay, state.squad, static)
+    res = optimize(replace(
+        base_input, projections=frame, current_squad=state.squad,
+        purchase_prices=state.purchase_prices, bank=state.bank,
+        free_transfers=state.free_transfers, chip_mode=chip_mode,
+    ))
+    if res.status != "Optimal":
+        return None
+    pts = week_points(projections_by_gw[gws[k]], res.squad) - REAL_HIT_COST * res.hits
+    price = dict(zip(frame["code"], frame["price"], strict=True))
+    sale = sum(_selling_price(int(price[c]), int(state.purchase_prices.get(c, price[c])))
+               for c in res.transfers_out if c in price)
+    cost = sum(int(price[c]) for c in res.transfers_in)
+    pp = {c: v for c, v in state.purchase_prices.items() if c not in res.transfers_out}
+    pp.update({c: int(price[c]) for c in res.transfers_in})
+    ft = (state.free_transfers if chip_mode in ("wildcard", "free_hit")
+          else max(0, state.free_transfers - len(res.transfers_in)))
+    return pts, _PathState(set(res.squad), pp, int(state.bank + sale - cost),
+                           min(MAX_BANKED_FT, ft + 1))
+
+
+def simulate_wildcard_gains(
+    projections_by_gw: dict[int, pd.DataFrame],
+    base_input: OptimizerInput,
+    decay: float = 0.84,
+    max_start_weeks: int | None = None,
+    static: pd.DataFrame | None = None,
+) -> dict[int, float]:
+    """gw -> what playing the wildcard in that gw gains over not playing it,
+    both paths then spending one free transfer a week through the end of the
+    projected weeks. Decayed from the first week, like everything the
+    optimizer compares. The no-wildcard path is simulated once; each candidate
+    week branches off its state (n + n(n+1)/2 solves for n weeks).
+
+    `static` ({code, position, team_id, price}) prices owned players that have
+    no projection in some week; by default whatever the weekly frames hold."""
+    gws = sorted(projections_by_gw)
+    if not gws or not base_input.current_squad:
+        return {}
+    if static is None:
+        static = pd.concat([projections_by_gw[g][_STATIC] for g in gws])
+    static = static[_STATIC].dropna()
+    state = _PathState(set(base_input.current_squad), dict(base_input.purchase_prices),
+                       int(base_input.bank), int(base_input.free_transfers))
+    states, base_pts = [], []
+    for k in range(len(gws)):
+        states.append(state)
+        r = _step(projections_by_gw, gws, k, state, base_input, decay, None, static)
+        if r is None:
+            break
+        pts, state = r
+        base_pts.append(pts)
+    n = len(base_pts)
+    starts = range(n if max_start_weeks is None else min(n, max_start_weeks))
+    gains: dict[int, float] = {}
+    for t in starts:
+        st, total = states[t], 0.0
+        for k in range(t, n):
+            r = _step(projections_by_gw, gws, k, st, base_input, decay,
+                      "wildcard" if k == t else None, static)
+            if r is None:
+                total = None
+                break
+            pts, st = r
+            total += decay**k * (pts - base_pts[k])
+        if total is not None:
+            gains[gws[t]] = float(total)
+    return gains
+
+
+# --------------------------------------------------------------------------
+# The weekly verdict per chip: checked every run, published whatever it says.
+
+
+def chip_verdicts(
+    current_gw: int,
+    windows: list[ChipWindow],
+    ev_by_chip_gw: dict[tuple[str, int], float],
+    plan: list[ChipRecommendation],
+    bars: dict[str, float] | None = None,
+) -> dict[tuple[str, int, int], dict]:
+    """Play now, planned for later, or hold -- for each unused window, keyed
+    (chip, start_gw, stop_gw). `windows` are the chips still unused.
+
+    "play" needs both: this week is where plan_chips puts the chip (no better
+    week for it in sight, one chip a week), and its value clears the chip's
+    bar. The bar shrinks as the window runs out of spare weeks -- full while
+    the weeks left are at least twice the unused chips that must fit into
+    them, zero when there are no more weeks than chips -- because an expired
+    chip is worth nothing, so a modest week then beats waiting.
+    """
+    bars = PLAY_BARS if bars is None else bars
+    out: dict[tuple[str, int, int], dict] = {}
+    for w in windows:
+        if w.stop_gw < current_gw:
+            continue
+        cands = {gw: ev for (chip, gw), ev in ev_by_chip_gw.items()
+                 if chip == w.chip and w.start_gw <= gw <= w.stop_gw}
+        rec = next((r for r in plan if r.chip == w.chip
+                    and w.start_gw <= r.gw <= w.stop_gw), None)
+        weeks_left = w.stop_gw - max(current_gw, w.start_gw) + 1
+        sharing = sum(1 for o in windows if o.stop_gw == w.stop_gw)
+        spare = max(0.0, min(1.0, (weeks_left - sharing) / max(1, sharing)))
+        bar = round(bars.get(w.chip, 0.0) * spare, 1)
+        best_gw = max(cands, key=cands.get) if cands else None
+        v = {
+            "this_week_ev": round(cands[current_gw], 1) if current_gw in cands else None,
+            "best_gw": best_gw,
+            "best_ev": round(cands[best_gw], 1) if best_gw is not None else None,
+            "planned_gw": rec.gw if rec else None,
+            "bar": bar,
+            "weeks_left": weeks_left,
+        }
+        if current_gw < w.start_gw:
+            v["advice"] = "not_yet"
+        elif rec is not None and rec.gw == current_gw and rec.ev >= bar:
+            v["advice"] = "play"
+        elif rec is not None and rec.gw > current_gw and rec.ev >= bar:
+            v["advice"] = "planned"
+        else:
+            v["advice"] = "hold"
+        out[(w.chip, w.start_gw, w.stop_gw)] = v
+    return out

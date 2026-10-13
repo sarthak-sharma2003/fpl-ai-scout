@@ -369,6 +369,7 @@ def _rotation_cards(
 def build_transfers(
     con: duckdb.DuckDBPyConnection, season: str, gw: int,
     ev_by_gw: pd.DataFrame | None = None,
+    chips: dict | None = None,
 ) -> dict:
     ref = _reference_frame(con, season, gw)
 
@@ -498,8 +499,13 @@ def build_transfers(
     # A chip the recommendation plays wins; otherwise a wildcard `optimize`
     # priced but did not play (it never swaps out the owned squad) is advice.
     chip_advice = None
+    playing = next((c for c in (chips or {}).get("chips", [])
+                    if c.get("advice") == "play"), None)
     if chip:
         chip_advice = {"chip": chip, "gw": gw, "ev": None}
+    elif playing is not None:
+        # the weekly chip verdict (build_chips) says this is the week
+        chip_advice = {"chip": playing["chip"], "gw": gw, "ev": playing.get("this_week_ev")}
     elif len(rec) and pd.notna(rec["wildcard_gain"][0]):
         chip_advice = {"chip": "wildcard", "gw": gw, "ev": float(rec["wildcard_gain"][0])}
 
@@ -679,14 +685,16 @@ def _chip_plan_by_id(
     our_entry_id: int | None,
     ref: pd.DataFrame,
     ev_by_gw: pd.DataFrame | None,
-) -> dict[int, chip_planner.ChipRecommendation]:
+) -> tuple[dict[int, chip_planner.ChipRecommendation], dict[int, dict]]:
     """Real EV-driven timing for every not-yet-used chip window, reusing
     chip_planner.evaluate_chip_windows/plan_chips (previously only exercised by
     the backtest) — this is what actually answers "when should I fire it",
-    instead of the static CHIP_GUIDANCE text alone. Needs a synced squad
-    (skipped otherwise, same gate as the wildcard/free-hit this-week numbers)."""
+    instead of the static CHIP_GUIDANCE text alone — plus each window's weekly
+    verdict (chip_planner.chip_verdicts: play / planned / hold, against its
+    bar). Needs a synced squad (skipped otherwise, same gate as the
+    wildcard/free-hit this-week numbers)."""
     if ev_by_gw is None or our_entry_id is None:
-        return {}
+        return {}, {}
     window_by_id = {
         int(w["chip_id"]): chip_planner.ChipWindow(
             chip=w["chip"], start_gw=int(w["start_event"]), stop_gw=int(w["stop_event"])
@@ -696,30 +704,48 @@ def _chip_plan_by_id(
         and pd.notna(w["start_event"]) and pd.notna(w["stop_event"])
     }
     if not window_by_id:
-        return {}
+        return {}, {}
     state = load_state(con, our_entry_id)
     if not state or not state.squad:
-        return {}
+        return {}, {}
+    from fplscout.backtest.simulator import (
+        DECISION_HIT_COST,
+        MAX_HITS_PER_GW,
+        TRANSFER_PENALTY,
+    )
+
     projections_by_gw = pipeline.chip_projection_frames(ref, ev_by_gw)
+    # the live decision's own transfer rules, so the wildcard's simulated
+    # no-chip path spends transfers the way the weekly advice would
     base_input = OptimizerInput(
         projections=pd.DataFrame(columns=["code", "position", "team_id", "price", "total_ev"]),
         current_squad=set(state.squad),
         purchase_prices=state.purchase_prices,
         bank=state.bank if state.bank is not None else 0,
         free_transfers=state.free_transfers if state.free_transfers is not None else 1,
+        hit_cost=DECISION_HIT_COST,
+        transfer_penalty=TRANSFER_PENALTY,
+        max_hits=MAX_HITS_PER_GW,
     )
     candidate_windows = list(window_by_id.values())
     ev_by_chip_gw = chip_planner.evaluate_chip_windows(
-        candidate_windows, projections_by_gw, base_input
+        candidate_windows, projections_by_gw, base_input, decay=pipeline.DECAY,
+        static=ref[["code", "position", "team_id", "price"]],
     )
     recs = chip_planner.plan_chips(candidate_windows, ev_by_chip_gw)
-    plan_by_id = {}
+    current_gw = min(projections_by_gw) if projections_by_gw else None
+    verdicts = (chip_planner.chip_verdicts(current_gw, candidate_windows, ev_by_chip_gw, recs)
+                if current_gw is not None else {})
+    plan_by_id, verdict_by_id = {}, {}
     for chip_id, window in window_by_id.items():
         for rec in recs:
             if rec.chip == window.chip and window.start_gw <= rec.gw <= window.stop_gw:
                 plan_by_id[chip_id] = rec
                 break
-    return plan_by_id
+        v = verdicts.get((window.chip, window.start_gw, window.stop_gw))
+        if v is not None:
+            verdict_by_id[chip_id] = v
+    return plan_by_id, verdict_by_id
 
 
 def build_chips(
@@ -789,7 +815,9 @@ def build_chips(
         "freehit": None,
     }
 
-    chip_plan_by_id = _chip_plan_by_id(con, windows, used_by_window, our_entry_id, ref, ev_by_gw)
+    chip_plan_by_id, verdict_by_id = _chip_plan_by_id(
+        con, windows, used_by_window, our_entry_id, ref, ev_by_gw
+    )
 
     chips_out = []
     for _, w in windows.iterrows():
@@ -798,6 +826,11 @@ def build_chips(
         stop_gw = int(w["stop_event"]) if pd.notna(w["stop_event"]) else None
         gws_remaining = stop_gw - gw if unused and stop_gw is not None else None
         plan = chip_plan_by_id.get(chip_id)
+        verdict = verdict_by_id.get(chip_id, {})
+        if unused and not verdict and stop_gw is not None and stop_gw >= gw:
+            start_gw = int(w["start_event"]) if pd.notna(w["start_event"]) else None
+            if start_gw is not None and start_gw > gw:
+                verdict = {"advice": "not_yet"}
         chips_out.append({
             "chip": w["chip"],
             "chip_id": chip_id,
@@ -817,6 +850,14 @@ def build_chips(
             "urgent": (
                 gws_remaining is not None and gws_remaining <= CHIP_URGENCY_GWS
             ),
+            # the weekly verdict (chip_planner.chip_verdicts): "play" this
+            # week, "planned" for planned_gw, "hold", or "not_yet" (window
+            # opens later); with this week's value and the bar it must clear
+            "advice": "used" if not unused else verdict.get("advice"),
+            "bar": verdict.get("bar"),
+            "this_week_ev": verdict.get("this_week_ev"),
+            "best_gw": verdict.get("best_gw"),
+            "best_ev": verdict.get("best_ev"),
         })
 
     # DGW/BGW radar over the upcoming horizon — the thing chip timing hinges on
@@ -1198,12 +1239,13 @@ def publish_all(
         # to reimplement in a second place and get subtly wrong.
         horizon_ev = pipeline.total_ev_for_optimizer(con, models, season, gw, ref)
 
+    chips = build_chips(con, season, gw, our_entry_id=our_entry_id, ev_by_gw=ev_by_gw)
     files: dict[str, object] = {
         "dashboard.json": build_dashboard(con, season, gw),
-        "transfers.json": build_transfers(con, season, gw, ev_by_gw=ev_by_gw),
+        "transfers.json": build_transfers(con, season, gw, ev_by_gw=ev_by_gw, chips=chips),
         "fixtures.json": build_fixtures(con, season, gw),
         "signals.json": build_signals(con, season, gw),
-        "chips.json": build_chips(con, season, gw, our_entry_id=our_entry_id, ev_by_gw=ev_by_gw),
+        "chips.json": chips,
         "league.json": build_league(con, season, gw, our_entry_id=our_entry_id),
         "rules.json": build_rules(rules_path),
         "analytics.json": build_analytics(reports_dir, model_version),

@@ -11,7 +11,62 @@ import duckdb
 POSITION_ORDER = {"GKP": 0, "DEF": 1, "MID": 2, "FWD": 3}
 
 
-def render_weekly(con: duckdb.DuckDBPyConnection, season: str, gw: int) -> str:
+CHIP_NAMES = {"wildcard": "Wildcard", "freehit": "Free Hit", "bboost": "Bench Boost",
+              "3xc": "Triple Captain"}
+CHIP_ORDER = ["wildcard", "freehit", "bboost", "3xc"]
+CHIP_BASIS = {"wildcard": "over a free transfer a week",
+              "freehit": "over your own XI",
+              "bboost": "from your bench",
+              "3xc": "extra from the armband"}
+
+
+def render_chips(chips: dict, gw: int) -> list[str]:
+    """Every chip's verdict from chips.json (publish.build_chips): checked on
+    every run and shown whatever it says -- "hold" is an answer too."""
+    rows = [c for c in chips.get("chips", []) if c.get("advice")]
+    if not rows:
+        return []
+    out = ["", "## Chips (checked this run)"]
+    later = []
+    for c in sorted(rows, key=lambda c: CHIP_ORDER.index(c["chip"])
+                    if c["chip"] in CHIP_ORDER else 9):
+        name = CHIP_NAMES.get(c["chip"], c["chip"])
+        advice, bar = c["advice"], c.get("bar")
+        now, basis = c.get("this_week_ev"), CHIP_BASIS.get(c["chip"], "")
+        who = ""
+        if c["chip"] == "3xc" and isinstance(c.get("this_week"), dict):
+            who = f"{c['this_week'].get('name')} " if c["this_week"].get("name") else ""
+        now_txt = f"this week {who}+{now:.1f} {basis}" if now is not None else ""
+        bar_txt = f"bar to play: +{bar:.1f}" if bar is not None else ""
+        planned = (f"planned GW{c['planned_gw']} (+{c['planned_ev']:.1f})"
+                   if c.get("planned_gw") and c.get("planned_gw") != gw
+                   and c.get("planned_ev") is not None else "")
+        if advice == "hold" and c.get("planned_gw") == gw:
+            planned = ""
+            bar_txt += " — this is its best week in view, but it misses the bar"
+        if advice == "used":
+            out.append(f"- {name}: used (GW{c.get('used_gw')}).")
+        elif advice == "not_yet":
+            later.append(name)
+        elif advice == "play":
+            out.append(f"- **{name}: PLAY IT THIS WEEK** ("
+                       + "; ".join(filter(None, [now_txt, bar_txt])) + ").")
+        elif advice == "planned":
+            out.append(f"- {name}: hold for now, {planned}; "
+                       + "; ".join(filter(None, [now_txt, bar_txt])) + ".")
+        else:
+            out.append(f"- {name}: hold ("
+                       + "; ".join(filter(None, [now_txt, bar_txt])) + ")"
+                       + (f", {planned} if nothing better comes up." if planned else "."))
+        if c.get("urgent") and advice not in ("used", "not_yet"):
+            out[-1] += f" ⚠ expires after GW{c.get('stop_gw')}."
+    if later:
+        out.append(f"- Second-half chips ({', '.join(later)}): not open yet.")
+    return out
+
+
+def render_weekly(con: duckdb.DuckDBPyConnection, season: str, gw: int,
+                  chips: dict | None = None) -> str:
     rec = con.execute(
         "SELECT squad, starting_xi, captain_code, vice_captain_code, transfers, "
         "hits, chip, generated_at FROM recommendations "
@@ -87,4 +142,6 @@ def render_weekly(con: duckdb.DuckDBPyConnection, season: str, gw: int) -> str:
     ]
     if transfers:
         out += ["", "## Transfers", *[f"- {t}" for t in transfers]]
+    if chips and chips.get("season") == season and chips.get("reference_gw") == gw:
+        out += render_chips(chips, gw)
     return "\n".join(out) + "\n"

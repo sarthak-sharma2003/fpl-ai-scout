@@ -228,6 +228,16 @@ export interface ChipInfo {
   active_now: boolean;
   this_week: ChipThisWeek | null;
   guidance: string;
+  /** tentative week from the one-chip-a-week plan over the projected weeks */
+  planned_gw?: number | null;
+  planned_ev?: number | null;
+  /** the weekly verdict, checked every run: play | planned | hold | not_yet | used */
+  advice?: string | null;
+  /** what this week's value has to clear before "play" */
+  bar?: number | null;
+  this_week_ev?: number | null;
+  best_gw?: number | null;
+  best_ev?: number | null;
 }
 
 export interface RadarEntry {

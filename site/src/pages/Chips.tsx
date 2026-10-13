@@ -125,6 +125,39 @@ function ThisWeek({ chip }: { chip: ChipInfo }) {
   return null;
 }
 
+/** The weekly verdict: every chip is checked on every run, and "hold" is an
+ * answer too — with this week's value against the bar it has to clear. */
+function Verdict({ chip, currentGw }: { chip: ChipInfo; currentGw: number }) {
+  if (!chip.advice || chip.advice === 'used' || chip.advice === 'not_yet') return null;
+  const play = chip.advice === 'play';
+  const label = play
+    ? 'Play it this week'
+    : chip.advice === 'planned'
+      ? `Hold — planned GW${chip.planned_gw}`
+      : 'Hold';
+  const value =
+    chip.this_week_ev != null && chip.bar != null
+      ? `this week +${chip.this_week_ev.toFixed(1)} vs bar +${chip.bar.toFixed(1)}`
+      : null;
+  const later =
+    chip.advice !== 'planned' && chip.planned_gw != null && chip.planned_gw !== currentGw && chip.planned_ev != null
+      ? `planned GW${chip.planned_gw} (+${chip.planned_ev.toFixed(1)}) if nothing better comes up`
+      : null;
+  return (
+    <div className="mt-3 flex flex-wrap items-baseline gap-x-3 gap-y-1">
+      <span
+        className={`rounded-sm px-2 py-0.5 font-mono text-[10px] font-bold uppercase tracking-[0.14em] ring-1 ${
+          play ? 'bg-volt/10 text-volt-deep ring-volt/40' : 'bg-ink-100/5 text-ink-300 ring-line'
+        }`}
+      >
+        {label}
+      </span>
+      {value && <span className="font-mono text-[11px] tabular-nums text-ink-300">{value}</span>}
+      {later && <span className="font-mono text-[10px] text-ink-500">{later}</span>}
+    </div>
+  );
+}
+
 function ChipCard({ chip, currentGw }: { chip: ChipInfo; currentGw: number }) {
   const half = chip.start_gw <= 19 ? 'First half' : 'Second half';
   return (
@@ -139,6 +172,7 @@ function ChipCard({ chip, currentGw }: { chip: ChipInfo; currentGw: number }) {
         <StatusBadge chip={chip} />
       </div>
       <WindowStrip chip={chip} currentGw={currentGw} />
+      <Verdict chip={chip} currentGw={currentGw} />
       <ThisWeek chip={chip} />
       <p className="mt-3 border-t border-line/60 pt-3 text-[13px] leading-relaxed text-ink-300">
         {chip.guidance}
