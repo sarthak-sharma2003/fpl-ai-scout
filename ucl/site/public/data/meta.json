@@ -1,6 +1,6 @@
 {
  "schema": 1,
- "generatedAt": "2026-10-13T09:13:55.459098+00:00",
+ "generatedAt": "2026-10-13T10:05:35.097122+00:00",
  "season": "2026-27",
  "tour": 90,
  "matchday": 2,
@@ -30,9 +30,9 @@
   "failed": [],
   "players": 1171,
   "clubs": 36,
-  "matched": 1323,
-  "listed": 1334,
-  "matchRate": 0.992,
+  "matched": 1336,
+  "listed": 1348,
+  "matchRate": 0.991,
   "note": "MD2: 36 clubs kick off within 40h"
  }
 }
