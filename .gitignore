@@ -48,3 +48,6 @@ site/dist/
 site/public/data/
 # hand-authored alt-squad exclusions — read by publish, must ship to CI
 !config/alt_exclude.csv
+
+# Claude Code agent worktrees (isolated scratch checkouts, never committed)
+.claude/worktrees/
