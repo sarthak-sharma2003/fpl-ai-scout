@@ -6,7 +6,8 @@ build-backend = "setuptools.build_meta"
 name = "uclscout"
 version = "0.1.0"
 requires-python = ">=3.11"
-dependencies = ["pulp", "pandas", "typer"]
+# pulp<4: PuLP 4.0 removed LpVariable.dicts, which optimize/plan rely on.
+dependencies = ["pulp>=2.8,<4", "pandas", "typer"]
 
 [project.optional-dependencies]
 dev = ["pytest", "ruff>=0.16,<0.17"]

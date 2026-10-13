@@ -3,16 +3,18 @@ name = "fplscout"
 version = "0.1.0"
 description = "Xabi's Long-Xo — prediction + optimization engine for FPL 2026/27"
 requires-python = ">=3.11"
+# Upper bounds at the next major: an unpinned PuLP 4.0 release (which removed
+# LpVariable.dicts) broke every scheduled deploy from 2026-10 until pinned.
 dependencies = [
     "httpx>=0.27",
-    "pydantic>=2.7",
-    "duckdb>=1.0",
-    "pandas>=2.2",
-    "numpy>=1.26",
+    "pydantic>=2.7,<3",
+    "duckdb>=1.0,<2",
+    "pandas>=2.2,<4",
+    "numpy>=1.26,<3",
     "scipy>=1.13",
     "statsmodels>=0.14",
-    "lightgbm>=4.3",
-    "pulp>=2.8",
+    "lightgbm>=4.3,<5",
+    "pulp>=2.8,<4",
     "highspy>=1.7",
     "fastapi>=0.111",
     "uvicorn[standard]>=0.30",
