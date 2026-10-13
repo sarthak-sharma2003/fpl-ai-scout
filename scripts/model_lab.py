@@ -212,9 +212,20 @@ def _fit(X, y, params, rounds):
     return lgb.train(params, ds, num_boost_round=rounds)
 
 
+ODDS_COLUMNS = ["odds_win_prob", "odds_exp_goals_for", "odds_exp_goals_against"]
+
+
 def run_variant(name: str, opts: dict, train: pd.DataFrame, test: pd.DataFrame,
                 con, train_seasons: list[str]) -> pd.Series:
     """Returns EV predictions for `test` rows."""
+    if opts.get("no_odds"):
+        # ablation: blank the bookmaker-odds inputs everywhere (LightGBM reads
+        # an all-missing column as no information), for minutes AND points
+        train, test = train.copy(), test.copy()
+        train[ODDS_COLUMNS] = np.nan
+        test[ODDS_COLUMNS] = np.nan
+        return run_variant(name, {k: v for k, v in opts.items() if k != "no_odds"},
+                           train, test, con, train_seasons)
     if opts.get("calib"):
         # out-of-sample predictions for the LAST training season, from a model
         # trained on the seasons before it, fit a per-position isotonic map
@@ -308,6 +319,9 @@ VARIANTS = {
     "pd+xpts+reg+calib": {"pd": True, "xpts": True, "reg": True, "calib": True},
     "pd+hurdle+xpts+reg+calib": {"pd": True, "hurdle": True, "xpts": True, "reg": True,
                                  "calib": True},
+    # production v2 without the bookmaker-odds features (odds ablation)
+    "pd+hurdle+xpts+reg-noodds": {"pd": True, "hurdle": True, "xpts": True, "reg": True,
+                                  "no_odds": True},
 }
 
 
