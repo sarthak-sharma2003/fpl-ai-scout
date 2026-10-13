@@ -43,16 +43,22 @@ const TIME_FMT = new Intl.DateTimeFormat(undefined, {
   minute: "2-digit",
 });
 
-export function formatDay(iso: string): string {
-  return DATE_FMT.format(new Date(iso + "T00:00:00"));
+/** Intl throws on an invalid Date, and one throw blanks the whole page (a
+ * held player with no fixture this matchday has no day). Never throw. */
+function safe(fmt: Intl.DateTimeFormat, d: Date, fallback = "—"): string {
+  return Number.isNaN(d.getTime()) ? fallback : fmt.format(d);
 }
 
-export function formatDateTime(iso: string): string {
-  return DATETIME_FMT.format(new Date(iso));
+export function formatDay(iso: string | null | undefined): string {
+  return iso ? safe(DATE_FMT, new Date(iso + "T00:00:00"), "no fixture") : "no fixture";
 }
 
-export function formatTime(iso: string): string {
-  return TIME_FMT.format(new Date(iso));
+export function formatDateTime(iso: string | null | undefined): string {
+  return iso ? safe(DATETIME_FMT, new Date(iso)) : "—";
+}
+
+export function formatTime(iso: string | null | undefined): string {
+  return iso ? safe(TIME_FMT, new Date(iso)) : "—";
 }
 
 /** "3h ago" / "in 2d" — used for the generatedAt staleness readout. */
