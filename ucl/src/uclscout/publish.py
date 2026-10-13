@@ -111,6 +111,19 @@ def _apply_captain(squad: dict, switch: captaincy.CaptainSwitch,
         plan_first.captain = cap
 
 
+def _subs(ctx: pipeline.Context) -> dict | None:
+    live = pipeline.live_matchday(ctx)
+    if live is None:
+        return None
+    m, lock = live
+    return {
+        "matchday": m.id,
+        "deadline": lock.isoformat(),
+        "gameday": lock.date().isoformat(),
+        "manualSubs": m.subs_allowed,
+    }
+
+
 def build(ctx: pipeline.Context, out_dir: Path, *,
           current_squad: set[int] | None = None,
           held: HeldSquad | None = None,
@@ -130,8 +143,11 @@ def build(ctx: pipeline.Context, out_dir: Path, *,
         "tour": ctx.tour,
         "matchday": md,
         "lastMatchday": ctx.constraints.last_matchday,
-        "deadline": (this_md.deadline if this_md
+        "deadline": (this_md.transfer_deadline if this_md
                      else ctx.constraints.deadline).isoformat(),
+        # Set while an earlier matchday is under way: transfers are locked but
+        # players yet to kick off can still be subbed / armbanded until this.
+        "subs": _subs(ctx),
         "budget": ctx.constraints.budget,
         "maxPerClub": ctx.constraints.max_per_club,
         "round": knockout.round_of(md),
@@ -217,7 +233,7 @@ def build(ctx: pipeline.Context, out_dir: Path, *,
         "plan.json": plan_json,
         "fixtures.json": {**meta, "matchdays": [
             {"matchday": m.id,
-             "deadline": m.deadline.isoformat(),
+             "deadline": m.transfer_deadline.isoformat(),
              "subsAllowed": m.subs_allowed,
              "gamedays": m.gamedays,
              "matches": [{"home": m2.home_id, "away": m2.away_id,

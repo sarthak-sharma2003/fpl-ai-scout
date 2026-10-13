@@ -1,6 +1,6 @@
 import { useId, useState } from "react";
 import type { ChipCheck, SquadData, SquadPick } from "../types";
-import { formatDay, formatMoney } from "../lib/format";
+import { formatDateTime, formatDay, formatMoney } from "../lib/format";
 import { useCountdown } from "../lib/useCountdown";
 import { WarningIcon } from "../components/Icons";
 import { CountdownHero } from "../components/CountdownHero";
@@ -50,7 +50,8 @@ export function NowView({ squad }: { squad: SquadData }) {
         </div>
       )}
 
-      {s.moves && <MovesCard moves={s.moves} bankAfter={s.bankAfter} />}
+      {squad.subs && <SubsCard subs={squad.subs} />}
+      {s.moves && <MovesCard moves={s.moves} bankAfter={s.bankAfter} live={!!squad.subs} />}
       {squad.chips && <ChipsCard chips={squad.chips} />}
 
       <div className="summary-row">
@@ -122,12 +123,39 @@ export function NowView({ squad }: { squad: SquadData }) {
 }
 
 /** Banking is a decision, not an absence of one: the card always says which. */
+/** While an earlier matchday is live, transfers are locked: what can still be
+ * done is subbing / armbanding players who have not kicked off, until the next
+ * gameday's first kick-off. */
+function SubsCard({ subs }: { subs: NonNullable<SquadData["subs"]> }) {
+  const left = useCountdown(subs.deadline);
+  return (
+    <section className="plan-row" aria-label="Subs deadline">
+      <div className="plan-row__body">
+        <div className="plan-row__headline">
+          <span className="plan-row__action">MD{subs.matchday} is live: transfers are locked</span>
+        </div>
+        <div className="plan-row__meta">
+          Subs and the captain switch for {formatDay(subs.gameday)}&apos;s players lock{" "}
+          <strong>{formatDateTime(subs.deadline)}</strong>
+          {left.urgency === "expired"
+            ? " (locked)"
+            : ` (in ${left.days > 0 ? `${left.days}d ` : ""}${left.hours}h ${left.minutes}m)`}
+          . Only players who have not kicked off yet can be changed; up to {subs.manualSubs} manual
+          subs. Any manual change turns auto-subs off for the whole matchday.
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function MovesCard({
   moves,
   bankAfter,
+  live = false,
 }: {
   moves: NonNullable<NonNullable<SquadData["squad"]>["moves"]>;
   bankAfter?: number;
+  live?: boolean;
 }) {
   const transfer = moves.buys.length > 0 || moves.sells.length > 0;
   return (
@@ -135,6 +163,7 @@ function MovesCard({
       <div className="plan-row__body">
         <div className="plan-row__headline">
           <span className="plan-row__action">
+            {live ? "Next window, once the live matchday ends: " : ""}
             {moves.chip ? `Play ${moves.chip}` : transfer ? "Make these transfers" : "Bank your transfers"}
           </span>
           {moves.hits > 0 && <span className="badge badge--warning">−{moves.hits * 4} hit</span>}

@@ -143,6 +143,29 @@ class Matchday:
         """Distinct calendar days this matchday spans (2-3; MD1 spans 3)."""
         return sorted({m.kickoff.date().isoformat() for m in self.matches})
 
+    @property
+    def transfer_deadline(self) -> datetime:
+        """When transfers for this matchday lock: the first kick-off.
+
+        The feed's `deadline` is not that once the matchday is live: it moves
+        to the NEXT gameday's lock (the subs deadline) and, after the matchday,
+        sits on the last one. On 2026-10-13, an hour after MD2's first kick-off
+        passed, it read 2026-10-14 16:45 -- and the planner, thinking MD2 was
+        still open, advised its transfers again. Before kick-off the feed's
+        value is the real one (and never later than the first kick-off).
+        """
+        first = min((m.kickoff for m in self.matches), default=None)
+        return self.deadline if first is None else min(self.deadline, first)
+
+    @property
+    def gameday_locks(self) -> list[datetime]:
+        """First kick-off of each gameday, in order. A player can be subbed
+        (or armbanded) only until his own gameday's lock."""
+        firsts: dict[str, datetime] = {}
+        for m in sorted(self.matches, key=lambda m: m.kickoff):
+            firsts.setdefault(m.kickoff.date().isoformat(), m.kickoff)
+        return list(firsts.values())
+
 
 @dataclass(frozen=True)
 class Player:

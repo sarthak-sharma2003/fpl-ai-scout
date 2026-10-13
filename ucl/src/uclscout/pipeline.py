@@ -332,9 +332,23 @@ def next_open_matchday(ctx: Context, now: datetime | None = None) -> int:
     now = now or datetime.now(UTC)
     md = ctx.constraints.matchday
     by_id = {m.id: m for m in ctx.matchdays}
-    while md in by_id and by_id[md].deadline <= now:
+    while md in by_id and by_id[md].transfer_deadline <= now:
         md += 1
     return md
+
+
+def live_matchday(ctx: Context, now: datetime | None = None
+                  ) -> tuple[feeds.Matchday, datetime] | None:
+    """The matchday under way whose later gamedays can still be managed, with
+    the lock of the next one: transfers are closed, but players who have not
+    kicked off yet can be subbed in and the armband moved until then."""
+    now = now or datetime.now(UTC)
+    for m in ctx.matchdays:
+        if m.transfer_deadline <= now:
+            ahead = [lock for lock in m.gameday_locks if lock > now]
+            if ahead:
+                return m, ahead[0]
+    return None
 
 
 def horizon(ctx: Context, upto: int | None = None, **kw

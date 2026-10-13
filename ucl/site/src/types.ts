@@ -16,6 +16,10 @@ export interface Meta {
   gamedays: string[];
   subsAllowed: number;
   checklist: string[];
+  /** Set while an earlier matchday is under way: transfers are locked, but
+   * players who have not kicked off yet can still be subbed / armbanded until
+   * `deadline` (the next gameday's first kick-off). */
+  subs?: { matchday: number; deadline: string; gameday: string; manualSubs: number } | null;
 }
 
 export interface Player {
