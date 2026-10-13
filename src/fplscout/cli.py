@@ -16,7 +16,16 @@ import yaml
 
 from fplscout import db
 from fplscout.features.build import write_features
-from fplscout.ingest import entry, european, league, live_gw, odds, summer, vaastav
+from fplscout.ingest import (
+    entry,
+    european,
+    league,
+    live_gw,
+    odds,
+    predeadline,
+    summer,
+    vaastav,
+)
 from fplscout.ingest.fpl_api import FplApiClient
 from fplscout.ingest.health import (
     archive_ep_next,
@@ -206,6 +215,8 @@ def refresh(
         typer.echo(f"  synced {n_gws} gameweeks for {current_season}")
         n_chips = _sync_chip_windows(con, bootstrap, current_season)
         typer.echo(f"  synced {n_chips} chip windows for {current_season}")
+        n_pd = predeadline.snapshot_live(con, bootstrap, current_season)
+        typer.echo(f"  pre-deadline snapshot: {n_pd} players for the next deadline")
 
         if raw:
             sample_player_id = bootstrap.elements[0].id
@@ -310,6 +321,19 @@ def refresh(
         con, cache_dir=raw_cache_dir / "summer", season=current_season
     )
     typer.echo("  " + ", ".join(f"{k}: {v}" for k, v in summer_written.items()))
+
+    # Pre-deadline availability/ep_next history (model features, see
+    # ingest/predeadline.py). Network; a failure only leaves rows missing,
+    # which the models read as -1, so it must never fail the refresh.
+    typer.echo("Loading pre-deadline signals (fplcache via Dastan)...")
+    try:
+        n_hist = predeadline.sync_history(con, raw_cache_dir / "predeadline")
+        n_back = predeadline.backfill_live_season(
+            con, raw_cache_dir / "predeadline", current_season
+        )
+        typer.echo(f"  history rows: {n_hist}, live-season backfill rows: {n_back}")
+    except Exception as e:  # noqa: BLE001
+        typer.echo(f"  WARNING: pre-deadline signals not refreshed: {e}")
 
     typer.echo("Building feature store...")
     n_features = write_features(con)

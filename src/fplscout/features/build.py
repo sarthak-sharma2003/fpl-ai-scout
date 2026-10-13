@@ -203,6 +203,23 @@ def _upcoming_universe(con: duckdb.DuckDBPyConnection) -> pd.DataFrame:
     return players.merge(team_fixtures, on=["season", "team_id"], how="inner")
 
 
+def anchor_gameweek(df: pd.DataFrame, cols: list[str]) -> pd.DataFrame:
+    """Give every fixture of a player's gameweek the form of its FIRST fixture.
+
+    A decision is made once per gameweek, at the deadline. The rolling
+    machinery is per fixture, so in a double gameweek the second fixture's
+    "pre-match" form included the first fixture's result -- played after the
+    deadline. That leaked into training and into the backtest's single-week
+    EV (and so captaincy) for ~7k DGW player-weeks; Dastan measured 40.6% of
+    DGW rows carrying it. Positional first (cumcount), not groupby.first(),
+    which skips NaN and would pull the second leg's value straight back in.
+    """
+    keys = ["code", "season", "gw"]
+    srt = df.sort_values(["code", "season", "kickoff_time", "fixture_id"])
+    firsts = srt.loc[srt.groupby(keys, sort=False).cumcount() == 0, [*keys, *cols]]
+    return df.drop(columns=cols).merge(firsts, on=keys, how="left")
+
+
 def build_features(con: duckdb.DuckDBPyConnection) -> pd.DataFrame:
     gw = con.execute(
         """
@@ -242,6 +259,7 @@ def build_features(con: duckdb.DuckDBPyConnection) -> pd.DataFrame:
 
     rolling = _build_player_rolling(gw)
     features = pd.concat([gw, rolling], axis=1)
+    features = anchor_gameweek(features, list(rolling.columns))
 
     # fixture difficulty (own team's FDR for this fixture) + opponent strength
     fdr = fixtures[["season", "fixture_id", "team_h_difficulty", "team_a_difficulty"]]
@@ -316,6 +334,7 @@ def build_features(con: duckdb.DuckDBPyConnection) -> pd.DataFrame:
     features = features.merge(
         team_rolling, on=["season", "team_id", "fixture_id"], how="left"
     )
+    features = anchor_gameweek(features, ["team_roll5_goals_for", "team_roll5_goals_against"])
 
     # share-of-team (5-game window)
     for stat in ("xg", "xa", "xgi"):

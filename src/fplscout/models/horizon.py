@@ -27,7 +27,7 @@ import numpy as np
 import pandas as pd
 
 from fplscout.models import minutes, points, team_goals
-from fplscout.models.dataset import load_dataset
+from fplscout.models.dataset import PD_COLUMNS, load_dataset
 
 UNCERTAINTY_WIDEN_PER_STEP = 0.15  # h=0: no widening; h>=6: fully at position average
 # p(60+) at which a player counts as a starter, for the purpose of what
@@ -120,6 +120,32 @@ def _dc_matchup_stats(
     )
 
 
+def neutralize_pd(rows: pd.DataFrame) -> pd.DataFrame:
+    """The same rows with pre-deadline availability reset to "fit, no news".
+
+    The pre-deadline signals describe the DECISION gameweek only: a 25%-doubt
+    hamstring this week says little about the week after next. Future
+    gameweeks are predicted as if available, and the decision week's
+    availability is faded back in by the caller (pd_availability_factor),
+    exactly as the old inference-only overlay did. ep_next is kept: it is
+    FPL's form estimate, not an availability flag.
+    """
+    out = rows.copy()
+    out["pd_status_risk"] = 0.0
+    out["pd_chance"] = -1.0
+    out["pd_has_news"] = 0.0
+    return out
+
+
+def pd_availability_factor(rows: pd.DataFrame) -> pd.Series:
+    """code -> availability in [0, 1] from the pre-deadline columns: chance of
+    playing where FPL gives one, else 1 if flagged available, else 0."""
+    chance = rows["pd_chance"].to_numpy(float)
+    risk = rows["pd_status_risk"].to_numpy(float)
+    factor = np.where(chance >= 0, chance / 100.0, np.where(risk <= 0, 1.0, 0.0))
+    return pd.Series(factor, index=rows["code"].to_numpy())
+
+
 def widen_minutes_proba(
     own_proba: np.ndarray, pos_avg: np.ndarray, widen: float, widen_up: float
 ) -> np.ndarray:
@@ -188,6 +214,11 @@ def build_horizon_ev(
     # fixture, is both correct and required (code must be a unique index below).
     base_rows = base_rows.drop_duplicates(subset="code", keep="first").reset_index(drop=True)
     base_mins_proba = minutes.predict_proba(minutes_model, base_rows)
+    use_pd = all(c in base_rows.columns for c in PD_COLUMNS)
+    if use_pd:
+        neutral_rows = neutralize_pd(base_rows)
+        neutral_mins_proba = minutes.predict_proba(minutes_model, neutral_rows)
+        pd_factor0 = pd_availability_factor(base_rows)
 
     # What widening regresses toward is "a typical STARTER at this position",
     # not the average of everyone who holds the shirt. Averaging over every
@@ -220,11 +251,11 @@ def build_horizon_ev(
     # would either collide with the merge (pandas would silently suffix both to
     # _x/_y) or, worse, silently leave the decision-gw's own fixture context
     # attached to a different target gw's row.
-    base_frozen = base_rows.drop(
-        columns=["fdr", "opponent_strength", "is_dgw", "rest_days",
-                 "opponent_team_id", "was_home", "fixture_id", "kickoff_time",
-                 "gw", "season"]
-    )
+    fixture_cols = ["fdr", "opponent_strength", "is_dgw", "rest_days",
+                    "opponent_team_id", "was_home", "fixture_id", "kickoff_time",
+                    "gw", "season"]
+    base_frozen = base_rows.drop(columns=fixture_cols)
+    neutral_frozen = neutral_rows.drop(columns=fixture_cols) if use_pd else base_frozen
     total_ev: dict[int, float] = {}
     by_gw: dict[int, pd.Series] = {}
 
@@ -238,7 +269,8 @@ def build_horizon_ev(
             # league-wide, but guards a malformed fixture table)
 
         dgw_counts = tf.groupby("team_id").size()
-        merged = base_frozen.merge(tf, on="team_id", how="inner")
+        future = use_pd and h > 0
+        merged = (neutral_frozen if future else base_frozen).merge(tf, on="team_id", how="inner")
         if len(merged) == 0:
             continue
 
@@ -259,11 +291,31 @@ def build_horizon_ev(
 
         widen = min(1.0, h * UNCERTAINTY_WIDEN_PER_STEP)
         orig_row_idx = base_rows.set_index("code").index.get_indexer(merged["code"])
-        own_proba = base_mins_proba[orig_row_idx]
+        own_proba = (neutral_mins_proba if future else base_mins_proba)[orig_row_idx]
         pos_avg = np.array([position_avg_proba[p] for p in merged["position"]])
         widened_proba = widen_minutes_proba(own_proba, pos_avg, widen, widen_up)
 
-        if availability_factor is not None:
+        if use_pd:
+            # h=0: the model already read status/chance/news; only a manual
+            # override (availability_factor = lineup watchlist) applies.
+            # h>0: predicted as fit, then the decision week's availability
+            # fades back in -- the old overlay's rule, now fed from the same
+            # pre-deadline columns in backtest and live alike.
+            if h == 0:
+                if availability_factor is not None:
+                    f0 = merged["code"].map(availability_factor).fillna(1.0).to_numpy()
+                    widened_proba = minutes.apply_availability(widened_proba, f0)
+            else:
+                factor0 = merged["code"].map(pd_factor0).fillna(1.0).to_numpy()
+                factor_h = factor0 + (1 - factor0) * min(1.0, h / 4)
+                if return_gw is not None:
+                    back = merged["code"].map(return_gw)
+                    still_out = (back > target_gw).fillna(False).to_numpy()
+                    recovered = (back <= target_gw).fillna(False).to_numpy()
+                    factor_h = np.where(still_out, factor0, factor_h)
+                    factor_h = np.where(recovered, 1.0, factor_h)
+                widened_proba = minutes.apply_availability(widened_proba, factor_h)
+        elif availability_factor is not None:
             factor0 = merged["code"].map(availability_factor).fillna(1.0).to_numpy()
             factor_h = factor0 + (1 - factor0) * min(1.0, h / 4)
             # h=0 only: never touched. factor_h == factor0 there anyway (the fade

@@ -352,6 +352,26 @@ CREATE TABLE IF NOT EXISTS rival_picks (
     PRIMARY KEY (season, gw, entry_id, element_id)
 );
 
+-- Pre-deadline availability + FPL's own ep_next, one row per (season, gw, code)
+-- as of the LAST snapshot before that gameweek's deadline (ingest/predeadline.py).
+-- Leak-safe by construction: historical rows come from Randdalf/fplcache
+-- bootstrap snapshots (via qazybekb/smartplayfpl-dastan, provenance-checked:
+-- captured <= deadline, event is_next); live rows are written by `refresh`
+-- only while the deadline is still ahead. Missing values are stored NULL and
+-- read as -1 (never 0: a 0 ep_next / 0% chance is real information).
+CREATE TABLE IF NOT EXISTS predeadline_signals (
+    season TEXT NOT NULL,
+    gw INTEGER NOT NULL,
+    code BIGINT NOT NULL,
+    status_risk INTEGER,        -- a 0, d 1, s 2, i 3, u/n 4
+    chance_playing DOUBLE,      -- chance_of_playing_next_round; NULL when FPL sends null
+    has_news DOUBLE,
+    ep_next DOUBLE,
+    snapshot_at TIMESTAMP,
+    source TEXT,
+    PRIMARY KEY (season, gw, code)
+);
+
 CREATE TABLE IF NOT EXISTS ep_next_archive (
     snapshot_time TIMESTAMP NOT NULL,
     code BIGINT NOT NULL,
@@ -435,6 +455,7 @@ TABLES = [
     "match_odds",
     "european_fixtures",
     "summer_form",
+    "predeadline_signals",
 ]
 
 

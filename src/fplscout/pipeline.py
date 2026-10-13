@@ -151,8 +151,27 @@ def latest_reference_point(con: duckdb.DuckDBPyConnection) -> tuple[str, int]:
     return row[0], row[1]
 
 
+def model_availability_overlay(
+    con: duckdb.DuckDBPyConnection, season: str, decision_gw: int
+) -> dict[int, float]:
+    """The availability multiplier to apply ON TOP of the models' projection.
+
+    Since 2026-10-13 the minutes and points models read pre-deadline status,
+    chance of playing and news as features (ingest/predeadline.py), so
+    scaling by chance again would count a 75% doubt twice. When the decision
+    gameweek has a pre-deadline snapshot only the manual lineup watchlist
+    applies; without one (snapshot failed) the old live overlay stands in.
+    """
+    has_snapshot = con.execute(
+        "SELECT count(*) FROM predeadline_signals WHERE season = ? AND gw = ?",
+        [season, decision_gw],
+    ).fetchone()[0] > 0
+    return live_availability_factor(con, decision_gw, include_live_status=not has_snapshot)
+
+
 def live_availability_factor(
-    con: duckdb.DuckDBPyConnection, decision_gw: int | None = None
+    con: duckdb.DuckDBPyConnection, decision_gw: int | None = None,
+    include_live_status: bool = True,
 ) -> dict[int, float]:
     """code -> live availability factor read from `players`' bootstrap-static
     snapshot (see `fplscout refresh` / models/minutes.py::apply_availability).
@@ -165,7 +184,9 @@ def live_availability_factor(
     ).fetchall()
     factor = {}
     for code, status, chance in rows:
-        if chance is not None:
+        if not include_live_status:
+            factor[code] = 1.0
+        elif chance is not None:
             factor[code] = chance / 100.0
         elif status is None or status == "a":
             # NULL status = never synced (refresh hasn't run since the column
@@ -342,7 +363,7 @@ def generate_projections(
 
     preds, feat = project_gw(
         models.minutes_model, models.dc_model, models.points_models, target_df, teams,
-        availability_factor=live_availability_factor(con, gw),
+        availability_factor=model_availability_overlay(con, season, gw),
     )
     # preds and feat share target_df's row order/length exactly (project_gw derives
     # both from it without reordering) — positional concat, not a merge on `code`,
@@ -567,7 +588,7 @@ def live_horizon_ev(
     ev = horizon.build_horizon_ev(
         models.minutes_model, models.dc_model, models.points_models,
         base_rows, fixtures, teams, decision_gw=gw, horizon=HORIZON, decay=DECAY,
-        max_gw=max_gw, availability_factor=live_availability_factor(con, gw),
+        max_gw=max_gw, availability_factor=model_availability_overlay(con, season, gw),
         return_gw=availability_return_gw(con, season), per_gw=per_gw,
     )
     # This EV is built independently of `projections`, so it needs the boost
