@@ -118,7 +118,11 @@ def _predeadline() -> pd.DataFrame:
 def load(con, seasons: list[str]) -> pd.DataFrame:
     df = load_dataset(con, seasons)
     extra = _extra_columns(con, seasons)
-    df = df.merge(extra.drop(columns=["gw"]), on=["season", "code", "fixture_id"], how="left")
+    # only what load_dataset does not already carry (it has the xPts
+    # components since v2; merging them again would suffix both copies)
+    keys = ["season", "code", "fixture_id"]
+    extra = extra[keys + [c for c in extra.columns if c not in df.columns and c != "gw"]]
+    df = df.merge(extra, on=keys, how="left")
     crowd = _crowd_features(con, seasons)
     df = df.merge(crowd, on=["season", "code", "gw"], how="left")
     if not set(PD_COLS) <= set(df.columns):     # load_dataset carries them since v2
