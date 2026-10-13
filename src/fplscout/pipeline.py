@@ -153,8 +153,11 @@ def latest_reference_point(con: duckdb.DuckDBPyConnection) -> tuple[str, int]:
 
 # Explicit preference for starters (backtest/strategies.py::starts_weight):
 # EV x ((1 - w) + w * start share over the player's last 5 club gameweeks).
-# 0.0 = off. Set from the backtest sweep, never tuned against a live score.
-STARTS_PREFERENCE_W = 0.0
+# The manager's call ("the guy who starts beats a couple more expected
+# minutes"), then tested: tuning seasons 2022-23..2024-25 +0.55/GW (±1.15) at
+# 0.5 while 1.0 and hard nailed-only filters LOST 2.6-3.7/GW; one-shot
+# 2025-26 holdout, 3 model seeds: +1.77/GW (±1.11), 1913 -> 1980 mean season.
+STARTS_PREFERENCE_W = 0.5
 STARTS_WINDOW = 5
 
 
