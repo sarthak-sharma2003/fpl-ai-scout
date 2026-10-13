@@ -462,8 +462,10 @@ def _join(head: plan.Plan, tails: list[plan.Plan]) -> None:
         first = t.actions[0]
         before = {p.player.id for p in prev.squad}
         after = {p.player.id for p in first.squad}
-        first.buys = [p for p in first.squad if p.player.id not in before]
-        first.sells = [p for p in prev.squad if p.player.id not in after]
+        first.buys = plan.by_position(
+            [p for p in first.squad if p.player.id not in before])
+        first.sells = plan.by_position(
+            [p for p in prev.squad if p.player.id not in after])
         first.unlimited = True
         first.free_available = plan.SQUAD_SIZE
         head.actions += t.actions

@@ -156,3 +156,21 @@ def test_limitless_is_checked_on_every_matchday_and_held_below_its_bar():
     # equal gains: the nearer matchday wins (later ones are discounted)
     flat = {md: (5.0, None) for md in mds}
     assert best_limitless(flat, min_gain=0.0) == (2, 5.0)
+
+
+def test_sales_pair_with_purchases_in_the_same_position():
+    from uclscout.plan import by_position
+    players = _pool()
+    held = _held(players)
+    # three owners score nothing: one per outfield position must go
+    zero = set()
+    for pos in ("DEF", "MID", "FWD"):
+        zero.add(next(i for i in sorted(held)
+                      if next(p for p in players if p.id == i).pos == pos))
+    plan = plan_horizon(_horizon(players, [2, 3], zero=zero), current_squad=held,
+                        budget=200.0, initial_free=3, time_limit=20)
+    first = plan.actions[0]
+    assert len(first.sells) == len(first.buys) >= 1
+    for out, inn in zip(first.sells, first.buys, strict=True):
+        assert out.player.pos == inn.player.pos, first.describe()
+    assert by_position(list(reversed(first.buys))) == first.buys

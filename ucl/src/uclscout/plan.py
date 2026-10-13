@@ -190,6 +190,18 @@ def _pool(horizon: dict[int, list[Projection]], size: int,
     return chosen
 
 
+_POS_ORDER = {"GK": 0, "DEF": 1, "MID": 2, "FWD": 3}
+
+
+def by_position(ps: list[Projection]) -> list[Projection]:
+    """Goalkeepers first, then defenders, midfielders, forwards; best first
+    within each. The squad shape is fixed, so a matchday sells as many of each
+    position as it buys -- sorting both lists this way pairs every sale with a
+    purchase in the same position, which is the only swap the game allows
+    (zipping them unsorted printed "Fermín López (MID) -> Bartra (DEF)")."""
+    return sorted(ps, key=lambda p: (_POS_ORDER.get(p.player.pos, 9), -p.points))
+
+
 def _per_md(v, md: int):
     """A rule given either as one value or as a per-matchday mapping."""
     return v[md] if isinstance(v, Mapping) else v
@@ -423,9 +435,9 @@ def plan_horizon(
             free = round(pulp.value(free) or FREE_PER_MATCHDAY)
         actions.append(MatchdayAction(
             matchday=md,
-            buys=[by_md[md][i] for i in pool_ids
-                  if on(buy[i][md]) and not (fresh and k == 0)],
-            sells=[by_md[md][i] for i in pool_ids if on(sell[i][md])],
+            buys=by_position([by_md[md][i] for i in pool_ids
+                              if on(buy[i][md]) and not (fresh and k == 0)]),
+            sells=by_position([by_md[md][i] for i in pool_ids if on(sell[i][md])]),
             chip="wildcard" if on(wc[md]) else None,
             captain=cap,
             free_available=free,
