@@ -1,7 +1,8 @@
 name: Backtest sweep
 
 # On demand: replay seasons under a grid of decision configs, one matrix job
-# per (season, prep), in parallel, then aggregate into one markdown table on
+# per season (all preps on the same runner, the default) or per (season,
+# prep), in parallel, then aggregate into one markdown table on
 # the `backtest-results` branch (results/<run_id>.md + raw JSON). See
 # scripts/backtest_grid.py / backtest_report.py. Tuning discipline: sweep on
 # 2023-24/2024-25; run 2025-26 once for the chosen config.
@@ -20,6 +21,12 @@ on:
       label:
         description: short name for this sweep
         default: sweep
+      pair_on_runner:
+        description: >-
+          run every prep of a season in ONE job (same machine, so per-GW diffs
+          are truly paired; slower). LightGBM is only bit-reproducible on
+          identical hardware and runners differ.
+        default: "true"
 
 permissions:
   contents: write
@@ -32,7 +39,9 @@ jobs:
       max-parallel: 20
       matrix:
         season: ${{ fromJSON(inputs.seasons) }}
-        prep: ${{ fromJSON(inputs.preps) }}
+        # paired: one entry holding the whole list (backtest_grid.py runs a
+        # list of preps one after another); unpaired: one job per prep
+        prep: ${{ inputs.pair_on_runner == 'true' && fromJSON(format('[{0}]', inputs.preps)) || fromJSON(inputs.preps) }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5

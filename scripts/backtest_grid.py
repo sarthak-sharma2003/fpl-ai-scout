@@ -31,6 +31,47 @@ from fplscout.models import minutes, points
 SEASONS = ["2021-22", "2022-23", "2023-24", "2024-25", "2025-26"]
 
 
+def _apply_prep(prep_over: dict, defaults: tuple) -> None:
+    """Reset every override to its default, then apply this prep's."""
+    sim_defaults, lgb_defaults, rounds_default, cond_defaults = defaults
+    for k, v in sim_defaults.items():
+        setattr(sim, k, v)
+    minutes.LGB_PARAMS.clear()
+    minutes.LGB_PARAMS.update(lgb_defaults)
+    minutes.NUM_BOOST_ROUND = rounds_default
+    points.COND_PARAMS.clear()
+    points.COND_PARAMS.update(cond_defaults)
+    for k, v in prep_over.items():
+        if k == "SEED":          # model bagging seed, for multi-seed evaluation
+            points.set_seed(int(v))
+            continue
+        if k == "MINUTES":       # minutes-model overrides {"params": {...}, "rounds": n}
+            minutes.LGB_PARAMS.update(v.get("params", {}))
+            if "rounds" in v:
+                minutes.NUM_BOOST_ROUND = int(v["rounds"])
+        else:
+            setattr(sim, k, v)
+
+
+def _run(con, season, train, prepared, rules_by_name, prep_over, cfg) -> dict:
+    kw = {k: v for k, v in cfg.items() if k != "rules"}
+    if cfg.get("rules"):
+        kw["rules"] = tuple(rules_by_name[n] for n in cfg["rules"])
+    r = sim.simulate_season(con, season, train, prepared=prepared, **kw)
+    cap = 0
+    for g in r.gw_results:
+        act = prepared.actual.get(g.gw)
+        if act is not None and g.effective_captain is not None:
+            cap += int(act.loc[act["code"] == g.effective_captain, "total_points"].sum())
+    print(season, prep_over, cfg, r.total_points, flush=True)
+    return {
+        "prep": prep_over, "cfg": cfg, "total": r.total_points,
+        "hits": sum(g.hits for g in r.gw_results),
+        "transfers": sum(len(g.transfers_in) for g in r.gw_results[1:]),
+        "captain_pts": cap, "gw_scores": [g.gw_score for g in r.gw_results],
+    }
+
+
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--season", required=True)
@@ -39,39 +80,26 @@ def main() -> None:
     ap.add_argument("--db", default="data/fpl.duckdb")
     ap.add_argument("--out", required=True)
     a = ap.parse_args()
-    prep_over = json.loads(a.prep)
-    for k, v in prep_over.items():
-        if k == "SEED":          # model bagging seed, for multi-seed evaluation
-            points.set_seed(int(v))
-        elif k == "MINUTES":     # minutes-model overrides {"params": {...}, "rounds": n}
-            minutes.LGB_PARAMS.update(v.get("params", {}))
-            if "rounds" in v:
-                minutes.NUM_BOOST_ROUND = int(v["rounds"])
-        else:
-            setattr(sim, k, v)
+    # One prep object, or a list of them run one after another in this process
+    # -- on the same machine, which is what makes their per-GW diffs paired:
+    # LightGBM is only bit-reproducible on identical hardware, and CI runners
+    # differ (identical configs diverged from GW1 across jobs, 2026-10-13).
+    preps = json.loads(a.prep)
+    preps = preps if isinstance(preps, list) else [preps]
+    defaults = ({k: getattr(sim, k) for k in dir(sim) if k.isupper()},
+                dict(minutes.LGB_PARAMS), minutes.NUM_BOOST_ROUND,
+                dict(points.COND_PARAMS))
     t0 = time.time()
     con = duckdb.connect(a.db, read_only=True)
     train = SEASONS[: SEASONS.index(a.season)]
-    prepared = sim.prepare_season(con, a.season, train)
     rules_by_name = make_rules(load_history(con, a.season))
     results = []
-    for cfg in json.loads(a.grid):
-        kw = {k: v for k, v in cfg.items() if k != "rules"}
-        if cfg.get("rules"):
-            kw["rules"] = tuple(rules_by_name[n] for n in cfg["rules"])
-        r = sim.simulate_season(con, a.season, train, prepared=prepared, **kw)
-        cap = 0
-        for g in r.gw_results:
-            act = prepared.actual.get(g.gw)
-            if act is not None and g.effective_captain is not None:
-                cap += int(act.loc[act["code"] == g.effective_captain, "total_points"].sum())
-        results.append({
-            "prep": prep_over, "cfg": cfg, "total": r.total_points,
-            "hits": sum(g.hits for g in r.gw_results),
-            "transfers": sum(len(g.transfers_in) for g in r.gw_results[1:]),
-            "captain_pts": cap, "gw_scores": [g.gw_score for g in r.gw_results],
-        })
-        print(a.season, prep_over, cfg, r.total_points, flush=True)
+    for prep_over in preps:
+        _apply_prep(prep_over, defaults)
+        prepared = sim.prepare_season(con, a.season, train)
+        for cfg in json.loads(a.grid):
+            results.append(_run(con, a.season, train, prepared, rules_by_name,
+                                prep_over, cfg))
     Path(a.out).parent.mkdir(parents=True, exist_ok=True)
     Path(a.out).write_text(json.dumps({"season": a.season, "secs": time.time() - t0,
                                        "results": results}))
