@@ -47,7 +47,15 @@ FEATURE_COLUMNS = [
     "roll5_xg_per90", "roll5_xa_per90", "roll5_xgi_per90", "roll5_bps_per90",
     "roll5_xg_share", "roll5_xa_share", "roll5_xgi_share",
     "fdr", "opponent_strength", "rest_days", "is_dgw",
-    "odds_win_prob", "odds_exp_goals_for", "odds_exp_goals_against",
+    # Bookmaker odds (odds_win_prob / odds_exp_goals_*) are still built by
+    # features/build.py but no longer modelled (2026-10-13). Ablation: season
+    # replays -0.04 +- 0.84 pts/GW without them (8 season-seeds, paired on one
+    # runner, run 38375726200); model lab: top-K picks score MORE without them
+    # (4.588 -> 4.653, 4.571 -> 4.630) though regulars rank slightly worse;
+    # minutes log-loss unchanged. And they were the fragile input: priced late,
+    # missing for the decision week until days before the deadline, a gap the
+    # models never trained on -- it is what dropped every nailed starter's
+    # P(60+) and sold De Cuyper the morning after his 15 points.
     "team_roll5_goals_for", "team_roll5_goals_against",
     "roll5_started_share",
     "prev_season_minutes", "prev_season_points_per90", "prev_season_xgi_per90",

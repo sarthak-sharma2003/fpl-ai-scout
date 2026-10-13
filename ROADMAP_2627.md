@@ -62,6 +62,12 @@ operational continuation and supersedes it where they disagree.
     likely the wrong-opponent horizon odds (fixed this morning), which a
     shorter horizon simply saw less of. HORIZON stays 8; `CHIP_HORIZON`
     keeps the chip view at 8 weeks independently.
+  - Bookmaker-odds features dropped from the models (`dataset.FEATURE_COLUMNS`):
+    replay −0.04 ± 0.84/GW without them (paired on one runner, run
+    38375726200), lab top-K picks better without them, and they were the
+    late-arriving input behind the GW7 NaN-odds bug. HORIZON 4/6 also tried:
+    +1.19 ± 0.74 / −0.33 ± 0.69 against 8 (5 was −0.55) — no monotone trend,
+    noise; HORIZON stays 8.
   - Replays are NOT bit-identical across CI runs: identical configs differed
     from GW1 in 7 of 8 season-seeds (runner CPUs differ; LightGBM's
     `deterministic` only holds on the same hardware). Treat it as seed noise:
