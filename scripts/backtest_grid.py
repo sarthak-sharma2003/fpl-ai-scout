@@ -2,7 +2,7 @@
 
     python scripts/backtest_grid.py --season 2024-25 \
         --prep '{"DECAY": 0.9}' \
-        --grid '[{}, {"captain_q90_weight": 0.0}, {"hit_cost": 8}]' \
+        --grid '[{}, {"captain_q90_weight": 0.0}, {"rules": ["starts_w50"]}]' \
         --out data/reports/bt/2024-25_decay0.9.json
 
 `--prep` overrides simulator module constants that shape the EV the season is
@@ -24,6 +24,7 @@ from pathlib import Path
 import duckdb
 
 from fplscout.backtest import simulator as sim
+from fplscout.backtest.strategies import load_history, make_rules
 
 SEASONS = ["2021-22", "2022-23", "2023-24", "2024-25", "2025-26"]
 
@@ -43,9 +44,13 @@ def main() -> None:
     con = duckdb.connect(a.db, read_only=True)
     train = SEASONS[: SEASONS.index(a.season)]
     prepared = sim.prepare_season(con, a.season, train)
+    rules_by_name = make_rules(load_history(con, a.season))
     results = []
     for cfg in json.loads(a.grid):
-        r = sim.simulate_season(con, a.season, train, prepared=prepared, **cfg)
+        kw = {k: v for k, v in cfg.items() if k != "rules"}
+        if cfg.get("rules"):
+            kw["rules"] = tuple(rules_by_name[n] for n in cfg["rules"])
+        r = sim.simulate_season(con, a.season, train, prepared=prepared, **kw)
         cap = 0
         for g in r.gw_results:
             act = prepared.actual.get(g.gw)

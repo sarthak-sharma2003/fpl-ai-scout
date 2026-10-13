@@ -55,3 +55,23 @@ def test_round_two_rules(monkeypatch):
     # home captain reads only the decision GW's venue: code 2 is home in GW3
     ranked = rules["home_captain"](3, _uni())["cap_rank"].tolist()
     assert ranked[1] > ranked[0]
+
+
+def test_starts_weight_prefers_the_nailed_starter():
+    rules = make_rules(_hist())
+    # decision GW3: code 1 started 2/2, code 2 started 1/2 (GW3 itself unseen)
+    uni = rules["starts_w50"](3, _uni())
+    assert uni["total_ev"].tolist() == [1.0, 0.75]      # (1-.5) + .5*share
+    assert uni["cap_ev"].tolist() == [5.0, 0.75]
+    assert rules["starts_w50"](1, _uni())["total_ev"].tolist() == [1.0, 1.0]  # no history
+
+
+def test_nailed_buy_needs_k_starts_in_last_five():
+    rules = make_rules(_hist())
+    assert rules["nailed_buy3"](3, _uni())["buy_ok"].tolist() == [False, False]  # only 2 GWs
+    hist = _hist()
+    more = pd.concat([hist.assign(gw=hist["gw"] + 3), hist], ignore_index=True)
+    rules = make_rules(more)
+    # decision GW6: code 1 started 5/5 of GW1-5; code 2 started 3/5 (benched GW2, GW5)
+    assert rules["nailed_buy3"](6, _uni())["buy_ok"].tolist() == [True, True]
+    assert rules["nailed_buy4"](6, _uni())["buy_ok"].tolist() == [True, False]
