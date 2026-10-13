@@ -66,3 +66,14 @@ def test_advance_bank_and_chip():
     new, _ = squadfile.advance(SQ, _plan(chip="wildcard"), now=AFTER,
                                next_matchday=3)
     assert new.ids == SQ.ids and new.wildcard_used and new.matchday == 3
+
+
+def test_banked_free_transfer_carries_one():
+    new, _ = squadfile.advance(SQ, _plan(), now=AFTER, next_matchday=3)
+    assert new.free_transfers == 3          # banked both, at most one carries
+
+
+def test_hit_leaves_two_next_matchday():
+    p = _plan(sells=[(1, 5.0), (2, 5.0), (3, 5.0)], buys=[(97, 5.0), (98, 5.0), (99, 5.0)])
+    new, _ = squadfile.advance(SQ, p, now=AFTER, next_matchday=3)
+    assert new.free_transfers == 2

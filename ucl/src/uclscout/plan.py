@@ -149,6 +149,7 @@ def plan_horizon(
     max_per_club: int = 3,
     min_start: float = 70.0,
     allow_wildcard: bool = True,
+    initial_free: int = FREE_PER_MATCHDAY,
     hit_cost: float = HIT_DECISION_BAR,
     pool_size: int = POOL_SIZE,
     time_limit: int = 120,
@@ -255,7 +256,9 @@ def plan_horizon(
             m += hits[md] == 0
             m += carry[md] == 0
             continue
-        available = FREE_PER_MATCHDAY + (carry[md] if k else 0)
+        # the first matchday's allowance is what the manager actually holds
+        # (2, or 3 with one banked); later ones follow the carry variable
+        available = (FREE_PER_MATCHDAY + carry[md]) if k else initial_free
         m += hits[md] >= used - available - big * wc[md]
         # carry only what went unused last matchday, and at most one
         if k:
@@ -273,7 +276,7 @@ def plan_horizon(
                 # not be planned at all (MD2 2026-27: "plan infeasible").
                 # Adding hits[prev] restores the floor (hits >= the overspend),
                 # and a wildcard's unlimited buys carry nothing.
-                prev_avail = FREE_PER_MATCHDAY + (carry[prev] if k > 1 else 0)
+                prev_avail = (FREE_PER_MATCHDAY + carry[prev]) if k > 1 else initial_free
                 m += carry[md] <= (prev_avail
                                    - pulp.lpSum(buy[i][prev] for i in pool_ids)
                                    + hits[prev] + big * wc[prev])
@@ -308,7 +311,8 @@ def plan_horizon(
             sells=[by_md[md][i] for i in pool_ids if on(sell[i][md])],
             chip="wildcard" if on(wc[md]) else None,
             captain=cap,
-            free_available=int(FREE_PER_MATCHDAY + (carry[md].value() or 0)),
+            free_available=(int(FREE_PER_MATCHDAY + (carry[md].value() or 0)) if k
+                            else initial_free),
             hits=int(hits[md].value() or 0),
             xi_points=got,
             xi=sorted(xi, key=lambda p: -p.points),

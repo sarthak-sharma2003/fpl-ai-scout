@@ -264,7 +264,7 @@ def _keep_held(ctx: Context, h: dict[int, list[project.Projection]],
 
 def build_plan(ctx: Context, *, current_squad: set[int] | None = None,
                bank: float = 0.0, wildcard_used: bool = False,
-               limitless_used: bool = False,
+               limitless_used: bool = False, free_transfers: int = 2,
                time_limit: int = 120, **kw) -> plan.Plan:
     h = horizon(ctx, **kw)
     if current_squad:
@@ -290,6 +290,7 @@ def build_plan(ctx: Context, *, current_squad: set[int] | None = None,
                 budget=budget,
                 max_per_club=ctx.constraints.max_per_club,
                 allow_wildcard=not wildcard_used,
+                initial_free=free_transfers if current_squad else plan.FREE_PER_MATCHDAY,
                 time_limit=time_limit,
                 **kw2,
             )

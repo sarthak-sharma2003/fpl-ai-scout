@@ -150,6 +150,7 @@ def build(ctx: pipeline.Context, out_dir: Path, *,
         bank=held.bank if held else 0.0,
         wildcard_used=held.wildcard_used if held else False,
         limitless_used=held.limitless_used if held else False,
+        free_transfers=held.free_transfers if held else 2,
         time_limit=time_limit)
     meta["budget"] = the_plan.budget    # held squad: its value + bank
     first = the_plan.actions[0] if the_plan.actions else None

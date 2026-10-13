@@ -15,7 +15,9 @@ from dataclasses import dataclass, field, replace
 from datetime import datetime
 from pathlib import Path
 
-_HEADER = re.compile(r"^#\s*(matchday|bank|wildcard_used|limitless_used)\s*:\s*(\S+)")
+_HEADER = re.compile(
+    r"^#\s*(matchday|bank|wildcard_used|limitless_used|free_transfers)\s*:\s*(\S+)")
+FREE_PER_MATCHDAY, MAX_CARRY = 2, 1
 
 
 @dataclass(frozen=True)
@@ -25,6 +27,7 @@ class HeldSquad:
     bank: float = 0.0              # EUR m left over after buying the 15
     wildcard_used: bool = False
     limitless_used: bool = False
+    free_transfers: int = FREE_PER_MATCHDAY   # 2, or 3 with one banked
     comments: tuple[str, ...] = field(default=(), compare=False)
 
 
@@ -56,6 +59,7 @@ def read(path: Path) -> HeldSquad | None:
         bank=float(hdr.get("bank", 0.0)),
         wildcard_used=_yes(hdr.get("wildcard_used", "no")),
         limitless_used=_yes(hdr.get("limitless_used", "no")),
+        free_transfers=int(hdr.get("free_transfers", FREE_PER_MATCHDAY)),
         comments=tuple(c for c in comments
                        if not _HEADER.match(c.strip()) and c.strip() != "#"),
     )
@@ -70,6 +74,7 @@ def write(path: Path, sq: HeldSquad, names: dict[int, str] | None = None) -> Non
         f"# bank: {sq.bank:.1f}",
         f"# wildcard_used: {'yes' if sq.wildcard_used else 'no'}",
         f"# limitless_used: {'yes' if sq.limitless_used else 'no'}",
+        f"# free_transfers: {sq.free_transfers}",
     ]
     for pid in sorted(sq.ids, key=lambda i: names.get(i, str(i))):
         label = names.get(pid)
@@ -106,10 +111,13 @@ def advance(sq: HeldSquad, plan_json: dict, *, now: datetime,
     bank = sq.bank + sum(p["value"] for p in sells.values()) - sum(
         p["value"] for p in buys.values())
     chip = act.get("chip")
+    # one unused free transfer carries; a chip or a hit leaves none spare
+    unused = 0 if chip else max(0, sq.free_transfers - len(buys))
     new = replace(
         sq, ids=frozenset(ids), matchday=next_matchday, bank=round(bank, 1),
         wildcard_used=sq.wildcard_used or chip == "wildcard",
         limitless_used=sq.limitless_used or chip == "limitless",
+        free_transfers=FREE_PER_MATCHDAY + min(MAX_CARRY, unused),
     )
     moves = ", ".join(f"{sells[s]['name']} -> {buys[b]['name']}"
                       for s, b in zip(sells, buys)) or "no transfers"
