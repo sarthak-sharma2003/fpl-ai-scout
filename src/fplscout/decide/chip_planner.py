@@ -183,6 +183,7 @@ def evaluate_chip_windows(
     base_input: OptimizerInput,
     decay: float = 0.84,
     static: pd.DataFrame | None = None,
+    lookahead: int | None = None,
 ) -> dict[tuple[str, int], float]:
     """Drives the optimizer across every feasible candidate GW in each chip's
     window. Expensive (one solve per candidate GW, some chips need two solves to
@@ -195,7 +196,8 @@ def evaluate_chip_windows(
         if window.chip == "wildcard":
             if wc_gains is None:
                 wc_gains = simulate_wildcard_gains(projections_by_gw, base_input,
-                                                   decay=decay, static=static)
+                                                   decay=decay, static=static,
+                                                   lookahead=lookahead)
             for gw, gain in wc_gains.items():
                 if window.start_gw <= gw <= window.stop_gw:
                     ev_by_chip_gw[("wildcard", gw)] = gain
@@ -207,14 +209,9 @@ def evaluate_chip_windows(
             ev_by_code = dict(
                 zip(gw_projections["code"], gw_projections["total_ev"], strict=True)
             )
-            normal_input = OptimizerInput(
-                projections=gw_projections,
-                current_squad=base_input.current_squad,
-                purchase_prices=base_input.purchase_prices,
-                bank=base_input.bank,
-                free_transfers=base_input.free_transfers,
-                chip_mode=None,
-            )
+            # the caller's transfer rules (hit cost, penalty, hit cap) carry
+            # through, so chip and no-chip weeks are judged the same way
+            normal_input = replace(base_input, projections=gw_projections, chip_mode=None)
             normal_result = optimize(normal_input)
             if normal_result.status != "Optimal":
                 continue
@@ -228,7 +225,8 @@ def evaluate_chip_windows(
             elif window.chip == "3xc":
                 ev = triple_captain_ev(normal_result, ev_by_code)
             elif window.chip == "freehit":
-                fh_input = OptimizerInput(**{**vars(normal_input), "chip_mode": "free_hit"})
+                fh_input = replace(normal_input, chip_mode="free_hit",
+                                   penalize_chip_transfers=True)
                 fh_result = optimize(fh_input)
                 ev = free_hit_ev(fh_result, normal_result)
             elif window.chip == "wildcard":
@@ -276,14 +274,15 @@ _STATIC = ["code", "position", "team_id", "price"]
 
 def _decision_frame(projections_by_gw: dict[int, pd.DataFrame], gws: list[int],
                     k: int, decay: float, owned: set[int],
-                    static: pd.DataFrame) -> pd.DataFrame:
-    """The optimizer's input at gws[k]: each player's EV over the rest of the
-    path, decayed from that week (what total_ev is for the live decision).
-    Owned players with no projection are carried at zero EV, as cli.optimize
-    does: a player absent from the MILP would be dropped for free instead of
-    costing a transfer."""
+                    static: pd.DataFrame, lookahead: int | None = None) -> pd.DataFrame:
+    """The optimizer's input at gws[k]: each player's EV over the next
+    `lookahead` weeks of the path (all of them by default), decayed from that
+    week -- what total_ev is for the live decision. Owned players with no
+    projection are carried at zero EV, as cli.optimize does: a player absent
+    from the MILP would be dropped for free instead of costing a transfer."""
     parts = []
-    for j, g in enumerate(gws[k:]):
+    ahead = gws[k:] if lookahead is None else gws[k:k + lookahead]
+    for j, g in enumerate(ahead):
         f = projections_by_gw[g][[*_STATIC, "total_ev"]].copy()
         f["total_ev"] = f["total_ev"] * decay**j
         parts.append(f)
@@ -331,17 +330,22 @@ class _PathState:
 
 
 def _step(projections_by_gw, gws, k, state: _PathState, base_input: OptimizerInput,
-          decay: float, chip_mode: str | None,
-          static: pd.DataFrame) -> tuple[float, _PathState] | None:
-    frame = _decision_frame(projections_by_gw, gws, k, decay, state.squad, static)
+          decay: float, chip_mode: str | None, static: pd.DataFrame,
+          lookahead: int | None = None) -> tuple[float, _PathState] | None:
+    frame = _decision_frame(projections_by_gw, gws, k, decay, state.squad, static,
+                            lookahead)
     res = optimize(replace(
         base_input, projections=frame, current_squad=state.squad,
         purchase_prices=state.purchase_prices, bank=state.bank,
         free_transfers=state.free_transfers, chip_mode=chip_mode,
+        penalize_chip_transfers=True,
     ))
     if res.status != "Optimal":
         return None
-    pts = week_points(projections_by_gw[gws[k]], res.squad) - REAL_HIT_COST * res.hits
+    # Every move, the wildcard's included, pays the weekly advice's per-transfer
+    # penalty: a move is worth counting only if its edge clears model noise.
+    pts = (week_points(projections_by_gw[gws[k]], res.squad) - REAL_HIT_COST * res.hits
+           - base_input.transfer_penalty * len(res.transfers_in))
     price = dict(zip(frame["code"], frame["price"], strict=True))
     sale = sum(_selling_price(int(price[c]), int(state.purchase_prices.get(c, price[c])))
                for c in res.transfers_out if c in price)
@@ -360,6 +364,7 @@ def simulate_wildcard_gains(
     decay: float = 0.84,
     max_start_weeks: int | None = None,
     static: pd.DataFrame | None = None,
+    lookahead: int | None = None,
 ) -> dict[int, float]:
     """gw -> what playing the wildcard in that gw gains over not playing it,
     both paths then spending one free transfer a week through the end of the
@@ -368,7 +373,9 @@ def simulate_wildcard_gains(
     week branches off its state (n + n(n+1)/2 solves for n weeks).
 
     `static` ({code, position, team_id, price}) prices owned players that have
-    no projection in some week; by default whatever the weekly frames hold."""
+    no projection in some week; by default whatever the weekly frames hold.
+    `lookahead` is how many weeks each simulated decision sees (the live
+    optimizer's horizon); by default the rest of the path."""
     gws = sorted(projections_by_gw)
     if not gws or not base_input.current_squad:
         return {}
@@ -380,7 +387,8 @@ def simulate_wildcard_gains(
     states, base_pts = [], []
     for k in range(len(gws)):
         states.append(state)
-        r = _step(projections_by_gw, gws, k, state, base_input, decay, None, static)
+        r = _step(projections_by_gw, gws, k, state, base_input, decay, None, static,
+                  lookahead)
         if r is None:
             break
         pts, state = r
@@ -392,7 +400,7 @@ def simulate_wildcard_gains(
         st, total = states[t], 0.0
         for k in range(t, n):
             r = _step(projections_by_gw, gws, k, st, base_input, decay,
-                      "wildcard" if k == t else None, static)
+                      "wildcard" if k == t else None, static, lookahead)
             if r is None:
                 total = None
                 break

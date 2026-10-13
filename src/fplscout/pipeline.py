@@ -36,6 +36,10 @@ from fplscout.models.train import _team_goals_lookup, project_gw
 ALL_SEASONS = ["2021-22", "2022-23", "2023-24", "2024-25", "2025-26"]
 HORIZON = 8
 DECAY = 0.84
+# Weeks of per-gameweek EV the chip planner and rotations look at. Its own
+# number, so the transfer horizon above can be tuned without shrinking the
+# window chips are planned over.
+CHIP_HORIZON = 8
 
 # Summer-form boost (ingest/summer.py). Hand-set and deliberately small: a World
 # Cup goal is evidence, not a projection, and the model already prices everything
@@ -609,10 +613,12 @@ def live_horizon_ev(
     season: str,
     gw: int,
     per_gw: bool = False,
+    horizon_gws: int | None = None,
 ) -> pd.Series | pd.DataFrame | None:
     """The fixture-aware multi-step forecast: code -> decayed total_ev, or with
     `per_gw` a code × gameweek frame of undecayed EV (what a rotation needs to
-    see week by week). None when the season has no fixtures beyond `gw`."""
+    see week by week). None when the season has no fixtures beyond `gw`.
+    `horizon_gws` overrides HORIZON (the chip planner looks CHIP_HORIZON out)."""
     max_gw = con.execute(
         "SELECT MAX(event) FROM fixtures WHERE season = ?", [season]
     ).fetchone()[0]
@@ -626,7 +632,7 @@ def live_horizon_ev(
     ).df()
     ev = horizon.build_horizon_ev(
         models.minutes_model, models.dc_model, models.points_models,
-        base_rows, fixtures, teams, decision_gw=gw, horizon=HORIZON, decay=DECAY,
+        base_rows, fixtures, teams, decision_gw=gw, horizon=horizon_gws or HORIZON, decay=DECAY,
         max_gw=max_gw, availability_factor=model_availability_overlay(con, season, gw),
         return_gw=availability_return_gw(con, season), per_gw=per_gw,
         lineup=lineups.lineup_inputs(con, season, gw),

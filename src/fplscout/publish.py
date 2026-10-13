@@ -730,7 +730,7 @@ def _chip_plan_by_id(
     candidate_windows = list(window_by_id.values())
     ev_by_chip_gw = chip_planner.evaluate_chip_windows(
         candidate_windows, projections_by_gw, base_input, decay=pipeline.DECAY,
-        static=ref[["code", "position", "team_id", "price"]],
+        static=ref[["code", "position", "team_id", "price"]], lookahead=pipeline.HORIZON,
     )
     recs = chip_planner.plan_chips(candidate_windows, ev_by_chip_gw)
     current_gw = min(projections_by_gw) if projections_by_gw else None
@@ -1231,7 +1231,9 @@ def publish_all(
     horizon_ev = None
     if models_dir is not None and model_version is not None:
         models = pipeline.load_production_models(models_dir, model_version)
-        ev_by_gw = pipeline.live_horizon_ev(con, models, season, gw, per_gw=True)
+        ev_by_gw = pipeline.live_horizon_ev(
+            con, models, season, gw, per_gw=True, horizon_gws=pipeline.CHIP_HORIZON
+        )
         # The optimizer's own transfer basis, published so the site can rank
         # visitors' transfers on it too (see build_player_projections). Same
         # function the CLI's `optimize` calls, rather than a re-derived decay

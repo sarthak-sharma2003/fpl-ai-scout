@@ -53,8 +53,13 @@ class OptimizerInput:
     hit_cost: int = DEFAULT_HIT_COST
     # EV charge per transfer made (free ones included): a banked free transfer
     # has option value next week, so even a "free" move isn't free. 0 = old
-    # behavior. Ignored under wildcard/free_hit (those don't consume FTs).
+    # behavior. Ignored under wildcard/free_hit (those don't consume FTs)...
     transfer_penalty: float = 0.0
+    # ...unless this is set: when VALUING a wildcard or free hit (chip_planner),
+    # every move must still clear the penalty as a noise threshold. Otherwise a
+    # rebuild of 13 players on ~1-point edges each -- all inside model noise --
+    # reads as a +18 "gain" on a squad that is not broken.
+    penalize_chip_transfers: bool = False
     # hard cap on hits taken in one gameweek (None = uncapped, old behavior)
     max_hits: int | None = None
     max_per_club: int = DEFAULT_MAX_PER_CLUB
@@ -157,7 +162,7 @@ def optimize(inp: OptimizerInput) -> OptimizationResult:
         - inp.hit_cost * hits
         - (
             0.0
-            if inp.chip_mode in ("wildcard", "free_hit")
+            if inp.chip_mode in ("wildcard", "free_hit") and not inp.penalize_chip_transfers
             else inp.transfer_penalty
         )
         * pulp.lpSum(buy[c] for c in codes)

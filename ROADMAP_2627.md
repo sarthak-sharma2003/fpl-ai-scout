@@ -37,6 +37,29 @@ operational continuation and supersedes it where they disagree.
   branch (full DB as parquet, `dev-snapshot.yml`), `backtest.yml` sweep →
   `backtest-results` branch.
 
+- **Later the same day**:
+  - results count at the final whistle (`finished_provisional`; 2026-27 flips
+    `finished` only at the next-morning lockdown), and unpriced fixtures get
+    Dixon-Coles odds (the GW7 advice sold De Cuyper off NaN odds + a missing
+    GW6). Replay: neutral (−0.27 ± 0.83/GW), it is a live-only bug.
+  - RotoWire predicted-line-up overlay on the decision week's minutes.
+  - minutes model regularised (`models/minutes.py`): retrain wobble halved,
+    holdout log-loss better, replay +0.87 ± 0.76/GW — it was what flipped
+    marginal transfers between runs.
+  - **chips checked every run, both games** and shown in the DO THIS sheet,
+    the alert and the site, "hold" included. FPL: the wildcard is priced by
+    simulating both paths week by week (`chip_planner.simulate_wildcard_gains`;
+    the old single-solve comparators said +2 and +15 for the same squad);
+    per-chip bars in `chip_planner.PLAY_BARS` (untuned, decay to 0 as the
+    window runs out). UCL: wildcard probe + Limitless gains per matchday
+    (Limitless had been silently empty: one injured bench player made every
+    matchday "illegal").
+  - UCL knockouts modelled to the final (`ucl/src/uclscout/knockout.py`):
+    elimination, P(alive), per-round budget/club cap/transfers.
+  - `HORIZON=5` beat 8 by +1.99 ± 0.81/GW on the tuning seasons (sweep
+    38364728486, older code) — being re-validated on current main before any
+    change; `CHIP_HORIZON` keeps the chip view at 8 weeks either way.
+
 **Invariant changes:**
 - §2.3 is superseded for PRE-DEADLINE snapshots: status/chance/news/ep_next
   taken from a bootstrap captured before the deadline (fplcache, our own live

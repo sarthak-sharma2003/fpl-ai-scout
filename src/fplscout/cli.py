@@ -559,7 +559,9 @@ def optimize(settings_path: Path = typer.Option(DEFAULT_SETTINGS_PATH, "--settin
     )
     # week-by-week EV, for pricing the wildcard by simulating both paths
     ev_by_gw = (
-        pipeline.live_horizon_ev(con, models, season, gw, per_gw=True)
+        pipeline.live_horizon_ev(
+            con, models, season, gw, per_gw=True, horizon_gws=pipeline.CHIP_HORIZON
+        )
         if wildcard_ok and gw >= WILDCARD_EARLIEST_GW else None
     )
     # Owned players priced/positioned WITHOUT the unpickable filter that
@@ -670,6 +672,7 @@ def optimize(settings_path: Path = typer.Option(DEFAULT_SETTINGS_PATH, "--settin
         gain = simulate_wildcard_gains(
             frames, base_input, decay=pipeline.DECAY, max_start_weeks=1,
             static=projections_df[["code", "position", "team_id", "price"]],
+            lookahead=pipeline.HORIZON,
         ).get(gw)
         if gain is not None:
             typer.echo(
