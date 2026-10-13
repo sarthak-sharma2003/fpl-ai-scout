@@ -14,7 +14,9 @@ of source.
 
 from __future__ import annotations
 
+import json
 from datetime import UTC, datetime, timedelta
+from pathlib import Path
 
 import duckdb
 import pandas as pd
@@ -88,6 +90,19 @@ def _sync_teams(con: duckdb.DuckDBPyConnection, bootstrap: BootstrapStatic, seas
     return len(teams_df)
 
 
+def _played(f: Fixture) -> bool:
+    """A match is over at its final whistle (`finished_provisional`), not when
+    FPL flips `finished`. In 2026-27 FPL flips `finished` only at the gameweek
+    "lockdown", 9am UK the morning after the gameweek's LAST match, so a
+    Saturday result stayed invisible until Tuesday and every recommendation
+    made in between ignored the whole gameweek (2026-10-13: the GW7 advice
+    sold De Cuyper the morning after his 15-point GW6, which it had never
+    seen). Scores, minutes and xG are final at the whistle; bonus and the odd
+    assist can still move until lockdown, which the summary cache re-reads
+    once (summary_cache_ttl)."""
+    return bool(f.finished or f.finished_provisional)
+
+
 def _sync_fixtures(con: duckdb.DuckDBPyConnection, fixtures: list[Fixture], season: str) -> int:
     fixtures_df = pd.DataFrame(
         [
@@ -102,7 +117,8 @@ def _sync_fixtures(con: duckdb.DuckDBPyConnection, fixtures: list[Fixture], seas
                 "team_a_score": f.team_a_score,
                 "team_h_difficulty": f.team_h_difficulty,
                 "team_a_difficulty": f.team_a_difficulty,
-                "finished": f.finished,
+                # "played" = provisionally finished: see _played()
+                "finished": _played(f),
             }
             for f in fixtures
         ]
@@ -174,17 +190,37 @@ def _sync_player_season(
     return len(df)
 
 
-def summary_cache_ttl(fixtures: list[Fixture], now: datetime) -> float:
+PROVISIONAL_TTL = 3 * 3600
+
+
+def summary_cache_ttl(fixtures: list[Fixture], now: datetime,
+                      locked_since_last_sync: bool = False) -> float:
     """Cache lifetime for element-summary responses: valid until the most
-    recent final whistle (last finished fixture's kickoff + 2h). History rows
-    only appear when a fixture finishes, so on non-match days every summary is
-    served from data/raw — which CI persists across runs via actions/cache —
-    and the ~700 throttled API calls (the old 13-minute deploy step) vanish."""
-    finished = [f.kickoff_time for f in fixtures if f.finished and f.kickoff_time]
-    if not finished:
+    recent final whistle (last played fixture's kickoff + 2h). History rows
+    only appear when a fixture is played, so on non-match days every summary
+    is served from data/raw — which CI persists across runs via actions/cache —
+    and the ~700 throttled API calls (the old 13-minute deploy step) vanish.
+
+    Between a final whistle and FPL's lockdown the numbers can still move
+    (bonus, a corrected assist), so while any fixture is provisional the cache
+    lives at most PROVISIONAL_TTL; and the first sync after a lockdown
+    (`locked_since_last_sync`) re-reads everything once to get the final
+    numbers."""
+    if locked_since_last_sync:
+        return 0.0
+    played = [f.kickoff_time for f in fixtures if _played(f) and f.kickoff_time]
+    if not played:
         return TTL_ELEMENT_SUMMARY  # season not started: nothing to invalidate
-    last_final_whistle = max(finished) + timedelta(hours=2)
-    return max((now - last_final_whistle).total_seconds(), 0.0)
+    last_final_whistle = max(played) + timedelta(hours=2)
+    ttl = max((now - last_final_whistle).total_seconds(), 0.0)
+    if any(f.finished_provisional and not f.finished for f in fixtures):
+        ttl = min(ttl, PROVISIONAL_TTL)
+    return ttl
+
+
+def _pending_marker(client) -> Path | None:
+    cache_dir = getattr(client, "cache_dir", None)
+    return Path(cache_dir) / "provisional_fixtures.json" if cache_dir else None
 
 
 def sync_current_season(
@@ -205,13 +241,26 @@ def sync_current_season(
     _sync_players_dim(con, bootstrap, season)
     _sync_player_season(con, bootstrap, season)
 
-    fixture_finished = {f.id: f.finished for f in fixtures}
+    fixture_finished = {f.id: _played(f) for f in fixtures}
     fixture_teams = {f.id: (f.team_h, f.team_a) for f in fixtures}
     players = [e for e in bootstrap.elements if e.element_type != ASSISTANT_MANAGER_ELEMENT_TYPE]
     id_to_code = {e.id: e.code for e in players}
     id_to_position = {e.id: POSITION_MAP[e.element_type] for e in players}
 
-    summary_ttl = summary_cache_ttl(fixtures, now=datetime.now(UTC))
+    # fixtures that were provisional at the last sync and are now locked:
+    # their bonus/assists are final now, so re-read every summary once
+    marker = _pending_marker(client)
+    was_pending: set[int] = set()
+    if marker is not None and marker.exists():
+        try:
+            was_pending = set(json.loads(marker.read_text()))
+        except (OSError, ValueError):
+            was_pending = set()
+    locked_now = {f.id for f in fixtures if f.finished}
+    summary_ttl = summary_cache_ttl(
+        fixtures, now=datetime.now(UTC),
+        locked_since_last_sync=bool(was_pending & locked_now),
+    )
     rows = []
     for element in players:
         summary = client.element_summary(element.id, ttl_seconds=summary_ttl)
@@ -271,6 +320,10 @@ def sync_current_season(
     gw_history_df = pd.DataFrame(rows, columns=GW_HISTORY_LIVE_COLUMNS)
     con.execute("DELETE FROM player_gw_history WHERE season = ?", [season])
     con.execute("INSERT INTO player_gw_history BY NAME SELECT * FROM gw_history_df")
+    if marker is not None:
+        # written only after a complete sync, so a crash mid-sweep re-reads
+        pending = sorted(f.id for f in fixtures if f.finished_provisional and not f.finished)
+        marker.write_text(json.dumps(pending))
 
     return {
         "season": season,

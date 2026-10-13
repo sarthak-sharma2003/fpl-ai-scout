@@ -214,6 +214,13 @@ def build_horizon_ev(
     # own fixtures they belong to) — one frozen snapshot per player, not one per
     # fixture, is both correct and required (code must be a unique index below).
     base_rows = base_rows.drop_duplicates(subset="code", keep="first").reset_index(drop=True)
+    id_to_code = dict(zip(teams["team_id"], teams["code"], strict=False))
+    # the decision week is often unpriced (the next round is priced late):
+    # Dixon-Coles stands in for the market, as in project_gw
+    base_dc = _dc_matchup_stats(dc_model, base_rows["team_id"], base_rows["opponent_team_id"],
+                                base_rows["was_home"].astype(bool), id_to_code)
+    base_rows = team_goals.fill_missing_odds(
+        base_rows, base_dc["team_xg_for"].to_numpy(), base_dc["team_xg_against"].to_numpy())
     base_mins_proba = minutes.predict_proba(minutes_model, base_rows)
     if lineup is not None and lineup[0]:
         # predicted line-ups describe the decision week only: h=0's proba
@@ -245,7 +252,6 @@ def build_horizon_ev(
         ).mean(axis=0)
 
     team_fixtures = _team_fixtures_long(fixtures)
-    id_to_code = dict(zip(teams["team_id"], teams["code"], strict=False))
     # astype first: strength is NULL pre-season (masked Int32, pd.NA values);
     # Series-level astype maps NA→NaN, so the dict holds plain floats LightGBM eats
     strength_by_team = dict(
@@ -294,6 +300,12 @@ def build_horizon_ev(
         merged["team_xg_for"] = dc_stats["team_xg_for"]
         merged["team_xg_against"] = dc_stats["team_xg_against"]
         merged["clean_sheet_prob"] = dc_stats["clean_sheet_prob"]
+        # odds features describe ONE fixture: frozen from the decision week
+        # they priced a different opponent for every h > 0 (the old
+        # behaviour), so future weeks take Dixon-Coles for their own fixture
+        merged = team_goals.fill_missing_odds(
+            merged, dc_stats["team_xg_for"].to_numpy(), dc_stats["team_xg_against"].to_numpy(),
+            force=h > 0)
 
         widen = min(1.0, h * UNCERTAINTY_WIDEN_PER_STEP)
         orig_row_idx = base_rows.set_index("code").index.get_indexer(merged["code"])

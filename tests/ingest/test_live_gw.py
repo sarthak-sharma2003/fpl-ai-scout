@@ -219,3 +219,52 @@ def test_summary_cache_ttl():
     assert ttl == (now - datetime(2026, 9, 14, 12, 0, tzinfo=UTC)).total_seconds()
     # a fixture flagged finished with kickoff+2h still in the future: clamp to 0 (refetch)
     assert live_gw.summary_cache_ttl([fixture(True, "2026-09-17T11:00:00Z")], now) == 0.0
+
+
+def test_provisional_results_count_as_played_until_lockdown():
+    """2026-27: FPL flips `finished` only at the gameweek lockdown (the morning
+    after the gameweek's last match). A match is played at its final whistle."""
+    from datetime import datetime
+
+    from fplscout.ingest.schemas import Fixture
+
+    def fixture(fid: int, finished: bool, provisional: bool, kickoff: str) -> Fixture:
+        return Fixture.model_validate(
+            {
+                "code": fid, "finished": finished, "finished_provisional": provisional,
+                "id": fid, "kickoff_time": kickoff, "minutes": 90,
+                "provisional_start_time": False, "team_a": 1, "team_h": 2,
+                "team_h_difficulty": 3, "team_a_difficulty": 3, "pulse_id": fid,
+            }
+        )
+
+    now = datetime(2026, 10, 13, 6, 0, tzinfo=UTC)
+    sat = fixture(1, False, True, "2026-10-10T14:00:00Z")
+    mon = fixture(2, False, True, "2026-10-12T19:00:00Z")
+    assert live_gw._played(sat) and live_gw._played(mon)
+    # provisional: cache lives at most 3h even though the whistle was 9h ago
+    assert live_gw.summary_cache_ttl([sat, mon], now) == live_gw.PROVISIONAL_TTL
+    # after lockdown, the first sync re-reads everything once
+    assert live_gw.summary_cache_ttl([sat, mon], now, locked_since_last_sync=True) == 0.0
+    # locked and already re-read: back to "valid since the last final whistle"
+    locked = [fixture(1, True, True, "2026-10-10T14:00:00Z"),
+              fixture(2, True, True, "2026-10-12T19:00:00Z")]
+    assert live_gw.summary_cache_ttl(locked, now) == 9 * 3600
+
+
+def test_fixtures_table_marks_provisional_results_played():
+    import duckdb
+
+    from fplscout import db
+    from fplscout.ingest.schemas import Fixture
+
+    con = duckdb.connect()
+    db.init_schema(con)
+    f = Fixture.model_validate({
+        "code": 9, "finished": False, "finished_provisional": True, "id": 9,
+        "kickoff_time": "2026-10-10T14:00:00Z", "minutes": 90,
+        "provisional_start_time": False, "team_a": 1, "team_h": 2, "team_h_score": 2,
+        "team_a_score": 1, "team_h_difficulty": 3, "team_a_difficulty": 3, "pulse_id": 9,
+    })
+    live_gw._sync_fixtures(con, [f], "2026-27")
+    assert con.execute("SELECT finished FROM fixtures").fetchone()[0] is True

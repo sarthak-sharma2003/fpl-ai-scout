@@ -167,3 +167,31 @@ def test_a_club_with_a_shutout_only_record_does_not_get_an_unbounded_defense():
     # and the fallback it now takes is a sane relegation-zone prior
     lam, mu = model.expected_goals(home_code=1, away_code=99)
     assert 0.05 < mu < 5.0
+
+
+def test_win_prob_matches_simple_cases():
+    import numpy as np
+
+    from fplscout.models.team_goals import win_prob
+
+    even = win_prob(np.array([1.4]), np.array([1.4]))[0]
+    assert 0.33 < even < 0.40                     # symmetric: P(win) = P(loss) < 0.5
+    strong = win_prob(np.array([2.5]), np.array([0.6]))[0]
+    weak = win_prob(np.array([0.6]), np.array([2.5]))[0]
+    assert strong > 0.7 and weak < 0.1
+
+
+def test_fill_missing_odds_only_fills_gaps_unless_forced():
+    import numpy as np
+    import pandas as pd
+
+    from fplscout.models.team_goals import fill_missing_odds
+
+    df = pd.DataFrame({"odds_win_prob": [0.6, np.nan], "odds_exp_goals_for": [2.0, np.nan],
+                       "odds_exp_goals_against": [0.8, np.nan]}, index=[10, 11])
+    out = fill_missing_odds(df, [1.1, 1.7], [1.2, 0.9])
+    assert out.loc[10, "odds_exp_goals_for"] == 2.0               # real price kept
+    assert out.loc[11, "odds_exp_goals_for"] == 1.7               # gap filled
+    assert 0.4 < out.loc[11, "odds_win_prob"] < 0.6
+    forced = fill_missing_odds(df, [1.1, 1.7], [1.2, 0.9], force=True)
+    assert forced.loc[10, "odds_exp_goals_for"] == 1.1            # another fixture's price replaced

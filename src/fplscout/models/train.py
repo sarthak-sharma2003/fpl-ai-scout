@@ -128,6 +128,14 @@ def project_gw(
     callers that also need expected_minutes/mins_p60_plus/etc. without
     re-deriving them.
     """
+    tg_lookup = _team_goals_lookup(dc_model, df, teams)
+    # unpriced fixtures (the next round is priced late, future ones never):
+    # Dixon-Coles stands in for the market rather than a NaN the models never
+    # trained on (team_goals.fill_missing_odds)
+    tg_rows = df[["season", "fixture_id", "code"]].merge(
+        tg_lookup, on=["season", "fixture_id", "code"], how="left")
+    df = team_goals.fill_missing_odds(df, tg_rows["team_xg_for"].to_numpy(),
+                                      tg_rows["team_xg_against"].to_numpy())
     mins_proba = minutes.predict_proba(minutes_model, df)
     if lineup is not None and lineup[0]:
         # predicted line-ups, live decision gameweek only (ingest/lineups.py)
@@ -136,7 +144,6 @@ def project_gw(
     if availability_factor is not None:
         factor = df["code"].map(availability_factor).fillna(1.0).to_numpy()
         mins_proba = minutes.apply_availability(mins_proba, factor)
-    tg_lookup = _team_goals_lookup(dc_model, df, teams)
     feat = points.add_model_features(df, mins_proba, tg_lookup)
     preds = points.predict(points_models, feat)
     return preds, feat

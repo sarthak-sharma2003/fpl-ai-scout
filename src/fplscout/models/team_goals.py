@@ -81,6 +81,46 @@ class DixonColesModel:
         return p_home_cs, p_away_cs
 
 
+def win_prob(lam: np.ndarray, mu: np.ndarray, max_goals: int = 10) -> np.ndarray:
+    """P(team scoring ~Poisson(lam) beats one scoring ~Poisson(mu)), independent
+    Poissons -- the market-odds stand-in where no market price exists."""
+    lam = np.asarray(lam, dtype=float)
+    mu = np.asarray(mu, dtype=float)
+    k = np.arange(max_goals + 1)
+    p_for = poisson.pmf(k[None, :], lam[:, None])
+    p_against = poisson.pmf(k[None, :], mu[:, None])
+    below = np.cumsum(p_against, axis=1) - p_against          # P(against < k)
+    return (p_for * below).sum(axis=1)
+
+
+def fill_missing_odds(df, xg_for, xg_against, force: bool = False):
+    """Fill odds_* features from Dixon-Coles expected goals where the market
+    has no price (or always, with force=True).
+
+    football-data.co.uk only prices the NEXT round, shortly before it, so the
+    decision gameweek is often unpriced (an international break, an early
+    refresh) and future gameweeks always are. The models never saw a missing
+    price in training (<0.3% of rows), so NaN sent every row down an untrained
+    branch: nailed starters' P(60+) fell from ~0.90 to ~0.83 across GW7
+    2026-27. In the horizon, future gameweeks used to carry the DECISION
+    week's odds -- another opponent's -- which force=True replaces.
+    """
+    out = df.copy()
+    xg_for = np.asarray(xg_for, dtype=float)
+    xg_against = np.asarray(xg_against, dtype=float)
+    have = ~(np.isnan(xg_for) | np.isnan(xg_against))
+    for col in ("odds_win_prob", "odds_exp_goals_for", "odds_exp_goals_against"):
+        if col not in out:
+            out[col] = np.nan
+    missing = out["odds_exp_goals_for"].isna().to_numpy() | force
+    fill = missing & have
+    if fill.any():
+        out.loc[fill, "odds_exp_goals_for"] = xg_for[fill]
+        out.loc[fill, "odds_exp_goals_against"] = xg_against[fill]
+        out.loc[fill, "odds_win_prob"] = win_prob(xg_for[fill], xg_against[fill])
+    return out
+
+
 def _neg_log_likelihood(
     params: np.ndarray,
     codes: list[int],
