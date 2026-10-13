@@ -1,0 +1,101 @@
+name: Backtest sweep
+
+# On demand: replay seasons under a grid of decision configs, one matrix job
+# per (season, prep), in parallel, then aggregate into one markdown table on
+# the `backtest-results` branch (results/<run_id>.md + raw JSON). See
+# scripts/backtest_grid.py / backtest_report.py. Tuning discipline: sweep on
+# 2023-24/2024-25; run 2025-26 once for the chosen config.
+on:
+  workflow_dispatch:
+    inputs:
+      seasons:
+        description: JSON list of seasons
+        default: '["2023-24", "2024-25"]'
+      preps:
+        description: JSON list of simulator constant overrides (one job each)
+        default: '[{}]'
+      grid:
+        description: JSON list of simulate_season overrides (all run per job)
+        default: '[{}]'
+      label:
+        description: short name for this sweep
+        default: sweep
+
+permissions:
+  contents: write
+
+jobs:
+  replay:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      max-parallel: 20
+      matrix:
+        season: ${{ fromJSON(inputs.seasons) }}
+        prep: ${{ fromJSON(inputs.preps) }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: pip
+      - run: pip install -e .
+      - name: Restore API cache
+        uses: actions/cache/restore@v4
+        with:
+          path: data/raw
+          key: raw-cache-
+          restore-keys: raw-cache-
+      - name: Refresh data
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: fplscout refresh > /dev/null
+      - name: Replay
+        env:
+          PREP: ${{ toJSON(matrix.prep) }}
+          GRID: ${{ inputs.grid }}
+        run: |
+          python scripts/backtest_grid.py --season "${{ matrix.season }}" \
+            --prep "$PREP" --grid "$GRID" \
+            --out "out/${{ matrix.season }}_${{ strategy.job-index }}.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: bt-${{ matrix.season }}-${{ strategy.job-index }}
+          path: out/
+
+  report:
+    needs: replay
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - uses: actions/download-artifact@v4
+        with:
+          path: out
+      - name: Aggregate and push to backtest-results
+        run: |
+          url="https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git"
+          res="$RUNNER_TEMP/res"
+          git clone -q --depth 1 -b backtest-results "$url" "$res" 2>/dev/null \
+            || { mkdir -p "$res" && git -C "$res" init -q -b backtest-results \
+                 && git -C "$res" remote add origin "$url"; }
+          mkdir -p "$res/results/${{ github.run_id }}"
+          cp -r out/. "$res/results/${{ github.run_id }}/"
+          {
+            echo "# ${{ inputs.label }} (run ${{ github.run_id }}, $(git rev-parse --short HEAD))"
+            echo
+            echo "grid: \`${{ inputs.grid }}\`"
+            echo
+            python scripts/backtest_report.py out
+          } > "$res/results/${{ github.run_id }}.md"
+          cat "$res/results/${{ github.run_id }}.md"
+          cd "$res"
+          git add results
+          git -c user.name="github-actions[bot]" \
+              -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
+              commit -qm "backtest ${{ inputs.label }} ${{ github.run_id }}"
+          for i in 1 2 3; do git push -q origin HEAD:backtest-results && break; \
+            git pull -q --rebase origin backtest-results; done
