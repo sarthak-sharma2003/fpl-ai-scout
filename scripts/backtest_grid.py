@@ -6,8 +6,9 @@
         --out data/reports/bt/2024-25_decay0.9.json
 
 `--prep` overrides simulator module constants that shape the EV the season is
-prepared with (DECAY, HORIZON), the model seed (SEED) or the minutes model
-(MINUTES: {"params": {...}, "rounds": n}); `--grid` entries are simulate_season keyword
+prepared with (DECAY, HORIZON), the model seed (SEED), the minutes model
+(MINUTES: {"params": {...}, "rounds": n}) or the feature set (DROP_FEATURES:
+[...]); `--grid` entries are simulate_season keyword
 overrides, which are cheap because they reuse the prepared season. Run by
 .github/workflows/backtest.yml as a matrix; also runnable locally.
 
@@ -26,14 +27,15 @@ import duckdb
 
 from fplscout.backtest import simulator as sim
 from fplscout.backtest.strategies import load_history, make_rules
-from fplscout.models import minutes, points
+from fplscout.models import dataset, minutes, points
 
 SEASONS = ["2021-22", "2022-23", "2023-24", "2024-25", "2025-26"]
 
 
 def _apply_prep(prep_over: dict, defaults: tuple) -> None:
     """Reset every override to its default, then apply this prep's."""
-    sim_defaults, lgb_defaults, rounds_default, cond_defaults = defaults
+    (sim_defaults, lgb_defaults, rounds_default, cond_defaults,
+     feat_defaults, all_feat_defaults) = defaults
     for k, v in sim_defaults.items():
         setattr(sim, k, v)
     minutes.LGB_PARAMS.clear()
@@ -41,9 +43,16 @@ def _apply_prep(prep_over: dict, defaults: tuple) -> None:
     minutes.NUM_BOOST_ROUND = rounds_default
     points.COND_PARAMS.clear()
     points.COND_PARAMS.update(cond_defaults)
+    # in place: minutes/points hold references to these very lists
+    dataset.FEATURE_COLUMNS[:] = feat_defaults
+    points.ALL_FEATURE_COLUMNS[:] = all_feat_defaults
     for k, v in prep_over.items():
         if k == "SEED":          # model bagging seed, for multi-seed evaluation
             points.set_seed(int(v))
+            continue
+        if k == "DROP_FEATURES":  # ablation: train every model without these columns
+            for cols in (dataset.FEATURE_COLUMNS, points.ALL_FEATURE_COLUMNS):
+                cols[:] = [c for c in cols if c not in v]
             continue
         if k == "MINUTES":       # minutes-model overrides {"params": {...}, "rounds": n}
             minutes.LGB_PARAMS.update(v.get("params", {}))
@@ -88,7 +97,8 @@ def main() -> None:
     preps = preps if isinstance(preps, list) else [preps]
     defaults = ({k: getattr(sim, k) for k in dir(sim) if k.isupper()},
                 dict(minutes.LGB_PARAMS), minutes.NUM_BOOST_ROUND,
-                dict(points.COND_PARAMS))
+                dict(points.COND_PARAMS),
+                list(dataset.FEATURE_COLUMNS), list(points.ALL_FEATURE_COLUMNS))
     t0 = time.time()
     con = duckdb.connect(a.db, read_only=True)
     train = SEASONS[: SEASONS.index(a.season)]
