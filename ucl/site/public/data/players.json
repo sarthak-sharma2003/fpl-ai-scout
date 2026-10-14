@@ -1,6 +1,6 @@
 {
  "schema": 1,
- "generatedAt": "2026-10-14T01:33:02.082871+00:00",
+ "generatedAt": "2026-10-14T10:57:52.219749+00:00",
  "season": "2026-27",
  "tour": 90,
  "matchday": 3,
@@ -22,7 +22,7 @@
  "subsAllowed": 2,
  "checklist": [
   "MD3 spans 2 days (2026-10-20, 2026-10-21) \u2014 up to 2 manual subs allowed.",
-  "Captain L. Yamal (Tue). If he scores 7 or fewer, switch the armband to H. Kane before Wed's kick-offs \u2014 the switch is one-way.",
+  "Captain E. Haaland (Tue). If he scores 7 or fewer, switch the armband to H. Kane before Wed's kick-offs \u2014 the switch is one-way.",
   "After day 1, reassess: move the armband to an unstarted player if your captain blanked. Top-5000 do this 44.6% of the time; average 6.1%.",
   "Sub out anyone who did not play, before the next day kicks off.",
   "WARNING: any manual change \u2014 a sub, a captain switch, even reordering the bench \u2014 disables auto-subs for this whole matchday, and reverting does not restore them."
@@ -163,27 +163,6 @@
    "status": "",
    "day": "2026-10-20",
    "priorPoints": 7
-  },
-  {
-   "id": 250171184,
-   "name": "M. Olise",
-   "pos": "MID",
-   "team": "Bayern M\u00fcnchen",
-   "teamId": 50037,
-   "value": 9.0,
-   "points": 6.11,
-   "minutes": 83,
-   "minutesSource": "observed_ucl",
-   "minutesTrusted": true,
-   "minutesNote": "UCL minutes share, this season + last at this club",
-   "pStart": 1.0,
-   "canCaptain": true,
-   "opponentAdj": 1.01,
-   "owned": 54.0,
-   "recoveriesPer90": null,
-   "status": "",
-   "day": "2026-10-21",
-   "priorPoints": 20
   },
   {
    "id": 250101284,
@@ -3250,27 +3229,6 @@
    "status": "",
    "day": "2026-10-20",
    "priorPoints": 2
-  },
-  {
-   "id": 250165232,
-   "name": "L. Yoro",
-   "pos": "DEF",
-   "team": "Man Utd",
-   "teamId": 52682,
-   "value": 4.0,
-   "points": 3.27,
-   "minutes": 82,
-   "minutesSource": "observed_ucl",
-   "minutesTrusted": true,
-   "minutesNote": "UCL minutes share",
-   "pStart": 1.0,
-   "canCaptain": true,
-   "opponentAdj": 0.987,
-   "owned": 2.0,
-   "recoveriesPer90": null,
-   "status": "",
-   "day": "2026-10-21",
-   "priorPoints": 9
   },
   {
    "id": 250114171,
@@ -8437,6 +8395,48 @@
    "status": "",
    "day": "2026-10-21",
    "priorPoints": 0
+  },
+  {
+   "id": 250128270,
+   "name": "E. Camavinga",
+   "pos": "MID",
+   "team": "Real Madrid",
+   "teamId": 50051,
+   "value": 5.5,
+   "points": 1.46,
+   "minutes": 28,
+   "minutesSource": "observed_ucl",
+   "minutesTrusted": true,
+   "minutesNote": "UCL minutes share, this season + last at this club",
+   "pStart": 0.37,
+   "canCaptain": false,
+   "opponentAdj": 1.123,
+   "owned": 0.0,
+   "recoveriesPer90": null,
+   "status": "",
+   "day": "2026-10-21",
+   "priorPoints": 0
+  },
+  {
+   "id": 250134320,
+   "name": "I. Saibari",
+   "pos": "MID",
+   "team": "Bayern M\u00fcnchen",
+   "teamId": 50037,
+   "value": 6.5,
+   "points": 1.46,
+   "minutes": 32,
+   "minutesSource": "imputed_price",
+   "minutesTrusted": false,
+   "minutesNote": "changed clubs since last season -- prior minutes were elsewhere",
+   "pStart": null,
+   "canCaptain": false,
+   "opponentAdj": 1.01,
+   "owned": 2.0,
+   "recoveriesPer90": null,
+   "status": "",
+   "day": "2026-10-21",
+   "priorPoints": 1
   }
  ]
 }
