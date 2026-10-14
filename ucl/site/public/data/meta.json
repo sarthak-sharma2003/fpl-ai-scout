@@ -1,18 +1,13 @@
 {
  "schema": 1,
- "generatedAt": "2026-10-14T10:57:52.219749+00:00",
+ "generatedAt": "2026-10-14T18:20:05.188246+00:00",
  "season": "2026-27",
  "tour": 90,
  "matchday": 3,
  "lastMatchday": 17,
  "deadline": "2026-10-20T16:45:00+00:00",
- "subs": {
-  "matchday": 2,
-  "deadline": "2026-10-14T16:45:00+00:00",
-  "gameday": "2026-10-14",
-  "manualSubs": 2
- },
- "budget": 100.0,
+ "subs": null,
+ "budget": 100.5,
  "maxPerClub": 3,
  "round": "league",
  "gamedays": [
@@ -22,7 +17,7 @@
  "subsAllowed": 2,
  "checklist": [
   "MD3 spans 2 days (2026-10-20, 2026-10-21) \u2014 up to 2 manual subs allowed.",
-  "Captain E. Haaland (Tue). If he scores 7 or fewer, switch the armband to H. Kane before Wed's kick-offs \u2014 the switch is one-way.",
+  "Captain L. Yamal (Tue). If he scores 7 or fewer, switch the armband to H. Kane before Wed's kick-offs \u2014 the switch is one-way.",
   "After day 1, reassess: move the armband to an unstarted player if your captain blanked. Top-5000 do this 44.6% of the time; average 6.1%.",
   "Sub out anyone who did not play, before the next day kicks off.",
   "WARNING: any manual change \u2014 a sub, a captain switch, even reordering the bench \u2014 disables auto-subs for this whole matchday, and reverting does not restore them."

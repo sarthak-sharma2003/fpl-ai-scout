@@ -1,18 +1,13 @@
 {
  "schema": 1,
- "generatedAt": "2026-10-14T10:57:52.219749+00:00",
+ "generatedAt": "2026-10-14T18:20:05.188246+00:00",
  "season": "2026-27",
  "tour": 90,
  "matchday": 3,
  "lastMatchday": 17,
  "deadline": "2026-10-20T16:45:00+00:00",
- "subs": {
-  "matchday": 2,
-  "deadline": "2026-10-14T16:45:00+00:00",
-  "gameday": "2026-10-14",
-  "manualSubs": 2
- },
- "budget": 100.0,
+ "subs": null,
+ "budget": 100.5,
  "maxPerClub": 3,
  "round": "league",
  "gamedays": [
@@ -22,7 +17,7 @@
  "subsAllowed": 2,
  "checklist": [
   "MD3 spans 2 days (2026-10-20, 2026-10-21) \u2014 up to 2 manual subs allowed.",
-  "Captain E. Haaland (Tue). If he scores 7 or fewer, switch the armband to H. Kane before Wed's kick-offs \u2014 the switch is one-way.",
+  "Captain L. Yamal (Tue). If he scores 7 or fewer, switch the armband to H. Kane before Wed's kick-offs \u2014 the switch is one-way.",
   "After day 1, reassess: move the armband to an unstarted player if your captain blanked. Top-5000 do this 44.6% of the time; average 6.1%.",
   "Sub out anyone who did not play, before the next day kicks off.",
   "WARNING: any manual change \u2014 a sub, a captain switch, even reordering the bench \u2014 disables auto-subs for this whole matchday, and reverting does not restore them."
@@ -47,12 +42,12 @@
    "eliminated": false,
    "elo": 1757,
    "pAlive": {
-    "top8": 0.76,
-    "playoff": 0.234,
-    "r16": 0.932,
-    "qf": 0.627,
-    "sf": 0.412,
-    "final": 0.272
+    "top8": 0.766,
+    "playoff": 0.229,
+    "r16": 0.938,
+    "qf": 0.657,
+    "sf": 0.434,
+    "final": 0.268
    }
   },
   {
@@ -63,12 +58,12 @@
    "eliminated": false,
    "elo": 1734,
    "pAlive": {
-    "top8": 0.619,
-    "playoff": 0.349,
-    "r16": 0.859,
-    "qf": 0.572,
-    "sf": 0.361,
-    "final": 0.228
+    "top8": 0.629,
+    "playoff": 0.337,
+    "r16": 0.866,
+    "qf": 0.58,
+    "sf": 0.381,
+    "final": 0.238
    }
   },
   {
@@ -79,12 +74,12 @@
    "eliminated": false,
    "elo": 1720,
    "pAlive": {
-    "top8": 0.519,
-    "playoff": 0.436,
-    "r16": 0.82,
-    "qf": 0.526,
-    "sf": 0.323,
-    "final": 0.203
+    "top8": 0.525,
+    "playoff": 0.431,
+    "r16": 0.833,
+    "qf": 0.534,
+    "sf": 0.321,
+    "final": 0.198
    }
   },
   {
@@ -95,12 +90,12 @@
    "eliminated": false,
    "elo": 1673,
    "pAlive": {
-    "top8": 0.648,
-    "playoff": 0.333,
-    "r16": 0.861,
-    "qf": 0.531,
-    "sf": 0.29,
-    "final": 0.164
+    "top8": 0.665,
+    "playoff": 0.319,
+    "r16": 0.873,
+    "qf": 0.527,
+    "sf": 0.292,
+    "final": 0.159
    }
   },
   {
@@ -111,12 +106,12 @@
    "eliminated": false,
    "elo": 1650,
    "pAlive": {
-    "top8": 0.447,
-    "playoff": 0.489,
-    "r16": 0.754,
-    "qf": 0.438,
-    "sf": 0.24,
-    "final": 0.116
+    "top8": 0.46,
+    "playoff": 0.474,
+    "r16": 0.76,
+    "qf": 0.428,
+    "sf": 0.224,
+    "final": 0.125
    }
   },
   {
@@ -127,12 +122,12 @@
    "eliminated": false,
    "elo": 1639,
    "pAlive": {
-    "top8": 0.446,
-    "playoff": 0.48,
-    "r16": 0.75,
-    "qf": 0.412,
-    "sf": 0.209,
-    "final": 0.114
+    "top8": 0.426,
+    "playoff": 0.495,
+    "r16": 0.74,
+    "qf": 0.414,
+    "sf": 0.218,
+    "final": 0.105
    }
   },
   {
@@ -143,12 +138,12 @@
    "eliminated": false,
    "elo": 1630,
    "pAlive": {
-    "top8": 0.489,
-    "playoff": 0.444,
-    "r16": 0.759,
-    "qf": 0.429,
-    "sf": 0.225,
-    "final": 0.117
+    "top8": 0.494,
+    "playoff": 0.44,
+    "r16": 0.762,
+    "qf": 0.41,
+    "sf": 0.215,
+    "final": 0.102
    }
   },
   {
@@ -159,12 +154,12 @@
    "eliminated": false,
    "elo": 1621,
    "pAlive": {
-    "top8": 0.411,
-    "playoff": 0.509,
-    "r16": 0.721,
-    "qf": 0.379,
-    "sf": 0.19,
-    "final": 0.089
+    "top8": 0.434,
+    "playoff": 0.482,
+    "r16": 0.717,
+    "qf": 0.382,
+    "sf": 0.186,
+    "final": 0.091
    }
   },
   {
@@ -175,12 +170,12 @@
    "eliminated": false,
    "elo": 1619,
    "pAlive": {
-    "top8": 0.247,
-    "playoff": 0.534,
-    "r16": 0.558,
-    "qf": 0.283,
-    "sf": 0.143,
-    "final": 0.067
+    "top8": 0.225,
+    "playoff": 0.565,
+    "r16": 0.552,
+    "qf": 0.281,
+    "sf": 0.149,
+    "final": 0.069
    }
   },
   {
@@ -191,12 +186,12 @@
    "eliminated": false,
    "elo": 1616,
    "pAlive": {
-    "top8": 0.562,
-    "playoff": 0.406,
-    "r16": 0.809,
-    "qf": 0.432,
-    "sf": 0.212,
-    "final": 0.099
+    "top8": 0.575,
+    "playoff": 0.397,
+    "r16": 0.808,
+    "qf": 0.44,
+    "sf": 0.22,
+    "final": 0.102
    }
   },
   {
@@ -207,12 +202,12 @@
    "eliminated": false,
    "elo": 1609,
    "pAlive": {
-    "top8": 0.258,
-    "playoff": 0.565,
-    "r16": 0.591,
-    "qf": 0.304,
-    "sf": 0.147,
-    "final": 0.065
+    "top8": 0.248,
+    "playoff": 0.58,
+    "r16": 0.569,
+    "qf": 0.294,
+    "sf": 0.145,
+    "final": 0.073
    }
   },
   {
@@ -223,12 +218,12 @@
    "eliminated": false,
    "elo": 1598,
    "pAlive": {
-    "top8": 0.378,
-    "playoff": 0.515,
-    "r16": 0.66,
+    "top8": 0.357,
+    "playoff": 0.541,
+    "r16": 0.662,
     "qf": 0.344,
-    "sf": 0.17,
-    "final": 0.071
+    "sf": 0.167,
+    "final": 0.079
    }
   },
   {
@@ -239,12 +234,12 @@
    "eliminated": false,
    "elo": 1571,
    "pAlive": {
-    "top8": 0.281,
-    "playoff": 0.546,
-    "r16": 0.58,
-    "qf": 0.285,
-    "sf": 0.137,
-    "final": 0.061
+    "top8": 0.267,
+    "playoff": 0.567,
+    "r16": 0.547,
+    "qf": 0.261,
+    "sf": 0.13,
+    "final": 0.054
    }
   },
   {
@@ -255,12 +250,12 @@
    "eliminated": false,
    "elo": 1551,
    "pAlive": {
-    "top8": 0.091,
-    "playoff": 0.497,
-    "r16": 0.337,
-    "qf": 0.148,
-    "sf": 0.066,
-    "final": 0.023
+    "top8": 0.1,
+    "playoff": 0.493,
+    "r16": 0.346,
+    "qf": 0.149,
+    "sf": 0.065,
+    "final": 0.026
    }
   },
   {
@@ -271,12 +266,12 @@
    "eliminated": false,
    "elo": 1547,
    "pAlive": {
-    "top8": 0.045,
-    "playoff": 0.435,
-    "r16": 0.285,
-    "qf": 0.113,
-    "sf": 0.049,
-    "final": 0.02
+    "top8": 0.05,
+    "playoff": 0.43,
+    "r16": 0.265,
+    "qf": 0.116,
+    "sf": 0.054,
+    "final": 0.025
    }
   },
   {
@@ -287,12 +282,12 @@
    "eliminated": false,
    "elo": 1541,
    "pAlive": {
-    "top8": 0.157,
-    "playoff": 0.541,
-    "r16": 0.425,
+    "top8": 0.141,
+    "playoff": 0.564,
+    "r16": 0.42,
     "qf": 0.183,
-    "sf": 0.077,
-    "final": 0.028
+    "sf": 0.071,
+    "final": 0.03
    }
   },
   {
@@ -303,12 +298,12 @@
    "eliminated": false,
    "elo": 1525,
    "pAlive": {
-    "top8": 0.174,
-    "playoff": 0.576,
-    "r16": 0.442,
-    "qf": 0.188,
-    "sf": 0.079,
-    "final": 0.035
+    "top8": 0.152,
+    "playoff": 0.578,
+    "r16": 0.412,
+    "qf": 0.176,
+    "sf": 0.073,
+    "final": 0.022
    }
   },
   {
@@ -319,12 +314,12 @@
    "eliminated": false,
    "elo": 1523,
    "pAlive": {
-    "top8": 0.089,
-    "playoff": 0.478,
-    "r16": 0.316,
-    "qf": 0.134,
-    "sf": 0.051,
-    "final": 0.019
+    "top8": 0.081,
+    "playoff": 0.483,
+    "r16": 0.317,
+    "qf": 0.124,
+    "sf": 0.05,
+    "final": 0.016
    }
   },
   {
@@ -335,12 +330,12 @@
    "eliminated": false,
    "elo": 1522,
    "pAlive": {
-    "top8": 0.018,
-    "playoff": 0.318,
-    "r16": 0.171,
-    "qf": 0.075,
-    "sf": 0.03,
-    "final": 0.013
+    "top8": 0.021,
+    "playoff": 0.338,
+    "r16": 0.175,
+    "qf": 0.07,
+    "sf": 0.031,
+    "final": 0.009
    }
   },
   {
@@ -351,12 +346,12 @@
    "eliminated": false,
    "elo": 1508,
    "pAlive": {
-    "top8": 0.135,
-    "playoff": 0.551,
-    "r16": 0.381,
-    "qf": 0.148,
-    "sf": 0.061,
-    "final": 0.022
+    "top8": 0.123,
+    "playoff": 0.564,
+    "r16": 0.378,
+    "qf": 0.158,
+    "sf": 0.064,
+    "final": 0.028
    }
   },
   {
@@ -367,12 +362,12 @@
    "eliminated": false,
    "elo": 1508,
    "pAlive": {
-    "top8": 0.037,
-    "playoff": 0.449,
-    "r16": 0.244,
-    "qf": 0.102,
-    "sf": 0.038,
-    "final": 0.014
+    "top8": 0.051,
+    "playoff": 0.418,
+    "r16": 0.245,
+    "qf": 0.093,
+    "sf": 0.037,
+    "final": 0.017
    }
   },
   {
@@ -383,12 +378,12 @@
    "eliminated": false,
    "elo": 1495,
    "pAlive": {
-    "top8": 0.067,
-    "playoff": 0.43,
-    "r16": 0.262,
-    "qf": 0.103,
-    "sf": 0.043,
-    "final": 0.014
+    "top8": 0.068,
+    "playoff": 0.435,
+    "r16": 0.252,
+    "qf": 0.092,
+    "sf": 0.035,
+    "final": 0.013
    }
   },
   {
@@ -399,12 +394,12 @@
    "eliminated": false,
    "elo": 1489,
    "pAlive": {
-    "top8": 0.248,
-    "playoff": 0.575,
-    "r16": 0.493,
+    "top8": 0.24,
+    "playoff": 0.562,
+    "r16": 0.485,
     "qf": 0.19,
-    "sf": 0.073,
-    "final": 0.024
+    "sf": 0.058,
+    "final": 0.018
    }
   },
   {
@@ -415,12 +410,12 @@
    "eliminated": false,
    "elo": 1489,
    "pAlive": {
-    "top8": 0.089,
-    "playoff": 0.565,
-    "r16": 0.328,
-    "qf": 0.114,
-    "sf": 0.037,
-    "final": 0.017
+    "top8": 0.111,
+    "playoff": 0.539,
+    "r16": 0.349,
+    "qf": 0.142,
+    "sf": 0.057,
+    "final": 0.021
    }
   },
   {
@@ -431,12 +426,12 @@
    "eliminated": false,
    "elo": 1487,
    "pAlive": {
-    "top8": 0.111,
-    "playoff": 0.491,
-    "r16": 0.317,
-    "qf": 0.125,
-    "sf": 0.041,
-    "final": 0.016
+    "top8": 0.097,
+    "playoff": 0.499,
+    "r16": 0.319,
+    "qf": 0.116,
+    "sf": 0.042,
+    "final": 0.015
    }
   },
   {
@@ -447,12 +442,12 @@
    "eliminated": false,
    "elo": 1484,
    "pAlive": {
-    "top8": 0.013,
-    "playoff": 0.253,
+    "top8": 0.011,
+    "playoff": 0.255,
     "r16": 0.119,
-    "qf": 0.042,
-    "sf": 0.02,
-    "final": 0.005
+    "qf": 0.051,
+    "sf": 0.017,
+    "final": 0.004
    }
   },
   {
@@ -463,12 +458,12 @@
    "eliminated": false,
    "elo": 1482,
    "pAlive": {
-    "top8": 0.095,
-    "playoff": 0.536,
-    "r16": 0.318,
+    "top8": 0.092,
+    "playoff": 0.546,
+    "r16": 0.339,
     "qf": 0.119,
-    "sf": 0.044,
-    "final": 0.011
+    "sf": 0.043,
+    "final": 0.016
    }
   },
   {
@@ -480,11 +475,11 @@
    "elo": 1477,
    "pAlive": {
     "top8": 0.168,
-    "playoff": 0.535,
-    "r16": 0.397,
-    "qf": 0.144,
-    "sf": 0.057,
-    "final": 0.017
+    "playoff": 0.544,
+    "r16": 0.41,
+    "qf": 0.148,
+    "sf": 0.047,
+    "final": 0.015
    }
   },
   {
@@ -495,12 +490,12 @@
    "eliminated": false,
    "elo": 1467,
    "pAlive": {
-    "top8": 0.019,
-    "playoff": 0.307,
-    "r16": 0.147,
-    "qf": 0.063,
-    "sf": 0.018,
-    "final": 0.004
+    "top8": 0.015,
+    "playoff": 0.321,
+    "r16": 0.14,
+    "qf": 0.051,
+    "sf": 0.019,
+    "final": 0.011
    }
   },
   {
@@ -511,12 +506,12 @@
    "eliminated": false,
    "elo": 1467,
    "pAlive": {
-    "top8": 0.151,
-    "playoff": 0.559,
-    "r16": 0.376,
-    "qf": 0.136,
-    "sf": 0.056,
-    "final": 0.021
+    "top8": 0.175,
+    "playoff": 0.531,
+    "r16": 0.406,
+    "qf": 0.145,
+    "sf": 0.047,
+    "final": 0.018
    }
   },
   {
@@ -527,12 +522,12 @@
    "eliminated": false,
    "elo": 1447,
    "pAlive": {
-    "top8": 0.064,
-    "playoff": 0.48,
-    "r16": 0.265,
-    "qf": 0.084,
-    "sf": 0.031,
-    "final": 0.01
+    "top8": 0.058,
+    "playoff": 0.493,
+    "r16": 0.256,
+    "qf": 0.09,
+    "sf": 0.029,
+    "final": 0.007
    }
   },
   {
@@ -543,12 +538,12 @@
    "eliminated": false,
    "elo": 1444,
    "pAlive": {
-    "top8": 0.091,
-    "playoff": 0.523,
-    "r16": 0.289,
-    "qf": 0.097,
-    "sf": 0.033,
-    "final": 0.009
+    "top8": 0.093,
+    "playoff": 0.525,
+    "r16": 0.297,
+    "qf": 0.099,
+    "sf": 0.039,
+    "final": 0.015
    }
   },
   {
@@ -559,12 +554,12 @@
    "eliminated": false,
    "elo": 1437,
    "pAlive": {
-    "top8": 0.024,
-    "playoff": 0.35,
-    "r16": 0.143,
-    "qf": 0.043,
+    "top8": 0.025,
+    "playoff": 0.339,
+    "r16": 0.14,
+    "qf": 0.044,
     "sf": 0.012,
-    "final": 0.005
+    "final": 0.004
    }
   },
   {
@@ -575,12 +570,12 @@
    "eliminated": false,
    "elo": 1433,
    "pAlive": {
-    "top8": 0.029,
-    "playoff": 0.326,
-    "r16": 0.155,
-    "qf": 0.044,
-    "sf": 0.011,
-    "final": 0.005
+    "top8": 0.03,
+    "playoff": 0.311,
+    "r16": 0.159,
+    "qf": 0.053,
+    "sf": 0.017,
+    "final": 0.004
    }
   },
   {
@@ -591,11 +586,11 @@
    "eliminated": false,
    "elo": 1394,
    "pAlive": {
-    "top8": 0.017,
-    "playoff": 0.272,
-    "r16": 0.102,
-    "qf": 0.03,
-    "sf": 0.01,
+    "top8": 0.018,
+    "playoff": 0.268,
+    "r16": 0.109,
+    "qf": 0.028,
+    "sf": 0.011,
     "final": 0.002
    }
   },
@@ -607,12 +602,12 @@
    "eliminated": false,
    "elo": 1378,
    "pAlive": {
-    "top8": 0.002,
-    "playoff": 0.111,
-    "r16": 0.035,
+    "top8": 0.004,
+    "playoff": 0.105,
+    "r16": 0.036,
     "qf": 0.011,
-    "sf": 0.004,
-    "final": 0.001
+    "sf": 0.003,
+    "final": 0.002
    }
   }
  ]
