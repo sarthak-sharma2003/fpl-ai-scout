@@ -1,0 +1,21 @@
+{
+  "code": 500040,
+  "name": "Mosquera",
+  "position": "DEF",
+  "team": "ARS",
+  "price": 5.2,
+  "ev_points": 0.93,
+  "horizon_ev": 3.63,
+  "q10_points": 0.0,
+  "q90_points": 1.46,
+  "ev_minutes": 20.9,
+  "p_appearance": 0.448,
+  "p_60_plus": 0.124,
+  "p_clean_sheet": 0.446,
+  "model_version": "20261017T095859Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Lille",
+    "days_ago": 3.6
+  }
+}

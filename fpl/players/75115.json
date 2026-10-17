@@ -1,0 +1,16 @@
+{
+  "code": 75115,
+  "name": "Wilson",
+  "position": "FWD",
+  "team": "BRE",
+  "price": 5.4,
+  "ev_points": 0.57,
+  "horizon_ev": 3.09,
+  "q10_points": 0.0,
+  "q90_points": 1.28,
+  "ev_minutes": 15.2,
+  "p_appearance": 0.447,
+  "p_60_plus": 0.03,
+  "p_clean_sheet": 0.197,
+  "model_version": "20261017T095859Z"
+}

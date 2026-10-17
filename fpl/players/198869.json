@@ -1,0 +1,21 @@
+{
+  "code": 198869,
+  "name": "White",
+  "position": "DEF",
+  "team": "ARS",
+  "price": 5.4,
+  "ev_points": 3.55,
+  "horizon_ev": 12.86,
+  "q10_points": 0.0,
+  "q90_points": 7.14,
+  "ev_minutes": 70.4,
+  "p_appearance": 0.909,
+  "p_60_plus": 0.72,
+  "p_clean_sheet": 0.446,
+  "model_version": "20261017T095859Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Lille",
+    "days_ago": 3.6
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "code": 218997,
+  "name": "Simms",
+  "position": "FWD",
+  "team": "COV",
+  "price": 4.9,
+  "ev_points": 1.43,
+  "horizon_ev": 7.55,
+  "q10_points": 0.0,
+  "q90_points": 4.02,
+  "ev_minutes": 28.5,
+  "p_appearance": 0.751,
+  "p_60_plus": 0.099,
+  "p_clean_sheet": 0.11,
+  "model_version": "20261017T095859Z"
+}

@@ -1,0 +1,22 @@
+{
+  "code": 223340,
+  "name": "Saka",
+  "position": "MID",
+  "team": "ARS",
+  "price": 9.6,
+  "ev_points": 5.21,
+  "horizon_ev": 22.39,
+  "q10_points": 1.0,
+  "q90_points": 10.93,
+  "ev_minutes": 84.0,
+  "p_appearance": 0.982,
+  "p_60_plus": 0.908,
+  "p_clean_sheet": 0.446,
+  "model_version": "20261017T095859Z",
+  "pk": true,
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Lille",
+    "days_ago": 3.6
+  }
+}

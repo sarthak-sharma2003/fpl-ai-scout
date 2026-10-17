@@ -1,0 +1,21 @@
+{
+  "code": 171287,
+  "name": "Gomez",
+  "position": "DEF",
+  "team": "LIV",
+  "price": 4.9,
+  "ev_points": 0.74,
+  "horizon_ev": 3.45,
+  "q10_points": 0.0,
+  "q90_points": 2.38,
+  "ev_minutes": 17.3,
+  "p_appearance": 0.394,
+  "p_60_plus": 0.091,
+  "p_clean_sheet": 0.226,
+  "model_version": "20261017T095859Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "LASK Linz",
+    "days_ago": 2.7
+  }
+}

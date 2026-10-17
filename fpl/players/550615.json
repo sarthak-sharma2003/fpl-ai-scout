@@ -1,0 +1,16 @@
+{
+  "code": 550615,
+  "name": "George",
+  "position": "MID",
+  "team": "EVE",
+  "price": 5.5,
+  "ev_points": 1.33,
+  "horizon_ev": 8.01,
+  "q10_points": 0.0,
+  "q90_points": 3.05,
+  "ev_minutes": 32.8,
+  "p_appearance": 0.772,
+  "p_60_plus": 0.161,
+  "p_clean_sheet": 0.259,
+  "model_version": "20261017T095859Z"
+}

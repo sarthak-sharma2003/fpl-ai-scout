@@ -1,0 +1,21 @@
+{
+  "code": 539142,
+  "name": "Amenda",
+  "position": "DEF",
+  "team": "COV",
+  "price": 3.9,
+  "ev_points": 0.01,
+  "horizon_ev": 1.48,
+  "q10_points": 0.0,
+  "q90_points": 0.0,
+  "ev_minutes": 0.2,
+  "p_appearance": 0.005,
+  "p_60_plus": 0.001,
+  "p_clean_sheet": 0.11,
+  "model_version": "20261017T095859Z",
+  "flag": {
+    "status": "i",
+    "news": "Calf injury - Unknown return date",
+    "chance": 0
+  }
+}

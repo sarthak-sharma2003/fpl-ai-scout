@@ -1,0 +1,16 @@
+{
+  "code": 613221,
+  "name": "Fernandez-Pardo",
+  "position": "FWD",
+  "team": "NEW",
+  "price": 6.0,
+  "ev_points": 3.6,
+  "horizon_ev": 13.4,
+  "q10_points": 1.0,
+  "q90_points": 7.7,
+  "ev_minutes": 68.9,
+  "p_appearance": 0.956,
+  "p_60_plus": 0.67,
+  "p_clean_sheet": 0.238,
+  "model_version": "20261017T095859Z"
+}

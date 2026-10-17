@@ -1,0 +1,16 @@
+{
+  "code": 232892,
+  "name": "Bassey",
+  "position": "DEF",
+  "team": "FUL",
+  "price": 4.5,
+  "ev_points": 4.34,
+  "horizon_ev": 15.74,
+  "q10_points": 1.0,
+  "q90_points": 7.96,
+  "ev_minutes": 85.3,
+  "p_appearance": 0.978,
+  "p_60_plus": 0.934,
+  "p_clean_sheet": 0.463,
+  "model_version": "20261017T095859Z"
+}

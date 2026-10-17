@@ -1,0 +1,16 @@
+{
+  "code": 204580,
+  "name": "Janelt",
+  "position": "MID",
+  "team": "BRE",
+  "price": 5.0,
+  "ev_points": 3.43,
+  "horizon_ev": 16.94,
+  "q10_points": 1.0,
+  "q90_points": 6.3,
+  "ev_minutes": 85.1,
+  "p_appearance": 0.981,
+  "p_60_plus": 0.928,
+  "p_clean_sheet": 0.197,
+  "model_version": "20261017T095859Z"
+}

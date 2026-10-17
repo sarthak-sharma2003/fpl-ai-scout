@@ -1,0 +1,16 @@
+{
+  "code": 568420,
+  "name": "Diomande",
+  "position": "DEF",
+  "team": "NFO",
+  "price": 5.4,
+  "ev_points": 2.95,
+  "horizon_ev": 15.55,
+  "q10_points": 0.0,
+  "q90_points": 6.4,
+  "ev_minutes": 77.7,
+  "p_appearance": 0.932,
+  "p_60_plus": 0.83,
+  "p_clean_sheet": 0.197,
+  "model_version": "20261017T095859Z"
+}

@@ -1,0 +1,16 @@
+{
+  "code": 159506,
+  "name": "Aina",
+  "position": "DEF",
+  "team": "NFO",
+  "price": 4.4,
+  "ev_points": 1.73,
+  "horizon_ev": 9.36,
+  "q10_points": 0.0,
+  "q90_points": 4.63,
+  "ev_minutes": 55.7,
+  "p_appearance": 0.779,
+  "p_60_plus": 0.538,
+  "p_clean_sheet": 0.197,
+  "model_version": "20261017T095859Z"
+}

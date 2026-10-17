@@ -1,0 +1,16 @@
+{
+  "code": 513545,
+  "name": "M.Sangar\u00e9",
+  "position": "MID",
+  "team": "BRE",
+  "price": 5.5,
+  "ev_points": 1.82,
+  "horizon_ev": 11.98,
+  "q10_points": 0.0,
+  "q90_points": 3.75,
+  "ev_minutes": 42.7,
+  "p_appearance": 0.832,
+  "p_60_plus": 0.295,
+  "p_clean_sheet": 0.197,
+  "model_version": "20261017T095859Z"
+}

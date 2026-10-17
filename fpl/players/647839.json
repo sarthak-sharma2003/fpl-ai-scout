@@ -1,0 +1,16 @@
+{
+  "code": 647839,
+  "name": "Mouzakitis",
+  "position": "MID",
+  "team": "HUL",
+  "price": 5.0,
+  "ev_points": 0.14,
+  "horizon_ev": 0.64,
+  "q10_points": 0.0,
+  "q90_points": 0.15,
+  "ev_minutes": 3.8,
+  "p_appearance": 0.102,
+  "p_60_plus": 0.012,
+  "p_clean_sheet": 0.133,
+  "model_version": "20261017T095859Z"
+}

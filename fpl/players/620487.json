@@ -1,0 +1,26 @@
+{
+  "code": 620487,
+  "name": "Milosavljevi\u0107",
+  "position": "DEF",
+  "team": "BOU",
+  "price": 4.9,
+  "ev_points": 0.02,
+  "horizon_ev": 1.23,
+  "q10_points": 0.0,
+  "q90_points": 0.0,
+  "ev_minutes": 0.5,
+  "p_appearance": 0.01,
+  "p_60_plus": 0.004,
+  "p_clean_sheet": 0.348,
+  "model_version": "20261017T095859Z",
+  "flag": {
+    "status": "i",
+    "news": "Thigh injury - Unknown return date",
+    "chance": 0
+  },
+  "european_fatigue": {
+    "competition": "UEL",
+    "opponent": "SK Sturm Graz",
+    "days_ago": 1.6
+  }
+}

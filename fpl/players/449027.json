@@ -1,0 +1,21 @@
+{
+  "code": 449027,
+  "name": "Mamardashvili",
+  "position": "GKP",
+  "team": "LIV",
+  "price": 4.8,
+  "ev_points": 0.14,
+  "horizon_ev": 0.69,
+  "q10_points": 0.0,
+  "q90_points": 0.1,
+  "ev_minutes": 3.9,
+  "p_appearance": 0.057,
+  "p_60_plus": 0.037,
+  "p_clean_sheet": 0.226,
+  "model_version": "20261017T095859Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "LASK Linz",
+    "days_ago": 2.7
+  }
+}

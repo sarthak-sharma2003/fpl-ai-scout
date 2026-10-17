@@ -1,0 +1,16 @@
+{
+  "code": 167825,
+  "name": "Phillips",
+  "position": "GKP",
+  "team": "HUL",
+  "price": 4.0,
+  "ev_points": 0.03,
+  "horizon_ev": 0.1,
+  "q10_points": 0.0,
+  "q90_points": 0.0,
+  "ev_minutes": 0.8,
+  "p_appearance": 0.011,
+  "p_60_plus": 0.008,
+  "p_clean_sheet": 0.133,
+  "model_version": "20261017T095859Z"
+}

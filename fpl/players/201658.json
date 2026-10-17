@@ -1,0 +1,21 @@
+{
+  "code": 201658,
+  "name": "Tavernier",
+  "position": "MID",
+  "team": "BOU",
+  "price": 6.1,
+  "ev_points": 3.97,
+  "horizon_ev": 18.22,
+  "q10_points": 1.0,
+  "q90_points": 9.0,
+  "ev_minutes": 81.3,
+  "p_appearance": 0.976,
+  "p_60_plus": 0.867,
+  "p_clean_sheet": 0.348,
+  "model_version": "20261017T095859Z",
+  "european_fatigue": {
+    "competition": "UEL",
+    "opponent": "SK Sturm Graz",
+    "days_ago": 1.6
+  }
+}

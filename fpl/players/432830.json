@@ -1,0 +1,21 @@
+{
+  "code": 432830,
+  "name": "Collins",
+  "position": "DEF",
+  "team": "BRE",
+  "price": 5.4,
+  "ev_points": 0.35,
+  "horizon_ev": 3.05,
+  "q10_points": 0.0,
+  "q90_points": 0.83,
+  "ev_minutes": 13.2,
+  "p_appearance": 0.281,
+  "p_60_plus": 0.08,
+  "p_clean_sheet": 0.197,
+  "model_version": "20261017T095859Z",
+  "flag": {
+    "status": "d",
+    "news": "Calf injury - 50% chance of playing",
+    "chance": 50
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "code": 492498,
+  "name": "Borges Rodrigues",
+  "position": "MID",
+  "team": "COV",
+  "price": 4.5,
+  "ev_points": 0.0,
+  "horizon_ev": 0.0,
+  "q10_points": 0.0,
+  "q90_points": 0.0,
+  "ev_minutes": 0.1,
+  "p_appearance": 0.001,
+  "p_60_plus": 0.001,
+  "p_clean_sheet": 0.11,
+  "model_version": "20261017T095859Z",
+  "flag": {
+    "status": "u",
+    "news": "Has joined Burton Albion on loan for the rest of the season",
+    "chance": 0
+  }
+}

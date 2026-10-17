@@ -1,0 +1,16 @@
+{
+  "code": 146426,
+  "name": "Ajayi",
+  "position": "DEF",
+  "team": "HUL",
+  "price": 4.2,
+  "ev_points": 2.66,
+  "horizon_ev": 11.99,
+  "q10_points": 0.0,
+  "q90_points": 4.35,
+  "ev_minutes": 82.3,
+  "p_appearance": 0.966,
+  "p_60_plus": 0.889,
+  "p_clean_sheet": 0.133,
+  "model_version": "20261017T095859Z"
+}

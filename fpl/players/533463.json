@@ -1,0 +1,16 @@
+{
+  "code": 533463,
+  "name": "O.Dango",
+  "position": "MID",
+  "team": "BRE",
+  "price": 6.2,
+  "ev_points": 1.25,
+  "horizon_ev": 7.41,
+  "q10_points": 0.0,
+  "q90_points": 2.91,
+  "ev_minutes": 31.7,
+  "p_appearance": 0.795,
+  "p_60_plus": 0.131,
+  "p_clean_sheet": 0.197,
+  "model_version": "20261017T095859Z"
+}

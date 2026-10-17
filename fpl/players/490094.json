@@ -1,0 +1,16 @@
+{
+  "code": 490094,
+  "name": "Iroegbunam",
+  "position": "MID",
+  "team": "HUL",
+  "price": 5.0,
+  "ev_points": 2.06,
+  "horizon_ev": 7.63,
+  "q10_points": 1.0,
+  "q90_points": 4.77,
+  "ev_minutes": 61.6,
+  "p_appearance": 0.912,
+  "p_60_plus": 0.571,
+  "p_clean_sheet": 0.133,
+  "model_version": "20261017T095859Z"
+}

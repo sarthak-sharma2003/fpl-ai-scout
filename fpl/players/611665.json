@@ -1,0 +1,21 @@
+{
+  "code": 611665,
+  "name": "Tour\u00e9",
+  "position": "MID",
+  "team": "NEW",
+  "price": 5.8,
+  "ev_points": 1.12,
+  "horizon_ev": 7.66,
+  "q10_points": 0.0,
+  "q90_points": 1.6,
+  "ev_minutes": 24.0,
+  "p_appearance": 0.522,
+  "p_60_plus": 0.139,
+  "p_clean_sheet": 0.238,
+  "model_version": "20261017T095859Z",
+  "flag": {
+    "status": "d",
+    "news": "Unspecified injury - 75% chance of playing",
+    "chance": 75
+  }
+}

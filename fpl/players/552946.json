@@ -1,0 +1,16 @@
+{
+  "code": 552946,
+  "name": "Hjert\u00f8-Dahl",
+  "position": "MID",
+  "team": "HUL",
+  "price": 4.8,
+  "ev_points": 0.22,
+  "horizon_ev": 1.09,
+  "q10_points": 0.0,
+  "q90_points": 0.96,
+  "ev_minutes": 6.0,
+  "p_appearance": 0.168,
+  "p_60_plus": 0.015,
+  "p_clean_sheet": 0.133,
+  "model_version": "20261017T095859Z"
+}

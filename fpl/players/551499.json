@@ -1,0 +1,21 @@
+{
+  "code": 551499,
+  "name": "Munoz",
+  "position": "MID",
+  "team": "LIV",
+  "price": 6.5,
+  "ev_points": 2.81,
+  "horizon_ev": 12.17,
+  "q10_points": 1.0,
+  "q90_points": 6.71,
+  "ev_minutes": 69.3,
+  "p_appearance": 0.945,
+  "p_60_plus": 0.682,
+  "p_clean_sheet": 0.226,
+  "model_version": "20261017T095859Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "LASK Linz",
+    "days_ago": 2.7
+  }
+}

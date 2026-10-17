@@ -1,0 +1,21 @@
+{
+  "code": 195384,
+  "name": "Merino",
+  "position": "MID",
+  "team": "ARS",
+  "price": 5.7,
+  "ev_points": 1.02,
+  "horizon_ev": 5.64,
+  "q10_points": 0.0,
+  "q90_points": 1.12,
+  "ev_minutes": 24.7,
+  "p_appearance": 0.665,
+  "p_60_plus": 0.079,
+  "p_clean_sheet": 0.446,
+  "model_version": "20261017T095859Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Lille",
+    "days_ago": 3.6
+  }
+}

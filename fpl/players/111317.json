@@ -1,0 +1,21 @@
+{
+  "code": 111317,
+  "name": "Brooks",
+  "position": "MID",
+  "team": "BOU",
+  "price": 5.0,
+  "ev_points": 1.01,
+  "horizon_ev": 6.02,
+  "q10_points": 0.0,
+  "q90_points": 2.85,
+  "ev_minutes": 26.5,
+  "p_appearance": 0.582,
+  "p_60_plus": 0.15,
+  "p_clean_sheet": 0.348,
+  "model_version": "20261017T095859Z",
+  "european_fatigue": {
+    "competition": "UEL",
+    "opponent": "SK Sturm Graz",
+    "days_ago": 1.6
+  }
+}

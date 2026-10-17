@@ -1,0 +1,16 @@
+{
+  "code": 566213,
+  "name": "Mfuni",
+  "position": "DEF",
+  "team": "COV",
+  "price": 4.0,
+  "ev_points": 1.93,
+  "horizon_ev": 8.86,
+  "q10_points": 0.0,
+  "q90_points": 3.38,
+  "ev_minutes": 66.2,
+  "p_appearance": 0.876,
+  "p_60_plus": 0.665,
+  "p_clean_sheet": 0.11,
+  "model_version": "20261017T095859Z"
+}

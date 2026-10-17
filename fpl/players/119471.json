@@ -1,0 +1,16 @@
+{
+  "code": 119471,
+  "name": "Sch\u00e4r",
+  "position": "DEF",
+  "team": "NEW",
+  "price": 4.9,
+  "ev_points": 0.91,
+  "horizon_ev": 4.46,
+  "q10_points": 0.0,
+  "q90_points": 0.97,
+  "ev_minutes": 22.3,
+  "p_appearance": 0.481,
+  "p_60_plus": 0.131,
+  "p_clean_sheet": 0.238,
+  "model_version": "20261017T095859Z"
+}

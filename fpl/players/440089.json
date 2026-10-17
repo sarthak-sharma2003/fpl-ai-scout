@@ -1,0 +1,21 @@
+{
+  "code": 440089,
+  "name": "Damsgaard",
+  "position": "MID",
+  "team": "BRE",
+  "price": 5.3,
+  "ev_points": 1.08,
+  "horizon_ev": 8.49,
+  "q10_points": 0.0,
+  "q90_points": 2.73,
+  "ev_minutes": 28.6,
+  "p_appearance": 0.608,
+  "p_60_plus": 0.174,
+  "p_clean_sheet": 0.197,
+  "model_version": "20261017T095859Z",
+  "flag": {
+    "status": "d",
+    "news": "Unspecified injury - 75% chance of playing",
+    "chance": 75
+  }
+}

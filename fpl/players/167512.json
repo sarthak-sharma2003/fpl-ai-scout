@@ -1,0 +1,21 @@
+{
+  "code": 167512,
+  "name": "O'Nien",
+  "position": "DEF",
+  "team": "SUN",
+  "price": 3.9,
+  "ev_points": 0.3,
+  "horizon_ev": 1.72,
+  "q10_points": 0.0,
+  "q90_points": 1.01,
+  "ev_minutes": 10.0,
+  "p_appearance": 0.213,
+  "p_60_plus": 0.06,
+  "p_clean_sheet": 0.22,
+  "model_version": "20261017T095859Z",
+  "european_fatigue": {
+    "competition": "UEL",
+    "opponent": "Torreense",
+    "days_ago": 1.7
+  }
+}

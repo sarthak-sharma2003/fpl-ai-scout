@@ -1,0 +1,16 @@
+{
+  "code": 466525,
+  "name": "Stach",
+  "position": "MID",
+  "team": "LEE",
+  "price": 6.0,
+  "ev_points": 4.14,
+  "horizon_ev": 18.7,
+  "q10_points": 1.0,
+  "q90_points": 8.44,
+  "ev_minutes": 84.3,
+  "p_appearance": 0.986,
+  "p_60_plus": 0.912,
+  "p_clean_sheet": 0.248,
+  "model_version": "20261017T095859Z"
+}

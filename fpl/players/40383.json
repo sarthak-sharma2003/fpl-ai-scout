@@ -1,0 +1,21 @@
+{
+  "code": 40383,
+  "name": "Forster",
+  "position": "GKP",
+  "team": "BOU",
+  "price": 4.0,
+  "ev_points": 0.04,
+  "horizon_ev": 0.14,
+  "q10_points": 0.0,
+  "q90_points": 0.0,
+  "ev_minutes": 1.1,
+  "p_appearance": 0.014,
+  "p_60_plus": 0.011,
+  "p_clean_sheet": 0.348,
+  "model_version": "20261017T095859Z",
+  "european_fatigue": {
+    "competition": "UEL",
+    "opponent": "SK Sturm Graz",
+    "days_ago": 1.6
+  }
+}

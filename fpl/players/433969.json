@@ -1,0 +1,21 @@
+{
+  "code": 433969,
+  "name": "Suzuki",
+  "position": "GKP",
+  "team": "AVL",
+  "price": 5.0,
+  "ev_points": 3.08,
+  "horizon_ev": 15.62,
+  "q10_points": 0.18,
+  "q90_points": 5.64,
+  "ev_minutes": 84.8,
+  "p_appearance": 0.965,
+  "p_60_plus": 0.932,
+  "p_clean_sheet": 0.175,
+  "model_version": "20261017T095859Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Fenerbahce",
+    "days_ago": 2.6
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "code": 223094,
+  "name": "Haaland",
+  "position": "FWD",
+  "team": "MCI",
+  "price": 15.7,
+  "ev_points": 6.56,
+  "horizon_ev": 23.98,
+  "q10_points": 1.0,
+  "q90_points": 13.2,
+  "ev_minutes": 86.2,
+  "p_appearance": 0.987,
+  "p_60_plus": 0.943,
+  "p_clean_sheet": 0.504,
+  "model_version": "20261017T095859Z",
+  "pk": true,
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Paris Saint-Germain",
+    "days_ago": 2.6
+  }
+}

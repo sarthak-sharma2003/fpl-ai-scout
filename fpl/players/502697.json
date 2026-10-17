@@ -1,0 +1,16 @@
+{
+  "code": 502697,
+  "name": "Alcaraz",
+  "position": "MID",
+  "team": "EVE",
+  "price": 4.9,
+  "ev_points": 0.51,
+  "horizon_ev": 2.72,
+  "q10_points": 0.0,
+  "q90_points": 0.77,
+  "ev_minutes": 13.2,
+  "p_appearance": 0.375,
+  "p_60_plus": 0.033,
+  "p_clean_sheet": 0.259,
+  "model_version": "20261017T095859Z"
+}

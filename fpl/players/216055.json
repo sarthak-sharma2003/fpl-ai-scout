@@ -1,0 +1,16 @@
+{
+  "code": 216055,
+  "name": "Florentino",
+  "position": "MID",
+  "team": "IPS",
+  "price": 4.8,
+  "ev_points": 1.16,
+  "horizon_ev": 7.87,
+  "q10_points": 0.0,
+  "q90_points": 2.12,
+  "ev_minutes": 40.7,
+  "p_appearance": 0.772,
+  "p_60_plus": 0.293,
+  "p_clean_sheet": 0.031,
+  "model_version": "20261017T095859Z"
+}

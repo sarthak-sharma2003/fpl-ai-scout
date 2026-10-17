@@ -1,0 +1,16 @@
+{
+  "code": 593117,
+  "name": "Quenda",
+  "position": "MID",
+  "team": "CHE",
+  "price": 5.3,
+  "ev_points": 0.55,
+  "horizon_ev": 2.62,
+  "q10_points": 0.0,
+  "q90_points": 0.93,
+  "ev_minutes": 14.3,
+  "p_appearance": 0.37,
+  "p_60_plus": 0.052,
+  "p_clean_sheet": 0.284,
+  "model_version": "20261017T095859Z"
+}

@@ -1,0 +1,21 @@
+{
+  "code": 472769,
+  "name": "O'Reilly",
+  "position": "DEF",
+  "team": "MCI",
+  "price": 6.3,
+  "ev_points": 4.92,
+  "horizon_ev": 15.85,
+  "q10_points": 0.0,
+  "q90_points": 7.84,
+  "ev_minutes": 67.6,
+  "p_appearance": 0.905,
+  "p_60_plus": 0.674,
+  "p_clean_sheet": 0.504,
+  "model_version": "20261017T095859Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Paris Saint-Germain",
+    "days_ago": 2.6
+  }
+}

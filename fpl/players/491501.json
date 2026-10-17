@@ -1,0 +1,21 @@
+{
+  "code": 491501,
+  "name": "McConnell",
+  "position": "MID",
+  "team": "LIV",
+  "price": 4.4,
+  "ev_points": 0.05,
+  "horizon_ev": 0.19,
+  "q10_points": 0.0,
+  "q90_points": 0.0,
+  "ev_minutes": 1.3,
+  "p_appearance": 0.029,
+  "p_60_plus": 0.007,
+  "p_clean_sheet": 0.226,
+  "model_version": "20261017T095859Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "LASK Linz",
+    "days_ago": 2.7
+  }
+}

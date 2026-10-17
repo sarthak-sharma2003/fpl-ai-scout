@@ -1,0 +1,16 @@
+{
+  "code": 226182,
+  "name": "Bogle",
+  "position": "DEF",
+  "team": "LEE",
+  "price": 4.7,
+  "ev_points": 3.56,
+  "horizon_ev": 17.06,
+  "q10_points": 1.0,
+  "q90_points": 6.37,
+  "ev_minutes": 80.9,
+  "p_appearance": 0.978,
+  "p_60_plus": 0.86,
+  "p_clean_sheet": 0.248,
+  "model_version": "20261017T095859Z"
+}

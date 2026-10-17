@@ -1,0 +1,16 @@
+{
+  "code": 67089,
+  "name": "Dubravka",
+  "position": "GKP",
+  "team": "TOT",
+  "price": 4.0,
+  "ev_points": 0.15,
+  "horizon_ev": 0.67,
+  "q10_points": 0.0,
+  "q90_points": 0.27,
+  "ev_minutes": 3.3,
+  "p_appearance": 0.047,
+  "p_60_plus": 0.032,
+  "p_clean_sheet": 0.423,
+  "model_version": "20261017T095859Z"
+}

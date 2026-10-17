@@ -1,0 +1,16 @@
+{
+  "code": 173774,
+  "name": "Elvedi",
+  "position": "DEF",
+  "team": "LEE",
+  "price": 4.5,
+  "ev_points": 3.06,
+  "horizon_ev": 14.44,
+  "q10_points": 1.0,
+  "q90_points": 6.8,
+  "ev_minutes": 81.4,
+  "p_appearance": 0.962,
+  "p_60_plus": 0.875,
+  "p_clean_sheet": 0.248,
+  "model_version": "20261017T095859Z"
+}

@@ -1,0 +1,16 @@
+{
+  "code": 587982,
+  "name": "Bahoya",
+  "position": "MID",
+  "team": "LEE",
+  "price": 4.9,
+  "ev_points": 0.58,
+  "horizon_ev": 2.71,
+  "q10_points": 0.0,
+  "q90_points": 1.17,
+  "ev_minutes": 15.0,
+  "p_appearance": 0.425,
+  "p_60_plus": 0.037,
+  "p_clean_sheet": 0.248,
+  "model_version": "20261017T095859Z"
+}

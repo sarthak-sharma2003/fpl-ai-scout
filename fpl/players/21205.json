@@ -1,0 +1,26 @@
+{
+  "code": 21205,
+  "name": "Heaton",
+  "position": "GKP",
+  "team": "MUN",
+  "price": 4.0,
+  "ev_points": 0.0,
+  "horizon_ev": 0.04,
+  "q10_points": 0.0,
+  "q90_points": 0.0,
+  "ev_minutes": 0.1,
+  "p_appearance": 0.001,
+  "p_60_plus": 0.0,
+  "p_clean_sheet": 0.251,
+  "model_version": "20261017T095859Z",
+  "flag": {
+    "status": "i",
+    "news": "Hamstring injury - Unknown return date",
+    "chance": 0
+  },
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Atl\u00e9tico Madrid",
+    "days_ago": 3.6
+  }
+}

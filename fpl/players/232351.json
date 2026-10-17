@@ -1,0 +1,16 @@
+{
+  "code": 232351,
+  "name": "Giles",
+  "position": "DEF",
+  "team": "HUL",
+  "price": 4.0,
+  "ev_points": 2.33,
+  "horizon_ev": 10.28,
+  "q10_points": 0.0,
+  "q90_points": 3.6,
+  "ev_minutes": 77.0,
+  "p_appearance": 0.95,
+  "p_60_plus": 0.808,
+  "p_clean_sheet": 0.133,
+  "model_version": "20261017T095859Z"
+}

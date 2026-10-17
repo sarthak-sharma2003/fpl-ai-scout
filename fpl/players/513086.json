@@ -1,0 +1,21 @@
+{
+  "code": 513086,
+  "name": "Schuster",
+  "position": "DEF",
+  "team": "BRE",
+  "price": 4.5,
+  "ev_points": 2.06,
+  "horizon_ev": 14.65,
+  "q10_points": 0.0,
+  "q90_points": 5.4,
+  "ev_minutes": 52.1,
+  "p_appearance": 0.61,
+  "p_60_plus": 0.564,
+  "p_clean_sheet": 0.197,
+  "model_version": "20261017T095859Z",
+  "flag": {
+    "status": "d",
+    "news": "Ankle injury - 75% chance of playing",
+    "chance": 75
+  }
+}

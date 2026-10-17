@@ -1,0 +1,21 @@
+{
+  "code": 661313,
+  "name": "J.Angulo",
+  "position": "FWD",
+  "team": "SUN",
+  "price": 4.5,
+  "ev_points": 0.4,
+  "horizon_ev": 2.13,
+  "q10_points": 0.0,
+  "q90_points": 1.21,
+  "ev_minutes": 9.5,
+  "p_appearance": 0.255,
+  "p_60_plus": 0.03,
+  "p_clean_sheet": 0.22,
+  "model_version": "20261017T095859Z",
+  "european_fatigue": {
+    "competition": "UEL",
+    "opponent": "Torreense",
+    "days_ago": 1.7
+  }
+}

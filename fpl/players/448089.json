@@ -1,0 +1,21 @@
+{
+  "code": 448089,
+  "name": "Gomes",
+  "position": "MID",
+  "team": "AVL",
+  "price": 5.5,
+  "ev_points": 2.65,
+  "horizon_ev": 10.96,
+  "q10_points": 1.0,
+  "q90_points": 5.33,
+  "ev_minutes": 75.2,
+  "p_appearance": 0.946,
+  "p_60_plus": 0.78,
+  "p_clean_sheet": 0.175,
+  "model_version": "20261017T095859Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Fenerbahce",
+    "days_ago": 2.6
+  }
+}

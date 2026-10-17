@@ -1,0 +1,21 @@
+{
+  "code": 227444,
+  "name": "Milenkovi\u0107",
+  "position": "DEF",
+  "team": "NFO",
+  "price": 5.4,
+  "ev_points": 0.7,
+  "horizon_ev": 4.43,
+  "q10_points": 0.0,
+  "q90_points": 0.78,
+  "ev_minutes": 23.4,
+  "p_appearance": 0.434,
+  "p_60_plus": 0.172,
+  "p_clean_sheet": 0.197,
+  "model_version": "20261017T095859Z",
+  "flag": {
+    "status": "d",
+    "news": "Knee injury - 75% chance of playing",
+    "chance": 75
+  }
+}

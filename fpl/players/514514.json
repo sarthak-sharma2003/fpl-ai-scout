@@ -1,0 +1,21 @@
+{
+  "code": 514514,
+  "name": "Koumas",
+  "position": "MID",
+  "team": "LIV",
+  "price": 5.0,
+  "ev_points": 2.32,
+  "horizon_ev": 8.1,
+  "q10_points": 0.0,
+  "q90_points": 5.93,
+  "ev_minutes": 55.0,
+  "p_appearance": 0.863,
+  "p_60_plus": 0.485,
+  "p_clean_sheet": 0.226,
+  "model_version": "20261017T095859Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "LASK Linz",
+    "days_ago": 2.7
+  }
+}

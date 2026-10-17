@@ -1,0 +1,16 @@
+{
+  "code": 49262,
+  "name": "Steele",
+  "position": "GKP",
+  "team": "BHA",
+  "price": 4.0,
+  "ev_points": 0.01,
+  "horizon_ev": 0.06,
+  "q10_points": 0.0,
+  "q90_points": 0.0,
+  "ev_minutes": 0.4,
+  "p_appearance": 0.006,
+  "p_60_plus": 0.003,
+  "p_clean_sheet": 0.345,
+  "model_version": "20261017T095859Z"
+}

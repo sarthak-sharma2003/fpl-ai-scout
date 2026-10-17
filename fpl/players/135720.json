@@ -1,0 +1,21 @@
+{
+  "code": 135720,
+  "name": "Danso",
+  "position": "DEF",
+  "team": "SUN",
+  "price": 5.0,
+  "ev_points": 3.36,
+  "horizon_ev": 15.06,
+  "q10_points": 0.0,
+  "q90_points": 8.72,
+  "ev_minutes": 78.6,
+  "p_appearance": 0.939,
+  "p_60_plus": 0.84,
+  "p_clean_sheet": 0.22,
+  "model_version": "20261017T095859Z",
+  "european_fatigue": {
+    "competition": "UEL",
+    "opponent": "Torreense",
+    "days_ago": 1.7
+  }
+}

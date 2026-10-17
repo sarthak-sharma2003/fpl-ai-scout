@@ -1,0 +1,21 @@
+{
+  "code": 119090,
+  "name": "Goretzka",
+  "position": "MID",
+  "team": "AVL",
+  "price": 5.9,
+  "ev_points": 0.63,
+  "horizon_ev": 1.94,
+  "q10_points": 0.0,
+  "q90_points": 0.97,
+  "ev_minutes": 14.5,
+  "p_appearance": 0.432,
+  "p_60_plus": 0.025,
+  "p_clean_sheet": 0.175,
+  "model_version": "20261017T095859Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Fenerbahce",
+    "days_ago": 2.6
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "code": 108413,
+  "name": "Hughes",
+  "position": "MID",
+  "team": "CRY",
+  "price": 4.4,
+  "ev_points": 0.41,
+  "horizon_ev": 2.38,
+  "q10_points": 0.0,
+  "q90_points": 1.05,
+  "ev_minutes": 13.6,
+  "p_appearance": 0.349,
+  "p_60_plus": 0.053,
+  "p_clean_sheet": 0.162,
+  "model_version": "20261017T095859Z",
+  "european_fatigue": {
+    "competition": "UEL",
+    "opponent": "Lyon",
+    "days_ago": 1.7
+  }
+}

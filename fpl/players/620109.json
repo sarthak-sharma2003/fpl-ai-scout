@@ -1,0 +1,16 @@
+{
+  "code": 620109,
+  "name": "Palestra",
+  "position": "DEF",
+  "team": "CHE",
+  "price": 5.3,
+  "ev_points": 0.86,
+  "horizon_ev": 3.82,
+  "q10_points": 0.0,
+  "q90_points": 1.88,
+  "ev_minutes": 21.9,
+  "p_appearance": 0.477,
+  "p_60_plus": 0.127,
+  "p_clean_sheet": 0.284,
+  "model_version": "20261017T095859Z"
+}

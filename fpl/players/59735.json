@@ -1,0 +1,21 @@
+{
+  "code": 59735,
+  "name": "Darlow",
+  "position": "GKP",
+  "team": "MUN",
+  "price": 4.5,
+  "ev_points": 0.18,
+  "horizon_ev": 0.62,
+  "q10_points": 0.0,
+  "q90_points": 0.36,
+  "ev_minutes": 4.8,
+  "p_appearance": 0.069,
+  "p_60_plus": 0.046,
+  "p_clean_sheet": 0.251,
+  "model_version": "20261017T095859Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Atl\u00e9tico Madrid",
+    "days_ago": 3.6
+  }
+}

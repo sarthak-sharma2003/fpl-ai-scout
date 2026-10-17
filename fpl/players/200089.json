@@ -1,0 +1,16 @@
+{
+  "code": 200089,
+  "name": "Willock",
+  "position": "MID",
+  "team": "NEW",
+  "price": 5.0,
+  "ev_points": 1.97,
+  "horizon_ev": 11.94,
+  "q10_points": 1.0,
+  "q90_points": 4.67,
+  "ev_minutes": 49.2,
+  "p_appearance": 0.891,
+  "p_60_plus": 0.375,
+  "p_clean_sheet": 0.238,
+  "model_version": "20261017T095859Z"
+}

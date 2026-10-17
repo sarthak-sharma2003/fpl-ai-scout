@@ -1,0 +1,26 @@
+{
+  "code": 219168,
+  "name": "Isak",
+  "position": "FWD",
+  "team": "LIV",
+  "price": 9.0,
+  "ev_points": 0.6,
+  "horizon_ev": 10.22,
+  "q10_points": 0.0,
+  "q90_points": 1.01,
+  "ev_minutes": 13.3,
+  "p_appearance": 0.226,
+  "p_60_plus": 0.108,
+  "p_clean_sheet": 0.226,
+  "model_version": "20261017T095859Z",
+  "flag": {
+    "status": "d",
+    "news": "Thigh injury - 25% chance of playing",
+    "chance": 25
+  },
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "LASK Linz",
+    "days_ago": 2.7
+  }
+}

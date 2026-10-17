@@ -1,0 +1,21 @@
+{
+  "code": 457569,
+  "name": "Petrovi\u0107",
+  "position": "GKP",
+  "team": "BOU",
+  "price": 4.5,
+  "ev_points": 3.07,
+  "horizon_ev": 14.11,
+  "q10_points": 0.64,
+  "q90_points": 3.81,
+  "ev_minutes": 82.6,
+  "p_appearance": 0.944,
+  "p_60_plus": 0.905,
+  "p_clean_sheet": 0.348,
+  "model_version": "20261017T095859Z",
+  "european_fatigue": {
+    "competition": "UEL",
+    "opponent": "SK Sturm Graz",
+    "days_ago": 1.6
+  }
+}

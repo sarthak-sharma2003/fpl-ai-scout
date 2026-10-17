@@ -1,0 +1,16 @@
+{
+  "code": 608227,
+  "name": "Stroud",
+  "position": "MID",
+  "team": "HUL",
+  "price": 5.0,
+  "ev_points": 1.15,
+  "horizon_ev": 6.66,
+  "q10_points": 0.0,
+  "q90_points": 2.28,
+  "ev_minutes": 29.2,
+  "p_appearance": 0.692,
+  "p_60_plus": 0.141,
+  "p_clean_sheet": 0.133,
+  "model_version": "20261017T095859Z"
+}

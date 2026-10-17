@@ -1,0 +1,16 @@
+{
+  "code": 510281,
+  "name": "S\u00e1vio",
+  "position": "MID",
+  "team": "TOT",
+  "price": 6.5,
+  "ev_points": 5.23,
+  "horizon_ev": 20.65,
+  "q10_points": 1.0,
+  "q90_points": 10.47,
+  "ev_minutes": 82.4,
+  "p_appearance": 0.979,
+  "p_60_plus": 0.884,
+  "p_clean_sheet": 0.423,
+  "model_version": "20261017T095859Z"
+}

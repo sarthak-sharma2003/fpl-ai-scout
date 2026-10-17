@@ -1,0 +1,16 @@
+{
+  "code": 86873,
+  "name": "Lecomte",
+  "position": "GKP",
+  "team": "FUL",
+  "price": 4.0,
+  "ev_points": 0.03,
+  "horizon_ev": 0.1,
+  "q10_points": 0.0,
+  "q90_points": 0.0,
+  "ev_minutes": 0.8,
+  "p_appearance": 0.01,
+  "p_60_plus": 0.008,
+  "p_clean_sheet": 0.463,
+  "model_version": "20261017T095859Z"
+}

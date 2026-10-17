@@ -1,0 +1,21 @@
+{
+  "code": 624777,
+  "name": "Allan",
+  "position": "MID",
+  "team": "MCI",
+  "price": 6.0,
+  "ev_points": 0.62,
+  "horizon_ev": 3.27,
+  "q10_points": 0.0,
+  "q90_points": 2.04,
+  "ev_minutes": 15.3,
+  "p_appearance": 0.421,
+  "p_60_plus": 0.044,
+  "p_clean_sheet": 0.504,
+  "model_version": "20261017T095859Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Paris Saint-Germain",
+    "days_ago": 2.6
+  }
+}

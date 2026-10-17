@@ -1,0 +1,21 @@
+{
+  "code": 248857,
+  "name": "Madueke",
+  "position": "MID",
+  "team": "ARS",
+  "price": 6.2,
+  "ev_points": 2.11,
+  "horizon_ev": 12.97,
+  "q10_points": 0.0,
+  "q90_points": 4.71,
+  "ev_minutes": 42.5,
+  "p_appearance": 0.799,
+  "p_60_plus": 0.309,
+  "p_clean_sheet": 0.446,
+  "model_version": "20261017T095859Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Lille",
+    "days_ago": 3.6
+  }
+}

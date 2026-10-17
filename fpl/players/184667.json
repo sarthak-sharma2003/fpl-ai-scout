@@ -1,0 +1,21 @@
+{
+  "code": 184667,
+  "name": "Lindel\u00f6f",
+  "position": "DEF",
+  "team": "AVL",
+  "price": 4.5,
+  "ev_points": 3.35,
+  "horizon_ev": 17.01,
+  "q10_points": 0.0,
+  "q90_points": 6.43,
+  "ev_minutes": 83.4,
+  "p_appearance": 0.966,
+  "p_60_plus": 0.908,
+  "p_clean_sheet": 0.175,
+  "model_version": "20261017T095859Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Fenerbahce",
+    "days_ago": 2.6
+  }
+}

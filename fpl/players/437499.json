@@ -1,0 +1,16 @@
+{
+  "code": 437499,
+  "name": "Lacroix",
+  "position": "DEF",
+  "team": "CHE",
+  "price": 5.9,
+  "ev_points": 3.86,
+  "horizon_ev": 17.27,
+  "q10_points": 0.0,
+  "q90_points": 8.72,
+  "ev_minutes": 79.1,
+  "p_appearance": 0.941,
+  "p_60_plus": 0.847,
+  "p_clean_sheet": 0.284,
+  "model_version": "20261017T095859Z"
+}

@@ -1,0 +1,16 @@
+{
+  "code": 428580,
+  "name": "Onyeka",
+  "position": "MID",
+  "team": "COV",
+  "price": 4.9,
+  "ev_points": 1.36,
+  "horizon_ev": 7.2,
+  "q10_points": 0.0,
+  "q90_points": 3.57,
+  "ev_minutes": 37.4,
+  "p_appearance": 0.756,
+  "p_60_plus": 0.244,
+  "p_clean_sheet": 0.11,
+  "model_version": "20261017T095859Z"
+}

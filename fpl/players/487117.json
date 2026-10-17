@@ -1,0 +1,21 @@
+{
+  "code": 487117,
+  "name": "Ferguson",
+  "position": "FWD",
+  "team": "BHA",
+  "price": 5.0,
+  "ev_points": 0.0,
+  "horizon_ev": 0.39,
+  "q10_points": 0.0,
+  "q90_points": 0.0,
+  "ev_minutes": 0.1,
+  "p_appearance": 0.002,
+  "p_60_plus": 0.0,
+  "p_clean_sheet": 0.345,
+  "model_version": "20261017T095859Z",
+  "flag": {
+    "status": "i",
+    "news": "Ankle injury - Expected back 18 Oct",
+    "chance": 0
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "code": 549940,
+  "name": "Fofana",
+  "position": "MID",
+  "team": "SUN",
+  "price": 5.5,
+  "ev_points": 1.48,
+  "horizon_ev": 8.7,
+  "q10_points": 0.0,
+  "q90_points": 3.24,
+  "ev_minutes": 36.4,
+  "p_appearance": 0.788,
+  "p_60_plus": 0.212,
+  "p_clean_sheet": 0.22,
+  "model_version": "20261017T095859Z",
+  "european_fatigue": {
+    "competition": "UEL",
+    "opponent": "Torreense",
+    "days_ago": 1.7
+  }
+}

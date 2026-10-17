@@ -1,0 +1,16 @@
+{
+  "code": 463067,
+  "name": "Georginio",
+  "position": "FWD",
+  "team": "BHA",
+  "price": 5.3,
+  "ev_points": 1.28,
+  "horizon_ev": 5.44,
+  "q10_points": 0.0,
+  "q90_points": 3.1,
+  "ev_minutes": 31.4,
+  "p_appearance": 0.801,
+  "p_60_plus": 0.122,
+  "p_clean_sheet": 0.345,
+  "model_version": "20261017T095859Z"
+}

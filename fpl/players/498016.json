@@ -1,0 +1,21 @@
+{
+  "code": 498016,
+  "name": "Roefs",
+  "position": "GKP",
+  "team": "SUN",
+  "price": 4.9,
+  "ev_points": 3.56,
+  "horizon_ev": 15.55,
+  "q10_points": 0.64,
+  "q90_points": 5.99,
+  "ev_minutes": 84.0,
+  "p_appearance": 0.957,
+  "p_60_plus": 0.921,
+  "p_clean_sheet": 0.22,
+  "model_version": "20261017T095859Z",
+  "european_fatigue": {
+    "competition": "UEL",
+    "opponent": "Torreense",
+    "days_ago": 1.7
+  }
+}

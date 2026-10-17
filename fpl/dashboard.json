@@ -1,0 +1,205 @@
+{
+  "gw": 7,
+  "season": "2026-27",
+  "is_live": true,
+  "state": "live",
+  "deadline": "2026-10-17T10:00:00Z",
+  "generated_at": "2026-10-17T10:00:21.471167Z",
+  "avg_points": 357,
+  "our_points": 54.6,
+  "overall_rank": null,
+  "mini_league": null,
+  "insight": {
+    "text": "Live recommendation for the upcoming gameweek.",
+    "transfer_summary": "No hits taken",
+    "captain": "Haaland"
+  },
+  "captain_code": 223094,
+  "vice_captain_code": 223340,
+  "bench_order": [
+    {
+      "code": 586309,
+      "name": "Barry",
+      "team": "EVE",
+      "position": "FWD",
+      "price": 5.7,
+      "ev": 2.92,
+      "pk": true
+    },
+    {
+      "code": 487676,
+      "name": "Hume",
+      "team": "SUN",
+      "position": "DEF",
+      "price": 4.3,
+      "ev": 2.91,
+      "european_fatigue": {
+        "competition": "UEL",
+        "opponent": "Torreense",
+        "days_ago": 1.7
+      }
+    },
+    {
+      "code": 599303,
+      "name": "Neave",
+      "team": "NEW",
+      "position": "FWD",
+      "price": 4.5,
+      "ev": 0.0,
+      "flag": {
+        "status": "u",
+        "news": "Has joined Wolves on loan for the rest of the season",
+        "chance": 0
+      }
+    },
+    {
+      "code": 465247,
+      "name": "Lammens",
+      "team": "MUN",
+      "position": "GKP",
+      "price": 4.9,
+      "ev": 2.88,
+      "european_fatigue": {
+        "competition": "UCL",
+        "opponent": "Atl\u00e9tico Madrid",
+        "days_ago": 3.6
+      }
+    }
+  ],
+  "pitch": {
+    "gk": [
+      {
+        "code": 154561,
+        "name": "Raya",
+        "team": "ARS",
+        "position": "GKP",
+        "price": 6.1,
+        "ev": 4.11,
+        "european_fatigue": {
+          "competition": "UCL",
+          "opponent": "Lille",
+          "days_ago": 3.6
+        }
+      }
+    ],
+    "def": [
+      {
+        "code": 466075,
+        "name": "Calafiori",
+        "team": "ARS",
+        "position": "DEF",
+        "price": 5.9,
+        "ev": 4.63,
+        "european_fatigue": {
+          "competition": "UCL",
+          "opponent": "Lille",
+          "days_ago": 3.6
+        }
+      },
+      {
+        "code": 465730,
+        "name": "De Cuyper",
+        "team": "BHA",
+        "position": "DEF",
+        "price": 5.2,
+        "ev": 4.41
+      },
+      {
+        "code": 17761,
+        "name": "Tarkowski",
+        "team": "EVE",
+        "position": "DEF",
+        "price": 6.2,
+        "ev": 3.57
+      },
+      {
+        "code": 469142,
+        "name": "Van Hecke",
+        "team": "TOT",
+        "position": "DEF",
+        "price": 4.9,
+        "ev": 4.92
+      }
+    ],
+    "mid": [
+      {
+        "code": 223340,
+        "name": "Saka",
+        "team": "ARS",
+        "position": "MID",
+        "price": 9.6,
+        "ev": 5.21,
+        "pk": true,
+        "european_fatigue": {
+          "competition": "UCL",
+          "opponent": "Lille",
+          "days_ago": 3.6
+        }
+      },
+      {
+        "code": 215379,
+        "name": "Anderson",
+        "team": "MCI",
+        "position": "MID",
+        "price": 6.3,
+        "ev": 4.18,
+        "european_fatigue": {
+          "competition": "UCL",
+          "opponent": "Paris Saint-Germain",
+          "days_ago": 2.6
+        }
+      },
+      {
+        "code": 446008,
+        "name": "Mbeumo",
+        "team": "MUN",
+        "position": "MID",
+        "price": 7.8,
+        "ev": 4.92,
+        "european_fatigue": {
+          "competition": "UCL",
+          "opponent": "Atl\u00e9tico Madrid",
+          "days_ago": 3.6
+        }
+      },
+      {
+        "code": 432714,
+        "name": "McAtee",
+        "team": "NFO",
+        "position": "MID",
+        "price": 5.5,
+        "ev": 3.41
+      },
+      {
+        "code": 222531,
+        "name": "Gibbs-White",
+        "team": "NFO",
+        "position": "MID",
+        "price": 8.0,
+        "ev": 2.09,
+        "flag": {
+          "status": "d",
+          "news": "Muscular injury - 75% chance of playing",
+          "chance": 75
+        },
+        "pk": true
+      }
+    ],
+    "fwd": [
+      {
+        "code": 223094,
+        "name": "Haaland",
+        "team": "MCI",
+        "position": "FWD",
+        "price": 15.7,
+        "ev": 6.56,
+        "pk": true,
+        "european_fatigue": {
+          "competition": "UCL",
+          "opponent": "Paris Saint-Germain",
+          "days_ago": 2.6
+        }
+      }
+    ]
+  }
+}

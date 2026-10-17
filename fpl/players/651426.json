@@ -1,0 +1,21 @@
+{
+  "code": 651426,
+  "name": "Canvot",
+  "position": "DEF",
+  "team": "CRY",
+  "price": 4.8,
+  "ev_points": 2.38,
+  "horizon_ev": 12.78,
+  "q10_points": 0.0,
+  "q90_points": 6.36,
+  "ev_minutes": 78.5,
+  "p_appearance": 0.94,
+  "p_60_plus": 0.839,
+  "p_clean_sheet": 0.162,
+  "model_version": "20261017T095859Z",
+  "european_fatigue": {
+    "competition": "UEL",
+    "opponent": "Lyon",
+    "days_ago": 1.7
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "code": 244858,
+  "name": "Carvalho",
+  "position": "MID",
+  "team": "BRE",
+  "price": 5.0,
+  "ev_points": 0.68,
+  "horizon_ev": 3.31,
+  "q10_points": 0.0,
+  "q90_points": 1.53,
+  "ev_minutes": 17.6,
+  "p_appearance": 0.493,
+  "p_60_plus": 0.047,
+  "p_clean_sheet": 0.197,
+  "model_version": "20261017T095859Z"
+}

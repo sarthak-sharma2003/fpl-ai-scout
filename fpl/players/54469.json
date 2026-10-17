@@ -1,0 +1,21 @@
+{
+  "code": 54469,
+  "name": "Smith",
+  "position": "DEF",
+  "team": "BOU",
+  "price": 4.5,
+  "ev_points": 2.74,
+  "horizon_ev": 10.91,
+  "q10_points": 0.0,
+  "q90_points": 5.74,
+  "ev_minutes": 68.1,
+  "p_appearance": 0.878,
+  "p_60_plus": 0.695,
+  "p_clean_sheet": 0.348,
+  "model_version": "20261017T095859Z",
+  "european_fatigue": {
+    "competition": "UEL",
+    "opponent": "SK Sturm Graz",
+    "days_ago": 1.6
+  }
+}

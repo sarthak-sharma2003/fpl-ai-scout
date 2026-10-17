@@ -1,0 +1,21 @@
+{
+  "code": 515046,
+  "name": "Ellborg",
+  "position": "GKP",
+  "team": "SUN",
+  "price": 4.4,
+  "ev_points": 0.09,
+  "horizon_ev": 0.43,
+  "q10_points": 0.0,
+  "q90_points": 0.6,
+  "ev_minutes": 2.6,
+  "p_appearance": 0.037,
+  "p_60_plus": 0.025,
+  "p_clean_sheet": 0.22,
+  "model_version": "20261017T095859Z",
+  "european_fatigue": {
+    "competition": "UEL",
+    "opponent": "Torreense",
+    "days_ago": 1.7
+  }
+}

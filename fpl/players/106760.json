@@ -1,0 +1,26 @@
+{
+  "code": 106760,
+  "name": "Shaw",
+  "position": "DEF",
+  "team": "MUN",
+  "price": 4.3,
+  "ev_points": 2.19,
+  "horizon_ev": 11.8,
+  "q10_points": 0.0,
+  "q90_points": 5.63,
+  "ev_minutes": 52.3,
+  "p_appearance": 0.608,
+  "p_60_plus": 0.567,
+  "p_clean_sheet": 0.251,
+  "model_version": "20261017T095859Z",
+  "flag": {
+    "status": "d",
+    "news": "Unspecified injury - 75% chance of playing",
+    "chance": 75
+  },
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Atl\u00e9tico Madrid",
+    "days_ago": 3.6
+  }
+}

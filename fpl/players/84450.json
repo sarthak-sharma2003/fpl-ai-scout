@@ -1,0 +1,21 @@
+{
+  "code": 84450,
+  "name": "Xhaka",
+  "position": "MID",
+  "team": "SUN",
+  "price": 5.4,
+  "ev_points": 3.89,
+  "horizon_ev": 18.17,
+  "q10_points": 1.0,
+  "q90_points": 6.47,
+  "ev_minutes": 85.9,
+  "p_appearance": 0.988,
+  "p_60_plus": 0.938,
+  "p_clean_sheet": 0.22,
+  "model_version": "20261017T095859Z",
+  "european_fatigue": {
+    "competition": "UEL",
+    "opponent": "Torreense",
+    "days_ago": 1.7
+  }
+}

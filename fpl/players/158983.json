@@ -1,0 +1,21 @@
+{
+  "code": 158983,
+  "name": "Endo",
+  "position": "MID",
+  "team": "LIV",
+  "price": 4.9,
+  "ev_points": 0.25,
+  "horizon_ev": 0.77,
+  "q10_points": 0.0,
+  "q90_points": 0.95,
+  "ev_minutes": 6.3,
+  "p_appearance": 0.174,
+  "p_60_plus": 0.019,
+  "p_clean_sheet": 0.226,
+  "model_version": "20261017T095859Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "LASK Linz",
+    "days_ago": 2.7
+  }
+}

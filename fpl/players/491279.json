@@ -1,0 +1,16 @@
+{
+  "code": 491279,
+  "name": "Van de Ven",
+  "position": "DEF",
+  "team": "TOT",
+  "price": 5.0,
+  "ev_points": 3.95,
+  "horizon_ev": 15.88,
+  "q10_points": 0.0,
+  "q90_points": 7.52,
+  "ev_minutes": 79.8,
+  "p_appearance": 0.948,
+  "p_60_plus": 0.856,
+  "p_clean_sheet": 0.423,
+  "model_version": "20261017T095859Z"
+}

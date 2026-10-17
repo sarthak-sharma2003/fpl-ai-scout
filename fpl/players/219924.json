@@ -1,0 +1,16 @@
+{
+  "code": 219924,
+  "name": "Diop",
+  "position": "DEF",
+  "team": "IPS",
+  "price": 4.0,
+  "ev_points": 2.2,
+  "horizon_ev": 13.39,
+  "q10_points": 0.0,
+  "q90_points": 2.75,
+  "ev_minutes": 84.4,
+  "p_appearance": 0.97,
+  "p_60_plus": 0.922,
+  "p_clean_sheet": 0.031,
+  "model_version": "20261017T095859Z"
+}

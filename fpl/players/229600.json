@@ -1,0 +1,16 @@
+{
+  "code": 229600,
+  "name": "Travers",
+  "position": "GKP",
+  "team": "EVE",
+  "price": 5.0,
+  "ev_points": 0.06,
+  "horizon_ev": 0.26,
+  "q10_points": 0.0,
+  "q90_points": 0.02,
+  "ev_minutes": 1.9,
+  "p_appearance": 0.03,
+  "p_60_plus": 0.017,
+  "p_clean_sheet": 0.259,
+  "model_version": "20261017T095859Z"
+}

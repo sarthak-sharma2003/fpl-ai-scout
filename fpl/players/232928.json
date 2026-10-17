@@ -1,0 +1,16 @@
+{
+  "code": 232928,
+  "name": "Garner",
+  "position": "MID",
+  "team": "EVE",
+  "price": 6.0,
+  "ev_points": 3.47,
+  "horizon_ev": 16.45,
+  "q10_points": 1.0,
+  "q90_points": 7.08,
+  "ev_minutes": 83.9,
+  "p_appearance": 0.983,
+  "p_60_plus": 0.906,
+  "p_clean_sheet": 0.259,
+  "model_version": "20261017T095859Z"
+}

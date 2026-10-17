@@ -1,0 +1,16 @@
+{
+  "code": 204822,
+  "name": "O.Richards",
+  "position": "DEF",
+  "team": "NFO",
+  "price": 3.9,
+  "ev_points": 0.04,
+  "horizon_ev": 0.21,
+  "q10_points": 0.0,
+  "q90_points": 0.0,
+  "ev_minutes": 1.1,
+  "p_appearance": 0.023,
+  "p_60_plus": 0.007,
+  "p_clean_sheet": 0.197,
+  "model_version": "20261017T095859Z"
+}

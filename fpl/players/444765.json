@@ -1,0 +1,16 @@
+{
+  "code": 444765,
+  "name": "Van den Berg",
+  "position": "DEF",
+  "team": "BRE",
+  "price": 4.9,
+  "ev_points": 0.61,
+  "horizon_ev": 2.27,
+  "q10_points": 0.0,
+  "q90_points": 1.63,
+  "ev_minutes": 19.8,
+  "p_appearance": 0.423,
+  "p_60_plus": 0.119,
+  "p_clean_sheet": 0.197,
+  "model_version": "20261017T095859Z"
+}

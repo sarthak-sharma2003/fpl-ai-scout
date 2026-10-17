@@ -1,0 +1,21 @@
+{
+  "code": 523700,
+  "name": "Jebbison",
+  "position": "FWD",
+  "team": "BOU",
+  "price": 5.0,
+  "ev_points": 0.69,
+  "horizon_ev": 3.4,
+  "q10_points": 0.0,
+  "q90_points": 0.88,
+  "ev_minutes": 14.3,
+  "p_appearance": 0.399,
+  "p_60_plus": 0.04,
+  "p_clean_sheet": 0.348,
+  "model_version": "20261017T095859Z",
+  "european_fatigue": {
+    "competition": "UEL",
+    "opponent": "SK Sturm Graz",
+    "days_ago": 1.6
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "code": 222531,
+  "name": "Gibbs-White",
+  "position": "MID",
+  "team": "NFO",
+  "price": 8.0,
+  "ev_points": 2.09,
+  "horizon_ev": 15.32,
+  "q10_points": 0.0,
+  "q90_points": 6.86,
+  "ev_minutes": 48.8,
+  "p_appearance": 0.707,
+  "p_60_plus": 0.46,
+  "p_clean_sheet": 0.197,
+  "model_version": "20261017T095859Z",
+  "flag": {
+    "status": "d",
+    "news": "Muscular injury - 75% chance of playing",
+    "chance": 75
+  },
+  "pk": true
+}

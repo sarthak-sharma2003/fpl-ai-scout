@@ -1,0 +1,21 @@
+{
+  "code": 515597,
+  "name": "Bogarde",
+  "position": "MID",
+  "team": "AVL",
+  "price": 4.9,
+  "ev_points": 0.25,
+  "horizon_ev": 1.32,
+  "q10_points": 0.0,
+  "q90_points": 0.94,
+  "ev_minutes": 6.8,
+  "p_appearance": 0.171,
+  "p_60_plus": 0.028,
+  "p_clean_sheet": 0.175,
+  "model_version": "20261017T095859Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Fenerbahce",
+    "days_ago": 2.6
+  }
+}

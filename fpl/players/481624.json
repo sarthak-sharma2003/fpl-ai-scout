@@ -1,0 +1,16 @@
+{
+  "code": 481624,
+  "name": "Philogene",
+  "position": "MID",
+  "team": "IPS",
+  "price": 5.4,
+  "ev_points": 2.05,
+  "horizon_ev": 9.14,
+  "q10_points": 1.0,
+  "q90_points": 3.81,
+  "ev_minutes": 65.4,
+  "p_appearance": 0.911,
+  "p_60_plus": 0.634,
+  "p_clean_sheet": 0.031,
+  "model_version": "20261017T095859Z"
+}

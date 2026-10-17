@@ -1,0 +1,16 @@
+{
+  "code": 577725,
+  "name": "King",
+  "position": "MID",
+  "team": "FUL",
+  "price": 5.6,
+  "ev_points": 4.32,
+  "horizon_ev": 17.22,
+  "q10_points": 1.0,
+  "q90_points": 10.54,
+  "ev_minutes": 80.6,
+  "p_appearance": 0.976,
+  "p_60_plus": 0.854,
+  "p_clean_sheet": 0.463,
+  "model_version": "20261017T095859Z"
+}

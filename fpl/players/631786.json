@@ -1,0 +1,16 @@
+{
+  "code": 631786,
+  "name": "Kusi-Asare",
+  "position": "FWD",
+  "team": "FUL",
+  "price": 4.4,
+  "ev_points": 0.06,
+  "horizon_ev": 0.24,
+  "q10_points": 0.0,
+  "q90_points": 0.0,
+  "ev_minutes": 1.7,
+  "p_appearance": 0.042,
+  "p_60_plus": 0.007,
+  "p_clean_sheet": 0.463,
+  "model_version": "20261017T095859Z"
+}

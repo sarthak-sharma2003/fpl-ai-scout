@@ -1,0 +1,21 @@
+{
+  "code": 224117,
+  "name": "Gy\u00f6keres",
+  "position": "FWD",
+  "team": "ARS",
+  "price": 7.1,
+  "ev_points": 1.39,
+  "horizon_ev": 8.98,
+  "q10_points": 0.0,
+  "q90_points": 3.64,
+  "ev_minutes": 33.1,
+  "p_appearance": 0.776,
+  "p_60_plus": 0.163,
+  "p_clean_sheet": 0.446,
+  "model_version": "20261017T095859Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Lille",
+    "days_ago": 3.6
+  }
+}

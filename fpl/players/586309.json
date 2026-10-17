@@ -1,0 +1,17 @@
+{
+  "code": 586309,
+  "name": "Barry",
+  "position": "FWD",
+  "team": "EVE",
+  "price": 5.7,
+  "ev_points": 2.92,
+  "horizon_ev": 14.09,
+  "q10_points": 1.0,
+  "q90_points": 7.47,
+  "ev_minutes": 85.1,
+  "p_appearance": 0.984,
+  "p_60_plus": 0.926,
+  "p_clean_sheet": 0.259,
+  "model_version": "20261017T095859Z",
+  "pk": true
+}

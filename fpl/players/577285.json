@@ -1,0 +1,26 @@
+{
+  "code": 577285,
+  "name": "George Hemmings",
+  "position": "MID",
+  "team": "AVL",
+  "price": 4.5,
+  "ev_points": 0.68,
+  "horizon_ev": 3.82,
+  "q10_points": 0.0,
+  "q90_points": 1.38,
+  "ev_minutes": 17.4,
+  "p_appearance": 0.4,
+  "p_60_plus": 0.091,
+  "p_clean_sheet": 0.175,
+  "model_version": "20261017T095859Z",
+  "flag": {
+    "status": "d",
+    "news": "Knee injury - 75% chance of playing",
+    "chance": 75
+  },
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Fenerbahce",
+    "days_ago": 2.6
+  }
+}

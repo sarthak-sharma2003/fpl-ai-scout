@@ -1,0 +1,17 @@
+{
+  "code": 538207,
+  "name": "Osula",
+  "position": "FWD",
+  "team": "NEW",
+  "price": 5.8,
+  "ev_points": 1.3,
+  "horizon_ev": 6.75,
+  "q10_points": 0.0,
+  "q90_points": 3.28,
+  "ev_minutes": 23.6,
+  "p_appearance": 0.656,
+  "p_60_plus": 0.066,
+  "p_clean_sheet": 0.238,
+  "model_version": "20261017T095859Z",
+  "pk": true
+}

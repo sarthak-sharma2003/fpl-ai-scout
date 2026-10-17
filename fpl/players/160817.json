@@ -1,0 +1,16 @@
+{
+  "code": 160817,
+  "name": "McNair",
+  "position": "DEF",
+  "team": "HUL",
+  "price": 4.0,
+  "ev_points": 0.18,
+  "horizon_ev": 0.65,
+  "q10_points": 0.0,
+  "q90_points": 0.67,
+  "ev_minutes": 6.5,
+  "p_appearance": 0.151,
+  "p_60_plus": 0.033,
+  "p_clean_sheet": 0.133,
+  "model_version": "20261017T095859Z"
+}

@@ -1,0 +1,16 @@
+{
+  "code": 444463,
+  "name": "Fofana",
+  "position": "DEF",
+  "team": "CHE",
+  "price": 5.0,
+  "ev_points": 1.44,
+  "horizon_ev": 7.99,
+  "q10_points": 0.0,
+  "q90_points": 3.45,
+  "ev_minutes": 38.1,
+  "p_appearance": 0.657,
+  "p_60_plus": 0.306,
+  "p_clean_sheet": 0.284,
+  "model_version": "20261017T095859Z"
+}

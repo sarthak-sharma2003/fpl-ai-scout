@@ -1,0 +1,26 @@
+{
+  "code": 223723,
+  "name": "Tomiyasu",
+  "position": "DEF",
+  "team": "CRY",
+  "price": 4.4,
+  "ev_points": 0.03,
+  "horizon_ev": 3.34,
+  "q10_points": 0.0,
+  "q90_points": 0.0,
+  "ev_minutes": 0.9,
+  "p_appearance": 0.015,
+  "p_60_plus": 0.007,
+  "p_clean_sheet": 0.162,
+  "model_version": "20261017T095859Z",
+  "flag": {
+    "status": "i",
+    "news": "Calf injury - Expected back 18 Oct",
+    "chance": 0
+  },
+  "european_fatigue": {
+    "competition": "UEL",
+    "opponent": "Lyon",
+    "days_ago": 1.7
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "code": 481655,
+  "name": "Zubimendi",
+  "position": "MID",
+  "team": "ARS",
+  "price": 5.3,
+  "ev_points": 0.93,
+  "horizon_ev": 6.12,
+  "q10_points": 0.0,
+  "q90_points": 2.86,
+  "ev_minutes": 23.4,
+  "p_appearance": 0.546,
+  "p_60_plus": 0.117,
+  "p_clean_sheet": 0.446,
+  "model_version": "20261017T095859Z",
+  "flag": {
+    "status": "d",
+    "news": "Unspecified injury - 75% chance of playing",
+    "chance": 75
+  },
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Lille",
+    "days_ago": 3.6
+  }
+}

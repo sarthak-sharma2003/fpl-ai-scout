@@ -1,0 +1,16 @@
+{
+  "code": 553783,
+  "name": "Zambrano",
+  "position": "MID",
+  "team": "HUL",
+  "price": 4.5,
+  "ev_points": 0.12,
+  "horizon_ev": 0.27,
+  "q10_points": 0.0,
+  "q90_points": 0.12,
+  "ev_minutes": 3.4,
+  "p_appearance": 0.085,
+  "p_60_plus": 0.014,
+  "p_clean_sheet": 0.133,
+  "model_version": "20261017T095859Z"
+}

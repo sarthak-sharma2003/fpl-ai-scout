@@ -1,0 +1,26 @@
+{
+  "code": 223827,
+  "name": "Ballard",
+  "position": "DEF",
+  "team": "SUN",
+  "price": 4.8,
+  "ev_points": 0.01,
+  "horizon_ev": 5.24,
+  "q10_points": 0.0,
+  "q90_points": 0.0,
+  "ev_minutes": 0.2,
+  "p_appearance": 0.005,
+  "p_60_plus": 0.001,
+  "p_clean_sheet": 0.22,
+  "model_version": "20261017T095859Z",
+  "flag": {
+    "status": "i",
+    "news": "Hamstring injury - Unknown return date",
+    "chance": 0
+  },
+  "european_fatigue": {
+    "competition": "UEL",
+    "opponent": "Torreense",
+    "days_ago": 1.7
+  }
+}

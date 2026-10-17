@@ -1,0 +1,16 @@
+{
+  "code": 168144,
+  "name": "Grimes",
+  "position": "MID",
+  "team": "COV",
+  "price": 4.9,
+  "ev_points": 2.54,
+  "horizon_ev": 11.97,
+  "q10_points": 1.0,
+  "q90_points": 4.52,
+  "ev_minutes": 80.6,
+  "p_appearance": 0.965,
+  "p_60_plus": 0.861,
+  "p_clean_sheet": 0.11,
+  "model_version": "20261017T095859Z"
+}

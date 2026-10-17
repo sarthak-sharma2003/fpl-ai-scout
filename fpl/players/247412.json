@@ -1,0 +1,21 @@
+{
+  "code": 247412,
+  "name": "Strand Larsen",
+  "position": "FWD",
+  "team": "CRY",
+  "price": 6.0,
+  "ev_points": 3.51,
+  "horizon_ev": 16.14,
+  "q10_points": 1.0,
+  "q90_points": 5.66,
+  "ev_minutes": 82.2,
+  "p_appearance": 0.98,
+  "p_60_plus": 0.88,
+  "p_clean_sheet": 0.162,
+  "model_version": "20261017T095859Z",
+  "european_fatigue": {
+    "competition": "UEL",
+    "opponent": "Lyon",
+    "days_ago": 1.7
+  }
+}

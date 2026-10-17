@@ -1,0 +1,21 @@
+{
+  "code": 176297,
+  "name": "Rashford",
+  "position": "MID",
+  "team": "MUN",
+  "price": 6.9,
+  "ev_points": 1.82,
+  "horizon_ev": 9.96,
+  "q10_points": 0.0,
+  "q90_points": 4.71,
+  "ev_minutes": 40.6,
+  "p_appearance": 0.818,
+  "p_60_plus": 0.268,
+  "p_clean_sheet": 0.251,
+  "model_version": "20261017T095859Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Atl\u00e9tico Madrid",
+    "days_ago": 3.6
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "code": 469266,
+  "name": "Gourna-Douath",
+  "position": "MID",
+  "team": "HUL",
+  "price": 4.9,
+  "ev_points": 0.01,
+  "horizon_ev": 2.19,
+  "q10_points": 0.0,
+  "q90_points": 0.0,
+  "ev_minutes": 0.2,
+  "p_appearance": 0.004,
+  "p_60_plus": 0.001,
+  "p_clean_sheet": 0.133,
+  "model_version": "20261017T095859Z",
+  "flag": {
+    "status": "i",
+    "news": "Calf injury - Expected back 25 Oct",
+    "chance": 0
+  }
+}

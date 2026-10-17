@@ -1,0 +1,16 @@
+{
+  "code": 112520,
+  "name": "Palmer",
+  "position": "GKP",
+  "team": "IPS",
+  "price": 4.0,
+  "ev_points": 0.03,
+  "horizon_ev": 0.11,
+  "q10_points": 0.0,
+  "q90_points": 0.0,
+  "ev_minutes": 0.9,
+  "p_appearance": 0.012,
+  "p_60_plus": 0.009,
+  "p_clean_sheet": 0.031,
+  "model_version": "20261017T095859Z"
+}

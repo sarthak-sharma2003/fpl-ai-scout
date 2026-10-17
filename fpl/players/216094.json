@@ -1,0 +1,21 @@
+{
+  "code": 216094,
+  "name": "Frimpong",
+  "position": "DEF",
+  "team": "LIV",
+  "price": 5.2,
+  "ev_points": 0.86,
+  "horizon_ev": 5.23,
+  "q10_points": 0.0,
+  "q90_points": 0.4,
+  "ev_minutes": 21.8,
+  "p_appearance": 0.486,
+  "p_60_plus": 0.12,
+  "p_clean_sheet": 0.226,
+  "model_version": "20261017T095859Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "LASK Linz",
+    "days_ago": 2.7
+  }
+}

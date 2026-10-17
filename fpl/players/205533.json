@@ -1,0 +1,21 @@
+{
+  "code": 205533,
+  "name": "Nketiah",
+  "position": "FWD",
+  "team": "CRY",
+  "price": 5.5,
+  "ev_points": 1.46,
+  "horizon_ev": 7.44,
+  "q10_points": 0.0,
+  "q90_points": 2.82,
+  "ev_minutes": 26.8,
+  "p_appearance": 0.715,
+  "p_60_plus": 0.088,
+  "p_clean_sheet": 0.162,
+  "model_version": "20261017T095859Z",
+  "european_fatigue": {
+    "competition": "UEL",
+    "opponent": "Lyon",
+    "days_ago": 1.7
+  }
+}

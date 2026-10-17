@@ -1,0 +1,16 @@
+{
+  "code": 219249,
+  "name": "O'Riley",
+  "position": "MID",
+  "team": "BHA",
+  "price": 5.4,
+  "ev_points": 0.74,
+  "horizon_ev": 3.64,
+  "q10_points": 0.0,
+  "q90_points": 1.97,
+  "ev_minutes": 14.9,
+  "p_appearance": 0.442,
+  "p_60_plus": 0.028,
+  "p_clean_sheet": 0.345,
+  "model_version": "20261017T095859Z"
+}

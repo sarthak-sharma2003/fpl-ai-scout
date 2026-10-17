@@ -1,0 +1,16 @@
+{
+  "code": 98980,
+  "name": "Martinez",
+  "position": "GKP",
+  "team": "CHE",
+  "price": 5.0,
+  "ev_points": 3.77,
+  "horizon_ev": 17.29,
+  "q10_points": 0.13,
+  "q90_points": 6.43,
+  "ev_minutes": 83.4,
+  "p_appearance": 0.953,
+  "p_60_plus": 0.914,
+  "p_clean_sheet": 0.284,
+  "model_version": "20261017T095859Z"
+}

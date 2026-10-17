@@ -1,0 +1,26 @@
+{
+  "code": 243298,
+  "name": "Gakpo",
+  "position": "MID",
+  "team": "LIV",
+  "price": 7.1,
+  "ev_points": 0.8,
+  "horizon_ev": 12.65,
+  "q10_points": 0.0,
+  "q90_points": 2.13,
+  "ev_minutes": 13.6,
+  "p_appearance": 0.224,
+  "p_60_plus": 0.115,
+  "p_clean_sheet": 0.226,
+  "model_version": "20261017T095859Z",
+  "flag": {
+    "status": "d",
+    "news": "Ankle injury - 25% chance of playing",
+    "chance": 25
+  },
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "LASK Linz",
+    "days_ago": 2.7
+  }
+}

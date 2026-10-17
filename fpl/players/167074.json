@@ -1,0 +1,16 @@
+{
+  "code": 167074,
+  "name": "Tete",
+  "position": "DEF",
+  "team": "FUL",
+  "price": 4.4,
+  "ev_points": 1.83,
+  "horizon_ev": 8.58,
+  "q10_points": 0.0,
+  "q90_points": 4.36,
+  "ev_minutes": 41.1,
+  "p_appearance": 0.712,
+  "p_60_plus": 0.329,
+  "p_clean_sheet": 0.463,
+  "model_version": "20261017T095859Z"
+}

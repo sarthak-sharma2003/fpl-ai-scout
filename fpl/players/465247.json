@@ -1,0 +1,21 @@
+{
+  "code": 465247,
+  "name": "Lammens",
+  "position": "GKP",
+  "team": "MUN",
+  "price": 4.9,
+  "ev_points": 2.88,
+  "horizon_ev": 12.89,
+  "q10_points": 0.95,
+  "q90_points": 5.51,
+  "ev_minutes": 86.3,
+  "p_appearance": 0.976,
+  "p_60_plus": 0.949,
+  "p_clean_sheet": 0.251,
+  "model_version": "20261017T095859Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Atl\u00e9tico Madrid",
+    "days_ago": 3.6
+  }
+}

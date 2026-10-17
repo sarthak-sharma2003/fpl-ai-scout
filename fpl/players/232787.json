@@ -1,0 +1,16 @@
+{
+  "code": 232787,
+  "name": "Gallagher",
+  "position": "MID",
+  "team": "TOT",
+  "price": 5.3,
+  "ev_points": 3.06,
+  "horizon_ev": 11.36,
+  "q10_points": 1.0,
+  "q90_points": 7.46,
+  "ev_minutes": 66.8,
+  "p_appearance": 0.949,
+  "p_60_plus": 0.639,
+  "p_clean_sheet": 0.423,
+  "model_version": "20261017T095859Z"
+}

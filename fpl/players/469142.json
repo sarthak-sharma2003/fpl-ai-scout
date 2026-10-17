@@ -1,0 +1,16 @@
+{
+  "code": 469142,
+  "name": "Van Hecke",
+  "position": "DEF",
+  "team": "TOT",
+  "price": 4.9,
+  "ev_points": 4.92,
+  "horizon_ev": 19.9,
+  "q10_points": 1.0,
+  "q90_points": 9.33,
+  "ev_minutes": 86.0,
+  "p_appearance": 0.986,
+  "p_60_plus": 0.941,
+  "p_clean_sheet": 0.423,
+  "model_version": "20261017T095859Z"
+}

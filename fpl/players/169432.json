@@ -1,0 +1,17 @@
+{
+  "code": 169432,
+  "name": "McBurnie",
+  "position": "FWD",
+  "team": "HUL",
+  "price": 5.5,
+  "ev_points": 3.34,
+  "horizon_ev": 14.98,
+  "q10_points": 1.0,
+  "q90_points": 6.29,
+  "ev_minutes": 83.3,
+  "p_appearance": 0.981,
+  "p_60_plus": 0.898,
+  "p_clean_sheet": 0.133,
+  "model_version": "20261017T095859Z",
+  "pk": true
+}

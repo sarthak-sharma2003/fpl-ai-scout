@@ -1,0 +1,16 @@
+{
+  "code": 461102,
+  "name": "Thomas",
+  "position": "DEF",
+  "team": "COV",
+  "price": 4.0,
+  "ev_points": 2.27,
+  "horizon_ev": 12.94,
+  "q10_points": 0.0,
+  "q90_points": 3.82,
+  "ev_minutes": 84.7,
+  "p_appearance": 0.977,
+  "p_60_plus": 0.924,
+  "p_clean_sheet": 0.11,
+  "model_version": "20261017T095859Z"
+}

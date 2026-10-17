@@ -1,0 +1,16 @@
+{
+  "code": 465730,
+  "name": "De Cuyper",
+  "position": "DEF",
+  "team": "BHA",
+  "price": 5.2,
+  "ev_points": 4.41,
+  "horizon_ev": 17.05,
+  "q10_points": 1.0,
+  "q90_points": 9.84,
+  "ev_minutes": 80.3,
+  "p_appearance": 0.972,
+  "p_60_plus": 0.851,
+  "p_clean_sheet": 0.345,
+  "model_version": "20261017T095859Z"
+}

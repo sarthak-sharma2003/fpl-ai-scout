@@ -1,0 +1,16 @@
+{
+  "code": 498444,
+  "name": "Chavarria",
+  "position": "DEF",
+  "team": "CHE",
+  "price": 4.9,
+  "ev_points": 3.3,
+  "horizon_ev": 14.83,
+  "q10_points": 0.0,
+  "q90_points": 7.6,
+  "ev_minutes": 77.2,
+  "p_appearance": 0.94,
+  "p_60_plus": 0.816,
+  "p_clean_sheet": 0.284,
+  "model_version": "20261017T095859Z"
+}

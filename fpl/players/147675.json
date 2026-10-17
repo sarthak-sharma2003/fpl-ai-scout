@@ -1,0 +1,16 @@
+{
+  "code": 147675,
+  "name": "Akpom",
+  "position": "FWD",
+  "team": "IPS",
+  "price": 5.0,
+  "ev_points": 1.12,
+  "horizon_ev": 6.43,
+  "q10_points": 0.0,
+  "q90_points": 3.28,
+  "ev_minutes": 25.2,
+  "p_appearance": 0.696,
+  "p_60_plus": 0.073,
+  "p_clean_sheet": 0.031,
+  "model_version": "20261017T095859Z"
+}

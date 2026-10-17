@@ -1,0 +1,26 @@
+{
+  "code": 510663,
+  "name": "Ekitik\u00e9",
+  "position": "FWD",
+  "team": "LIV",
+  "price": 7.4,
+  "ev_points": 0.01,
+  "horizon_ev": 1.84,
+  "q10_points": 0.0,
+  "q90_points": 0.0,
+  "ev_minutes": 0.2,
+  "p_appearance": 0.004,
+  "p_60_plus": 0.001,
+  "p_clean_sheet": 0.226,
+  "model_version": "20261017T095859Z",
+  "flag": {
+    "status": "i",
+    "news": "Achilles injury - Unknown return date",
+    "chance": 0
+  },
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "LASK Linz",
+    "days_ago": 2.7
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "code": 97032,
+  "name": "Virgil",
+  "position": "DEF",
+  "team": "LIV",
+  "price": 6.5,
+  "ev_points": 3.85,
+  "horizon_ev": 17.26,
+  "q10_points": 1.0,
+  "q90_points": 7.83,
+  "ev_minutes": 86.3,
+  "p_appearance": 0.984,
+  "p_60_plus": 0.947,
+  "p_clean_sheet": 0.226,
+  "model_version": "20261017T095859Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "LASK Linz",
+    "days_ago": 2.7
+  }
+}

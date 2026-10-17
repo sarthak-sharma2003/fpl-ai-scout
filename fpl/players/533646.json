@@ -1,0 +1,21 @@
+{
+  "code": 533646,
+  "name": "Osorio",
+  "position": "MID",
+  "team": "CRY",
+  "price": 5.4,
+  "ev_points": 0.31,
+  "horizon_ev": 1.61,
+  "q10_points": 0.0,
+  "q90_points": 1.05,
+  "ev_minutes": 8.4,
+  "p_appearance": 0.243,
+  "p_60_plus": 0.019,
+  "p_clean_sheet": 0.162,
+  "model_version": "20261017T095859Z",
+  "european_fatigue": {
+    "competition": "UEL",
+    "opponent": "Lyon",
+    "days_ago": 1.7
+  }
+}

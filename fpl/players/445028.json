@@ -1,0 +1,16 @@
+{
+  "code": 445028,
+  "name": "Morita",
+  "position": "MID",
+  "team": "HUL",
+  "price": 4.9,
+  "ev_points": 0.71,
+  "horizon_ev": 3.33,
+  "q10_points": 0.0,
+  "q90_points": 1.47,
+  "ev_minutes": 20.4,
+  "p_appearance": 0.515,
+  "p_60_plus": 0.083,
+  "p_clean_sheet": 0.133,
+  "model_version": "20261017T095859Z"
+}

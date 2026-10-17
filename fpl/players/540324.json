@@ -1,0 +1,16 @@
+{
+  "code": 540324,
+  "name": "Belloumi",
+  "position": "MID",
+  "team": "HUL",
+  "price": 5.2,
+  "ev_points": 2.9,
+  "horizon_ev": 12.44,
+  "q10_points": 1.0,
+  "q90_points": 6.13,
+  "ev_minutes": 75.3,
+  "p_appearance": 0.96,
+  "p_60_plus": 0.775,
+  "p_clean_sheet": 0.133,
+  "model_version": "20261017T095859Z"
+}

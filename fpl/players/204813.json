@@ -1,0 +1,16 @@
+{
+  "code": 204813,
+  "name": "Latibeaudiere",
+  "position": "DEF",
+  "team": "COV",
+  "price": 3.9,
+  "ev_points": 0.16,
+  "horizon_ev": 0.87,
+  "q10_points": 0.0,
+  "q90_points": 0.68,
+  "ev_minutes": 5.5,
+  "p_appearance": 0.134,
+  "p_60_plus": 0.025,
+  "p_clean_sheet": 0.11,
+  "model_version": "20261017T095859Z"
+}

@@ -1,0 +1,21 @@
+{
+  "code": 653481,
+  "name": "Alysson",
+  "position": "MID",
+  "team": "AVL",
+  "price": 4.9,
+  "ev_points": 0.92,
+  "horizon_ev": 4.84,
+  "q10_points": 0.0,
+  "q90_points": 0.92,
+  "ev_minutes": 24.4,
+  "p_appearance": 0.643,
+  "p_60_plus": 0.085,
+  "p_clean_sheet": 0.175,
+  "model_version": "20261017T095859Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Fenerbahce",
+    "days_ago": 2.6
+  }
+}

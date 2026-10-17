@@ -1,0 +1,26 @@
+{
+  "code": 448104,
+  "name": "Hincapie",
+  "position": "DEF",
+  "team": "ARS",
+  "price": 5.2,
+  "ev_points": 0.01,
+  "horizon_ev": 3.2,
+  "q10_points": 0.0,
+  "q90_points": 0.0,
+  "ev_minutes": 0.2,
+  "p_appearance": 0.005,
+  "p_60_plus": 0.001,
+  "p_clean_sheet": 0.446,
+  "model_version": "20261017T095859Z",
+  "flag": {
+    "status": "i",
+    "news": "Ankle injury - Expected back 24 Oct",
+    "chance": 0
+  },
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Lille",
+    "days_ago": 3.6
+  }
+}

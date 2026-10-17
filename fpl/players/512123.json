@@ -1,0 +1,16 @@
+{
+  "code": 512123,
+  "name": "Hadjam",
+  "position": "DEF",
+  "team": "BHA",
+  "price": 4.5,
+  "ev_points": 0.69,
+  "horizon_ev": 3.09,
+  "q10_points": 0.0,
+  "q90_points": 2.36,
+  "ev_minutes": 14.7,
+  "p_appearance": 0.322,
+  "p_60_plus": 0.083,
+  "p_clean_sheet": 0.345,
+  "model_version": "20261017T095859Z"
+}

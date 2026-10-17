@@ -1,0 +1,16 @@
+{
+  "code": 460028,
+  "name": "Colwill",
+  "position": "DEF",
+  "team": "CHE",
+  "price": 4.8,
+  "ev_points": 3.22,
+  "horizon_ev": 14.26,
+  "q10_points": 0.0,
+  "q90_points": 7.69,
+  "ev_minutes": 78.2,
+  "p_appearance": 0.929,
+  "p_60_plus": 0.839,
+  "p_clean_sheet": 0.284,
+  "model_version": "20261017T095859Z"
+}

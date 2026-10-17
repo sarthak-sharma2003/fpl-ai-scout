@@ -1,0 +1,21 @@
+{
+  "code": 544877,
+  "name": "Kerkez",
+  "position": "DEF",
+  "team": "LIV",
+  "price": 5.3,
+  "ev_points": 3.57,
+  "horizon_ev": 15.59,
+  "q10_points": 1.0,
+  "q90_points": 7.47,
+  "ev_minutes": 78.7,
+  "p_appearance": 0.952,
+  "p_60_plus": 0.836,
+  "p_clean_sheet": 0.226,
+  "model_version": "20261017T095859Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "LASK Linz",
+    "days_ago": 2.7
+  }
+}

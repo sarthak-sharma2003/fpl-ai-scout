@@ -1,0 +1,16 @@
+{
+  "code": 199598,
+  "name": "Ampadu",
+  "position": "MID",
+  "team": "LEE",
+  "price": 5.4,
+  "ev_points": 3.64,
+  "horizon_ev": 16.4,
+  "q10_points": 1.0,
+  "q90_points": 6.95,
+  "ev_minutes": 86.1,
+  "p_appearance": 0.985,
+  "p_60_plus": 0.943,
+  "p_clean_sheet": 0.248,
+  "model_version": "20261017T095859Z"
+}

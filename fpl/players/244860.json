@@ -1,0 +1,16 @@
+{
+  "code": 244860,
+  "name": "Hackney",
+  "position": "MID",
+  "team": "EVE",
+  "price": 5.4,
+  "ev_points": 1.05,
+  "horizon_ev": 5.6,
+  "q10_points": 0.0,
+  "q90_points": 1.91,
+  "ev_minutes": 27.9,
+  "p_appearance": 0.737,
+  "p_60_plus": 0.097,
+  "p_clean_sheet": 0.259,
+  "model_version": "20261017T095859Z"
+}

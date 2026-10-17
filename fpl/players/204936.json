@@ -1,0 +1,21 @@
+{
+  "code": 204936,
+  "name": "Donnarumma",
+  "position": "GKP",
+  "team": "MCI",
+  "price": 5.5,
+  "ev_points": 4.63,
+  "horizon_ev": 19.43,
+  "q10_points": 1.0,
+  "q90_points": 5.88,
+  "ev_minutes": 86.9,
+  "p_appearance": 0.983,
+  "p_60_plus": 0.957,
+  "p_clean_sheet": 0.504,
+  "model_version": "20261017T095859Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Paris Saint-Germain",
+    "days_ago": 2.6
+  }
+}

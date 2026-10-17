@@ -1,0 +1,21 @@
+{
+  "code": 212319,
+  "name": "Richarlison",
+  "position": "FWD",
+  "team": "TOT",
+  "price": 5.9,
+  "ev_points": 0.01,
+  "horizon_ev": 0.01,
+  "q10_points": 0.0,
+  "q90_points": 0.0,
+  "ev_minutes": 0.2,
+  "p_appearance": 0.002,
+  "p_60_plus": 0.002,
+  "p_clean_sheet": 0.423,
+  "model_version": "20261017T095859Z",
+  "flag": {
+    "status": "u",
+    "news": "not included in squad.",
+    "chance": 0
+  }
+}

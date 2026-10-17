@@ -1,0 +1,21 @@
+{
+  "code": 513418,
+  "name": "Schade",
+  "position": "MID",
+  "team": "BRE",
+  "price": 6.2,
+  "ev_points": 1.44,
+  "horizon_ev": 12.71,
+  "q10_points": 0.0,
+  "q90_points": 4.3,
+  "ev_minutes": 37.1,
+  "p_appearance": 0.614,
+  "p_60_plus": 0.311,
+  "p_clean_sheet": 0.197,
+  "model_version": "20261017T095859Z",
+  "flag": {
+    "status": "d",
+    "news": "Shoulder injury - 75% chance of playing",
+    "chance": 75
+  }
+}

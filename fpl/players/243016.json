@@ -1,0 +1,21 @@
+{
+  "code": 243016,
+  "name": "Mac Allister",
+  "position": "MID",
+  "team": "LIV",
+  "price": 5.4,
+  "ev_points": 3.23,
+  "horizon_ev": 14.32,
+  "q10_points": 1.0,
+  "q90_points": 6.63,
+  "ev_minutes": 77.7,
+  "p_appearance": 0.971,
+  "p_60_plus": 0.81,
+  "p_clean_sheet": 0.226,
+  "model_version": "20261017T095859Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "LASK Linz",
+    "days_ago": 2.7
+  }
+}

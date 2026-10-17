@@ -1,0 +1,26 @@
+{
+  "code": 503139,
+  "name": "Scott",
+  "position": "MID",
+  "team": "BOU",
+  "price": 6.0,
+  "ev_points": 0.01,
+  "horizon_ev": 8.26,
+  "q10_points": 0.0,
+  "q90_points": 0.0,
+  "ev_minutes": 0.2,
+  "p_appearance": 0.005,
+  "p_60_plus": 0.001,
+  "p_clean_sheet": 0.348,
+  "model_version": "20261017T095859Z",
+  "flag": {
+    "status": "i",
+    "news": "Thigh injury - Unknown return date",
+    "chance": 0
+  },
+  "european_fatigue": {
+    "competition": "UEL",
+    "opponent": "SK Sturm Graz",
+    "days_ago": 1.6
+  }
+}

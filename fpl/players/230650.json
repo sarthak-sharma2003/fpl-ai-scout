@@ -1,0 +1,21 @@
+{
+  "code": 230650,
+  "name": "Di Gregorio",
+  "position": "GKP",
+  "team": "BOU",
+  "price": 4.5,
+  "ev_points": 0.11,
+  "horizon_ev": 0.49,
+  "q10_points": 0.0,
+  "q90_points": 1.71,
+  "ev_minutes": 2.8,
+  "p_appearance": 0.039,
+  "p_60_plus": 0.027,
+  "p_clean_sheet": 0.348,
+  "model_version": "20261017T095859Z",
+  "european_fatigue": {
+    "competition": "UEL",
+    "opponent": "SK Sturm Graz",
+    "days_ago": 1.6
+  }
+}

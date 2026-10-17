@@ -1,0 +1,16 @@
+{
+  "code": 432422,
+  "name": "Tonali",
+  "position": "MID",
+  "team": "TOT",
+  "price": 5.3,
+  "ev_points": 3.93,
+  "horizon_ev": 16.39,
+  "q10_points": 1.0,
+  "q90_points": 8.8,
+  "ev_minutes": 84.3,
+  "p_appearance": 0.984,
+  "p_60_plus": 0.913,
+  "p_clean_sheet": 0.423,
+  "model_version": "20261017T095859Z"
+}

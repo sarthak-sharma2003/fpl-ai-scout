@@ -1,0 +1,16 @@
+{
+  "code": 575458,
+  "name": "Jair Cunha",
+  "position": "DEF",
+  "team": "NFO",
+  "price": 4.4,
+  "ev_points": 2.09,
+  "horizon_ev": 6.78,
+  "q10_points": 0.0,
+  "q90_points": 5.15,
+  "ev_minutes": 59.2,
+  "p_appearance": 0.799,
+  "p_60_plus": 0.588,
+  "p_clean_sheet": 0.197,
+  "model_version": "20261017T095859Z"
+}

@@ -1,0 +1,21 @@
+{
+  "code": 576628,
+  "name": "Lacey",
+  "position": "MID",
+  "team": "MUN",
+  "price": 4.9,
+  "ev_points": 0.19,
+  "horizon_ev": 0.91,
+  "q10_points": 0.0,
+  "q90_points": 0.88,
+  "ev_minutes": 4.8,
+  "p_appearance": 0.132,
+  "p_60_plus": 0.013,
+  "p_clean_sheet": 0.251,
+  "model_version": "20261017T095859Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Atl\u00e9tico Madrid",
+    "days_ago": 3.6
+  }
+}

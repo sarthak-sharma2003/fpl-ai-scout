@@ -1,0 +1,22 @@
+{
+  "code": 547027,
+  "name": "Diarra",
+  "position": "MID",
+  "team": "SUN",
+  "price": 5.3,
+  "ev_points": 0.61,
+  "horizon_ev": 2.67,
+  "q10_points": 0.0,
+  "q90_points": 1.41,
+  "ev_minutes": 17.1,
+  "p_appearance": 0.455,
+  "p_60_plus": 0.057,
+  "p_clean_sheet": 0.22,
+  "model_version": "20261017T095859Z",
+  "pk": true,
+  "european_fatigue": {
+    "competition": "UEL",
+    "opponent": "Torreense",
+    "days_ago": 1.7
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "code": 231747,
+  "name": "Mateta",
+  "position": "FWD",
+  "team": "CRY",
+  "price": 6.3,
+  "ev_points": 0.02,
+  "horizon_ev": 2.01,
+  "q10_points": 0.0,
+  "q90_points": 0.0,
+  "ev_minutes": 0.7,
+  "p_appearance": 0.015,
+  "p_60_plus": 0.005,
+  "p_clean_sheet": 0.162,
+  "model_version": "20261017T095859Z",
+  "flag": {
+    "status": "i",
+    "news": "Hamstring injury - Expected back 18 Oct",
+    "chance": 0
+  },
+  "pk": true,
+  "european_fatigue": {
+    "competition": "UEL",
+    "opponent": "Lyon",
+    "days_ago": 1.7
+  }
+}

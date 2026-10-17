@@ -1,0 +1,16 @@
+{
+  "code": 485055,
+  "name": "Kinsky",
+  "position": "GKP",
+  "team": "TOT",
+  "price": 4.5,
+  "ev_points": 3.41,
+  "horizon_ev": 15.3,
+  "q10_points": 1.0,
+  "q90_points": 5.08,
+  "ev_minutes": 86.8,
+  "p_appearance": 0.98,
+  "p_60_plus": 0.957,
+  "p_clean_sheet": 0.423,
+  "model_version": "20261017T095859Z"
+}

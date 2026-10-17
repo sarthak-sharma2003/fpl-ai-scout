@@ -1,0 +1,16 @@
+{
+  "code": 665243,
+  "name": "Miley",
+  "position": "MID",
+  "team": "NEW",
+  "price": 4.5,
+  "ev_points": 0.07,
+  "horizon_ev": 0.26,
+  "q10_points": 0.0,
+  "q90_points": 0.02,
+  "ev_minutes": 1.7,
+  "p_appearance": 0.039,
+  "p_60_plus": 0.01,
+  "p_clean_sheet": 0.238,
+  "model_version": "20261017T095859Z"
+}

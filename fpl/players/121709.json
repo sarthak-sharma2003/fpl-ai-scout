@@ -1,0 +1,21 @@
+{
+  "code": 121709,
+  "name": "Benitez",
+  "position": "GKP",
+  "team": "CRY",
+  "price": 4.5,
+  "ev_points": 2.45,
+  "horizon_ev": 12.81,
+  "q10_points": 0.04,
+  "q90_points": 6.24,
+  "ev_minutes": 82.9,
+  "p_appearance": 0.949,
+  "p_60_plus": 0.906,
+  "p_clean_sheet": 0.162,
+  "model_version": "20261017T095859Z",
+  "european_fatigue": {
+    "competition": "UEL",
+    "opponent": "Lyon",
+    "days_ago": 1.7
+  }
+}

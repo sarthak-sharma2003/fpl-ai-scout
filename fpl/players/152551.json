@@ -1,0 +1,21 @@
+{
+  "code": 152551,
+  "name": "Lerma",
+  "position": "MID",
+  "team": "CRY",
+  "price": 4.8,
+  "ev_points": 2.34,
+  "horizon_ev": 10.27,
+  "q10_points": 1.0,
+  "q90_points": 4.79,
+  "ev_minutes": 65.8,
+  "p_appearance": 0.922,
+  "p_60_plus": 0.637,
+  "p_clean_sheet": 0.162,
+  "model_version": "20261017T095859Z",
+  "european_fatigue": {
+    "competition": "UEL",
+    "opponent": "Lyon",
+    "days_ago": 1.7
+  }
+}

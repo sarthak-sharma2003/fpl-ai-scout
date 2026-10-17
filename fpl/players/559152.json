@@ -1,0 +1,21 @@
+{
+  "code": 559152,
+  "name": "Gozo",
+  "position": "MID",
+  "team": "CRY",
+  "price": 4.9,
+  "ev_points": 0.34,
+  "horizon_ev": 1.82,
+  "q10_points": 0.0,
+  "q90_points": 0.86,
+  "ev_minutes": 9.6,
+  "p_appearance": 0.263,
+  "p_60_plus": 0.029,
+  "p_clean_sheet": 0.162,
+  "model_version": "20261017T095859Z",
+  "european_fatigue": {
+    "competition": "UEL",
+    "opponent": "Lyon",
+    "days_ago": 1.7
+  }
+}

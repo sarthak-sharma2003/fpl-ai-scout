@@ -1,0 +1,21 @@
+{
+  "code": 535301,
+  "name": "Baleba",
+  "position": "MID",
+  "team": "MUN",
+  "price": 4.9,
+  "ev_points": 1.14,
+  "horizon_ev": 5.85,
+  "q10_points": 0.0,
+  "q90_points": 2.45,
+  "ev_minutes": 29.5,
+  "p_appearance": 0.694,
+  "p_60_plus": 0.144,
+  "p_clean_sheet": 0.251,
+  "model_version": "20261017T095859Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Atl\u00e9tico Madrid",
+    "days_ago": 3.6
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "code": 242313,
+  "name": "Mingueza",
+  "position": "DEF",
+  "team": "CRY",
+  "price": 4.3,
+  "ev_points": 0.24,
+  "horizon_ev": 1.42,
+  "q10_points": 0.0,
+  "q90_points": 1.0,
+  "ev_minutes": 7.6,
+  "p_appearance": 0.175,
+  "p_60_plus": 0.039,
+  "p_clean_sheet": 0.162,
+  "model_version": "20261017T095859Z",
+  "european_fatigue": {
+    "competition": "UEL",
+    "opponent": "Lyon",
+    "days_ago": 1.7
+  }
+}

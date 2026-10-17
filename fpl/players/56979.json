@@ -1,0 +1,16 @@
+{
+  "code": 56979,
+  "name": "Henderson",
+  "position": "MID",
+  "team": "CHE",
+  "price": 4.9,
+  "ev_points": 2.85,
+  "horizon_ev": 12.6,
+  "q10_points": 1.0,
+  "q90_points": 5.38,
+  "ev_minutes": 79.8,
+  "p_appearance": 0.977,
+  "p_60_plus": 0.841,
+  "p_clean_sheet": 0.284,
+  "model_version": "20261017T095859Z"
+}

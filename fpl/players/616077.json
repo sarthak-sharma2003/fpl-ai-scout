@@ -1,0 +1,21 @@
+{
+  "code": 616077,
+  "name": "Dowman",
+  "position": "MID",
+  "team": "ARS",
+  "price": 5.3,
+  "ev_points": 0.55,
+  "horizon_ev": 2.53,
+  "q10_points": 0.0,
+  "q90_points": 1.07,
+  "ev_minutes": 12.6,
+  "p_appearance": 0.358,
+  "p_60_plus": 0.03,
+  "p_clean_sheet": 0.446,
+  "model_version": "20261017T095859Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Lille",
+    "days_ago": 3.6
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "code": 202993,
+  "name": "Bentancur",
+  "position": "MID",
+  "team": "TOT",
+  "price": 5.5,
+  "ev_points": 0.01,
+  "horizon_ev": 3.5,
+  "q10_points": 0.0,
+  "q90_points": 0.0,
+  "ev_minutes": 0.3,
+  "p_appearance": 0.006,
+  "p_60_plus": 0.002,
+  "p_clean_sheet": 0.423,
+  "model_version": "20261017T095859Z",
+  "flag": {
+    "status": "s",
+    "news": "Suspended until 7 Nov",
+    "chance": 0
+  }
+}

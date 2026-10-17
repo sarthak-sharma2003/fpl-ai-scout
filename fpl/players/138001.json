@@ -1,0 +1,16 @@
+{
+  "code": 138001,
+  "name": "King",
+  "position": "GKP",
+  "team": "EVE",
+  "price": 4.5,
+  "ev_points": 0.03,
+  "horizon_ev": 0.12,
+  "q10_points": 0.0,
+  "q90_points": 0.0,
+  "ev_minutes": 1.0,
+  "p_appearance": 0.014,
+  "p_60_plus": 0.009,
+  "p_clean_sheet": 0.259,
+  "model_version": "20261017T095859Z"
+}

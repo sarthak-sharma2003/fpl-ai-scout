@@ -1,0 +1,21 @@
+{
+  "code": 204480,
+  "name": "Rice",
+  "position": "MID",
+  "team": "ARS",
+  "price": 7.3,
+  "ev_points": 3.96,
+  "horizon_ev": 17.56,
+  "q10_points": 1.0,
+  "q90_points": 9.12,
+  "ev_minutes": 85.2,
+  "p_appearance": 0.983,
+  "p_60_plus": 0.928,
+  "p_clean_sheet": 0.446,
+  "model_version": "20261017T095859Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Lille",
+    "days_ago": 3.6
+  }
+}

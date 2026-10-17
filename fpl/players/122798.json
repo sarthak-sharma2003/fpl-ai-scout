@@ -1,0 +1,16 @@
+{
+  "code": 122798,
+  "name": "Robertson",
+  "position": "DEF",
+  "team": "TOT",
+  "price": 4.4,
+  "ev_points": 1.93,
+  "horizon_ev": 10.7,
+  "q10_points": 0.0,
+  "q90_points": 4.52,
+  "ev_minutes": 41.1,
+  "p_appearance": 0.751,
+  "p_60_plus": 0.309,
+  "p_clean_sheet": 0.423,
+  "model_version": "20261017T095859Z"
+}

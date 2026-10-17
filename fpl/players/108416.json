@@ -1,0 +1,16 @@
+{
+  "code": 108416,
+  "name": "Egan",
+  "position": "DEF",
+  "team": "HUL",
+  "price": 4.1,
+  "ev_points": 3.03,
+  "horizon_ev": 13.55,
+  "q10_points": 0.0,
+  "q90_points": 4.47,
+  "ev_minutes": 82.5,
+  "p_appearance": 0.963,
+  "p_60_plus": 0.893,
+  "p_clean_sheet": 0.133,
+  "model_version": "20261017T095859Z"
+}

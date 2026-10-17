@@ -1,0 +1,16 @@
+{
+  "code": 106611,
+  "name": "Keane",
+  "position": "DEF",
+  "team": "EVE",
+  "price": 4.8,
+  "ev_points": 2.5,
+  "horizon_ev": 10.7,
+  "q10_points": 0.0,
+  "q90_points": 6.01,
+  "ev_minutes": 67.6,
+  "p_appearance": 0.866,
+  "p_60_plus": 0.694,
+  "p_clean_sheet": 0.259,
+  "model_version": "20261017T095859Z"
+}

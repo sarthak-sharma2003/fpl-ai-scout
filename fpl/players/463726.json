@@ -1,0 +1,16 @@
+{
+  "code": 463726,
+  "name": "Dedi\u0107",
+  "position": "DEF",
+  "team": "NEW",
+  "price": 4.5,
+  "ev_points": 2.61,
+  "horizon_ev": 7.01,
+  "q10_points": 0.0,
+  "q90_points": 6.17,
+  "ev_minutes": 59.8,
+  "p_appearance": 0.818,
+  "p_60_plus": 0.587,
+  "p_clean_sheet": 0.238,
+  "model_version": "20261017T095859Z"
+}

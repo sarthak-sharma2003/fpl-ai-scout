@@ -1,0 +1,16 @@
+{
+  "code": 451284,
+  "name": "van Ewijk",
+  "position": "DEF",
+  "team": "COV",
+  "price": 3.9,
+  "ev_points": 2.25,
+  "horizon_ev": 9.99,
+  "q10_points": 0.0,
+  "q90_points": 4.11,
+  "ev_minutes": 75.4,
+  "p_appearance": 0.912,
+  "p_60_plus": 0.801,
+  "p_clean_sheet": 0.11,
+  "model_version": "20261017T095859Z"
+}

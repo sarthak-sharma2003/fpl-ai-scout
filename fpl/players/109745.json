@@ -1,0 +1,21 @@
+{
+  "code": 109745,
+  "name": "Arrizabalaga",
+  "position": "GKP",
+  "team": "ARS",
+  "price": 4.9,
+  "ev_points": 0.08,
+  "horizon_ev": 0.32,
+  "q10_points": 0.0,
+  "q90_points": 0.02,
+  "ev_minutes": 2.0,
+  "p_appearance": 0.032,
+  "p_60_plus": 0.018,
+  "p_clean_sheet": 0.446,
+  "model_version": "20261017T095859Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Lille",
+    "days_ago": 3.6
+  }
+}

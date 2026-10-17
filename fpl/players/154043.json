@@ -1,0 +1,16 @@
+{
+  "code": 154043,
+  "name": "Maitland-Niles",
+  "position": "DEF",
+  "team": "EVE",
+  "price": 4.5,
+  "ev_points": 2.75,
+  "horizon_ev": 13.75,
+  "q10_points": 1.0,
+  "q90_points": 6.08,
+  "ev_minutes": 80.7,
+  "p_appearance": 0.974,
+  "p_60_plus": 0.857,
+  "p_clean_sheet": 0.259,
+  "model_version": "20261017T095859Z"
+}

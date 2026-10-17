@@ -1,0 +1,16 @@
+{
+  "code": 597462,
+  "name": "Herrington",
+  "position": "DEF",
+  "team": "HUL",
+  "price": 4.0,
+  "ev_points": 1.84,
+  "horizon_ev": 6.75,
+  "q10_points": 0.0,
+  "q90_points": 3.69,
+  "ev_minutes": 56.2,
+  "p_appearance": 0.762,
+  "p_60_plus": 0.556,
+  "p_clean_sheet": 0.133,
+  "model_version": "20261017T095859Z"
+}

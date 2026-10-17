@@ -1,0 +1,16 @@
+{
+  "code": 200720,
+  "name": "Kelleher",
+  "position": "GKP",
+  "team": "BRE",
+  "price": 5.0,
+  "ev_points": 2.93,
+  "horizon_ev": 15.16,
+  "q10_points": 1.0,
+  "q90_points": 5.5,
+  "ev_minutes": 87.0,
+  "p_appearance": 0.983,
+  "p_60_plus": 0.958,
+  "p_clean_sheet": 0.197,
+  "model_version": "20261017T095859Z"
+}

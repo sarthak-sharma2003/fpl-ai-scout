@@ -1,0 +1,21 @@
+{
+  "code": 536661,
+  "name": "N.Angulo",
+  "position": "MID",
+  "team": "SUN",
+  "price": 5.0,
+  "ev_points": 2.55,
+  "horizon_ev": 11.22,
+  "q10_points": 1.0,
+  "q90_points": 4.78,
+  "ev_minutes": 70.8,
+  "p_appearance": 0.942,
+  "p_60_plus": 0.709,
+  "p_clean_sheet": 0.22,
+  "model_version": "20261017T095859Z",
+  "european_fatigue": {
+    "competition": "UEL",
+    "opponent": "Torreense",
+    "days_ago": 1.7
+  }
+}

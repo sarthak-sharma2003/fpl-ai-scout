@@ -1,0 +1,1269 @@
+{
+  "reference_gw": 7,
+  "horizon": 8,
+  "is_live": true,
+  "state": "live",
+  "note": null,
+  "teams": [
+    {
+      "code": 3,
+      "name": "Arsenal",
+      "short_name": "ARS",
+      "ticker": [
+        {
+          "gw": 7,
+          "opponent": "NFO",
+          "was_home": false,
+          "fdr": 3,
+          "is_dgw": false
+        },
+        {
+          "gw": 8,
+          "opponent": "EVE",
+          "was_home": true,
+          "fdr": 3,
+          "is_dgw": false
+        },
+        {
+          "gw": 9,
+          "opponent": "LIV",
+          "was_home": false,
+          "fdr": 4,
+          "is_dgw": false
+        },
+        {
+          "gw": 10,
+          "opponent": "HUL",
+          "was_home": true,
+          "fdr": 2,
+          "is_dgw": false
+        },
+        {
+          "gw": 11,
+          "opponent": "NEW",
+          "was_home": false,
+          "fdr": 3,
+          "is_dgw": false
+        },
+        {
+          "gw": 12,
+          "opponent": "MCI",
+          "was_home": true,
+          "fdr": 4,
+          "is_dgw": false
+        },
+        {
+          "gw": 13,
+          "opponent": "BRE",
+          "was_home": false,
+          "fdr": 3,
+          "is_dgw": false
+        },
+        {
+          "gw": 14,
+          "opponent": "TOT",
+          "was_home": false,
+          "fdr": 3,
+          "is_dgw": false
+        }
+      ]
+    },
+    {
+      "code": 7,
+      "name": "Aston Villa",
+      "short_name": "AVL",
+      "ticker": [
+        {
+          "gw": 7,
+          "opponent": "NEW",
+          "was_home": false,
+          "fdr": 3,
+          "is_dgw": false
+        },
+        {
+          "gw": 8,
+          "opponent": "MCI",
+          "was_home": true,
+          "fdr": 4,
+          "is_dgw": false
+        },
+        {
+          "gw": 9,
+          "opponent": "FUL",
+          "was_home": true,
+          "fdr": 2,
+          "is_dgw": false
+        },
+        {
+          "gw": 10,
+          "opponent": "MUN",
+          "was_home": false,
+          "fdr": 4,
+          "is_dgw": false
+        },
+        {
+          "gw": 11,
+          "opponent": "SUN",
+          "was_home": true,
+          "fdr": 3,
+          "is_dgw": false
+        },
+        {
+          "gw": 12,
+          "opponent": "IPS",
+          "was_home": false,
+          "fdr": 2,
+          "is_dgw": false
+        },
+        {
+          "gw": 13,
+          "opponent": "EVE",
+          "was_home": true,
+          "fdr": 3,
+          "is_dgw": false
+        },
+        {
+          "gw": 14,
+          "opponent": "CRY",
+          "was_home": true,
+          "fdr": 2,
+          "is_dgw": false
+        }
+      ]
+    },
+    {
+      "code": 91,
+      "name": "Bournemouth",
+      "short_name": "BOU",
+      "ticker": [
+        {
+          "gw": 7,
+          "opponent": "SUN",
+          "was_home": true,
+          "fdr": 3,
+          "is_dgw": false
+        },
+        {
+          "gw": 8,
+          "opponent": "MUN",
+          "was_home": false,
+          "fdr": 4,
+          "is_dgw": false
+        },
+        {
+          "gw": 9,
+          "opponent": "LEE",
+          "was_home": true,
+          "fdr": 3,
+          "is_dgw": false
+        },
+        {
+          "gw": 10,
+          "opponent": "IPS",
+          "was_home": false,
+          "fdr": 2,
+          "is_dgw": false
+        },
+        {
+          "gw": 11,
+          "opponent": "NFO",
+          "was_home": true,
+          "fdr": 3,
+          "is_dgw": false
+        },
+        {
+          "gw": 12,
+          "opponent": "FUL",
+          "was_home": false,
+          "fdr": 3,
+          "is_dgw": false
+        },
+        {
+          "gw": 13,
+          "opponent": "BHA",
+          "was_home": true,
+          "fdr": 3,
+          "is_dgw": false
+        },
+        {
+          "gw": 14,
+          "opponent": "HUL",
+          "was_home": true,
+          "fdr": 2,
+          "is_dgw": false
+        }
+      ]
+    },
+    {
+      "code": 94,
+      "name": "Brentford",
+      "short_name": "BRE",
+      "ticker": [
+        {
+          "gw": 7,
+          "opponent": "LIV",
+          "was_home": true,
+          "fdr": 4,
+          "is_dgw": false
+        },
+        {
+          "gw": 8,
+          "opponent": "HUL",
+          "was_home": false,
+          "fdr": 2,
+          "is_dgw": false
+        },
+        {
+          "gw": 9,
+          "opponent": "NFO",
+          "was_home": true,
+          "fdr": 3,
+          "is_dgw": false
+        },
+        {
+          "gw": 10,
+          "opponent": "BHA",
+          "was_home": false,
+          "fdr": 4,
+          "is_dgw": false
+        },
+        {
+          "gw": 11,
+          "opponent": "EVE",
+          "was_home": true,
+          "fdr": 3,
+          "is_dgw": false
+        },
+        {
+          "gw": 12,
+          "opponent": "MUN",
+          "was_home": false,
+          "fdr": 4,
+          "is_dgw": false
+        },
+        {
+          "gw": 13,
+          "opponent": "ARS",
+          "was_home": true,
+          "fdr": 4,
+          "is_dgw": false
+        },
+        {
+          "gw": 14,
+          "opponent": "MCI",
+          "was_home": true,
+          "fdr": 4,
+          "is_dgw": false
+        }
+      ]
+    },
+    {
+      "code": 36,
+      "name": "Brighton",
+      "short_name": "BHA",
+      "ticker": [
+        {
+          "gw": 7,
+          "opponent": "CRY",
+          "was_home": true,
+          "fdr": 2,
+          "is_dgw": false
+        },
+        {
+          "gw": 8,
+          "opponent": "LIV",
+          "was_home": false,
+          "fdr": 4,
+          "is_dgw": false
+        },
+        {
+          "gw": 9,
+          "opponent": "MCI",
+          "was_home": false,
+          "fdr": 5,
+          "is_dgw": false
+        },
+        {
+          "gw": 10,
+          "opponent": "BRE",
+          "was_home": true,
+          "fdr": 3,
+          "is_dgw": false
+        },
+        {
+          "gw": 11,
+          "opponent": "HUL",
+          "was_home": false,
+          "fdr": 2,
+          "is_dgw": false
+        },
+        {
+          "gw": 12,
+          "opponent": "NEW",
+          "was_home": true,
+          "fdr": 3,
+          "is_dgw": false
+        },
+        {
+          "gw": 13,
+          "opponent": "BOU",
+          "was_home": false,
+          "fdr": 3,
+          "is_dgw": false
+        },
+        {
+          "gw": 14,
+          "opponent": "NFO",
+          "was_home": false,
+          "fdr": 3,
+          "is_dgw": false
+        }
+      ]
+    },
+    {
+      "code": 8,
+      "name": "Chelsea",
+      "short_name": "CHE",
+      "ticker": [
+        {
+          "gw": 7,
+          "opponent": "EVE",
+          "was_home": false,
+          "fdr": 3,
+          "is_dgw": false
+        },
+        {
+          "gw": 8,
+          "opponent": "TOT",
+          "was_home": true,
+          "fdr": 2,
+          "is_dgw": false
+        },
+        {
+          "gw": 9,
+          "opponent": "MUN",
+          "was_home": true,
+          "fdr": 4,
+          "is_dgw": false
+        },
+        {
+          "gw": 10,
+          "opponent": "SUN",
+          "was_home": false,
+          "fdr": 3,
+          "is_dgw": false
+        },
+        {
+          "gw": 11,
+          "opponent": "LEE",
+          "was_home": true,
+          "fdr": 3,
+          "is_dgw": false
+        },
+        {
+          "gw": 12,
+          "opponent": "NFO",
+          "was_home": false,
+          "fdr": 3,
+          "is_dgw": false
+        },
+        {
+          "gw": 13,
+          "opponent": "CRY",
+          "was_home": true,
+          "fdr": 2,
+          "is_dgw": false
+        },
+        {
+          "gw": 14,
+          "opponent": "LIV",
+          "was_home": true,
+          "fdr": 4,
+          "is_dgw": false
+        }
+      ]
+    },
+    {
+      "code": 9,
+      "name": "Coventry City",
+      "short_name": "COV",
+      "ticker": [
+        {
+          "gw": 7,
+          "opponent": "TOT",
+          "was_home": false,
+          "fdr": 3,
+          "is_dgw": false
+        },
+        {
+          "gw": 8,
+          "opponent": "FUL",
+          "was_home": true,
+          "fdr": 2,
+          "is_dgw": false
+        },
+        {
+          "gw": 9,
+          "opponent": "SUN",
+          "was_home": true,
+          "fdr": 3,
+          "is_dgw": false
+        },
+        {
+          "gw": 10,
+          "opponent": "EVE",
+          "was_home": false,
+          "fdr": 3,
+          "is_dgw": false
+        },
+        {
+          "gw": 11,
+          "opponent": "CRY",
+          "was_home": true,
+          "fdr": 2,
+          "is_dgw": false
+        },
+        {
+          "gw": 12,
+          "opponent": "LEE",
+          "was_home": false,
+          "fdr": 3,
+          "is_dgw": false
+        },
+        {
+          "gw": 13,
+          "opponent": "IPS",
+          "was_home": true,
+          "fdr": 2,
+          "is_dgw": false
+        },
+        {
+          "gw": 14,
+          "opponent": "MUN",
+          "was_home": false,
+          "fdr": 4,
+          "is_dgw": false
+        }
+      ]
+    },
+    {
+      "code": 31,
+      "name": "Crystal Palace",
+      "short_name": "CRY",
+      "ticker": [
+        {
+          "gw": 7,
+          "opponent": "BHA",
+          "was_home": false,
+          "fdr": 4,
+          "is_dgw": false
+        },
+        {
+          "gw": 8,
+          "opponent": "NEW",
+          "was_home": true,
+          "fdr": 3,
+          "is_dgw": false
+        },
+        {
+          "gw": 9,
+          "opponent": "TOT",
+          "was_home": false,
+          "fdr": 3,
+          "is_dgw": false
+        },
+        {
+          "gw": 10,
+          "opponent": "LIV",
+          "was_home": true,
+          "fdr": 4,
+          "is_dgw": false
+        },
+        {
+          "gw": 11,
+          "opponent": "COV",
+          "was_home": false,
+          "fdr": 2,
+          "is_dgw": false
+        },
+        {
+          "gw": 12,
+          "opponent": "HUL",
+          "was_home": true,
+          "fdr": 2,
+          "is_dgw": false
+        },
+        {
+          "gw": 13,
+          "opponent": "CHE",
+          "was_home": false,
+          "fdr": 4,
+          "is_dgw": false
+        },
+        {
+          "gw": 14,
+          "opponent": "AVL",
+          "was_home": false,
+          "fdr": 3,
+          "is_dgw": false
+        }
+      ]
+    },
+    {
+      "code": 11,
+      "name": "Everton",
+      "short_name": "EVE",
+      "ticker": [
+        {
+          "gw": 7,
+          "opponent": "CHE",
+          "was_home": true,
+          "fdr": 4,
+          "is_dgw": false
+        },
+        {
+          "gw": 8,
+          "opponent": "ARS",
+          "was_home": false,
+          "fdr": 5,
+          "is_dgw": false
+        },
+        {
+          "gw": 9,
+          "opponent": "NEW",
+          "was_home": false,
+          "fdr": 3,
+          "is_dgw": false
+        },
+        {
+          "gw": 10,
+          "opponent": "COV",
+          "was_home": true,
+          "fdr": 2,
+          "is_dgw": false
+        },
+        {
+          "gw": 11,
+          "opponent": "BRE",
+          "was_home": false,
+          "fdr": 3,
+          "is_dgw": false
+        },
+        {
+          "gw": 12,
+          "opponent": "LIV",
+          "was_home": true,
+          "fdr": 4,
+          "is_dgw": false
+        },
+        {
+          "gw": 13,
+          "opponent": "AVL",
+          "was_home": false,
+          "fdr": 3,
+          "is_dgw": false
+        },
+        {
+          "gw": 14,
+          "opponent": "FUL",
+          "was_home": true,
+          "fdr": 2,
+          "is_dgw": false
+        }
+      ]
+    },
+    {
+      "code": 54,
+      "name": "Fulham",
+      "short_name": "FUL",
+      "ticker": [
+        {
+          "gw": 7,
+          "opponent": "HUL",
+          "was_home": true,
+          "fdr": 2,
+          "is_dgw": false
+        },
+        {
+          "gw": 8,
+          "opponent": "COV",
+          "was_home": false,
+          "fdr": 2,
+          "is_dgw": false
+        },
+        {
+          "gw": 9,
+          "opponent": "AVL",
+          "was_home": false,
+          "fdr": 3,
+          "is_dgw": false
+        },
+        {
+          "gw": 10,
+          "opponent": "NEW",
+          "was_home": true,
+          "fdr": 3,
+          "is_dgw": false
+        },
+        {
+          "gw": 11,
+          "opponent": "MCI",
+          "was_home": false,
+          "fdr": 5,
+          "is_dgw": false
+        },
+        {
+          "gw": 12,
+          "opponent": "BOU",
+          "was_home": true,
+          "fdr": 3,
+          "is_dgw": false
+        },
+        {
+          "gw": 13,
+          "opponent": "TOT",
+          "was_home": false,
+          "fdr": 3,
+          "is_dgw": false
+        },
+        {
+          "gw": 14,
+          "opponent": "EVE",
+          "was_home": false,
+          "fdr": 3,
+          "is_dgw": false
+        }
+      ]
+    },
+    {
+      "code": 88,
+      "name": "Hull City",
+      "short_name": "HUL",
+      "ticker": [
+        {
+          "gw": 7,
+          "opponent": "FUL",
+          "was_home": false,
+          "fdr": 3,
+          "is_dgw": false
+        },
+        {
+          "gw": 8,
+          "opponent": "BRE",
+          "was_home": true,
+          "fdr": 3,
+          "is_dgw": false
+        },
+        {
+          "gw": 9,
+          "opponent": "IPS",
+          "was_home": true,
+          "fdr": 2,
+          "is_dgw": false
+        },
+        {
+          "gw": 10,
+          "opponent": "ARS",
+          "was_home": false,
+          "fdr": 5,
+          "is_dgw": false
+        },
+        {
+          "gw": 11,
+          "opponent": "BHA",
+          "was_home": true,
+          "fdr": 3,
+          "is_dgw": false
+        },
+        {
+          "gw": 12,
+          "opponent": "CRY",
+          "was_home": false,
+          "fdr": 3,
+          "is_dgw": false
+        },
+        {
+          "gw": 13,
+          "opponent": "NFO",
+          "was_home": true,
+          "fdr": 3,
+          "is_dgw": false
+        },
+        {
+          "gw": 14,
+          "opponent": "BOU",
+          "was_home": false,
+          "fdr": 3,
+          "is_dgw": false
+        }
+      ]
+    },
+    {
+      "code": 40,
+      "name": "Ipswich Town",
+      "short_name": "IPS",
+      "ticker": [
+        {
+          "gw": 7,
+          "opponent": "MCI",
+          "was_home": false,
+          "fdr": 5,
+          "is_dgw": false
+        },
+        {
+          "gw": 8,
+          "opponent": "NFO",
+          "was_home": true,
+          "fdr": 3,
+          "is_dgw": false
+        },
+        {
+          "gw": 9,
+          "opponent": "HUL",
+          "was_home": false,
+          "fdr": 2,
+          "is_dgw": false
+        },
+        {
+          "gw": 10,
+          "opponent": "BOU",
+          "was_home": true,
+          "fdr": 3,
+          "is_dgw": false
+        },
+        {
+          "gw": 11,
+          "opponent": "TOT",
+          "was_home": false,
+          "fdr": 3,
+          "is_dgw": false
+        },
+        {
+          "gw": 12,
+          "opponent": "AVL",
+          "was_home": true,
+          "fdr": 3,
+          "is_dgw": false
+        },
+        {
+          "gw": 13,
+          "opponent": "COV",
+          "was_home": false,
+          "fdr": 2,
+          "is_dgw": false
+        },
+        {
+          "gw": 14,
+          "opponent": "LEE",
+          "was_home": false,
+          "fdr": 3,
+          "is_dgw": false
+        }
+      ]
+    },
+    {
+      "code": 2,
+      "name": "Leeds",
+      "short_name": "LEE",
+      "ticker": [
+        {
+          "gw": 7,
+          "opponent": "MUN",
+          "was_home": true,
+          "fdr": 4,
+          "is_dgw": false
+        },
+        {
+          "gw": 8,
+          "opponent": "SUN",
+          "was_home": false,
+          "fdr": 3,
+          "is_dgw": false
+        },
+        {
+          "gw": 9,
+          "opponent": "BOU",
+          "was_home": false,
+          "fdr": 3,
+          "is_dgw": false
+        },
+        {
+          "gw": 10,
+          "opponent": "TOT",
+          "was_home": true,
+          "fdr": 2,
+          "is_dgw": false
+        },
+        {
+          "gw": 11,
+          "opponent": "CHE",
+          "was_home": false,
+          "fdr": 4,
+          "is_dgw": false
+        },
+        {
+          "gw": 12,
+          "opponent": "COV",
+          "was_home": true,
+          "fdr": 2,
+          "is_dgw": false
+        },
+        {
+          "gw": 13,
+          "opponent": "MCI",
+          "was_home": false,
+          "fdr": 5,
+          "is_dgw": false
+        },
+        {
+          "gw": 14,
+          "opponent": "IPS",
+          "was_home": true,
+          "fdr": 2,
+          "is_dgw": false
+        }
+      ]
+    },
+    {
+      "code": 14,
+      "name": "Liverpool",
+      "short_name": "LIV",
+      "ticker": [
+        {
+          "gw": 7,
+          "opponent": "BRE",
+          "was_home": false,
+          "fdr": 3,
+          "is_dgw": false
+        },
+        {
+          "gw": 8,
+          "opponent": "BHA",
+          "was_home": true,
+          "fdr": 3,
+          "is_dgw": false
+        },
+        {
+          "gw": 9,
+          "opponent": "ARS",
+          "was_home": true,
+          "fdr": 4,
+          "is_dgw": false
+        },
+        {
+          "gw": 10,
+          "opponent": "CRY",
+          "was_home": false,
+          "fdr": 3,
+          "is_dgw": false
+        },
+        {
+          "gw": 11,
+          "opponent": "MUN",
+          "was_home": true,
+          "fdr": 4,
+          "is_dgw": false
+        },
+        {
+          "gw": 12,
+          "opponent": "EVE",
+          "was_home": false,
+          "fdr": 3,
+          "is_dgw": false
+        },
+        {
+          "gw": 13,
+          "opponent": "SUN",
+          "was_home": true,
+          "fdr": 3,
+          "is_dgw": false
+        },
+        {
+          "gw": 14,
+          "opponent": "CHE",
+          "was_home": false,
+          "fdr": 4,
+          "is_dgw": false
+        }
+      ]
+    },
+    {
+      "code": 43,
+      "name": "Man City",
+      "short_name": "MCI",
+      "ticker": [
+        {
+          "gw": 7,
+          "opponent": "IPS",
+          "was_home": true,
+          "fdr": 2,
+          "is_dgw": false
+        },
+        {
+          "gw": 8,
+          "opponent": "AVL",
+          "was_home": false,
+          "fdr": 3,
+          "is_dgw": false
+        },
+        {
+          "gw": 9,
+          "opponent": "BHA",
+          "was_home": true,
+          "fdr": 3,
+          "is_dgw": false
+        },
+        {
+          "gw": 10,
+          "opponent": "NFO",
+          "was_home": false,
+          "fdr": 3,
+          "is_dgw": false
+        },
+        {
+          "gw": 11,
+          "opponent": "FUL",
+          "was_home": true,
+          "fdr": 2,
+          "is_dgw": false
+        },
+        {
+          "gw": 12,
+          "opponent": "ARS",
+          "was_home": false,
+          "fdr": 5,
+          "is_dgw": false
+        },
+        {
+          "gw": 13,
+          "opponent": "LEE",
+          "was_home": true,
+          "fdr": 3,
+          "is_dgw": false
+        },
+        {
+          "gw": 14,
+          "opponent": "BRE",
+          "was_home": false,
+          "fdr": 3,
+          "is_dgw": false
+        }
+      ]
+    },
+    {
+      "code": 1,
+      "name": "Man Utd",
+      "short_name": "MUN",
+      "ticker": [
+        {
+          "gw": 7,
+          "opponent": "LEE",
+          "was_home": false,
+          "fdr": 3,
+          "is_dgw": false
+        },
+        {
+          "gw": 8,
+          "opponent": "BOU",
+          "was_home": true,
+          "fdr": 3,
+          "is_dgw": false
+        },
+        {
+          "gw": 9,
+          "opponent": "CHE",
+          "was_home": false,
+          "fdr": 4,
+          "is_dgw": false
+        },
+        {
+          "gw": 10,
+          "opponent": "AVL",
+          "was_home": true,
+          "fdr": 3,
+          "is_dgw": false
+        },
+        {
+          "gw": 11,
+          "opponent": "LIV",
+          "was_home": false,
+          "fdr": 4,
+          "is_dgw": false
+        },
+        {
+          "gw": 12,
+          "opponent": "BRE",
+          "was_home": true,
+          "fdr": 3,
+          "is_dgw": false
+        },
+        {
+          "gw": 13,
+          "opponent": "NEW",
+          "was_home": false,
+          "fdr": 3,
+          "is_dgw": false
+        },
+        {
+          "gw": 14,
+          "opponent": "COV",
+          "was_home": true,
+          "fdr": 2,
+          "is_dgw": false
+        }
+      ]
+    },
+    {
+      "code": 4,
+      "name": "Newcastle",
+      "short_name": "NEW",
+      "ticker": [
+        {
+          "gw": 7,
+          "opponent": "AVL",
+          "was_home": true,
+          "fdr": 3,
+          "is_dgw": false
+        },
+        {
+          "gw": 8,
+          "opponent": "CRY",
+          "was_home": false,
+          "fdr": 3,
+          "is_dgw": false
+        },
+        {
+          "gw": 9,
+          "opponent": "EVE",
+          "was_home": true,
+          "fdr": 3,
+          "is_dgw": false
+        },
+        {
+          "gw": 10,
+          "opponent": "FUL",
+          "was_home": false,
+          "fdr": 3,
+          "is_dgw": false
+        },
+        {
+          "gw": 11,
+          "opponent": "ARS",
+          "was_home": true,
+          "fdr": 4,
+          "is_dgw": false
+        },
+        {
+          "gw": 12,
+          "opponent": "BHA",
+          "was_home": false,
+          "fdr": 4,
+          "is_dgw": false
+        },
+        {
+          "gw": 13,
+          "opponent": "MUN",
+          "was_home": true,
+          "fdr": 4,
+          "is_dgw": false
+        },
+        {
+          "gw": 14,
+          "opponent": "SUN",
+          "was_home": true,
+          "fdr": 3,
+          "is_dgw": false
+        }
+      ]
+    },
+    {
+      "code": 17,
+      "name": "Nott'm Forest",
+      "short_name": "NFO",
+      "ticker": [
+        {
+          "gw": 7,
+          "opponent": "ARS",
+          "was_home": true,
+          "fdr": 4,
+          "is_dgw": false
+        },
+        {
+          "gw": 8,
+          "opponent": "IPS",
+          "was_home": false,
+          "fdr": 2,
+          "is_dgw": false
+        },
+        {
+          "gw": 9,
+          "opponent": "BRE",
+          "was_home": false,
+          "fdr": 3,
+          "is_dgw": false
+        },
+        {
+          "gw": 10,
+          "opponent": "MCI",
+          "was_home": true,
+          "fdr": 4,
+          "is_dgw": false
+        },
+        {
+          "gw": 11,
+          "opponent": "BOU",
+          "was_home": false,
+          "fdr": 3,
+          "is_dgw": false
+        },
+        {
+          "gw": 12,
+          "opponent": "CHE",
+          "was_home": true,
+          "fdr": 4,
+          "is_dgw": false
+        },
+        {
+          "gw": 13,
+          "opponent": "HUL",
+          "was_home": false,
+          "fdr": 2,
+          "is_dgw": false
+        },
+        {
+          "gw": 14,
+          "opponent": "BHA",
+          "was_home": true,
+          "fdr": 3,
+          "is_dgw": false
+        }
+      ]
+    },
+    {
+      "code": 6,
+      "name": "Spurs",
+      "short_name": "TOT",
+      "ticker": [
+        {
+          "gw": 7,
+          "opponent": "COV",
+          "was_home": true,
+          "fdr": 2,
+          "is_dgw": false
+        },
+        {
+          "gw": 8,
+          "opponent": "CHE",
+          "was_home": false,
+          "fdr": 4,
+          "is_dgw": false
+        },
+        {
+          "gw": 9,
+          "opponent": "CRY",
+          "was_home": true,
+          "fdr": 2,
+          "is_dgw": false
+        },
+        {
+          "gw": 10,
+          "opponent": "LEE",
+          "was_home": false,
+          "fdr": 3,
+          "is_dgw": false
+        },
+        {
+          "gw": 11,
+          "opponent": "IPS",
+          "was_home": true,
+          "fdr": 2,
+          "is_dgw": false
+        },
+        {
+          "gw": 12,
+          "opponent": "SUN",
+          "was_home": false,
+          "fdr": 3,
+          "is_dgw": false
+        },
+        {
+          "gw": 13,
+          "opponent": "FUL",
+          "was_home": true,
+          "fdr": 2,
+          "is_dgw": false
+        },
+        {
+          "gw": 14,
+          "opponent": "ARS",
+          "was_home": true,
+          "fdr": 4,
+          "is_dgw": false
+        }
+      ]
+    },
+    {
+      "code": 56,
+      "name": "Sunderland",
+      "short_name": "SUN",
+      "ticker": [
+        {
+          "gw": 7,
+          "opponent": "BOU",
+          "was_home": false,
+          "fdr": 3,
+          "is_dgw": false
+        },
+        {
+          "gw": 8,
+          "opponent": "LEE",
+          "was_home": true,
+          "fdr": 3,
+          "is_dgw": false
+        },
+        {
+          "gw": 9,
+          "opponent": "COV",
+          "was_home": false,
+          "fdr": 2,
+          "is_dgw": false
+        },
+        {
+          "gw": 10,
+          "opponent": "CHE",
+          "was_home": true,
+          "fdr": 4,
+          "is_dgw": false
+        },
+        {
+          "gw": 11,
+          "opponent": "AVL",
+          "was_home": false,
+          "fdr": 3,
+          "is_dgw": false
+        },
+        {
+          "gw": 12,
+          "opponent": "TOT",
+          "was_home": true,
+          "fdr": 2,
+          "is_dgw": false
+        },
+        {
+          "gw": 13,
+          "opponent": "LIV",
+          "was_home": false,
+          "fdr": 4,
+          "is_dgw": false
+        },
+        {
+          "gw": 14,
+          "opponent": "NEW",
+          "was_home": false,
+          "fdr": 3,
+          "is_dgw": false
+        }
+      ]
+    }
+  ]
+}

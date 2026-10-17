@@ -1,0 +1,29 @@
+# Your UCL Fantasy squad, as held going into the matchday below.
+# The tool cannot read your real UCL team (UEFA's team pages need a login),
+# so this file IS your team as far as the planner knows. The deploy advances
+# it automatically after each deadline by applying the moves the site
+# recommended for that matchday. If you did something different, edit this
+# file (one UEFA player id per line) and fix bank/chips below.
+# Source: the site's MD1 squad, published 2026-09-08 06:51 UTC (ucl-scout
+# 822ce9b), cost EUR99.5m at MD1 prices.
+#
+# matchday: 3
+# bank: 0.5
+# wildcard_used: no
+# limitless_used: no
+# free_transfers: 2
+250179137  # DEF I. Fresneda (Sporting CP)
+250010245  # DEF M. Bartra (Real Betis)
+50327420   # DEF V. van Dijk (Liverpool)
+250174126  # DEF W. Pacho (Paris)
+250190353  # DEF Š. Chaloupek (Slavia Praha)
+250016833  # FWD H. Kane (Bayern München)
+250172668  # FWD J. Alvarez (Atleti)
+250163404  # FWD P. Esposito (Inter)
+250171278  # GK  D. Raya (Arsenal)
+250065792  # GK  V. Milinković-Savić (Napoli)
+250101284  # MID F. Valverde (Real Madrid)
+250176450  # MID L. Yamal (Barcelona)
+250171184  # MID M. Olise (Bayern München)
+250055294  # MID R. Marin (AEK Athens)
+250101444  # MID Vitinha (Paris)

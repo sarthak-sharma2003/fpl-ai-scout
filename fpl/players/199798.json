@@ -1,0 +1,21 @@
+{
+  "code": 199798,
+  "name": "Konsa",
+  "position": "DEF",
+  "team": "ARS",
+  "price": 4.6,
+  "ev_points": 4.77,
+  "horizon_ev": 20.5,
+  "q10_points": 1.0,
+  "q90_points": 7.82,
+  "ev_minutes": 83.7,
+  "p_appearance": 0.97,
+  "p_60_plus": 0.909,
+  "p_clean_sheet": 0.446,
+  "model_version": "20261017T095859Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Lille",
+    "days_ago": 3.6
+  }
+}

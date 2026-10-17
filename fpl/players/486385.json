@@ -1,0 +1,21 @@
+{
+  "code": 486385,
+  "name": "Beto",
+  "position": "FWD",
+  "team": "EVE",
+  "price": 5.4,
+  "ev_points": 0.01,
+  "horizon_ev": 0.01,
+  "q10_points": 0.0,
+  "q90_points": 0.0,
+  "ev_minutes": 0.2,
+  "p_appearance": 0.002,
+  "p_60_plus": 0.002,
+  "p_clean_sheet": 0.259,
+  "model_version": "20261017T095859Z",
+  "flag": {
+    "status": "u",
+    "news": "Has joined Fiorentina permanently",
+    "chance": 0
+  }
+}

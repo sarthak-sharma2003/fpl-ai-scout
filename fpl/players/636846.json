@@ -1,0 +1,16 @@
+{
+  "code": 636846,
+  "name": "Nicoll-Jazuli",
+  "position": "MID",
+  "team": "CHE",
+  "price": 4.5,
+  "ev_points": 0.27,
+  "horizon_ev": 1.43,
+  "q10_points": 0.0,
+  "q90_points": 0.89,
+  "ev_minutes": 7.4,
+  "p_appearance": 0.199,
+  "p_60_plus": 0.024,
+  "p_clean_sheet": 0.284,
+  "model_version": "20261017T095859Z"
+}

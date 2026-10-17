@@ -1,0 +1,21 @@
+{
+  "code": 200834,
+  "name": "Mukiele",
+  "position": "DEF",
+  "team": "SUN",
+  "price": 5.4,
+  "ev_points": 3.47,
+  "horizon_ev": 16.22,
+  "q10_points": 1.0,
+  "q90_points": 7.23,
+  "ev_minutes": 83.4,
+  "p_appearance": 0.978,
+  "p_60_plus": 0.901,
+  "p_clean_sheet": 0.22,
+  "model_version": "20261017T095859Z",
+  "european_fatigue": {
+    "competition": "UEL",
+    "opponent": "Torreense",
+    "days_ago": 1.7
+  }
+}

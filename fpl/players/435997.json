@@ -1,0 +1,16 @@
+{
+  "code": 435997,
+  "name": "Okafor",
+  "position": "MID",
+  "team": "LEE",
+  "price": 5.8,
+  "ev_points": 2.78,
+  "horizon_ev": 12.49,
+  "q10_points": 1.0,
+  "q90_points": 5.85,
+  "ev_minutes": 74.9,
+  "p_appearance": 0.966,
+  "p_60_plus": 0.765,
+  "p_clean_sheet": 0.248,
+  "model_version": "20261017T095859Z"
+}

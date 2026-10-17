@@ -1,0 +1,26 @@
+{
+  "code": 449871,
+  "name": "Onana",
+  "position": "MID",
+  "team": "AVL",
+  "price": 4.9,
+  "ev_points": 0.0,
+  "horizon_ev": 0.9,
+  "q10_points": 0.0,
+  "q90_points": 0.0,
+  "ev_minutes": 0.1,
+  "p_appearance": 0.003,
+  "p_60_plus": 0.0,
+  "p_clean_sheet": 0.175,
+  "model_version": "20261017T095859Z",
+  "flag": {
+    "status": "i",
+    "news": "Knee injury - Unknown return date",
+    "chance": 0
+  },
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Fenerbahce",
+    "days_ago": 2.6
+  }
+}

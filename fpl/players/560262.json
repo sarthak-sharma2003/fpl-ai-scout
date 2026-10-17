@@ -1,0 +1,27 @@
+{
+  "code": 560262,
+  "name": "Kroupi.Jr",
+  "position": "MID",
+  "team": "BOU",
+  "price": 7.3,
+  "ev_points": 0.01,
+  "horizon_ev": 1.4,
+  "q10_points": 0.0,
+  "q90_points": 0.0,
+  "ev_minutes": 0.1,
+  "p_appearance": 0.004,
+  "p_60_plus": 0.001,
+  "p_clean_sheet": 0.348,
+  "model_version": "20261017T095859Z",
+  "flag": {
+    "status": "i",
+    "news": "Foot injury - Expected back 7 Nov",
+    "chance": 0
+  },
+  "pk": true,
+  "european_fatigue": {
+    "competition": "UEL",
+    "opponent": "SK Sturm Graz",
+    "days_ago": 1.6
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "code": 516895,
+  "name": "Mainoo",
+  "position": "MID",
+  "team": "MUN",
+  "price": 5.5,
+  "ev_points": 2.54,
+  "horizon_ev": 13.67,
+  "q10_points": 0.0,
+  "q90_points": 7.07,
+  "ev_minutes": 61.3,
+  "p_appearance": 0.72,
+  "p_60_plus": 0.661,
+  "p_clean_sheet": 0.251,
+  "model_version": "20261017T095859Z",
+  "flag": {
+    "status": "d",
+    "news": "Unspecified injury - 75% chance of playing",
+    "chance": 75
+  },
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Atl\u00e9tico Madrid",
+    "days_ago": 3.6
+  }
+}

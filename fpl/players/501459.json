@@ -1,0 +1,16 @@
+{
+  "code": 501459,
+  "name": "Sakamoto",
+  "position": "MID",
+  "team": "COV",
+  "price": 4.8,
+  "ev_points": 0.61,
+  "horizon_ev": 3.56,
+  "q10_points": 0.0,
+  "q90_points": 1.22,
+  "ev_minutes": 18.6,
+  "p_appearance": 0.449,
+  "p_60_plus": 0.085,
+  "p_clean_sheet": 0.11,
+  "model_version": "20261017T095859Z"
+}

@@ -1,0 +1,17 @@
+{
+  "code": 502500,
+  "name": "Thiago",
+  "position": "FWD",
+  "team": "BRE",
+  "price": 7.8,
+  "ev_points": 4.16,
+  "horizon_ev": 20.06,
+  "q10_points": 1.0,
+  "q90_points": 7.05,
+  "ev_minutes": 86.1,
+  "p_appearance": 0.988,
+  "p_60_plus": 0.941,
+  "p_clean_sheet": 0.197,
+  "model_version": "20261017T095859Z",
+  "pk": true
+}

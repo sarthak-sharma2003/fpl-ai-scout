@@ -1,0 +1,16 @@
+{
+  "code": 455084,
+  "name": "Davis",
+  "position": "DEF",
+  "team": "IPS",
+  "price": 4.0,
+  "ev_points": 1.87,
+  "horizon_ev": 11.91,
+  "q10_points": 0.0,
+  "q90_points": 2.8,
+  "ev_minutes": 84.8,
+  "p_appearance": 0.984,
+  "p_60_plus": 0.921,
+  "p_clean_sheet": 0.031,
+  "model_version": "20261017T095859Z"
+}

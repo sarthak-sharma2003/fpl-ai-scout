@@ -1,0 +1,16 @@
+{
+  "code": 221466,
+  "name": "Senesi",
+  "position": "DEF",
+  "team": "TOT",
+  "price": 5.7,
+  "ev_points": 2.11,
+  "horizon_ev": 11.83,
+  "q10_points": 0.0,
+  "q90_points": 4.99,
+  "ev_minutes": 46.7,
+  "p_appearance": 0.764,
+  "p_60_plus": 0.397,
+  "p_clean_sheet": 0.423,
+  "model_version": "20261017T095859Z"
+}

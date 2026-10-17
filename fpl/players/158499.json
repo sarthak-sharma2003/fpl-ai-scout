@@ -1,0 +1,21 @@
+{
+  "code": 158499,
+  "name": "Christie",
+  "position": "MID",
+  "team": "BOU",
+  "price": 5.0,
+  "ev_points": 3.76,
+  "horizon_ev": 14.81,
+  "q10_points": 1.0,
+  "q90_points": 7.7,
+  "ev_minutes": 72.7,
+  "p_appearance": 0.953,
+  "p_60_plus": 0.734,
+  "p_clean_sheet": 0.348,
+  "model_version": "20261017T095859Z",
+  "european_fatigue": {
+    "competition": "UEL",
+    "opponent": "SK Sturm Graz",
+    "days_ago": 1.6
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "code": 240514,
+  "name": "Scherpen",
+  "position": "GKP",
+  "team": "IPS",
+  "price": 4.5,
+  "ev_points": 0.25,
+  "horizon_ev": 1.64,
+  "q10_points": 0.0,
+  "q90_points": 0.36,
+  "ev_minutes": 7.0,
+  "p_appearance": 0.102,
+  "p_60_plus": 0.066,
+  "p_clean_sheet": 0.031,
+  "model_version": "20261017T095859Z"
+}

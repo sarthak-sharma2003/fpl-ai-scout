@@ -1,0 +1,26 @@
+{
+  "code": 88894,
+  "name": "Barkley",
+  "position": "MID",
+  "team": "AVL",
+  "price": 5.0,
+  "ev_points": 0.97,
+  "horizon_ev": 6.96,
+  "q10_points": 0.0,
+  "q90_points": 1.45,
+  "ev_minutes": 23.2,
+  "p_appearance": 0.53,
+  "p_60_plus": 0.121,
+  "p_clean_sheet": 0.175,
+  "model_version": "20261017T095859Z",
+  "flag": {
+    "status": "d",
+    "news": "Unspecified injury - 75% chance of playing",
+    "chance": 75
+  },
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Fenerbahce",
+    "days_ago": 2.6
+  }
+}

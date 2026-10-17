@@ -1,0 +1,21 @@
+{
+  "code": 577669,
+  "name": "Sadiki",
+  "position": "MID",
+  "team": "SUN",
+  "price": 4.8,
+  "ev_points": 3.03,
+  "horizon_ev": 13.92,
+  "q10_points": 1.0,
+  "q90_points": 4.14,
+  "ev_minutes": 81.0,
+  "p_appearance": 0.968,
+  "p_60_plus": 0.867,
+  "p_clean_sheet": 0.22,
+  "model_version": "20261017T095859Z",
+  "european_fatigue": {
+    "competition": "UEL",
+    "opponent": "Torreense",
+    "days_ago": 1.7
+  }
+}

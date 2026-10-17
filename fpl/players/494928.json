@@ -1,0 +1,21 @@
+{
+  "code": 494928,
+  "name": "Sanchez",
+  "position": "DEF",
+  "team": "BOU",
+  "price": 4.4,
+  "ev_points": 0.64,
+  "horizon_ev": 4.04,
+  "q10_points": 0.0,
+  "q90_points": 1.38,
+  "ev_minutes": 17.0,
+  "p_appearance": 0.359,
+  "p_60_plus": 0.103,
+  "p_clean_sheet": 0.348,
+  "model_version": "20261017T095859Z",
+  "european_fatigue": {
+    "competition": "UEL",
+    "opponent": "SK Sturm Graz",
+    "days_ago": 1.6
+  }
+}

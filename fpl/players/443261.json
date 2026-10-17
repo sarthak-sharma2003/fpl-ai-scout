@@ -1,0 +1,17 @@
+{
+  "code": 443261,
+  "name": "Clarke",
+  "position": "MID",
+  "team": "IPS",
+  "price": 5.3,
+  "ev_points": 1.54,
+  "horizon_ev": 10.63,
+  "q10_points": 0.0,
+  "q90_points": 2.84,
+  "ev_minutes": 41.2,
+  "p_appearance": 0.834,
+  "p_60_plus": 0.27,
+  "p_clean_sheet": 0.031,
+  "model_version": "20261017T095859Z",
+  "pk": true
+}

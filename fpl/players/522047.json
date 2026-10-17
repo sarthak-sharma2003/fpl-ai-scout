@@ -1,0 +1,16 @@
+{
+  "code": 522047,
+  "name": "Muharemovi\u0107",
+  "position": "DEF",
+  "team": "LEE",
+  "price": 5.0,
+  "ev_points": 3.7,
+  "horizon_ev": 16.66,
+  "q10_points": 1.0,
+  "q90_points": 7.8,
+  "ev_minutes": 85.6,
+  "p_appearance": 0.979,
+  "p_60_plus": 0.937,
+  "p_clean_sheet": 0.248,
+  "model_version": "20261017T095859Z"
+}

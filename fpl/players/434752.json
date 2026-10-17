@@ -1,0 +1,16 @@
+{
+  "code": 434752,
+  "name": "Bijol",
+  "position": "DEF",
+  "team": "LEE",
+  "price": 5.0,
+  "ev_points": 0.73,
+  "horizon_ev": 4.63,
+  "q10_points": 0.0,
+  "q90_points": 0.66,
+  "ev_minutes": 20.5,
+  "p_appearance": 0.459,
+  "p_60_plus": 0.112,
+  "p_clean_sheet": 0.248,
+  "model_version": "20261017T095859Z"
+}

@@ -1,0 +1,21 @@
+{
+  "code": 222694,
+  "name": "Struijk",
+  "position": "DEF",
+  "team": "BHA",
+  "price": 4.9,
+  "ev_points": 1.31,
+  "horizon_ev": 9.98,
+  "q10_points": 0.0,
+  "q90_points": 2.59,
+  "ev_minutes": 28.3,
+  "p_appearance": 0.507,
+  "p_60_plus": 0.218,
+  "p_clean_sheet": 0.345,
+  "model_version": "20261017T095859Z",
+  "flag": {
+    "status": "d",
+    "news": "Hamstring injury - 75% chance of playing",
+    "chance": 75
+  }
+}

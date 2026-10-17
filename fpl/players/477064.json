@@ -1,0 +1,21 @@
+{
+  "code": 477064,
+  "name": "Lewis",
+  "position": "DEF",
+  "team": "MCI",
+  "price": 4.3,
+  "ev_points": 0.27,
+  "horizon_ev": 1.17,
+  "q10_points": 0.0,
+  "q90_points": 0.31,
+  "ev_minutes": 5.4,
+  "p_appearance": 0.12,
+  "p_60_plus": 0.03,
+  "p_clean_sheet": 0.504,
+  "model_version": "20261017T095859Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Paris Saint-Germain",
+    "days_ago": 2.6
+  }
+}

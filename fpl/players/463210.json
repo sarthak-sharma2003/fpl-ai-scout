@@ -1,0 +1,16 @@
+{
+  "code": 463210,
+  "name": "Charles",
+  "position": "MID",
+  "team": "FUL",
+  "price": 5.0,
+  "ev_points": 3.3,
+  "horizon_ev": 14.03,
+  "q10_points": 1.0,
+  "q90_points": 6.38,
+  "ev_minutes": 80.3,
+  "p_appearance": 0.962,
+  "p_60_plus": 0.858,
+  "p_clean_sheet": 0.463,
+  "model_version": "20261017T095859Z"
+}

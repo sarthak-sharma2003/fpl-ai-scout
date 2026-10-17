@@ -1,0 +1,16 @@
+{
+  "code": 246301,
+  "name": "J.Cuenca",
+  "position": "DEF",
+  "team": "FUL",
+  "price": 4.5,
+  "ev_points": 0.45,
+  "horizon_ev": 2.24,
+  "q10_points": 0.0,
+  "q90_points": 1.15,
+  "ev_minutes": 10.6,
+  "p_appearance": 0.225,
+  "p_60_plus": 0.063,
+  "p_clean_sheet": 0.463,
+  "model_version": "20261017T095859Z"
+}

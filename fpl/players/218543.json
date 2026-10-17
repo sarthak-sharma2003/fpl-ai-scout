@@ -1,0 +1,16 @@
+{
+  "code": 218543,
+  "name": "Palacios",
+  "position": "MID",
+  "team": "IPS",
+  "price": 5.0,
+  "ev_points": 2.38,
+  "horizon_ev": 11.62,
+  "q10_points": 1.0,
+  "q90_points": 3.65,
+  "ev_minutes": 74.8,
+  "p_appearance": 0.941,
+  "p_60_plus": 0.776,
+  "p_clean_sheet": 0.031,
+  "model_version": "20261017T095859Z"
+}

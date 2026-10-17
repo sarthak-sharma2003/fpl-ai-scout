@@ -1,0 +1,21 @@
+{
+  "code": 154561,
+  "name": "Raya",
+  "position": "GKP",
+  "team": "ARS",
+  "price": 6.1,
+  "ev_points": 4.11,
+  "horizon_ev": 19.01,
+  "q10_points": 1.0,
+  "q90_points": 5.79,
+  "ev_minutes": 87.8,
+  "p_appearance": 0.988,
+  "p_60_plus": 0.969,
+  "p_clean_sheet": 0.446,
+  "model_version": "20261017T095859Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Lille",
+    "days_ago": 3.6
+  }
+}

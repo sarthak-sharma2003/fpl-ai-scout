@@ -1,0 +1,21 @@
+{
+  "code": 122074,
+  "name": "Bettinelli",
+  "position": "GKP",
+  "team": "MCI",
+  "price": 4.4,
+  "ev_points": 0.04,
+  "horizon_ev": 0.12,
+  "q10_points": 0.0,
+  "q90_points": 0.0,
+  "ev_minutes": 0.9,
+  "p_appearance": 0.013,
+  "p_60_plus": 0.009,
+  "p_clean_sheet": 0.504,
+  "model_version": "20261017T095859Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Paris Saint-Germain",
+    "days_ago": 2.6
+  }
+}

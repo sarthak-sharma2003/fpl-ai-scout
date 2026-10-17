@@ -1,0 +1,21 @@
+{
+  "code": 489888,
+  "name": "Adli",
+  "position": "MID",
+  "team": "BOU",
+  "price": 4.8,
+  "ev_points": 0.43,
+  "horizon_ev": 1.41,
+  "q10_points": 0.0,
+  "q90_points": 1.04,
+  "ev_minutes": 12.0,
+  "p_appearance": 0.305,
+  "p_60_plus": 0.047,
+  "p_clean_sheet": 0.348,
+  "model_version": "20261017T095859Z",
+  "european_fatigue": {
+    "competition": "UEL",
+    "opponent": "SK Sturm Graz",
+    "days_ago": 1.6
+  }
+}

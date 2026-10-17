@@ -1,0 +1,16 @@
+{
+  "code": 612855,
+  "name": "Osman",
+  "position": "MID",
+  "team": "BHA",
+  "price": 4.9,
+  "ev_points": 0.42,
+  "horizon_ev": 1.96,
+  "q10_points": 0.0,
+  "q90_points": 0.99,
+  "ev_minutes": 11.9,
+  "p_appearance": 0.321,
+  "p_60_plus": 0.037,
+  "p_clean_sheet": 0.345,
+  "model_version": "20261017T095859Z"
+}

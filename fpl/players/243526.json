@@ -1,0 +1,16 @@
+{
+  "code": 243526,
+  "name": "Gudmundsson",
+  "position": "DEF",
+  "team": "LEE",
+  "price": 4.5,
+  "ev_points": 3.15,
+  "horizon_ev": 14.39,
+  "q10_points": 1.0,
+  "q90_points": 6.72,
+  "ev_minutes": 81.8,
+  "p_appearance": 0.971,
+  "p_60_plus": 0.877,
+  "p_clean_sheet": 0.248,
+  "model_version": "20261017T095859Z"
+}

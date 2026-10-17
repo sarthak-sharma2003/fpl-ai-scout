@@ -1,0 +1,262 @@
+{
+  "gw": 7,
+  "confidence": 33.5,
+  "bank": 13,
+  "free_transfers": 2,
+  "chip_advice": null,
+  "moves": [
+    {
+      "out": {
+        "code": 607464,
+        "name": "Kayode",
+        "team": "BRE",
+        "position": "DEF",
+        "price": 4.6,
+        "ev": 2.35
+      },
+      "in": {
+        "code": 469142,
+        "name": "Van Hecke",
+        "team": "TOT",
+        "position": "DEF",
+        "price": 4.9,
+        "ev": 4.92
+      },
+      "compare": {
+        "position": "DEF",
+        "out_ev": 2.35,
+        "in_ev": 4.92
+      },
+      "net_ev": 2.57
+    },
+    {
+      "out": {
+        "code": 424876,
+        "name": "Szoboszlai",
+        "team": "LIV",
+        "position": "MID",
+        "price": 6.8,
+        "ev": 0.71,
+        "flag": {
+          "status": "d",
+          "news": "Hamstring injury - 25% chance of playing",
+          "chance": 25
+        },
+        "pk": true,
+        "european_fatigue": {
+          "competition": "UCL",
+          "opponent": "LASK Linz",
+          "days_ago": 2.7
+        }
+      },
+      "in": {
+        "code": 446008,
+        "name": "Mbeumo",
+        "team": "MUN",
+        "position": "MID",
+        "price": 7.8,
+        "ev": 4.92,
+        "european_fatigue": {
+          "competition": "UCL",
+          "opponent": "Atl\u00e9tico Madrid",
+          "days_ago": 3.6
+        }
+      },
+      "compare": {
+        "position": "MID",
+        "out_ev": 0.71,
+        "in_ev": 4.92
+      },
+      "net_ev": 4.22
+    }
+  ],
+  "alternatives": [
+    {
+      "out": {
+        "code": 424876,
+        "name": "Szoboszlai",
+        "team": "LIV",
+        "position": "MID",
+        "price": 6.8,
+        "ev": 0.71,
+        "flag": {
+          "status": "d",
+          "news": "Hamstring injury - 25% chance of playing",
+          "chance": 25
+        },
+        "pk": true,
+        "european_fatigue": {
+          "competition": "UCL",
+          "opponent": "LASK Linz",
+          "days_ago": 2.7
+        }
+      },
+      "in": {
+        "code": 510281,
+        "name": "S\u00e1vio",
+        "team": "TOT",
+        "position": "MID",
+        "price": 6.5,
+        "ev": 5.23
+      },
+      "compare": {
+        "position": "MID",
+        "out_ev": 0.71,
+        "in_ev": 5.23
+      },
+      "net_ev": 4.52
+    },
+    {
+      "out": {
+        "code": 599303,
+        "name": "Neave",
+        "team": "NEW",
+        "position": "FWD",
+        "price": 4.5,
+        "ev": 0.0,
+        "flag": {
+          "status": "u",
+          "news": "Has joined Wolves on loan for the rest of the season",
+          "chance": 0
+        }
+      },
+      "in": {
+        "code": 154566,
+        "name": "Solanke",
+        "team": "TOT",
+        "position": "FWD",
+        "price": 5.8,
+        "ev": 4.47,
+        "pk": true
+      },
+      "compare": {
+        "position": "FWD",
+        "out_ev": 0.0,
+        "in_ev": 4.47
+      },
+      "net_ev": 4.46
+    },
+    {
+      "out": {
+        "code": 424876,
+        "name": "Szoboszlai",
+        "team": "LIV",
+        "position": "MID",
+        "price": 6.8,
+        "ev": 0.71,
+        "flag": {
+          "status": "d",
+          "news": "Hamstring injury - 25% chance of playing",
+          "chance": 25
+        },
+        "pk": true,
+        "european_fatigue": {
+          "competition": "UCL",
+          "opponent": "LASK Linz",
+          "days_ago": 2.7
+        }
+      },
+      "in": {
+        "code": 446008,
+        "name": "Mbeumo",
+        "team": "MUN",
+        "position": "MID",
+        "price": 7.8,
+        "ev": 4.92,
+        "european_fatigue": {
+          "competition": "UCL",
+          "opponent": "Atl\u00e9tico Madrid",
+          "days_ago": 3.6
+        }
+      },
+      "compare": {
+        "position": "MID",
+        "out_ev": 0.71,
+        "in_ev": 4.92
+      },
+      "net_ev": 4.22
+    },
+    {
+      "out": {
+        "code": 424876,
+        "name": "Szoboszlai",
+        "team": "LIV",
+        "position": "MID",
+        "price": 6.8,
+        "ev": 0.71,
+        "flag": {
+          "status": "d",
+          "news": "Hamstring injury - 25% chance of playing",
+          "chance": 25
+        },
+        "pk": true,
+        "european_fatigue": {
+          "competition": "UCL",
+          "opponent": "LASK Linz",
+          "days_ago": 2.7
+        }
+      },
+      "in": {
+        "code": 499604,
+        "name": "Rayan",
+        "team": "BOU",
+        "position": "MID",
+        "price": 6.3,
+        "ev": 4.55,
+        "european_fatigue": {
+          "competition": "UEL",
+          "opponent": "SK Sturm Graz",
+          "days_ago": 1.6
+        }
+      },
+      "compare": {
+        "position": "MID",
+        "out_ev": 0.71,
+        "in_ev": 4.55
+      },
+      "net_ev": 3.84
+    },
+    {
+      "out": {
+        "code": 424876,
+        "name": "Szoboszlai",
+        "team": "LIV",
+        "position": "MID",
+        "price": 6.8,
+        "ev": 0.71,
+        "flag": {
+          "status": "d",
+          "news": "Hamstring injury - 25% chance of playing",
+          "chance": 25
+        },
+        "pk": true,
+        "european_fatigue": {
+          "competition": "UCL",
+          "opponent": "LASK Linz",
+          "days_ago": 2.7
+        }
+      },
+      "in": {
+        "code": 430871,
+        "name": "Cunha",
+        "team": "MUN",
+        "position": "MID",
+        "price": 7.9,
+        "ev": 4.54,
+        "european_fatigue": {
+          "competition": "UCL",
+          "opponent": "Atl\u00e9tico Madrid",
+          "days_ago": 3.6
+        }
+      },
+      "compare": {
+        "position": "MID",
+        "out_ev": 0.71,
+        "in_ev": 4.54
+      },
+      "net_ev": 3.83
+    }
+  ],
+  "squad_source": "synced",
+  "rotations": []
+}

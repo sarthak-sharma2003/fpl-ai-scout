@@ -1,0 +1,21 @@
+{
+  "code": 427623,
+  "name": "Richards",
+  "position": "DEF",
+  "team": "CRY",
+  "price": 4.9,
+  "ev_points": 3.03,
+  "horizon_ev": 15.49,
+  "q10_points": 0.0,
+  "q90_points": 6.51,
+  "ev_minutes": 85.9,
+  "p_appearance": 0.98,
+  "p_60_plus": 0.942,
+  "p_clean_sheet": 0.162,
+  "model_version": "20261017T095859Z",
+  "european_fatigue": {
+    "competition": "UEL",
+    "opponent": "Lyon",
+    "days_ago": 1.7
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "code": 472739,
+  "name": "Rushworth",
+  "position": "GKP",
+  "team": "COV",
+  "price": 4.5,
+  "ev_points": 3.25,
+  "horizon_ev": 15.85,
+  "q10_points": 0.15,
+  "q90_points": 4.17,
+  "ev_minutes": 85.8,
+  "p_appearance": 0.972,
+  "p_60_plus": 0.944,
+  "p_clean_sheet": 0.11,
+  "model_version": "20261017T095859Z"
+}

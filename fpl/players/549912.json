@@ -1,0 +1,21 @@
+{
+  "code": 549912,
+  "name": "Talbi",
+  "position": "MID",
+  "team": "SUN",
+  "price": 5.3,
+  "ev_points": 0.33,
+  "horizon_ev": 1.78,
+  "q10_points": 0.0,
+  "q90_points": 0.97,
+  "ev_minutes": 8.9,
+  "p_appearance": 0.224,
+  "p_60_plus": 0.036,
+  "p_clean_sheet": 0.22,
+  "model_version": "20261017T095859Z",
+  "european_fatigue": {
+    "competition": "UEL",
+    "opponent": "Torreense",
+    "days_ago": 1.7
+  }
+}

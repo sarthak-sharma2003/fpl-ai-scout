@@ -1,0 +1,16 @@
+{
+  "code": 242893,
+  "name": "Gboho",
+  "position": "MID",
+  "team": "COV",
+  "price": 5.5,
+  "ev_points": 0.31,
+  "horizon_ev": 1.5,
+  "q10_points": 0.0,
+  "q90_points": 0.92,
+  "ev_minutes": 7.3,
+  "p_appearance": 0.208,
+  "p_60_plus": 0.017,
+  "p_clean_sheet": 0.11,
+  "model_version": "20261017T095859Z"
+}

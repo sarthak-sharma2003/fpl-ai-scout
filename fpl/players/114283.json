@@ -1,0 +1,16 @@
+{
+  "code": 114283,
+  "name": "Grealish",
+  "position": "MID",
+  "team": "EVE",
+  "price": 6.5,
+  "ev_points": 3.03,
+  "horizon_ev": 13.65,
+  "q10_points": 1.0,
+  "q90_points": 6.96,
+  "ev_minutes": 76.4,
+  "p_appearance": 0.968,
+  "p_60_plus": 0.79,
+  "p_clean_sheet": 0.259,
+  "model_version": "20261017T095859Z"
+}

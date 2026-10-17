@@ -1,0 +1,16 @@
+{
+  "code": 432720,
+  "name": "Trafford",
+  "position": "GKP",
+  "team": "LEE",
+  "price": 5.0,
+  "ev_points": 3.62,
+  "horizon_ev": 17.72,
+  "q10_points": 1.0,
+  "q90_points": 5.71,
+  "ev_minutes": 87.1,
+  "p_appearance": 0.983,
+  "p_60_plus": 0.96,
+  "p_clean_sheet": 0.248,
+  "model_version": "20261017T095859Z"
+}

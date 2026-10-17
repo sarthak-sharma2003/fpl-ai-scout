@@ -1,0 +1,16 @@
+{
+  "code": 560552,
+  "name": "Kevin",
+  "position": "MID",
+  "team": "FUL",
+  "price": 5.3,
+  "ev_points": 1.41,
+  "horizon_ev": 7.02,
+  "q10_points": 0.0,
+  "q90_points": 2.09,
+  "ev_minutes": 27.3,
+  "p_appearance": 0.714,
+  "p_60_plus": 0.099,
+  "p_clean_sheet": 0.463,
+  "model_version": "20261017T095859Z"
+}

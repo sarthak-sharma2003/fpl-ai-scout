@@ -1,0 +1,21 @@
+{
+  "code": 480455,
+  "name": "Branthwaite",
+  "position": "DEF",
+  "team": "EVE",
+  "price": 5.5,
+  "ev_points": 1.91,
+  "horizon_ev": 13.19,
+  "q10_points": 0.0,
+  "q90_points": 3.95,
+  "ev_minutes": 45.9,
+  "p_appearance": 0.67,
+  "p_60_plus": 0.429,
+  "p_clean_sheet": 0.259,
+  "model_version": "20261017T095859Z",
+  "flag": {
+    "status": "d",
+    "news": "Leg injury - 75% chance of playing",
+    "chance": 75
+  }
+}

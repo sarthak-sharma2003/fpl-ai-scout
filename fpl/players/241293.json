@@ -1,0 +1,16 @@
+{
+  "code": 241293,
+  "name": "Mason-Clark",
+  "position": "MID",
+  "team": "COV",
+  "price": 5.3,
+  "ev_points": 2.46,
+  "horizon_ev": 9.47,
+  "q10_points": 1.0,
+  "q90_points": 4.37,
+  "ev_minutes": 63.9,
+  "p_appearance": 0.932,
+  "p_60_plus": 0.599,
+  "p_clean_sheet": 0.11,
+  "model_version": "20261017T095859Z"
+}

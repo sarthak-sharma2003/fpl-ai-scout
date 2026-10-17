@@ -1,0 +1,21 @@
+{
+  "code": 466052,
+  "name": "Cherki",
+  "position": "MID",
+  "team": "MCI",
+  "price": 7.9,
+  "ev_points": 3.21,
+  "horizon_ev": 16.85,
+  "q10_points": 1.0,
+  "q90_points": 7.15,
+  "ev_minutes": 55.7,
+  "p_appearance": 0.918,
+  "p_60_plus": 0.47,
+  "p_clean_sheet": 0.504,
+  "model_version": "20261017T095859Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Paris Saint-Germain",
+    "days_ago": 2.6
+  }
+}

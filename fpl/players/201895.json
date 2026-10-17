@@ -1,0 +1,21 @@
+{
+  "code": 201895,
+  "name": "Alderete",
+  "position": "DEF",
+  "team": "SUN",
+  "price": 4.8,
+  "ev_points": 2.19,
+  "horizon_ev": 4.87,
+  "q10_points": 0.0,
+  "q90_points": 7.46,
+  "ev_minutes": 56.7,
+  "p_appearance": 0.777,
+  "p_60_plus": 0.557,
+  "p_clean_sheet": 0.22,
+  "model_version": "20261017T095859Z",
+  "european_fatigue": {
+    "competition": "UEL",
+    "opponent": "Torreense",
+    "days_ago": 1.7
+  }
+}

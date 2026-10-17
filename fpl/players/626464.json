@@ -1,0 +1,16 @@
+{
+  "code": 626464,
+  "name": "Nunes",
+  "position": "MID",
+  "team": "BRE",
+  "price": 4.5,
+  "ev_points": 0.04,
+  "horizon_ev": 0.18,
+  "q10_points": 0.0,
+  "q90_points": 0.0,
+  "ev_minutes": 1.2,
+  "p_appearance": 0.028,
+  "p_60_plus": 0.006,
+  "p_clean_sheet": 0.197,
+  "model_version": "20261017T095859Z"
+}

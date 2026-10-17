@@ -1,0 +1,21 @@
+{
+  "code": 214590,
+  "name": "Wan-Bissaka",
+  "position": "DEF",
+  "team": "AVL",
+  "price": 4.5,
+  "ev_points": 2.62,
+  "horizon_ev": 11.35,
+  "q10_points": 0.0,
+  "q90_points": 5.17,
+  "ev_minutes": 67.8,
+  "p_appearance": 0.884,
+  "p_60_plus": 0.688,
+  "p_clean_sheet": 0.175,
+  "model_version": "20261017T095859Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Fenerbahce",
+    "days_ago": 2.6
+  }
+}

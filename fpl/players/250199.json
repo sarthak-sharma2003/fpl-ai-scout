@@ -1,0 +1,16 @@
+{
+  "code": 250199,
+  "name": "Dominguez",
+  "position": "MID",
+  "team": "NFO",
+  "price": 4.8,
+  "ev_points": 0.31,
+  "horizon_ev": 1.51,
+  "q10_points": 0.0,
+  "q90_points": 0.9,
+  "ev_minutes": 8.9,
+  "p_appearance": 0.24,
+  "p_60_plus": 0.028,
+  "p_clean_sheet": 0.197,
+  "model_version": "20261017T095859Z"
+}

@@ -1,0 +1,16 @@
+{
+  "code": 547719,
+  "name": "L.Miley",
+  "position": "MID",
+  "team": "NEW",
+  "price": 5.5,
+  "ev_points": 2.82,
+  "horizon_ev": 11.76,
+  "q10_points": 1.0,
+  "q90_points": 6.73,
+  "ev_minutes": 78.1,
+  "p_appearance": 0.956,
+  "p_60_plus": 0.824,
+  "p_clean_sheet": 0.238,
+  "model_version": "20261017T095859Z"
+}

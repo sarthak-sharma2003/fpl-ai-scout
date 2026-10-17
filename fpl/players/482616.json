@@ -1,0 +1,21 @@
+{
+  "code": 482616,
+  "name": "Barcola",
+  "position": "MID",
+  "team": "LIV",
+  "price": 8.0,
+  "ev_points": 3.36,
+  "horizon_ev": 14.27,
+  "q10_points": 1.0,
+  "q90_points": 7.43,
+  "ev_minutes": 74.8,
+  "p_appearance": 0.964,
+  "p_60_plus": 0.765,
+  "p_clean_sheet": 0.226,
+  "model_version": "20261017T095859Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "LASK Linz",
+    "days_ago": 2.7
+  }
+}

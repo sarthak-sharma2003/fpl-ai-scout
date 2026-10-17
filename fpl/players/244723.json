@@ -1,0 +1,21 @@
+{
+  "code": 244723,
+  "name": "Mitchell",
+  "position": "DEF",
+  "team": "CRY",
+  "price": 4.5,
+  "ev_points": 2.07,
+  "horizon_ev": 11.2,
+  "q10_points": 0.0,
+  "q90_points": 6.16,
+  "ev_minutes": 82.9,
+  "p_appearance": 0.981,
+  "p_60_plus": 0.891,
+  "p_clean_sheet": 0.162,
+  "model_version": "20261017T095859Z",
+  "european_fatigue": {
+    "competition": "UEL",
+    "opponent": "Lyon",
+    "days_ago": 1.7
+  }
+}

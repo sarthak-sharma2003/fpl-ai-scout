@@ -1,0 +1,16 @@
+{
+  "code": 209046,
+  "name": "Hudson-Odoi",
+  "position": "MID",
+  "team": "NFO",
+  "price": 5.8,
+  "ev_points": 1.24,
+  "horizon_ev": 5.4,
+  "q10_points": 0.0,
+  "q90_points": 2.84,
+  "ev_minutes": 32.5,
+  "p_appearance": 0.724,
+  "p_60_plus": 0.18,
+  "p_clean_sheet": 0.197,
+  "model_version": "20261017T095859Z"
+}

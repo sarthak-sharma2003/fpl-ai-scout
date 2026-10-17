@@ -1,0 +1,16 @@
+{
+  "code": 449429,
+  "name": "Greaves",
+  "position": "DEF",
+  "team": "IPS",
+  "price": 3.9,
+  "ev_points": 0.3,
+  "horizon_ev": 2.35,
+  "q10_points": 0.0,
+  "q90_points": 0.7,
+  "ev_minutes": 13.7,
+  "p_appearance": 0.266,
+  "p_60_plus": 0.095,
+  "p_clean_sheet": 0.031,
+  "model_version": "20261017T095859Z"
+}

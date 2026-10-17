@@ -1,0 +1,21 @@
+{
+  "code": 448514,
+  "name": "A\u00eft-Nouri",
+  "position": "DEF",
+  "team": "MCI",
+  "price": 5.2,
+  "ev_points": 0.31,
+  "horizon_ev": 1.47,
+  "q10_points": 0.0,
+  "q90_points": 1.17,
+  "ev_minutes": 6.7,
+  "p_appearance": 0.158,
+  "p_60_plus": 0.032,
+  "p_clean_sheet": 0.504,
+  "model_version": "20261017T095859Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Paris Saint-Germain",
+    "days_ago": 2.6
+  }
+}

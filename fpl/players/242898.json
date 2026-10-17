@@ -1,0 +1,16 @@
+{
+  "code": 242898,
+  "name": "Johnson",
+  "position": "MID",
+  "team": "EVE",
+  "price": 5.9,
+  "ev_points": 2.86,
+  "horizon_ev": 12.61,
+  "q10_points": 1.0,
+  "q90_points": 7.11,
+  "ev_minutes": 71.0,
+  "p_appearance": 0.963,
+  "p_60_plus": 0.702,
+  "p_clean_sheet": 0.259,
+  "model_version": "20261017T095859Z"
+}

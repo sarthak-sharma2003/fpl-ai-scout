@@ -1,0 +1,21 @@
+{
+  "code": 591386,
+  "name": "Nyoni",
+  "position": "MID",
+  "team": "LIV",
+  "price": 4.8,
+  "ev_points": 1.55,
+  "horizon_ev": 4.73,
+  "q10_points": 0.0,
+  "q90_points": 3.74,
+  "ev_minutes": 39.2,
+  "p_appearance": 0.737,
+  "p_60_plus": 0.285,
+  "p_clean_sheet": 0.226,
+  "model_version": "20261017T095859Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "LASK Linz",
+    "days_ago": 2.7
+  }
+}

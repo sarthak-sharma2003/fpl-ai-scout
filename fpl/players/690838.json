@@ -1,0 +1,26 @@
+{
+  "code": 690838,
+  "name": "Madjo",
+  "position": "FWD",
+  "team": "AVL",
+  "price": 5.4,
+  "ev_points": 0.24,
+  "horizon_ev": 1.33,
+  "q10_points": 0.0,
+  "q90_points": 1.09,
+  "ev_minutes": 6.7,
+  "p_appearance": 0.203,
+  "p_60_plus": 0.011,
+  "p_clean_sheet": 0.175,
+  "model_version": "20261017T095859Z",
+  "flag": {
+    "status": "d",
+    "news": "Unspecified injury - 50% chance of playing",
+    "chance": 50
+  },
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Fenerbahce",
+    "days_ago": 2.6
+  }
+}

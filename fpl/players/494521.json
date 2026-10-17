@@ -1,0 +1,21 @@
+{
+  "code": 494521,
+  "name": "Truffert",
+  "position": "DEF",
+  "team": "BOU",
+  "price": 5.4,
+  "ev_points": 3.75,
+  "horizon_ev": 16.64,
+  "q10_points": 1.0,
+  "q90_points": 8.41,
+  "ev_minutes": 83.9,
+  "p_appearance": 0.974,
+  "p_60_plus": 0.911,
+  "p_clean_sheet": 0.348,
+  "model_version": "20261017T095859Z",
+  "european_fatigue": {
+    "competition": "UEL",
+    "opponent": "SK Sturm Graz",
+    "days_ago": 1.6
+  }
+}

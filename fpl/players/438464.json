@@ -1,0 +1,21 @@
+{
+  "code": 438464,
+  "name": "Doucour\u00e9",
+  "position": "MID",
+  "team": "CRY",
+  "price": 4.8,
+  "ev_points": 0.08,
+  "horizon_ev": 0.37,
+  "q10_points": 0.0,
+  "q90_points": 0.02,
+  "ev_minutes": 2.3,
+  "p_appearance": 0.059,
+  "p_60_plus": 0.009,
+  "p_clean_sheet": 0.162,
+  "model_version": "20261017T095859Z",
+  "european_fatigue": {
+    "competition": "UEL",
+    "opponent": "Lyon",
+    "days_ago": 1.7
+  }
+}

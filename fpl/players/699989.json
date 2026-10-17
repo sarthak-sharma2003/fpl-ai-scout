@@ -1,0 +1,21 @@
+{
+  "code": 699989,
+  "name": "Jocelin.T",
+  "position": "MID",
+  "team": "SUN",
+  "price": 4.9,
+  "ev_points": 0.5,
+  "horizon_ev": 2.8,
+  "q10_points": 0.0,
+  "q90_points": 1.1,
+  "ev_minutes": 13.7,
+  "p_appearance": 0.362,
+  "p_60_plus": 0.047,
+  "p_clean_sheet": 0.22,
+  "model_version": "20261017T095859Z",
+  "european_fatigue": {
+    "competition": "UEL",
+    "opponent": "Torreense",
+    "days_ago": 1.7
+  }
+}

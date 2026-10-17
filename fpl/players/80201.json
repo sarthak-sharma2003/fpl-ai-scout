@@ -1,0 +1,16 @@
+{
+  "code": 80201,
+  "name": "Leno",
+  "position": "GKP",
+  "team": "FUL",
+  "price": 4.5,
+  "ev_points": 4.14,
+  "horizon_ev": 17.17,
+  "q10_points": 1.0,
+  "q90_points": 6.62,
+  "ev_minutes": 87.4,
+  "p_appearance": 0.985,
+  "p_60_plus": 0.964,
+  "p_clean_sheet": 0.463,
+  "model_version": "20261017T095859Z"
+}

@@ -1,0 +1,16 @@
+{
+  "code": 153682,
+  "name": "Wilson",
+  "position": "MID",
+  "team": "LEE",
+  "price": 6.2,
+  "ev_points": 1.21,
+  "horizon_ev": 6.92,
+  "q10_points": 0.0,
+  "q90_points": 3.42,
+  "ev_minutes": 32.4,
+  "p_appearance": 0.75,
+  "p_60_plus": 0.165,
+  "p_clean_sheet": 0.248,
+  "model_version": "20261017T095859Z"
+}

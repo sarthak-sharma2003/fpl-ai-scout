@@ -1,0 +1,21 @@
+{
+  "code": 551050,
+  "name": "Larsson",
+  "position": "MID",
+  "team": "FUL",
+  "price": 5.0,
+  "ev_points": 0.22,
+  "horizon_ev": 3.38,
+  "q10_points": 0.0,
+  "q90_points": 0.18,
+  "ev_minutes": 5.0,
+  "p_appearance": 0.115,
+  "p_60_plus": 0.026,
+  "p_clean_sheet": 0.463,
+  "model_version": "20261017T095859Z",
+  "flag": {
+    "status": "d",
+    "news": "Groin injury - 25% chance of playing",
+    "chance": 25
+  }
+}

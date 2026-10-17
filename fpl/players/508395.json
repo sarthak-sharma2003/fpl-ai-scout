@@ -1,0 +1,16 @@
+{
+  "code": 508395,
+  "name": "Yarmoliuk",
+  "position": "MID",
+  "team": "BRE",
+  "price": 4.8,
+  "ev_points": 2.64,
+  "horizon_ev": 12.01,
+  "q10_points": 1.0,
+  "q90_points": 5.05,
+  "ev_minutes": 76.6,
+  "p_appearance": 0.966,
+  "p_60_plus": 0.794,
+  "p_clean_sheet": 0.197,
+  "model_version": "20261017T095859Z"
+}

@@ -1,0 +1,21 @@
+{
+  "code": 606798,
+  "name": "A.Garc\u00eda",
+  "position": "DEF",
+  "team": "AVL",
+  "price": 4.0,
+  "ev_points": 0.05,
+  "horizon_ev": 0.22,
+  "q10_points": 0.0,
+  "q90_points": 0.11,
+  "ev_minutes": 1.5,
+  "p_appearance": 0.032,
+  "p_60_plus": 0.009,
+  "p_clean_sheet": 0.175,
+  "model_version": "20261017T095859Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Fenerbahce",
+    "days_ago": 2.6
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "code": 204120,
+  "name": "Boscagli",
+  "position": "DEF",
+  "team": "BHA",
+  "price": 4.5,
+  "ev_points": 3.44,
+  "horizon_ev": 11.43,
+  "q10_points": 1.0,
+  "q90_points": 7.95,
+  "ev_minutes": 80.0,
+  "p_appearance": 0.961,
+  "p_60_plus": 0.853,
+  "p_clean_sheet": 0.345,
+  "model_version": "20261017T095859Z"
+}

@@ -1,0 +1,16 @@
+{
+  "code": 592740,
+  "name": "Cresswell",
+  "position": "MID",
+  "team": "LEE",
+  "price": 4.5,
+  "ev_points": 0.04,
+  "horizon_ev": 0.17,
+  "q10_points": 0.0,
+  "q90_points": 0.0,
+  "ev_minutes": 1.2,
+  "p_appearance": 0.026,
+  "p_60_plus": 0.006,
+  "p_clean_sheet": 0.248,
+  "model_version": "20261017T095859Z"
+}

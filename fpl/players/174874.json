@@ -1,0 +1,16 @@
+{
+  "code": 174874,
+  "name": "Andersen",
+  "position": "DEF",
+  "team": "FUL",
+  "price": 5.0,
+  "ev_points": 1.24,
+  "horizon_ev": 5.4,
+  "q10_points": 0.0,
+  "q90_points": 2.58,
+  "ev_minutes": 27.5,
+  "p_appearance": 0.542,
+  "p_60_plus": 0.188,
+  "p_clean_sheet": 0.463,
+  "model_version": "20261017T095859Z"
+}

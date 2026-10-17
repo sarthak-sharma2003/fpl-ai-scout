@@ -1,0 +1,26 @@
+{
+  "code": 232112,
+  "name": "Ugarte",
+  "position": "MID",
+  "team": "MUN",
+  "price": 5.0,
+  "ev_points": 0.0,
+  "horizon_ev": 0.69,
+  "q10_points": 0.0,
+  "q90_points": 0.0,
+  "ev_minutes": 0.1,
+  "p_appearance": 0.003,
+  "p_60_plus": 0.0,
+  "p_clean_sheet": 0.251,
+  "model_version": "20261017T095859Z",
+  "flag": {
+    "status": "i",
+    "news": "Knee injury - Unknown return date",
+    "chance": 0
+  },
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Atl\u00e9tico Madrid",
+    "days_ago": 3.6
+  }
+}

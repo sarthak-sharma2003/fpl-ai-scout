@@ -1,0 +1,16 @@
+{
+  "code": 627221,
+  "name": "Cherif",
+  "position": "FWD",
+  "team": "COV",
+  "price": 5.0,
+  "ev_points": 2.01,
+  "horizon_ev": 10.26,
+  "q10_points": 0.0,
+  "q90_points": 4.71,
+  "ev_minutes": 40.1,
+  "p_appearance": 0.818,
+  "p_60_plus": 0.259,
+  "p_clean_sheet": 0.11,
+  "model_version": "20261017T095859Z"
+}

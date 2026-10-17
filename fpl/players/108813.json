@@ -1,0 +1,16 @@
+{
+  "code": 108813,
+  "name": "Walton",
+  "position": "GKP",
+  "team": "IPS",
+  "price": 4.4,
+  "ev_points": 2.95,
+  "horizon_ev": 14.51,
+  "q10_points": 1.14,
+  "q90_points": 4.36,
+  "ev_minutes": 77.0,
+  "p_appearance": 0.892,
+  "p_60_plus": 0.837,
+  "p_clean_sheet": 0.031,
+  "model_version": "20261017T095859Z"
+}

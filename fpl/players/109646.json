@@ -1,0 +1,16 @@
+{
+  "code": 109646,
+  "name": "Tosin",
+  "position": "DEF",
+  "team": "TOT",
+  "price": 4.4,
+  "ev_points": 0.48,
+  "horizon_ev": 2.54,
+  "q10_points": 0.0,
+  "q90_points": 1.35,
+  "ev_minutes": 11.4,
+  "p_appearance": 0.253,
+  "p_60_plus": 0.064,
+  "p_clean_sheet": 0.423,
+  "model_version": "20261017T095859Z"
+}

@@ -1,0 +1,16 @@
+{
+  "code": 454490,
+  "name": "Svoboda",
+  "position": "DEF",
+  "team": "BHA",
+  "price": 5.0,
+  "ev_points": 0.46,
+  "horizon_ev": 1.92,
+  "q10_points": 0.0,
+  "q90_points": 1.46,
+  "ev_minutes": 11.6,
+  "p_appearance": 0.266,
+  "p_60_plus": 0.06,
+  "p_clean_sheet": 0.345,
+  "model_version": "20261017T095859Z"
+}
