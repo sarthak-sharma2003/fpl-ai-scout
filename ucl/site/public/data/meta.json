@@ -1,6 +1,6 @@
 {
  "schema": 1,
- "generatedAt": "2026-10-19T19:52:04.074264+00:00",
+ "generatedAt": "2026-10-20T01:37:24.554673+00:00",
  "season": "2026-27",
  "tour": 90,
  "matchday": 3,
@@ -29,11 +29,11 @@
    "sportsgambler"
   ],
   "failed": [],
-  "players": 556,
-  "clubs": 18,
-  "matched": 482,
-  "listed": 488,
-  "matchRate": 0.988,
-  "note": "MD3: 18 clubs kick off within 40h"
+  "players": 673,
+  "clubs": 22,
+  "matched": 824,
+  "listed": 835,
+  "matchRate": 0.987,
+  "note": "MD3: 22 clubs kick off within 40h"
  }
 }
