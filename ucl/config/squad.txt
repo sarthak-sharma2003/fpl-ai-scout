@@ -7,8 +7,8 @@
 # Source: the site's MD1 squad, published 2026-09-08 06:51 UTC (ucl-scout
 # 822ce9b), cost EUR99.5m at MD1 prices.
 #
-# matchday: 3
-# bank: 0.5
+# matchday: 4
+# bank: 1.5
 # wildcard_used: no
 # limitless_used: no
 # free_transfers: 2
@@ -17,13 +17,13 @@
 50327420   # DEF V. van Dijk (Liverpool)
 250174126  # DEF W. Pacho (Paris)
 250190353  # DEF Š. Chaloupek (Slavia Praha)
+250081555  # FWD D. Malen (Roma)
 250016833  # FWD H. Kane (Bayern München)
 250172668  # FWD J. Alvarez (Atleti)
-250163404  # FWD P. Esposito (Inter)
 250171278  # GK  D. Raya (Arsenal)
 250065792  # GK  V. Milinković-Savić (Napoli)
 250101284  # MID F. Valverde (Real Madrid)
+250058958  # MID J. McGinn (Aston Villa)
 250176450  # MID L. Yamal (Barcelona)
-250171184  # MID M. Olise (Bayern München)
 250055294  # MID R. Marin (AEK Athens)
 250101444  # MID Vitinha (Paris)

@@ -1,40 +1,36 @@
 {
  "schema": 1,
- "generatedAt": "2026-10-20T10:58:47.858960+00:00",
+ "generatedAt": "2026-10-22T18:19:17.025582+00:00",
  "season": "2026-27",
  "tour": 90,
- "matchday": 3,
+ "matchday": 4,
  "lastMatchday": 17,
- "deadline": "2026-10-20T16:45:00+00:00",
+ "deadline": "2026-11-03T17:45:00+00:00",
  "subs": null,
- "budget": 100.5,
+ "budget": 101.3,
  "maxPerClub": 3,
  "round": "league",
  "gamedays": [
-  "2026-10-20",
-  "2026-10-21"
+  "2026-11-03",
+  "2026-11-04"
  ],
  "subsAllowed": 2,
  "checklist": [
-  "MD3 spans 2 days (2026-10-20, 2026-10-21) \u2014 up to 2 manual subs allowed.",
-  "Captain D. Malen (Tue). If he scores 7 or fewer, switch the armband to H. Kane before Wed's kick-offs \u2014 the switch is one-way.",
+  "MD4 spans 2 days (2026-11-03, 2026-11-04) \u2014 up to 2 manual subs allowed.",
+  "Captain H. Kane (Tue). If he scores 7 or fewer, switch the armband to K. Mbapp\u00e9 before Wed's kick-offs \u2014 the switch is one-way.",
   "After day 1, reassess: move the armband to an unstarted player if your captain blanked. Top-5000 do this 44.6% of the time; average 6.1%.",
   "Sub out anyone who did not play, before the next day kicks off.",
   "WARNING: any manual change \u2014 a sub, a captain switch, even reordering the bench \u2014 disables auto-subs for this whole matchday, and reverting does not restore them."
  ],
  "lineups": {
-  "sources": [
-   "futbolfantasy",
-   "rotowire",
-   "sportsgambler"
-  ],
+  "sources": [],
   "failed": [],
-  "players": 1153,
-  "clubs": 36,
-  "matched": 1338,
-  "listed": 1353,
-  "matchRate": 0.989,
-  "note": "MD3: 36 clubs kick off within 40h"
+  "players": 0,
+  "clubs": 0,
+  "matched": 0,
+  "listed": 0,
+  "matchRate": 0.0,
+  "note": "MD4: no club kicks off within 40h; not fetched"
  },
  "matchdays": [
   {
@@ -289,109 +285,109 @@
      "home": 2609356,
      "away": 52758,
      "kickoff": "2026-10-20T16:45:00+00:00",
-     "lineupAnnounced": false
+     "lineupAnnounced": true
     },
     {
      "home": 52692,
      "away": 52498,
      "kickoff": "2026-10-20T16:45:00+00:00",
-     "lineupAnnounced": false
+     "lineupAnnounced": true
     },
     {
      "home": 52919,
      "away": 50129,
      "kickoff": "2026-10-20T19:00:00+00:00",
-     "lineupAnnounced": false
+     "lineupAnnounced": true
     },
     {
      "home": 50064,
      "away": 50062,
      "kickoff": "2026-10-20T19:00:00+00:00",
-     "lineupAnnounced": false
+     "lineupAnnounced": true
     },
     {
      "home": 50137,
      "away": 52797,
      "kickoff": "2026-10-20T19:00:00+00:00",
-     "lineupAnnounced": false
+     "lineupAnnounced": true
     },
     {
      "home": 50107,
      "away": 50124,
      "kickoff": "2026-10-20T19:00:00+00:00",
-     "lineupAnnounced": false
+     "lineupAnnounced": true
     },
     {
      "home": 52747,
      "away": 50080,
      "kickoff": "2026-10-20T19:00:00+00:00",
-     "lineupAnnounced": false
+     "lineupAnnounced": true
     },
     {
      "home": 7889,
      "away": 70691,
      "kickoff": "2026-10-20T19:00:00+00:00",
-     "lineupAnnounced": false
+     "lineupAnnounced": true
     },
     {
      "home": 50136,
      "away": 59333,
      "kickoff": "2026-10-20T19:00:00+00:00",
-     "lineupAnnounced": false
+     "lineupAnnounced": true
     },
     {
      "home": 75797,
      "away": 50067,
      "kickoff": "2026-10-21T16:45:00+00:00",
-     "lineupAnnounced": false
+     "lineupAnnounced": true
     },
     {
      "home": 79946,
      "away": 52682,
      "kickoff": "2026-10-21T16:45:00+00:00",
-     "lineupAnnounced": false
+     "lineupAnnounced": true
     },
     {
      "home": 50149,
      "away": 63405,
      "kickoff": "2026-10-21T19:00:00+00:00",
-     "lineupAnnounced": false
+     "lineupAnnounced": true
     },
     {
      "home": 52683,
      "away": 52319,
      "kickoff": "2026-10-21T19:00:00+00:00",
-     "lineupAnnounced": false
+     "lineupAnnounced": true
     },
     {
      "home": 50037,
      "away": 52280,
      "kickoff": "2026-10-21T19:00:00+00:00",
-     "lineupAnnounced": false
+     "lineupAnnounced": true
     },
     {
      "home": 50043,
      "away": 52277,
      "kickoff": "2026-10-21T19:00:00+00:00",
-     "lineupAnnounced": false
+     "lineupAnnounced": true
     },
     {
      "home": 52265,
      "away": 52749,
      "kickoff": "2026-10-21T19:00:00+00:00",
-     "lineupAnnounced": false
+     "lineupAnnounced": true
     },
     {
      "home": 50051,
      "away": 2603790,
      "kickoff": "2026-10-21T19:00:00+00:00",
-     "lineupAnnounced": false
+     "lineupAnnounced": true
     },
     {
      "home": 50138,
      "away": 52707,
      "kickoff": "2026-10-21T19:00:00+00:00",
-     "lineupAnnounced": false
+     "lineupAnnounced": true
     }
    ]
   },
