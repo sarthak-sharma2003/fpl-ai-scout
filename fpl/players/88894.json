@@ -1,0 +1,21 @@
+{
+  "code": 88894,
+  "name": "Barkley",
+  "position": "MID",
+  "team": "AVL",
+  "price": 5.0,
+  "ev_points": 1.97,
+  "horizon_ev": 8.35,
+  "q10_points": 0.0,
+  "q90_points": 4.24,
+  "ev_minutes": 41.2,
+  "p_appearance": 0.863,
+  "p_60_plus": 0.255,
+  "p_clean_sheet": 0.34,
+  "model_version": "20261024T172140Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Viking FK",
+    "days_ago": 2.9
+  }
+}

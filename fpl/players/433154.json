@@ -1,0 +1,21 @@
+{
+  "code": 433154,
+  "name": "McNeil",
+  "position": "MID",
+  "team": "CRY",
+  "price": 5.3,
+  "ev_points": 1.24,
+  "horizon_ev": 6.04,
+  "q10_points": 0.0,
+  "q90_points": 2.43,
+  "ev_minutes": 33.7,
+  "p_appearance": 0.688,
+  "p_60_plus": 0.217,
+  "p_clean_sheet": 0.203,
+  "model_version": "20261024T172140Z",
+  "european_fatigue": {
+    "competition": "UEL",
+    "opponent": "Besiktas",
+    "days_ago": 1.9
+  }
+}

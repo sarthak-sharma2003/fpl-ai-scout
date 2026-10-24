@@ -1,0 +1,16 @@
+{
+  "code": 115556,
+  "name": "Davies",
+  "position": "DEF",
+  "team": "TOT",
+  "price": 3.9,
+  "ev_points": 0.79,
+  "horizon_ev": 3.52,
+  "q10_points": 0.0,
+  "q90_points": 1.77,
+  "ev_minutes": 18.9,
+  "p_appearance": 0.412,
+  "p_60_plus": 0.108,
+  "p_clean_sheet": 0.291,
+  "model_version": "20261024T172140Z"
+}

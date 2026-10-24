@@ -1,0 +1,16 @@
+{
+  "code": 496181,
+  "name": "Norton-Cuffy",
+  "position": "DEF",
+  "team": "HUL",
+  "price": 3.9,
+  "ev_points": 1.5,
+  "horizon_ev": 5.07,
+  "q10_points": 0.0,
+  "q90_points": 5.01,
+  "ev_minutes": 37.9,
+  "p_appearance": 0.591,
+  "p_60_plus": 0.336,
+  "p_clean_sheet": 0.206,
+  "model_version": "20261024T172140Z"
+}

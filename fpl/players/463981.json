@@ -1,0 +1,21 @@
+{
+  "code": 463981,
+  "name": "Hill",
+  "position": "DEF",
+  "team": "BOU",
+  "price": 5.5,
+  "ev_points": 4.37,
+  "horizon_ev": 18.07,
+  "q10_points": 1.0,
+  "q90_points": 8.15,
+  "ev_minutes": 85.5,
+  "p_appearance": 0.971,
+  "p_60_plus": 0.94,
+  "p_clean_sheet": 0.296,
+  "model_version": "20261024T172140Z",
+  "european_fatigue": {
+    "competition": "UEL",
+    "opponent": "AC Milan",
+    "days_ago": 1.9
+  }
+}

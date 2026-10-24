@@ -1,0 +1,16 @@
+{
+  "code": 231899,
+  "name": "Taylor",
+  "position": "MID",
+  "team": "IPS",
+  "price": 4.4,
+  "ev_points": 0.14,
+  "horizon_ev": 0.29,
+  "q10_points": 0.0,
+  "q90_points": 0.1,
+  "ev_minutes": 3.5,
+  "p_appearance": 0.094,
+  "p_60_plus": 0.011,
+  "p_clean_sheet": 0.252,
+  "model_version": "20261024T172140Z"
+}

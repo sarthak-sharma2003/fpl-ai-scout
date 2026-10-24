@@ -1,0 +1,21 @@
+{
+  "code": 499721,
+  "name": "Moore",
+  "position": "MID",
+  "team": "TOT",
+  "price": 5.0,
+  "ev_points": 0.0,
+  "horizon_ev": 0.0,
+  "q10_points": 0.0,
+  "q90_points": 0.0,
+  "ev_minutes": 0.1,
+  "p_appearance": 0.001,
+  "p_60_plus": 0.001,
+  "p_clean_sheet": 0.291,
+  "model_version": "20261024T172140Z",
+  "flag": {
+    "status": "u",
+    "news": "Has joined FC K\u00f6ln on loan for the rest of the season",
+    "chance": 0
+  }
+}

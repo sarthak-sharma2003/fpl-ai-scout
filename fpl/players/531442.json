@@ -1,0 +1,16 @@
+{
+  "code": 531442,
+  "name": "Fatawu",
+  "position": "MID",
+  "team": "IPS",
+  "price": 5.4,
+  "ev_points": 2.4,
+  "horizon_ev": 9.97,
+  "q10_points": 0.0,
+  "q90_points": 5.19,
+  "ev_minutes": 53.2,
+  "p_appearance": 0.876,
+  "p_60_plus": 0.448,
+  "p_clean_sheet": 0.252,
+  "model_version": "20261024T172140Z"
+}

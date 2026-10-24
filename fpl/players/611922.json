@@ -1,0 +1,21 @@
+{
+  "code": 611922,
+  "name": "Ngumoha",
+  "position": "MID",
+  "team": "LIV",
+  "price": 5.7,
+  "ev_points": 1.4,
+  "horizon_ev": 7.16,
+  "q10_points": 0.0,
+  "q90_points": 2.99,
+  "ev_minutes": 35.1,
+  "p_appearance": 0.758,
+  "p_60_plus": 0.205,
+  "p_clean_sheet": 0.231,
+  "model_version": "20261024T172140Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Villarreal",
+    "days_ago": 3.9
+  }
+}

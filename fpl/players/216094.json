@@ -1,0 +1,26 @@
+{
+  "code": 216094,
+  "name": "Frimpong",
+  "position": "DEF",
+  "team": "LIV",
+  "price": 5.2,
+  "ev_points": 0.02,
+  "horizon_ev": 3.56,
+  "q10_points": 0.0,
+  "q90_points": 0.0,
+  "ev_minutes": 0.6,
+  "p_appearance": 0.012,
+  "p_60_plus": 0.005,
+  "p_clean_sheet": 0.231,
+  "model_version": "20261024T172140Z",
+  "flag": {
+    "status": "i",
+    "news": "Hamstring injury - Unknown return date",
+    "chance": 0
+  },
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Villarreal",
+    "days_ago": 3.9
+  }
+}

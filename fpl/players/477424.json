@@ -1,0 +1,21 @@
+{
+  "code": 477424,
+  "name": "Gvardiol",
+  "position": "DEF",
+  "team": "MCI",
+  "price": 5.8,
+  "ev_points": 2.92,
+  "horizon_ev": 14.26,
+  "q10_points": 0.0,
+  "q90_points": 6.99,
+  "ev_minutes": 62.3,
+  "p_appearance": 0.864,
+  "p_60_plus": 0.607,
+  "p_clean_sheet": 0.336,
+  "model_version": "20261024T172140Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "AEK Athens",
+    "days_ago": 3.9
+  }
+}

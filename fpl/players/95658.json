@@ -1,0 +1,21 @@
+{
+  "code": 95658,
+  "name": "Maguire",
+  "position": "DEF",
+  "team": "MUN",
+  "price": 4.7,
+  "ev_points": 3.04,
+  "horizon_ev": 16.38,
+  "q10_points": 0.0,
+  "q90_points": 7.03,
+  "ev_minutes": 85.0,
+  "p_appearance": 0.962,
+  "p_60_plus": 0.936,
+  "p_clean_sheet": 0.174,
+  "model_version": "20261024T172140Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Como",
+    "days_ago": 3.0
+  }
+}

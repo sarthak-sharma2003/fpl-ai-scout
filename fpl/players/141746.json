@@ -1,0 +1,22 @@
+{
+  "code": 141746,
+  "name": "B.Fernandes",
+  "position": "MID",
+  "team": "MUN",
+  "price": 11.7,
+  "ev_points": 5.22,
+  "horizon_ev": 25.03,
+  "q10_points": 1.0,
+  "q90_points": 9.56,
+  "ev_minutes": 86.0,
+  "p_appearance": 0.979,
+  "p_60_plus": 0.943,
+  "p_clean_sheet": 0.174,
+  "model_version": "20261024T172140Z",
+  "pk": true,
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Como",
+    "days_ago": 3.0
+  }
+}

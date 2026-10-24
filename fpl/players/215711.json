@@ -1,0 +1,26 @@
+{
+  "code": 215711,
+  "name": "Bailey",
+  "position": "MID",
+  "team": "AVL",
+  "price": 5.4,
+  "ev_points": 0.0,
+  "horizon_ev": 0.0,
+  "q10_points": 0.0,
+  "q90_points": 0.0,
+  "ev_minutes": 0.0,
+  "p_appearance": 0.001,
+  "p_60_plus": 0.0,
+  "p_clean_sheet": 0.34,
+  "model_version": "20261024T172140Z",
+  "flag": {
+    "status": "u",
+    "news": "Has joined Olympiakos permanently",
+    "chance": 0
+  },
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Viking FK",
+    "days_ago": 2.9
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "code": 551210,
+  "name": "Hato",
+  "position": "DEF",
+  "team": "CHE",
+  "price": 4.5,
+  "ev_points": 1.9,
+  "horizon_ev": 9.62,
+  "q10_points": 0.0,
+  "q90_points": 5.51,
+  "ev_minutes": 57.9,
+  "p_appearance": 0.789,
+  "p_60_plus": 0.57,
+  "p_clean_sheet": 0.255,
+  "model_version": "20261024T172140Z"
+}

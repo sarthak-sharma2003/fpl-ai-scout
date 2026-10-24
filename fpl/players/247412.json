@@ -1,0 +1,26 @@
+{
+  "code": 247412,
+  "name": "Strand Larsen",
+  "position": "FWD",
+  "team": "CRY",
+  "price": 6.0,
+  "ev_points": 1.63,
+  "horizon_ev": 10.87,
+  "q10_points": 0.0,
+  "q90_points": 4.2,
+  "ev_minutes": 45.5,
+  "p_appearance": 0.625,
+  "p_60_plus": 0.446,
+  "p_clean_sheet": 0.203,
+  "model_version": "20261024T172140Z",
+  "flag": {
+    "status": "d",
+    "news": "Unspecified injury - 75% chance of playing",
+    "chance": 75
+  },
+  "european_fatigue": {
+    "competition": "UEL",
+    "opponent": "Besiktas",
+    "days_ago": 1.9
+  }
+}

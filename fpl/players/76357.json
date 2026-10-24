@@ -1,0 +1,16 @@
+{
+  "code": 76357,
+  "name": "Cairney",
+  "position": "MID",
+  "team": "FUL",
+  "price": 4.9,
+  "ev_points": 1.04,
+  "horizon_ev": 4.47,
+  "q10_points": 0.0,
+  "q90_points": 1.71,
+  "ev_minutes": 26.5,
+  "p_appearance": 0.664,
+  "p_60_plus": 0.109,
+  "p_clean_sheet": 0.205,
+  "model_version": "20261024T172140Z"
+}

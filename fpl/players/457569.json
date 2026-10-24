@@ -1,0 +1,21 @@
+{
+  "code": 457569,
+  "name": "Petrovi\u0107",
+  "position": "GKP",
+  "team": "BOU",
+  "price": 4.5,
+  "ev_points": 3.8,
+  "horizon_ev": 16.01,
+  "q10_points": 1.0,
+  "q90_points": 5.29,
+  "ev_minutes": 86.8,
+  "p_appearance": 0.968,
+  "p_60_plus": 0.963,
+  "p_clean_sheet": 0.296,
+  "model_version": "20261024T172140Z",
+  "european_fatigue": {
+    "competition": "UEL",
+    "opponent": "AC Milan",
+    "days_ago": 1.9
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "code": 177815,
+  "name": "Calvert-Lewin",
+  "position": "FWD",
+  "team": "LEE",
+  "price": 6.1,
+  "ev_points": 1.67,
+  "horizon_ev": 11.75,
+  "q10_points": 0.0,
+  "q90_points": 5.6,
+  "ev_minutes": 44.6,
+  "p_appearance": 0.544,
+  "p_60_plus": 0.472,
+  "p_clean_sheet": 0.211,
+  "model_version": "20261024T172140Z",
+  "flag": {
+    "status": "d",
+    "news": "Foot injury - 50% chance of playing",
+    "chance": 50
+  },
+  "pk": true
+}

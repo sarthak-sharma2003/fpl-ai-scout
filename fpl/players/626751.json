@@ -1,0 +1,21 @@
+{
+  "code": 626751,
+  "name": "Ansah",
+  "position": "FWD",
+  "team": "HUL",
+  "price": 4.9,
+  "ev_points": 0.01,
+  "horizon_ev": 0.43,
+  "q10_points": 0.0,
+  "q90_points": 0.0,
+  "ev_minutes": 0.3,
+  "p_appearance": 0.006,
+  "p_60_plus": 0.001,
+  "p_clean_sheet": 0.206,
+  "model_version": "20261024T172140Z",
+  "flag": {
+    "status": "i",
+    "news": "Back injury - Unknown return date",
+    "chance": 0
+  }
+}

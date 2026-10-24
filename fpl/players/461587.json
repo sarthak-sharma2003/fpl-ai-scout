@@ -1,0 +1,16 @@
+{
+  "code": 461587,
+  "name": "McAteer",
+  "position": "MID",
+  "team": "IPS",
+  "price": 4.4,
+  "ev_points": 0.18,
+  "horizon_ev": 0.8,
+  "q10_points": 0.0,
+  "q90_points": 0.75,
+  "ev_minutes": 4.8,
+  "p_appearance": 0.122,
+  "p_60_plus": 0.019,
+  "p_clean_sheet": 0.252,
+  "model_version": "20261024T172140Z"
+}

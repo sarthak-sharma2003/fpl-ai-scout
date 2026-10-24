@@ -1,0 +1,21 @@
+{
+  "code": 173879,
+  "name": "Abraham",
+  "position": "FWD",
+  "team": "AVL",
+  "price": 5.5,
+  "ev_points": 0.79,
+  "horizon_ev": 2.96,
+  "q10_points": 0.0,
+  "q90_points": 1.27,
+  "ev_minutes": 18.2,
+  "p_appearance": 0.507,
+  "p_60_plus": 0.05,
+  "p_clean_sheet": 0.34,
+  "model_version": "20261024T172140Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Viking FK",
+    "days_ago": 2.9
+  }
+}

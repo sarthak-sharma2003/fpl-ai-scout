@@ -1,0 +1,21 @@
+{
+  "code": 209244,
+  "name": "Foden",
+  "position": "MID",
+  "team": "MCI",
+  "price": 6.8,
+  "ev_points": 3.11,
+  "horizon_ev": 14.2,
+  "q10_points": 1.0,
+  "q90_points": 7.91,
+  "ev_minutes": 59.9,
+  "p_appearance": 0.913,
+  "p_60_plus": 0.541,
+  "p_clean_sheet": 0.336,
+  "model_version": "20261024T172140Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "AEK Athens",
+    "days_ago": 3.9
+  }
+}

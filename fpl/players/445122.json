@@ -1,0 +1,21 @@
+{
+  "code": 445122,
+  "name": "J.Timber",
+  "position": "DEF",
+  "team": "ARS",
+  "price": 6.5,
+  "ev_points": 2.07,
+  "horizon_ev": 8.91,
+  "q10_points": 0.0,
+  "q90_points": 4.73,
+  "ev_minutes": 41.2,
+  "p_appearance": 0.706,
+  "p_60_plus": 0.334,
+  "p_clean_sheet": 0.322,
+  "model_version": "20261024T172140Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Bayern Munich",
+    "days_ago": 2.9
+  }
+}

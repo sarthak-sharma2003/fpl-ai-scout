@@ -1,0 +1,16 @@
+{
+  "code": 532529,
+  "name": "Hinshelwood",
+  "position": "MID",
+  "team": "BHA",
+  "price": 5.9,
+  "ev_points": 1.76,
+  "horizon_ev": 7.94,
+  "q10_points": 0.0,
+  "q90_points": 3.03,
+  "ev_minutes": 36.5,
+  "p_appearance": 0.846,
+  "p_60_plus": 0.186,
+  "p_clean_sheet": 0.123,
+  "model_version": "20261024T172140Z"
+}

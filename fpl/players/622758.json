@@ -1,0 +1,16 @@
+{
+  "code": 622758,
+  "name": "Anselmino",
+  "position": "DEF",
+  "team": "CHE",
+  "price": 4.5,
+  "ev_points": 0.17,
+  "horizon_ev": 0.52,
+  "q10_points": 0.0,
+  "q90_points": 0.18,
+  "ev_minutes": 4.8,
+  "p_appearance": 0.108,
+  "p_60_plus": 0.026,
+  "p_clean_sheet": 0.255,
+  "model_version": "20261024T172140Z"
+}

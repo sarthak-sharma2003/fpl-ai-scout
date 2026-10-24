@@ -1,0 +1,21 @@
+{
+  "code": 577669,
+  "name": "Sadiki",
+  "position": "MID",
+  "team": "SUN",
+  "price": 4.8,
+  "ev_points": 3.09,
+  "horizon_ev": 13.3,
+  "q10_points": 1.0,
+  "q90_points": 5.2,
+  "ev_minutes": 80.6,
+  "p_appearance": 0.952,
+  "p_60_plus": 0.868,
+  "p_clean_sheet": 0.402,
+  "model_version": "20261024T172140Z",
+  "european_fatigue": {
+    "competition": "UEL",
+    "opponent": "Lech Poznan",
+    "days_ago": 2.0
+  }
+}

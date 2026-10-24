@@ -1,0 +1,484 @@
+{
+  "model_version": "20261024T172140Z",
+  "validation": {
+    "beats_naive_decision": true,
+    "primary": {
+      "split_label": "primary",
+      "version": "20260712T235005Z",
+      "train_seasons": [
+        "2021-22",
+        "2022-23",
+        "2023-24"
+      ],
+      "holdout_season": "2024-25",
+      "beats_naive": true,
+      "model_mean_per_gw_spearman": 0.2658801591992351,
+      "naive_mean_per_gw_spearman": 0.22587229816056767,
+      "model_rmse": 3.014284043536204,
+      "naive_rmse": 3.1957317909798375
+    },
+    "secondary": {
+      "split_label": "secondary",
+      "version": "20260712T235034Z",
+      "train_seasons": [
+        "2021-22",
+        "2022-23",
+        "2023-24",
+        "2024-25"
+      ],
+      "holdout_season": "2025-26",
+      "beats_naive": true,
+      "model_mean_per_gw_spearman": 0.2181174218932087,
+      "naive_mean_per_gw_spearman": 0.1491223966458424,
+      "model_rmse": 3.111877339014905,
+      "naive_rmse": 3.366582852802535
+    }
+  },
+  "backtest": {
+    "seasons": [
+      {
+        "season": "2024-25",
+        "train_seasons": [
+          "2021-22",
+          "2022-23",
+          "2023-24"
+        ],
+        "total_points": 1792,
+        "total_hits": 30,
+        "chips_used": [
+          {
+            "gw": 18,
+            "chip": "triple_captain"
+          },
+          {
+            "gw": 19,
+            "chip": "bench_boost"
+          },
+          {
+            "gw": 37,
+            "chip": "triple_captain"
+          },
+          {
+            "gw": 38,
+            "chip": "bench_boost"
+          }
+        ],
+        "gw_scores": [
+          {
+            "gw": 1,
+            "score": 85,
+            "hits": 0
+          },
+          {
+            "gw": 2,
+            "score": 69,
+            "hits": 1
+          },
+          {
+            "gw": 3,
+            "score": 65,
+            "hits": 1
+          },
+          {
+            "gw": 4,
+            "score": 32,
+            "hits": 1
+          },
+          {
+            "gw": 5,
+            "score": 63,
+            "hits": 1
+          },
+          {
+            "gw": 6,
+            "score": 35,
+            "hits": 1
+          },
+          {
+            "gw": 7,
+            "score": 50,
+            "hits": 1
+          },
+          {
+            "gw": 8,
+            "score": 20,
+            "hits": 0
+          },
+          {
+            "gw": 9,
+            "score": 52,
+            "hits": 0
+          },
+          {
+            "gw": 10,
+            "score": 48,
+            "hits": 1
+          },
+          {
+            "gw": 11,
+            "score": 15,
+            "hits": 1
+          },
+          {
+            "gw": 12,
+            "score": 50,
+            "hits": 1
+          },
+          {
+            "gw": 13,
+            "score": 36,
+            "hits": 1
+          },
+          {
+            "gw": 14,
+            "score": 37,
+            "hits": 1
+          },
+          {
+            "gw": 15,
+            "score": 38,
+            "hits": 1
+          },
+          {
+            "gw": 16,
+            "score": 56,
+            "hits": 1
+          },
+          {
+            "gw": 17,
+            "score": 51,
+            "hits": 0
+          },
+          {
+            "gw": 18,
+            "score": 19,
+            "hits": 1
+          },
+          {
+            "gw": 19,
+            "score": 47,
+            "hits": 0
+          },
+          {
+            "gw": 20,
+            "score": 37,
+            "hits": 1
+          },
+          {
+            "gw": 21,
+            "score": 54,
+            "hits": 1
+          },
+          {
+            "gw": 22,
+            "score": 77,
+            "hits": 1
+          },
+          {
+            "gw": 23,
+            "score": 54,
+            "hits": 1
+          },
+          {
+            "gw": 24,
+            "score": 95,
+            "hits": 1
+          },
+          {
+            "gw": 25,
+            "score": 37,
+            "hits": 1
+          },
+          {
+            "gw": 26,
+            "score": 31,
+            "hits": 1
+          },
+          {
+            "gw": 27,
+            "score": 73,
+            "hits": 1
+          },
+          {
+            "gw": 28,
+            "score": 46,
+            "hits": 1
+          },
+          {
+            "gw": 29,
+            "score": 42,
+            "hits": 1
+          },
+          {
+            "gw": 30,
+            "score": 35,
+            "hits": 1
+          },
+          {
+            "gw": 31,
+            "score": 21,
+            "hits": 1
+          },
+          {
+            "gw": 32,
+            "score": 25,
+            "hits": 1
+          },
+          {
+            "gw": 33,
+            "score": 58,
+            "hits": 0
+          },
+          {
+            "gw": 34,
+            "score": 52,
+            "hits": 1
+          },
+          {
+            "gw": 35,
+            "score": 38,
+            "hits": 1
+          },
+          {
+            "gw": 36,
+            "score": 26,
+            "hits": 0
+          },
+          {
+            "gw": 37,
+            "score": 61,
+            "hits": 1
+          },
+          {
+            "gw": 38,
+            "score": 62,
+            "hits": 0
+          }
+        ]
+      },
+      {
+        "season": "2025-26",
+        "train_seasons": [
+          "2021-22",
+          "2022-23",
+          "2023-24",
+          "2024-25"
+        ],
+        "total_points": 1775,
+        "total_hits": 29,
+        "chips_used": [
+          {
+            "gw": 18,
+            "chip": "triple_captain"
+          },
+          {
+            "gw": 19,
+            "chip": "bench_boost"
+          },
+          {
+            "gw": 37,
+            "chip": "triple_captain"
+          },
+          {
+            "gw": 38,
+            "chip": "bench_boost"
+          }
+        ],
+        "gw_scores": [
+          {
+            "gw": 1,
+            "score": 57,
+            "hits": 0
+          },
+          {
+            "gw": 2,
+            "score": 16,
+            "hits": 1
+          },
+          {
+            "gw": 3,
+            "score": 22,
+            "hits": 1
+          },
+          {
+            "gw": 4,
+            "score": 41,
+            "hits": 1
+          },
+          {
+            "gw": 5,
+            "score": 24,
+            "hits": 1
+          },
+          {
+            "gw": 6,
+            "score": 28,
+            "hits": 1
+          },
+          {
+            "gw": 7,
+            "score": 51,
+            "hits": 1
+          },
+          {
+            "gw": 8,
+            "score": 51,
+            "hits": 0
+          },
+          {
+            "gw": 9,
+            "score": 41,
+            "hits": 0
+          },
+          {
+            "gw": 10,
+            "score": 52,
+            "hits": 1
+          },
+          {
+            "gw": 11,
+            "score": 75,
+            "hits": 1
+          },
+          {
+            "gw": 12,
+            "score": 57,
+            "hits": 1
+          },
+          {
+            "gw": 13,
+            "score": 49,
+            "hits": 0
+          },
+          {
+            "gw": 14,
+            "score": 22,
+            "hits": 1
+          },
+          {
+            "gw": 15,
+            "score": 36,
+            "hits": 1
+          },
+          {
+            "gw": 16,
+            "score": 43,
+            "hits": 1
+          },
+          {
+            "gw": 17,
+            "score": 56,
+            "hits": 1
+          },
+          {
+            "gw": 18,
+            "score": 57,
+            "hits": 1
+          },
+          {
+            "gw": 19,
+            "score": 68,
+            "hits": 1
+          },
+          {
+            "gw": 20,
+            "score": 44,
+            "hits": 0
+          },
+          {
+            "gw": 21,
+            "score": 37,
+            "hits": 1
+          },
+          {
+            "gw": 22,
+            "score": 67,
+            "hits": 1
+          },
+          {
+            "gw": 23,
+            "score": 38,
+            "hits": 1
+          },
+          {
+            "gw": 24,
+            "score": 65,
+            "hits": 1
+          },
+          {
+            "gw": 25,
+            "score": 66,
+            "hits": 0
+          },
+          {
+            "gw": 26,
+            "score": 70,
+            "hits": 0
+          },
+          {
+            "gw": 27,
+            "score": 29,
+            "hits": 1
+          },
+          {
+            "gw": 28,
+            "score": 41,
+            "hits": 1
+          },
+          {
+            "gw": 29,
+            "score": 42,
+            "hits": 1
+          },
+          {
+            "gw": 30,
+            "score": 41,
+            "hits": 1
+          },
+          {
+            "gw": 31,
+            "score": 41,
+            "hits": 1
+          },
+          {
+            "gw": 32,
+            "score": 47,
+            "hits": 1
+          },
+          {
+            "gw": 33,
+            "score": 21,
+            "hits": 1
+          },
+          {
+            "gw": 34,
+            "score": 26,
+            "hits": 1
+          },
+          {
+            "gw": 35,
+            "score": 42,
+            "hits": 1
+          },
+          {
+            "gw": 36,
+            "score": 62,
+            "hits": 1
+          },
+          {
+            "gw": 37,
+            "score": 78,
+            "hits": 0
+          },
+          {
+            "gw": 38,
+            "score": 72,
+            "hits": 0
+          }
+        ]
+      }
+    ],
+    "plan_stated_target": 2400,
+    "real_2025_26_average_manager": 1895
+  }
+}

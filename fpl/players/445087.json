@@ -1,0 +1,21 @@
+{
+  "code": 445087,
+  "name": "Araujo",
+  "position": "DEF",
+  "team": "LIV",
+  "price": 5.4,
+  "ev_points": 2.45,
+  "horizon_ev": 12.45,
+  "q10_points": 0.0,
+  "q90_points": 5.73,
+  "ev_minutes": 65.2,
+  "p_appearance": 0.857,
+  "p_60_plus": 0.658,
+  "p_clean_sheet": 0.231,
+  "model_version": "20261024T172140Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Villarreal",
+    "days_ago": 3.9
+  }
+}

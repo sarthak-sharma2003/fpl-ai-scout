@@ -1,0 +1,16 @@
+{
+  "code": 611917,
+  "name": "Williams-Barnett",
+  "position": "MID",
+  "team": "TOT",
+  "price": 4.5,
+  "ev_points": 0.03,
+  "horizon_ev": 0.15,
+  "q10_points": 0.0,
+  "q90_points": 0.0,
+  "ev_minutes": 0.8,
+  "p_appearance": 0.021,
+  "p_60_plus": 0.004,
+  "p_clean_sheet": 0.291,
+  "model_version": "20261024T172140Z"
+}

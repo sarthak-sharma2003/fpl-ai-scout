@@ -1,0 +1,21 @@
+{
+  "code": 514514,
+  "name": "Koumas",
+  "position": "MID",
+  "team": "LIV",
+  "price": 5.0,
+  "ev_points": 1.19,
+  "horizon_ev": 6.06,
+  "q10_points": 0.0,
+  "q90_points": 2.35,
+  "ev_minutes": 32.8,
+  "p_appearance": 0.699,
+  "p_60_plus": 0.197,
+  "p_clean_sheet": 0.231,
+  "model_version": "20261024T172140Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Villarreal",
+    "days_ago": 3.9
+  }
+}

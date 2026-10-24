@@ -1,0 +1,16 @@
+{
+  "code": 557012,
+  "name": "Walle Egeli",
+  "position": "FWD",
+  "team": "IPS",
+  "price": 4.5,
+  "ev_points": 0.28,
+  "horizon_ev": 1.26,
+  "q10_points": 0.0,
+  "q90_points": 0.5,
+  "ev_minutes": 7.4,
+  "p_appearance": 0.212,
+  "p_60_plus": 0.018,
+  "p_clean_sheet": 0.252,
+  "model_version": "20261024T172140Z"
+}

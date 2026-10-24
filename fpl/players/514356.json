@@ -1,0 +1,16 @@
+{
+  "code": 514356,
+  "name": "Lavia",
+  "position": "MID",
+  "team": "CHE",
+  "price": 5.0,
+  "ev_points": 1.5,
+  "horizon_ev": 6.57,
+  "q10_points": 0.0,
+  "q90_points": 3.1,
+  "ev_minutes": 31.0,
+  "p_appearance": 0.756,
+  "p_60_plus": 0.139,
+  "p_clean_sheet": 0.255,
+  "model_version": "20261024T172140Z"
+}

@@ -1,0 +1,21 @@
+{
+  "code": 631000,
+  "name": "Vaz",
+  "position": "FWD",
+  "team": "HUL",
+  "price": 5.0,
+  "ev_points": 1.14,
+  "horizon_ev": 5.3,
+  "q10_points": 0.0,
+  "q90_points": 1.23,
+  "ev_minutes": 22.1,
+  "p_appearance": 0.531,
+  "p_60_plus": 0.102,
+  "p_clean_sheet": 0.206,
+  "model_version": "20261024T172140Z",
+  "flag": {
+    "status": "d",
+    "news": "Achilles injury - 75% chance of playing",
+    "chance": 75
+  }
+}

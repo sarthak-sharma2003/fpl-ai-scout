@@ -1,0 +1,21 @@
+{
+  "code": 441266,
+  "name": "Gravenberch",
+  "position": "MID",
+  "team": "LIV",
+  "price": 5.8,
+  "ev_points": 2.03,
+  "horizon_ev": 8.95,
+  "q10_points": 0.0,
+  "q90_points": 4.38,
+  "ev_minutes": 56.9,
+  "p_appearance": 0.819,
+  "p_60_plus": 0.54,
+  "p_clean_sheet": 0.231,
+  "model_version": "20261024T172140Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Villarreal",
+    "days_ago": 3.9
+  }
+}

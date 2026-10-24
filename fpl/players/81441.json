@@ -1,0 +1,16 @@
+{
+  "code": 81441,
+  "name": "Gillespie",
+  "position": "GKP",
+  "team": "NEW",
+  "price": 4.5,
+  "ev_points": 0.06,
+  "horizon_ev": 0.24,
+  "q10_points": 0.0,
+  "q90_points": 0.0,
+  "ev_minutes": 1.4,
+  "p_appearance": 0.019,
+  "p_60_plus": 0.014,
+  "p_clean_sheet": 0.341,
+  "model_version": "20261024T172140Z"
+}

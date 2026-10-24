@@ -1,0 +1,17 @@
+{
+  "code": 551466,
+  "name": "Gonzalo",
+  "position": "FWD",
+  "team": "FUL",
+  "price": 6.1,
+  "ev_points": 3.0,
+  "horizon_ev": 14.66,
+  "q10_points": 1.0,
+  "q90_points": 6.77,
+  "ev_minutes": 72.1,
+  "p_appearance": 0.964,
+  "p_60_plus": 0.72,
+  "p_clean_sheet": 0.205,
+  "model_version": "20261024T172140Z",
+  "pk": true
+}

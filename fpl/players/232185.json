@@ -1,0 +1,21 @@
+{
+  "code": 232185,
+  "name": "Sarr",
+  "position": "MID",
+  "team": "CRY",
+  "price": 6.2,
+  "ev_points": 1.31,
+  "horizon_ev": 4.9,
+  "q10_points": 0.0,
+  "q90_points": 3.37,
+  "ev_minutes": 32.3,
+  "p_appearance": 0.679,
+  "p_60_plus": 0.199,
+  "p_clean_sheet": 0.203,
+  "model_version": "20261024T172140Z",
+  "european_fatigue": {
+    "competition": "UEL",
+    "opponent": "Besiktas",
+    "days_ago": 1.9
+  }
+}

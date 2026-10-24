@@ -1,0 +1,16 @@
+{
+  "code": 204968,
+  "name": "Yates",
+  "position": "MID",
+  "team": "NFO",
+  "price": 4.4,
+  "ev_points": 0.31,
+  "horizon_ev": 0.97,
+  "q10_points": 0.0,
+  "q90_points": 1.01,
+  "ev_minutes": 8.9,
+  "p_appearance": 0.233,
+  "p_60_plus": 0.032,
+  "p_clean_sheet": 0.199,
+  "model_version": "20261024T172140Z"
+}

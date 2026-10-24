@@ -1,0 +1,16 @@
+{
+  "code": 647850,
+  "name": "Kostoulas",
+  "position": "FWD",
+  "team": "BHA",
+  "price": 5.8,
+  "ev_points": 3.11,
+  "horizon_ev": 16.98,
+  "q10_points": 1.0,
+  "q90_points": 5.12,
+  "ev_minutes": 72.0,
+  "p_appearance": 0.956,
+  "p_60_plus": 0.722,
+  "p_clean_sheet": 0.123,
+  "model_version": "20261024T172140Z"
+}

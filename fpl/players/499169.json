@@ -1,0 +1,21 @@
+{
+  "code": 499169,
+  "name": "Lewis-Skelly",
+  "position": "MID",
+  "team": "ARS",
+  "price": 5.4,
+  "ev_points": 1.98,
+  "horizon_ev": 10.09,
+  "q10_points": 0.0,
+  "q90_points": 4.33,
+  "ev_minutes": 54.3,
+  "p_appearance": 0.816,
+  "p_60_plus": 0.496,
+  "p_clean_sheet": 0.322,
+  "model_version": "20261024T172140Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Bayern Munich",
+    "days_ago": 2.9
+  }
+}

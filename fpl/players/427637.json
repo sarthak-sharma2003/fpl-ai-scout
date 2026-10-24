@@ -1,0 +1,16 @@
+{
+  "code": 427637,
+  "name": "Aaronson",
+  "position": "MID",
+  "team": "LEE",
+  "price": 5.3,
+  "ev_points": 1.41,
+  "horizon_ev": 6.9,
+  "q10_points": 0.0,
+  "q90_points": 2.5,
+  "ev_minutes": 34.9,
+  "p_appearance": 0.725,
+  "p_60_plus": 0.22,
+  "p_clean_sheet": 0.211,
+  "model_version": "20261024T172140Z"
+}

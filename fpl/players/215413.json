@@ -1,0 +1,16 @@
+{
+  "code": 215413,
+  "name": "Dewsbury-Hall",
+  "position": "MID",
+  "team": "EVE",
+  "price": 6.6,
+  "ev_points": 3.77,
+  "horizon_ev": 17.39,
+  "q10_points": 1.0,
+  "q90_points": 8.59,
+  "ev_minutes": 85.4,
+  "p_appearance": 0.979,
+  "p_60_plus": 0.934,
+  "p_clean_sheet": 0.209,
+  "model_version": "20261024T172140Z"
+}

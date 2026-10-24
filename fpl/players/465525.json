@@ -1,0 +1,21 @@
+{
+  "code": 465525,
+  "name": "Matazo",
+  "position": "MID",
+  "team": "HUL",
+  "price": 4.5,
+  "ev_points": 0.01,
+  "horizon_ev": 0.12,
+  "q10_points": 0.0,
+  "q90_points": 0.0,
+  "ev_minutes": 0.2,
+  "p_appearance": 0.006,
+  "p_60_plus": 0.001,
+  "p_clean_sheet": 0.206,
+  "model_version": "20261024T172140Z",
+  "flag": {
+    "status": "i",
+    "news": "Knee injury - Unknown return date",
+    "chance": 0
+  }
+}

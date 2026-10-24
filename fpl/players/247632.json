@@ -1,0 +1,16 @@
+{
+  "code": 247632,
+  "name": "Neto",
+  "position": "MID",
+  "team": "CHE",
+  "price": 6.6,
+  "ev_points": 3.88,
+  "horizon_ev": 18.18,
+  "q10_points": 1.0,
+  "q90_points": 8.82,
+  "ev_minutes": 83.0,
+  "p_appearance": 0.978,
+  "p_60_plus": 0.894,
+  "p_clean_sheet": 0.255,
+  "model_version": "20261024T172140Z"
+}

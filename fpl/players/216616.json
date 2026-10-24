@@ -1,0 +1,16 @@
+{
+  "code": 216616,
+  "name": "O'Shea",
+  "position": "DEF",
+  "team": "IPS",
+  "price": 4.0,
+  "ev_points": 4.55,
+  "horizon_ev": 15.93,
+  "q10_points": 1.0,
+  "q90_points": 8.14,
+  "ev_minutes": 85.6,
+  "p_appearance": 0.966,
+  "p_60_plus": 0.944,
+  "p_clean_sheet": 0.252,
+  "model_version": "20261024T172140Z"
+}

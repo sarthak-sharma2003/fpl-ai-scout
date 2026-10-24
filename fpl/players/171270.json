@@ -1,0 +1,16 @@
+{
+  "code": 171270,
+  "name": "Dowell",
+  "position": "MID",
+  "team": "HUL",
+  "price": 4.4,
+  "ev_points": 0.05,
+  "horizon_ev": 0.21,
+  "q10_points": 0.0,
+  "q90_points": 0.0,
+  "ev_minutes": 1.3,
+  "p_appearance": 0.032,
+  "p_60_plus": 0.006,
+  "p_clean_sheet": 0.206,
+  "model_version": "20261024T172140Z"
+}

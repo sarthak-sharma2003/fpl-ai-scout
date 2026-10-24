@@ -1,0 +1,21 @@
+{
+  "code": 464353,
+  "name": "Davies",
+  "position": "GKP",
+  "team": "LIV",
+  "price": 4.0,
+  "ev_points": 0.03,
+  "horizon_ev": 0.13,
+  "q10_points": 0.0,
+  "q90_points": 0.0,
+  "ev_minutes": 0.7,
+  "p_appearance": 0.01,
+  "p_60_plus": 0.007,
+  "p_clean_sheet": 0.231,
+  "model_version": "20261024T172140Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Villarreal",
+    "days_ago": 3.9
+  }
+}

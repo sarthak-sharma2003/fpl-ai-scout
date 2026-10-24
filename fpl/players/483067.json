@@ -1,0 +1,21 @@
+{
+  "code": 483067,
+  "name": "Silva",
+  "position": "DEF",
+  "team": "BOU",
+  "price": 5.0,
+  "ev_points": 4.74,
+  "horizon_ev": 20.89,
+  "q10_points": 1.0,
+  "q90_points": 8.17,
+  "ev_minutes": 85.6,
+  "p_appearance": 0.975,
+  "p_60_plus": 0.94,
+  "p_clean_sheet": 0.296,
+  "model_version": "20261024T172140Z",
+  "european_fatigue": {
+    "competition": "UEL",
+    "opponent": "AC Milan",
+    "days_ago": 1.9
+  }
+}

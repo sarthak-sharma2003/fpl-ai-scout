@@ -1,0 +1,27 @@
+{
+  "code": 560262,
+  "name": "Kroupi.Jr",
+  "position": "MID",
+  "team": "BOU",
+  "price": 7.3,
+  "ev_points": 1.28,
+  "horizon_ev": 4.55,
+  "q10_points": 0.0,
+  "q90_points": 1.31,
+  "ev_minutes": 22.4,
+  "p_appearance": 0.628,
+  "p_60_plus": 0.06,
+  "p_clean_sheet": 0.296,
+  "model_version": "20261024T172140Z",
+  "flag": {
+    "status": "d",
+    "news": "Foot injury - 75% chance of playing",
+    "chance": 75
+  },
+  "pk": true,
+  "european_fatigue": {
+    "competition": "UEL",
+    "opponent": "AC Milan",
+    "days_ago": 1.9
+  }
+}

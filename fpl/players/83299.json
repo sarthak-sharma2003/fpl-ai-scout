@@ -1,0 +1,16 @@
+{
+  "code": 83299,
+  "name": "Dunk",
+  "position": "DEF",
+  "team": "BHA",
+  "price": 4.5,
+  "ev_points": 1.56,
+  "horizon_ev": 9.33,
+  "q10_points": 0.0,
+  "q90_points": 4.61,
+  "ev_minutes": 72.4,
+  "p_appearance": 0.868,
+  "p_60_plus": 0.773,
+  "p_clean_sheet": 0.123,
+  "model_version": "20261024T172140Z"
+}

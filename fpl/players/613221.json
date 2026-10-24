@@ -1,0 +1,21 @@
+{
+  "code": 613221,
+  "name": "Fernandez-Pardo",
+  "position": "FWD",
+  "team": "NEW",
+  "price": 6.0,
+  "ev_points": 1.67,
+  "horizon_ev": 10.64,
+  "q10_points": 0.0,
+  "q90_points": 4.87,
+  "ev_minutes": 34.9,
+  "p_appearance": 0.572,
+  "p_60_plus": 0.296,
+  "p_clean_sheet": 0.341,
+  "model_version": "20261024T172140Z",
+  "flag": {
+    "status": "d",
+    "news": "Illness - 75% chance of playing",
+    "chance": 75
+  }
+}

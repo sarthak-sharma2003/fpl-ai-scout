@@ -1,0 +1,16 @@
+{
+  "code": 570241,
+  "name": "Ji-soo",
+  "position": "DEF",
+  "team": "BRE",
+  "price": 4.4,
+  "ev_points": 0.12,
+  "horizon_ev": 0.51,
+  "q10_points": 0.0,
+  "q90_points": 0.03,
+  "ev_minutes": 2.8,
+  "p_appearance": 0.064,
+  "p_60_plus": 0.016,
+  "p_clean_sheet": 0.328,
+  "model_version": "20261024T172140Z"
+}

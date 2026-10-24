@@ -1,0 +1,26 @@
+{
+  "code": 135720,
+  "name": "Danso",
+  "position": "DEF",
+  "team": "SUN",
+  "price": 5.0,
+  "ev_points": 0.03,
+  "horizon_ev": 8.26,
+  "q10_points": 0.0,
+  "q90_points": 0.0,
+  "ev_minutes": 0.8,
+  "p_appearance": 0.013,
+  "p_60_plus": 0.007,
+  "p_clean_sheet": 0.402,
+  "model_version": "20261024T172140Z",
+  "flag": {
+    "status": "s",
+    "news": "Suspended until 31 Oct",
+    "chance": 0
+  },
+  "european_fatigue": {
+    "competition": "UEL",
+    "opponent": "Lech Poznan",
+    "days_ago": 2.0
+  }
+}

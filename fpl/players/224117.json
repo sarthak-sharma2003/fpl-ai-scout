@@ -1,0 +1,21 @@
+{
+  "code": 224117,
+  "name": "Gy\u00f6keres",
+  "position": "FWD",
+  "team": "ARS",
+  "price": 7.0,
+  "ev_points": 2.18,
+  "horizon_ev": 10.7,
+  "q10_points": 1.0,
+  "q90_points": 5.71,
+  "ev_minutes": 53.6,
+  "p_appearance": 0.898,
+  "p_60_plus": 0.444,
+  "p_clean_sheet": 0.322,
+  "model_version": "20261024T172140Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Bayern Munich",
+    "days_ago": 2.9
+  }
+}

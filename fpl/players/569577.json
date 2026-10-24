@@ -1,0 +1,21 @@
+{
+  "code": 569577,
+  "name": "Rowe",
+  "position": "DEF",
+  "team": "AVL",
+  "price": 4.0,
+  "ev_points": 0.04,
+  "horizon_ev": 0.16,
+  "q10_points": 0.0,
+  "q90_points": 0.0,
+  "ev_minutes": 0.8,
+  "p_appearance": 0.019,
+  "p_60_plus": 0.004,
+  "p_clean_sheet": 0.34,
+  "model_version": "20261024T172140Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Viking FK",
+    "days_ago": 2.9
+  }
+}

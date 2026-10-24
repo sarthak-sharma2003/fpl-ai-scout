@@ -1,0 +1,21 @@
+{
+  "code": 111317,
+  "name": "Brooks",
+  "position": "MID",
+  "team": "BOU",
+  "price": 5.0,
+  "ev_points": 1.19,
+  "horizon_ev": 4.91,
+  "q10_points": 0.0,
+  "q90_points": 2.18,
+  "ev_minutes": 29.0,
+  "p_appearance": 0.577,
+  "p_60_plus": 0.195,
+  "p_clean_sheet": 0.296,
+  "model_version": "20261024T172140Z",
+  "european_fatigue": {
+    "competition": "UEL",
+    "opponent": "AC Milan",
+    "days_ago": 1.9
+  }
+}

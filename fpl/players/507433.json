@@ -1,0 +1,16 @@
+{
+  "code": 507433,
+  "name": "Valdimarsson",
+  "position": "GKP",
+  "team": "BRE",
+  "price": 4.4,
+  "ev_points": 0.05,
+  "horizon_ev": 0.2,
+  "q10_points": 0.0,
+  "q90_points": 0.0,
+  "ev_minutes": 1.2,
+  "p_appearance": 0.016,
+  "p_60_plus": 0.011,
+  "p_clean_sheet": 0.328,
+  "model_version": "20261024T172140Z"
+}

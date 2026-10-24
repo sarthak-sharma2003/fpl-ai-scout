@@ -1,0 +1,21 @@
+{
+  "code": 606702,
+  "name": "Jacquet",
+  "position": "DEF",
+  "team": "LIV",
+  "price": 5.1,
+  "ev_points": 3.63,
+  "horizon_ev": 18.61,
+  "q10_points": 1.0,
+  "q90_points": 7.36,
+  "ev_minutes": 82.0,
+  "p_appearance": 0.957,
+  "p_60_plus": 0.888,
+  "p_clean_sheet": 0.231,
+  "model_version": "20261024T172140Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Villarreal",
+    "days_ago": 3.9
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "code": 59735,
+  "name": "Darlow",
+  "position": "GKP",
+  "team": "MUN",
+  "price": 4.5,
+  "ev_points": 0.27,
+  "horizon_ev": 0.83,
+  "q10_points": 0.0,
+  "q90_points": 0.13,
+  "ev_minutes": 6.9,
+  "p_appearance": 0.082,
+  "p_60_plus": 0.073,
+  "p_clean_sheet": 0.174,
+  "model_version": "20261024T172140Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Como",
+    "days_ago": 3.0
+  }
+}

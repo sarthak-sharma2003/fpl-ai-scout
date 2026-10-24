@@ -1,0 +1,16 @@
+{
+  "code": 201666,
+  "name": "Barnes",
+  "position": "MID",
+  "team": "NEW",
+  "price": 6.1,
+  "ev_points": 4.12,
+  "horizon_ev": 17.75,
+  "q10_points": 1.0,
+  "q90_points": 8.56,
+  "ev_minutes": 86.4,
+  "p_appearance": 0.982,
+  "p_60_plus": 0.949,
+  "p_clean_sheet": 0.341,
+  "model_version": "20261024T172140Z"
+}

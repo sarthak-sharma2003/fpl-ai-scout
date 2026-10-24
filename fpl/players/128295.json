@@ -1,0 +1,16 @@
+{
+  "code": 128295,
+  "name": "N\u00f8rgaard",
+  "position": "MID",
+  "team": "EVE",
+  "price": 4.8,
+  "ev_points": 0.35,
+  "horizon_ev": 1.25,
+  "q10_points": 0.0,
+  "q90_points": 1.0,
+  "ev_minutes": 9.7,
+  "p_appearance": 0.267,
+  "p_60_plus": 0.029,
+  "p_clean_sheet": 0.209,
+  "model_version": "20261024T172140Z"
+}

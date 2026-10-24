@@ -1,0 +1,16 @@
+{
+  "code": 248056,
+  "name": "Tanaka",
+  "position": "MID",
+  "team": "LEE",
+  "price": 4.9,
+  "ev_points": 2.48,
+  "horizon_ev": 11.9,
+  "q10_points": 1.0,
+  "q90_points": 5.32,
+  "ev_minutes": 65.4,
+  "p_appearance": 0.93,
+  "p_60_plus": 0.625,
+  "p_clean_sheet": 0.211,
+  "model_version": "20261024T172140Z"
+}

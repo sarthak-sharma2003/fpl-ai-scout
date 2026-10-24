@@ -1,0 +1,21 @@
+{
+  "code": 487676,
+  "name": "Hume",
+  "position": "DEF",
+  "team": "SUN",
+  "price": 4.3,
+  "ev_points": 3.74,
+  "horizon_ev": 15.03,
+  "q10_points": 0.0,
+  "q90_points": 7.2,
+  "ev_minutes": 69.1,
+  "p_appearance": 0.87,
+  "p_60_plus": 0.717,
+  "p_clean_sheet": 0.402,
+  "model_version": "20261024T172140Z",
+  "european_fatigue": {
+    "competition": "UEL",
+    "opponent": "Lech Poznan",
+    "days_ago": 2.0
+  }
+}

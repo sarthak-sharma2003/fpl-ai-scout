@@ -1,0 +1,16 @@
+{
+  "code": 193278,
+  "name": "Coyle",
+  "position": "DEF",
+  "team": "HUL",
+  "price": 4.0,
+  "ev_points": 2.79,
+  "horizon_ev": 10.22,
+  "q10_points": 0.0,
+  "q90_points": 6.32,
+  "ev_minutes": 75.9,
+  "p_appearance": 0.925,
+  "p_60_plus": 0.802,
+  "p_clean_sheet": 0.206,
+  "model_version": "20261024T172140Z"
+}

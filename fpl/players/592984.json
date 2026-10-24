@@ -1,0 +1,16 @@
+{
+  "code": 592984,
+  "name": "Andr\u00e9s",
+  "position": "MID",
+  "team": "BHA",
+  "price": 5.5,
+  "ev_points": 2.44,
+  "horizon_ev": 13.54,
+  "q10_points": 1.0,
+  "q90_points": 4.74,
+  "ev_minutes": 75.8,
+  "p_appearance": 0.938,
+  "p_60_plus": 0.794,
+  "p_clean_sheet": 0.123,
+  "model_version": "20261024T172140Z"
+}

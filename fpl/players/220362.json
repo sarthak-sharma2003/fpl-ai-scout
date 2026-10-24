@@ -1,0 +1,21 @@
+{
+  "code": 220362,
+  "name": "Disasi",
+  "position": "DEF",
+  "team": "CRY",
+  "price": 4.4,
+  "ev_points": 0.87,
+  "horizon_ev": 2.69,
+  "q10_points": 0.0,
+  "q90_points": 2.04,
+  "ev_minutes": 26.2,
+  "p_appearance": 0.409,
+  "p_60_plus": 0.231,
+  "p_clean_sheet": 0.203,
+  "model_version": "20261024T172140Z",
+  "european_fatigue": {
+    "competition": "UEL",
+    "opponent": "Besiktas",
+    "days_ago": 1.9
+  }
+}

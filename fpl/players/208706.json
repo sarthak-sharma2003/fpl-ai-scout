@@ -1,0 +1,21 @@
+{
+  "code": 208706,
+  "name": "Bruno G.",
+  "position": "MID",
+  "team": "ARS",
+  "price": 6.7,
+  "ev_points": 2.07,
+  "horizon_ev": 10.29,
+  "q10_points": 1.0,
+  "q90_points": 5.04,
+  "ev_minutes": 56.9,
+  "p_appearance": 0.918,
+  "p_60_plus": 0.489,
+  "p_clean_sheet": 0.322,
+  "model_version": "20261024T172140Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Bayern Munich",
+    "days_ago": 2.9
+  }
+}

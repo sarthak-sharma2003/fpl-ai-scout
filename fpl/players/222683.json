@@ -1,0 +1,21 @@
+{
+  "code": 222683,
+  "name": "Kluivert",
+  "position": "MID",
+  "team": "BOU",
+  "price": 5.9,
+  "ev_points": 2.38,
+  "horizon_ev": 10.7,
+  "q10_points": 0.0,
+  "q90_points": 5.36,
+  "ev_minutes": 47.4,
+  "p_appearance": 0.871,
+  "p_60_plus": 0.355,
+  "p_clean_sheet": 0.296,
+  "model_version": "20261024T172140Z",
+  "european_fatigue": {
+    "competition": "UEL",
+    "opponent": "AC Milan",
+    "days_ago": 1.9
+  }
+}

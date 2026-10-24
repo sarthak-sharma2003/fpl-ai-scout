@@ -1,0 +1,16 @@
+{
+  "code": 432830,
+  "name": "Collins",
+  "position": "DEF",
+  "team": "BRE",
+  "price": 5.4,
+  "ev_points": 2.2,
+  "horizon_ev": 5.91,
+  "q10_points": 0.0,
+  "q90_points": 7.63,
+  "ev_minutes": 48.8,
+  "p_appearance": 0.703,
+  "p_60_plus": 0.462,
+  "p_clean_sheet": 0.328,
+  "model_version": "20261024T172140Z"
+}

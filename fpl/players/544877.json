@@ -1,0 +1,21 @@
+{
+  "code": 544877,
+  "name": "Kerkez",
+  "position": "DEF",
+  "team": "LIV",
+  "price": 5.3,
+  "ev_points": 3.13,
+  "horizon_ev": 15.84,
+  "q10_points": 0.0,
+  "q90_points": 6.84,
+  "ev_minutes": 80.3,
+  "p_appearance": 0.941,
+  "p_60_plus": 0.867,
+  "p_clean_sheet": 0.231,
+  "model_version": "20261024T172140Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Villarreal",
+    "days_ago": 3.9
+  }
+}

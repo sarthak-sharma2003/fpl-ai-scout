@@ -1,0 +1,21 @@
+{
+  "code": 98980,
+  "name": "Martinez",
+  "position": "GKP",
+  "team": "CHE",
+  "price": 5.0,
+  "ev_points": 0.06,
+  "horizon_ev": 9.0,
+  "q10_points": 0.0,
+  "q90_points": 0.0,
+  "ev_minutes": 1.7,
+  "p_appearance": 0.023,
+  "p_60_plus": 0.017,
+  "p_clean_sheet": 0.255,
+  "model_version": "20261024T172140Z",
+  "flag": {
+    "status": "i",
+    "news": "Head injury - Unknown return date",
+    "chance": 0
+  }
+}

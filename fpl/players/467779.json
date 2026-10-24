@@ -1,0 +1,21 @@
+{
+  "code": 467779,
+  "name": "Wieffer",
+  "position": "DEF",
+  "team": "BHA",
+  "price": 4.8,
+  "ev_points": 0.13,
+  "horizon_ev": 1.47,
+  "q10_points": 0.0,
+  "q90_points": 0.33,
+  "ev_minutes": 5.7,
+  "p_appearance": 0.119,
+  "p_60_plus": 0.035,
+  "p_clean_sheet": 0.123,
+  "model_version": "20261024T172140Z",
+  "flag": {
+    "status": "d",
+    "news": "Knee injury - 25% chance of playing",
+    "chance": 25
+  }
+}

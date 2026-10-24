@@ -1,0 +1,21 @@
+{
+  "code": 490884,
+  "name": "Cho",
+  "position": "MID",
+  "team": "HUL",
+  "price": 5.0,
+  "ev_points": 0.95,
+  "horizon_ev": 5.61,
+  "q10_points": 0.0,
+  "q90_points": 1.33,
+  "ev_minutes": 20.2,
+  "p_appearance": 0.48,
+  "p_60_plus": 0.096,
+  "p_clean_sheet": 0.206,
+  "model_version": "20261024T172140Z",
+  "flag": {
+    "status": "d",
+    "news": "Unspecified injury - 75% chance of playing",
+    "chance": 75
+  }
+}

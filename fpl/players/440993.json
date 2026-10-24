@@ -1,0 +1,21 @@
+{
+  "code": 440993,
+  "name": "Ndiaye",
+  "position": "MID",
+  "team": "MCI",
+  "price": 5.8,
+  "ev_points": 3.64,
+  "horizon_ev": 16.91,
+  "q10_points": 1.0,
+  "q90_points": 9.72,
+  "ev_minutes": 79.5,
+  "p_appearance": 0.965,
+  "p_60_plus": 0.843,
+  "p_clean_sheet": 0.336,
+  "model_version": "20261024T172140Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "AEK Athens",
+    "days_ago": 3.9
+  }
+}

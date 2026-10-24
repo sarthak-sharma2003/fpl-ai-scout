@@ -1,0 +1,16 @@
+{
+  "code": 191866,
+  "name": "Ajer",
+  "position": "DEF",
+  "team": "BRE",
+  "price": 4.5,
+  "ev_points": 4.53,
+  "horizon_ev": 16.51,
+  "q10_points": 1.0,
+  "q90_points": 7.78,
+  "ev_minutes": 85.5,
+  "p_appearance": 0.973,
+  "p_60_plus": 0.938,
+  "p_clean_sheet": 0.328,
+  "model_version": "20261024T172140Z"
+}

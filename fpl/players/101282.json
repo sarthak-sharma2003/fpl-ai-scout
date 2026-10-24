@@ -1,0 +1,16 @@
+{
+  "code": 101282,
+  "name": "Crooks",
+  "position": "MID",
+  "team": "HUL",
+  "price": 4.4,
+  "ev_points": 2.03,
+  "horizon_ev": 7.58,
+  "q10_points": 0.0,
+  "q90_points": 4.52,
+  "ev_minutes": 58.8,
+  "p_appearance": 0.858,
+  "p_60_plus": 0.551,
+  "p_clean_sheet": 0.206,
+  "model_version": "20261024T172140Z"
+}

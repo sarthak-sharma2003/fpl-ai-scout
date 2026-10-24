@@ -1,0 +1,21 @@
+{
+  "code": 477064,
+  "name": "Lewis",
+  "position": "DEF",
+  "team": "MCI",
+  "price": 4.3,
+  "ev_points": 0.91,
+  "horizon_ev": 4.4,
+  "q10_points": 0.0,
+  "q90_points": 1.16,
+  "ev_minutes": 22.4,
+  "p_appearance": 0.425,
+  "p_60_plus": 0.16,
+  "p_clean_sheet": 0.336,
+  "model_version": "20261024T172140Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "AEK Athens",
+    "days_ago": 3.9
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "code": 434399,
+  "name": "Reinildo",
+  "position": "DEF",
+  "team": "SUN",
+  "price": 4.4,
+  "ev_points": 3.48,
+  "horizon_ev": 12.55,
+  "q10_points": 0.0,
+  "q90_points": 6.59,
+  "ev_minutes": 70.0,
+  "p_appearance": 0.857,
+  "p_60_plus": 0.739,
+  "p_clean_sheet": 0.402,
+  "model_version": "20261024T172140Z",
+  "european_fatigue": {
+    "competition": "UEL",
+    "opponent": "Lech Poznan",
+    "days_ago": 2.0
+  }
+}

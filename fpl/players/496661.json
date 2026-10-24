@@ -1,0 +1,16 @@
+{
+  "code": 496661,
+  "name": "Dibling",
+  "position": "MID",
+  "team": "EVE",
+  "price": 5.3,
+  "ev_points": 1.07,
+  "horizon_ev": 4.94,
+  "q10_points": 0.0,
+  "q90_points": 1.02,
+  "ev_minutes": 27.3,
+  "p_appearance": 0.715,
+  "p_60_plus": 0.098,
+  "p_clean_sheet": 0.209,
+  "model_version": "20261024T172140Z"
+}

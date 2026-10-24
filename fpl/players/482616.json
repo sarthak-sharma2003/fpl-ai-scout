@@ -1,0 +1,21 @@
+{
+  "code": 482616,
+  "name": "Barcola",
+  "position": "MID",
+  "team": "LIV",
+  "price": 8.0,
+  "ev_points": 3.3,
+  "horizon_ev": 17.18,
+  "q10_points": 1.0,
+  "q90_points": 7.77,
+  "ev_minutes": 78.0,
+  "p_appearance": 0.964,
+  "p_60_plus": 0.818,
+  "p_clean_sheet": 0.231,
+  "model_version": "20261024T172140Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Villarreal",
+    "days_ago": 3.9
+  }
+}

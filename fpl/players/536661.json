@@ -1,0 +1,21 @@
+{
+  "code": 536661,
+  "name": "N.Angulo",
+  "position": "MID",
+  "team": "SUN",
+  "price": 5.0,
+  "ev_points": 1.95,
+  "horizon_ev": 8.42,
+  "q10_points": 0.0,
+  "q90_points": 4.95,
+  "ev_minutes": 44.5,
+  "p_appearance": 0.797,
+  "p_60_plus": 0.343,
+  "p_clean_sheet": 0.402,
+  "model_version": "20261024T172140Z",
+  "european_fatigue": {
+    "competition": "UEL",
+    "opponent": "Lech Poznan",
+    "days_ago": 2.0
+  }
+}

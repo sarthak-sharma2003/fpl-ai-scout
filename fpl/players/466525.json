@@ -1,0 +1,21 @@
+{
+  "code": 466525,
+  "name": "Stach",
+  "position": "MID",
+  "team": "LEE",
+  "price": 6.0,
+  "ev_points": 1.71,
+  "horizon_ev": 12.85,
+  "q10_points": 0.0,
+  "q90_points": 4.86,
+  "ev_minutes": 39.8,
+  "p_appearance": 0.49,
+  "p_60_plus": 0.419,
+  "p_clean_sheet": 0.211,
+  "model_version": "20261024T172140Z",
+  "flag": {
+    "status": "d",
+    "news": "Foot injury - 50% chance of playing",
+    "chance": 50
+  }
+}

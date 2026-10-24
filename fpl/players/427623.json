@@ -1,0 +1,21 @@
+{
+  "code": 427623,
+  "name": "Richards",
+  "position": "DEF",
+  "team": "CRY",
+  "price": 4.9,
+  "ev_points": 3.36,
+  "horizon_ev": 15.9,
+  "q10_points": 1.0,
+  "q90_points": 7.26,
+  "ev_minutes": 84.5,
+  "p_appearance": 0.957,
+  "p_60_plus": 0.929,
+  "p_clean_sheet": 0.203,
+  "model_version": "20261024T172140Z",
+  "european_fatigue": {
+    "competition": "UEL",
+    "opponent": "Besiktas",
+    "days_ago": 1.9
+  }
+}

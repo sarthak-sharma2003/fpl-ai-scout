@@ -1,0 +1,16 @@
+{
+  "code": 463034,
+  "name": "Delap",
+  "position": "FWD",
+  "team": "NFO",
+  "price": 5.5,
+  "ev_points": 2.85,
+  "horizon_ev": 13.91,
+  "q10_points": 1.0,
+  "q90_points": 5.75,
+  "ev_minutes": 75.5,
+  "p_appearance": 0.951,
+  "p_60_plus": 0.784,
+  "p_clean_sheet": 0.199,
+  "model_version": "20261024T172140Z"
+}

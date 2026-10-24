@@ -1,0 +1,16 @@
+{
+  "code": 550090,
+  "name": "Coppola",
+  "position": "DEF",
+  "team": "BHA",
+  "price": 4.5,
+  "ev_points": 0.08,
+  "horizon_ev": 0.45,
+  "q10_points": 0.0,
+  "q90_points": 0.01,
+  "ev_minutes": 2.8,
+  "p_appearance": 0.063,
+  "p_60_plus": 0.016,
+  "p_clean_sheet": 0.123,
+  "model_version": "20261024T172140Z"
+}

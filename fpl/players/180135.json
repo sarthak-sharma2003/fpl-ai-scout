@@ -1,0 +1,16 @@
+{
+  "code": 180135,
+  "name": "Longstaff",
+  "position": "MID",
+  "team": "LEE",
+  "price": 4.8,
+  "ev_points": 0.67,
+  "horizon_ev": 3.22,
+  "q10_points": 0.0,
+  "q90_points": 1.01,
+  "ev_minutes": 18.1,
+  "p_appearance": 0.477,
+  "p_60_plus": 0.063,
+  "p_clean_sheet": 0.211,
+  "model_version": "20261024T172140Z"
+}

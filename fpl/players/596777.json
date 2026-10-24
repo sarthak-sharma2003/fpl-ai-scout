@@ -1,0 +1,26 @@
+{
+  "code": 596777,
+  "name": "Dorgu",
+  "position": "MID",
+  "team": "MUN",
+  "price": 5.7,
+  "ev_points": 0.02,
+  "horizon_ev": 5.37,
+  "q10_points": 0.0,
+  "q90_points": 0.0,
+  "ev_minutes": 0.6,
+  "p_appearance": 0.012,
+  "p_60_plus": 0.004,
+  "p_clean_sheet": 0.174,
+  "model_version": "20261024T172140Z",
+  "flag": {
+    "status": "i",
+    "news": "Hamstring injury - Expected back 25 Oct",
+    "chance": 0
+  },
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Como",
+    "days_ago": 3.0
+  }
+}

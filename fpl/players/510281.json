@@ -1,0 +1,21 @@
+{
+  "code": 510281,
+  "name": "S\u00e1vio",
+  "position": "MID",
+  "team": "TOT",
+  "price": 6.5,
+  "ev_points": 0.04,
+  "horizon_ev": 8.27,
+  "q10_points": 0.0,
+  "q90_points": 0.0,
+  "ev_minutes": 0.7,
+  "p_appearance": 0.014,
+  "p_60_plus": 0.005,
+  "p_clean_sheet": 0.291,
+  "model_version": "20261024T172140Z",
+  "flag": {
+    "status": "i",
+    "news": "Muscular injury - Expected back 7 Nov",
+    "chance": 0
+  }
+}

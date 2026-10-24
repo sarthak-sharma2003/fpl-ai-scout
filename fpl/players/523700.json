@@ -1,0 +1,21 @@
+{
+  "code": 523700,
+  "name": "Jebbison",
+  "position": "FWD",
+  "team": "BOU",
+  "price": 5.0,
+  "ev_points": 0.68,
+  "horizon_ev": 2.93,
+  "q10_points": 0.0,
+  "q90_points": 0.96,
+  "ev_minutes": 15.0,
+  "p_appearance": 0.41,
+  "p_60_plus": 0.045,
+  "p_clean_sheet": 0.296,
+  "model_version": "20261024T172140Z",
+  "european_fatigue": {
+    "competition": "UEL",
+    "opponent": "AC Milan",
+    "days_ago": 1.9
+  }
+}

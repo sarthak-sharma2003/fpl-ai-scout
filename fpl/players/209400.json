@@ -1,0 +1,21 @@
+{
+  "code": 209400,
+  "name": "Kamada",
+  "position": "MID",
+  "team": "CRY",
+  "price": 5.0,
+  "ev_points": 3.14,
+  "horizon_ev": 14.42,
+  "q10_points": 1.0,
+  "q90_points": 5.26,
+  "ev_minutes": 82.6,
+  "p_appearance": 0.97,
+  "p_60_plus": 0.891,
+  "p_clean_sheet": 0.203,
+  "model_version": "20261024T172140Z",
+  "european_fatigue": {
+    "competition": "UEL",
+    "opponent": "Besiktas",
+    "days_ago": 1.9
+  }
+}

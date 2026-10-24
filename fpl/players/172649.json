@@ -1,0 +1,26 @@
+{
+  "code": 172649,
+  "name": "Henderson",
+  "position": "GKP",
+  "team": "CRY",
+  "price": 4.9,
+  "ev_points": 0.93,
+  "horizon_ev": 4.47,
+  "q10_points": 0.0,
+  "q90_points": 2.05,
+  "ev_minutes": 21.8,
+  "p_appearance": 0.255,
+  "p_60_plus": 0.236,
+  "p_clean_sheet": 0.203,
+  "model_version": "20261024T172140Z",
+  "flag": {
+    "status": "d",
+    "news": "Foot injury - 50% chance of playing",
+    "chance": 50
+  },
+  "european_fatigue": {
+    "competition": "UEL",
+    "opponent": "Besiktas",
+    "days_ago": 1.9
+  }
+}

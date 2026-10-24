@@ -1,0 +1,17 @@
+{
+  "code": 60307,
+  "name": "Gro\u00df",
+  "position": "MID",
+  "team": "BHA",
+  "price": 6.2,
+  "ev_points": 3.5,
+  "horizon_ev": 18.91,
+  "q10_points": 1.0,
+  "q90_points": 6.88,
+  "ev_minutes": 83.2,
+  "p_appearance": 0.975,
+  "p_60_plus": 0.899,
+  "p_clean_sheet": 0.123,
+  "model_version": "20261024T172140Z",
+  "pk": true
+}

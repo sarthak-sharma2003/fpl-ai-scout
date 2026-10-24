@@ -1,0 +1,26 @@
+{
+  "code": 176297,
+  "name": "Rashford",
+  "position": "MID",
+  "team": "MUN",
+  "price": 6.9,
+  "ev_points": 1.18,
+  "horizon_ev": 7.6,
+  "q10_points": 0.0,
+  "q90_points": 3.54,
+  "ev_minutes": 26.5,
+  "p_appearance": 0.54,
+  "p_60_plus": 0.172,
+  "p_clean_sheet": 0.174,
+  "model_version": "20261024T172140Z",
+  "flag": {
+    "status": "d",
+    "news": "Hip injury - 75% chance of playing",
+    "chance": 75
+  },
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Como",
+    "days_ago": 3.0
+  }
+}

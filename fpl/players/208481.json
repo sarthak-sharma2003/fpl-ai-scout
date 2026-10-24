@@ -1,0 +1,16 @@
+{
+  "code": 208481,
+  "name": "\u00d6m\u00fcr",
+  "position": "MID",
+  "team": "HUL",
+  "price": 4.9,
+  "ev_points": 0.15,
+  "horizon_ev": 0.65,
+  "q10_points": 0.0,
+  "q90_points": 0.1,
+  "ev_minutes": 3.9,
+  "p_appearance": 0.103,
+  "p_60_plus": 0.014,
+  "p_clean_sheet": 0.206,
+  "model_version": "20261024T172140Z"
+}

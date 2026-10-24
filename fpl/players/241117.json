@@ -1,0 +1,16 @@
+{
+  "code": 241117,
+  "name": "Matusiwa",
+  "position": "MID",
+  "team": "IPS",
+  "price": 4.9,
+  "ev_points": 0.98,
+  "horizon_ev": 3.69,
+  "q10_points": 0.0,
+  "q90_points": 1.8,
+  "ev_minutes": 25.3,
+  "p_appearance": 0.637,
+  "p_60_plus": 0.103,
+  "p_clean_sheet": 0.252,
+  "model_version": "20261024T172140Z"
+}

@@ -1,0 +1,21 @@
+{
+  "code": 645618,
+  "name": "Burrowes",
+  "position": "MID",
+  "team": "AVL",
+  "price": 4.4,
+  "ev_points": 0.04,
+  "horizon_ev": 0.19,
+  "q10_points": 0.0,
+  "q90_points": 0.0,
+  "ev_minutes": 1.1,
+  "p_appearance": 0.027,
+  "p_60_plus": 0.004,
+  "p_clean_sheet": 0.34,
+  "model_version": "20261024T172140Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Viking FK",
+    "days_ago": 2.9
+  }
+}

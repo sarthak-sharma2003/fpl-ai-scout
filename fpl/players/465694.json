@@ -1,0 +1,16 @@
+{
+  "code": 465694,
+  "name": "N.Gonzalez",
+  "position": "MID",
+  "team": "NEW",
+  "price": 5.5,
+  "ev_points": 2.95,
+  "horizon_ev": 12.72,
+  "q10_points": 1.0,
+  "q90_points": 5.72,
+  "ev_minutes": 70.6,
+  "p_appearance": 0.945,
+  "p_60_plus": 0.705,
+  "p_clean_sheet": 0.341,
+  "model_version": "20261024T172140Z"
+}

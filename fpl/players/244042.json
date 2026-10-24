@@ -1,0 +1,16 @@
+{
+  "code": 244042,
+  "name": "Muniz",
+  "position": "FWD",
+  "team": "FUL",
+  "price": 5.3,
+  "ev_points": 0.85,
+  "horizon_ev": 3.85,
+  "q10_points": 0.0,
+  "q90_points": 1.23,
+  "ev_minutes": 21.7,
+  "p_appearance": 0.557,
+  "p_60_plus": 0.083,
+  "p_clean_sheet": 0.205,
+  "model_version": "20261024T172140Z"
+}

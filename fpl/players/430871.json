@@ -1,0 +1,21 @@
+{
+  "code": 430871,
+  "name": "Cunha",
+  "position": "MID",
+  "team": "MUN",
+  "price": 7.9,
+  "ev_points": 2.26,
+  "horizon_ev": 12.31,
+  "q10_points": 1.0,
+  "q90_points": 6.16,
+  "ev_minutes": 68.2,
+  "p_appearance": 0.948,
+  "p_60_plus": 0.663,
+  "p_clean_sheet": 0.174,
+  "model_version": "20261024T172140Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Como",
+    "days_ago": 3.0
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "code": 155408,
+  "name": "Cook",
+  "position": "MID",
+  "team": "BOU",
+  "price": 5.0,
+  "ev_points": 2.13,
+  "horizon_ev": 10.41,
+  "q10_points": 0.0,
+  "q90_points": 4.79,
+  "ev_minutes": 52.9,
+  "p_appearance": 0.871,
+  "p_60_plus": 0.447,
+  "p_clean_sheet": 0.296,
+  "model_version": "20261024T172140Z",
+  "european_fatigue": {
+    "competition": "UEL",
+    "opponent": "AC Milan",
+    "days_ago": 1.9
+  }
+}

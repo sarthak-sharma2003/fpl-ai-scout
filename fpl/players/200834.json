@@ -1,0 +1,21 @@
+{
+  "code": 200834,
+  "name": "Mukiele",
+  "position": "DEF",
+  "team": "SUN",
+  "price": 5.4,
+  "ev_points": 5.07,
+  "horizon_ev": 19.07,
+  "q10_points": 1.0,
+  "q90_points": 10.06,
+  "ev_minutes": 84.4,
+  "p_appearance": 0.971,
+  "p_60_plus": 0.921,
+  "p_clean_sheet": 0.402,
+  "model_version": "20261024T172140Z",
+  "european_fatigue": {
+    "competition": "UEL",
+    "opponent": "Lech Poznan",
+    "days_ago": 2.0
+  }
+}

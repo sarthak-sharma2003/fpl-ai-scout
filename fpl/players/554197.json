@@ -1,0 +1,21 @@
+{
+  "code": 554197,
+  "name": "Rigg",
+  "position": "MID",
+  "team": "SUN",
+  "price": 4.8,
+  "ev_points": 1.22,
+  "horizon_ev": 5.44,
+  "q10_points": 0.0,
+  "q90_points": 2.87,
+  "ev_minutes": 33.7,
+  "p_appearance": 0.594,
+  "p_60_plus": 0.264,
+  "p_clean_sheet": 0.402,
+  "model_version": "20261024T172140Z",
+  "european_fatigue": {
+    "competition": "UEL",
+    "opponent": "Lech Poznan",
+    "days_ago": 2.0
+  }
+}

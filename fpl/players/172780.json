@@ -1,0 +1,16 @@
+{
+  "code": 172780,
+  "name": "Maddison",
+  "position": "MID",
+  "team": "TOT",
+  "price": 6.2,
+  "ev_points": 2.57,
+  "horizon_ev": 10.34,
+  "q10_points": 1.0,
+  "q90_points": 6.97,
+  "ev_minutes": 55.6,
+  "p_appearance": 0.904,
+  "p_60_plus": 0.474,
+  "p_clean_sheet": 0.291,
+  "model_version": "20261024T172140Z"
+}

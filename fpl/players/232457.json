@@ -1,0 +1,16 @@
+{
+  "code": 232457,
+  "name": "Mehmeti",
+  "position": "MID",
+  "team": "IPS",
+  "price": 4.8,
+  "ev_points": 0.1,
+  "horizon_ev": 0.44,
+  "q10_points": 0.0,
+  "q90_points": 0.04,
+  "ev_minutes": 2.4,
+  "p_appearance": 0.065,
+  "p_60_plus": 0.008,
+  "p_clean_sheet": 0.252,
+  "model_version": "20261024T172140Z"
+}

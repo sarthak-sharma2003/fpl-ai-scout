@@ -1,0 +1,26 @@
+{
+  "code": 485711,
+  "name": "\u0160e\u0161ko",
+  "position": "FWD",
+  "team": "MUN",
+  "price": 6.9,
+  "ev_points": 0.04,
+  "horizon_ev": 3.48,
+  "q10_points": 0.0,
+  "q90_points": 0.0,
+  "ev_minutes": 0.7,
+  "p_appearance": 0.015,
+  "p_60_plus": 0.004,
+  "p_clean_sheet": 0.174,
+  "model_version": "20261024T172140Z",
+  "flag": {
+    "status": "i",
+    "news": "Shin injury - Unknown return date",
+    "chance": 0
+  },
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Como",
+    "days_ago": 3.0
+  }
+}

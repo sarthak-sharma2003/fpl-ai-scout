@@ -1,0 +1,16 @@
+{
+  "code": 469272,
+  "name": "Tchaouna",
+  "position": "MID",
+  "team": "COV",
+  "price": 5.3,
+  "ev_points": 0.57,
+  "horizon_ev": 2.65,
+  "q10_points": 0.0,
+  "q90_points": 1.03,
+  "ev_minutes": 17.0,
+  "p_appearance": 0.397,
+  "p_60_plus": 0.084,
+  "p_clean_sheet": 0.231,
+  "model_version": "20261024T172140Z"
+}

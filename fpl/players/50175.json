@@ -1,0 +1,16 @@
+{
+  "code": 50175,
+  "name": "Welbeck",
+  "position": "FWD",
+  "team": "CHE",
+  "price": 5.8,
+  "ev_points": 1.57,
+  "horizon_ev": 7.56,
+  "q10_points": 0.0,
+  "q90_points": 3.34,
+  "ev_minutes": 33.6,
+  "p_appearance": 0.753,
+  "p_60_plus": 0.184,
+  "p_clean_sheet": 0.255,
+  "model_version": "20261024T172140Z"
+}

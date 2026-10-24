@@ -1,0 +1,21 @@
+{
+  "code": 106921,
+  "name": "Rulli",
+  "position": "GKP",
+  "team": "MCI",
+  "price": 4.9,
+  "ev_points": 0.09,
+  "horizon_ev": 0.47,
+  "q10_points": 0.0,
+  "q90_points": 0.11,
+  "ev_minutes": 2.5,
+  "p_appearance": 0.034,
+  "p_60_plus": 0.024,
+  "p_clean_sheet": 0.336,
+  "model_version": "20261024T172140Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "AEK Athens",
+    "days_ago": 3.9
+  }
+}

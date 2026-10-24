@@ -1,0 +1,21 @@
+{
+  "code": 199796,
+  "name": "Cash",
+  "position": "DEF",
+  "team": "AVL",
+  "price": 4.3,
+  "ev_points": 3.75,
+  "horizon_ev": 16.61,
+  "q10_points": 0.0,
+  "q90_points": 7.72,
+  "ev_minutes": 80.6,
+  "p_appearance": 0.937,
+  "p_60_plus": 0.874,
+  "p_clean_sheet": 0.34,
+  "model_version": "20261024T172140Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Viking FK",
+    "days_ago": 2.9
+  }
+}

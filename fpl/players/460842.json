@@ -1,0 +1,16 @@
+{
+  "code": 460842,
+  "name": "Kudus",
+  "position": "MID",
+  "team": "TOT",
+  "price": 6.5,
+  "ev_points": 3.4,
+  "horizon_ev": 15.25,
+  "q10_points": 1.0,
+  "q90_points": 7.54,
+  "ev_minutes": 72.0,
+  "p_appearance": 0.952,
+  "p_60_plus": 0.724,
+  "p_clean_sheet": 0.291,
+  "model_version": "20261024T172140Z"
+}

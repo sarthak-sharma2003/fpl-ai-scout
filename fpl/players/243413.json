@@ -1,0 +1,16 @@
+{
+  "code": 243413,
+  "name": "Slater",
+  "position": "MID",
+  "team": "HUL",
+  "price": 4.5,
+  "ev_points": 2.6,
+  "horizon_ev": 10.73,
+  "q10_points": 1.0,
+  "q90_points": 4.83,
+  "ev_minutes": 69.6,
+  "p_appearance": 0.933,
+  "p_60_plus": 0.693,
+  "p_clean_sheet": 0.206,
+  "model_version": "20261024T172140Z"
+}

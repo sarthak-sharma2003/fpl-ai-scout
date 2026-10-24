@@ -1,0 +1,8 @@
+{
+  "gw": 9,
+  "is_live": true,
+  "price_risers": [],
+  "price_fallers": [],
+  "injury_news": [],
+  "injury_news_note": "Injury-news deltas require our own accumulated ep_next_archive history (see ingest/health.py) \u2014 not enough refreshes have run yet."
+}

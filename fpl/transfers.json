@@ -1,0 +1,351 @@
+{
+  "gw": 9,
+  "confidence": 38.8,
+  "bank": 13,
+  "free_transfers": 4,
+  "chip_advice": null,
+  "moves": [
+    {
+      "out": {
+        "code": 607464,
+        "name": "Kayode",
+        "team": "BRE",
+        "position": "DEF",
+        "price": 4.6,
+        "ev": 3.24
+      },
+      "in": {
+        "code": 483067,
+        "name": "Silva",
+        "team": "BOU",
+        "position": "DEF",
+        "price": 5.0,
+        "ev": 4.74,
+        "european_fatigue": {
+          "competition": "UEL",
+          "opponent": "AC Milan",
+          "days_ago": 1.9
+        }
+      },
+      "compare": {
+        "position": "DEF",
+        "out_ev": 3.24,
+        "in_ev": 4.74
+      },
+      "net_ev": 1.5
+    },
+    {
+      "out": {
+        "code": 465730,
+        "name": "De Cuyper",
+        "team": "BHA",
+        "position": "DEF",
+        "price": 5.3,
+        "ev": 2.1
+      },
+      "in": {
+        "code": 226597,
+        "name": "Gabriel",
+        "team": "ARS",
+        "position": "DEF",
+        "price": 7.9,
+        "ev": 4.62,
+        "european_fatigue": {
+          "competition": "UCL",
+          "opponent": "Bayern Munich",
+          "days_ago": 2.9
+        }
+      },
+      "compare": {
+        "position": "DEF",
+        "out_ev": 2.1,
+        "in_ev": 4.62
+      },
+      "net_ev": 2.52
+    },
+    {
+      "out": {
+        "code": 424876,
+        "name": "Szoboszlai",
+        "team": "LIV",
+        "position": "MID",
+        "price": 6.8,
+        "ev": 0.04,
+        "flag": {
+          "status": "i",
+          "news": "Hamstring injury - Unknown return date",
+          "chance": 0
+        },
+        "pk": true,
+        "european_fatigue": {
+          "competition": "UCL",
+          "opponent": "Villarreal",
+          "days_ago": 3.9
+        }
+      },
+      "in": {
+        "code": 446008,
+        "name": "Mbeumo",
+        "team": "MUN",
+        "position": "MID",
+        "price": 7.9,
+        "ev": 4.57,
+        "european_fatigue": {
+          "competition": "UCL",
+          "opponent": "Como",
+          "days_ago": 3.0
+        }
+      },
+      "compare": {
+        "position": "MID",
+        "out_ev": 0.04,
+        "in_ev": 4.57
+      },
+      "net_ev": 4.53
+    },
+    {
+      "out": {
+        "code": 223340,
+        "name": "Saka",
+        "team": "ARS",
+        "position": "MID",
+        "price": 9.5,
+        "ev": 0.04,
+        "flag": {
+          "status": "i",
+          "news": "Thigh injury - Unknown return date",
+          "chance": 0
+        },
+        "pk": true,
+        "european_fatigue": {
+          "competition": "UCL",
+          "opponent": "Bayern Munich",
+          "days_ago": 2.9
+        }
+      },
+      "in": {
+        "code": 201658,
+        "name": "Tavernier",
+        "team": "BOU",
+        "position": "MID",
+        "price": 6.3,
+        "ev": 4.37,
+        "european_fatigue": {
+          "competition": "UEL",
+          "opponent": "AC Milan",
+          "days_ago": 1.9
+        }
+      },
+      "compare": {
+        "position": "MID",
+        "out_ev": 0.04,
+        "in_ev": 4.37
+      },
+      "net_ev": 4.33
+    }
+  ],
+  "alternatives": [
+    {
+      "out": {
+        "code": 424876,
+        "name": "Szoboszlai",
+        "team": "LIV",
+        "position": "MID",
+        "price": 6.8,
+        "ev": 0.04,
+        "flag": {
+          "status": "i",
+          "news": "Hamstring injury - Unknown return date",
+          "chance": 0
+        },
+        "pk": true,
+        "european_fatigue": {
+          "competition": "UCL",
+          "opponent": "Villarreal",
+          "days_ago": 3.9
+        }
+      },
+      "in": {
+        "code": 122806,
+        "name": "McGinn",
+        "team": "AVL",
+        "position": "MID",
+        "price": 5.4,
+        "ev": 4.71,
+        "european_fatigue": {
+          "competition": "UCL",
+          "opponent": "Viking FK",
+          "days_ago": 2.9
+        }
+      },
+      "compare": {
+        "position": "MID",
+        "out_ev": 0.04,
+        "in_ev": 4.71
+      },
+      "net_ev": 4.67
+    },
+    {
+      "out": {
+        "code": 223340,
+        "name": "Saka",
+        "team": "ARS",
+        "position": "MID",
+        "price": 9.5,
+        "ev": 0.04,
+        "flag": {
+          "status": "i",
+          "news": "Thigh injury - Unknown return date",
+          "chance": 0
+        },
+        "pk": true,
+        "european_fatigue": {
+          "competition": "UCL",
+          "opponent": "Bayern Munich",
+          "days_ago": 2.9
+        }
+      },
+      "in": {
+        "code": 122806,
+        "name": "McGinn",
+        "team": "AVL",
+        "position": "MID",
+        "price": 5.4,
+        "ev": 4.71,
+        "european_fatigue": {
+          "competition": "UCL",
+          "opponent": "Viking FK",
+          "days_ago": 2.9
+        }
+      },
+      "compare": {
+        "position": "MID",
+        "out_ev": 0.04,
+        "in_ev": 4.71
+      },
+      "net_ev": 4.67
+    },
+    {
+      "out": {
+        "code": 424876,
+        "name": "Szoboszlai",
+        "team": "LIV",
+        "position": "MID",
+        "price": 6.8,
+        "ev": 0.04,
+        "flag": {
+          "status": "i",
+          "news": "Hamstring injury - Unknown return date",
+          "chance": 0
+        },
+        "pk": true,
+        "european_fatigue": {
+          "competition": "UCL",
+          "opponent": "Villarreal",
+          "days_ago": 3.9
+        }
+      },
+      "in": {
+        "code": 484420,
+        "name": "E.Le F\u00e9e",
+        "team": "SUN",
+        "position": "MID",
+        "price": 5.7,
+        "ev": 4.63,
+        "european_fatigue": {
+          "competition": "UEL",
+          "opponent": "Lech Poznan",
+          "days_ago": 2.0
+        }
+      },
+      "compare": {
+        "position": "MID",
+        "out_ev": 0.04,
+        "in_ev": 4.63
+      },
+      "net_ev": 4.59
+    },
+    {
+      "out": {
+        "code": 223340,
+        "name": "Saka",
+        "team": "ARS",
+        "position": "MID",
+        "price": 9.5,
+        "ev": 0.04,
+        "flag": {
+          "status": "i",
+          "news": "Thigh injury - Unknown return date",
+          "chance": 0
+        },
+        "pk": true,
+        "european_fatigue": {
+          "competition": "UCL",
+          "opponent": "Bayern Munich",
+          "days_ago": 2.9
+        }
+      },
+      "in": {
+        "code": 484420,
+        "name": "E.Le F\u00e9e",
+        "team": "SUN",
+        "position": "MID",
+        "price": 5.7,
+        "ev": 4.63,
+        "european_fatigue": {
+          "competition": "UEL",
+          "opponent": "Lech Poznan",
+          "days_ago": 2.0
+        }
+      },
+      "compare": {
+        "position": "MID",
+        "out_ev": 0.04,
+        "in_ev": 4.63
+      },
+      "net_ev": 4.59
+    },
+    {
+      "out": {
+        "code": 424876,
+        "name": "Szoboszlai",
+        "team": "LIV",
+        "position": "MID",
+        "price": 6.8,
+        "ev": 0.04,
+        "flag": {
+          "status": "i",
+          "news": "Hamstring injury - Unknown return date",
+          "chance": 0
+        },
+        "pk": true,
+        "european_fatigue": {
+          "competition": "UCL",
+          "opponent": "Villarreal",
+          "days_ago": 3.9
+        }
+      },
+      "in": {
+        "code": 446008,
+        "name": "Mbeumo",
+        "team": "MUN",
+        "position": "MID",
+        "price": 7.9,
+        "ev": 4.57,
+        "european_fatigue": {
+          "competition": "UCL",
+          "opponent": "Como",
+          "days_ago": 3.0
+        }
+      },
+      "compare": {
+        "position": "MID",
+        "out_ev": 0.04,
+        "in_ev": 4.57
+      },
+      "net_ev": 4.53
+    }
+  ],
+  "squad_source": "synced",
+  "rotations": []
+}

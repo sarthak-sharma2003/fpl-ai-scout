@@ -1,0 +1,22 @@
+{
+  "code": 231747,
+  "name": "Mateta",
+  "position": "FWD",
+  "team": "CRY",
+  "price": 6.3,
+  "ev_points": 2.56,
+  "horizon_ev": 9.52,
+  "q10_points": 1.0,
+  "q90_points": 6.03,
+  "ev_minutes": 52.2,
+  "p_appearance": 0.851,
+  "p_60_plus": 0.445,
+  "p_clean_sheet": 0.203,
+  "model_version": "20261024T172140Z",
+  "pk": true,
+  "european_fatigue": {
+    "competition": "UEL",
+    "opponent": "Besiktas",
+    "days_ago": 1.9
+  }
+}

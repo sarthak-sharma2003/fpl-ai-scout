@@ -1,0 +1,21 @@
+{
+  "code": 158983,
+  "name": "Endo",
+  "position": "MID",
+  "team": "LIV",
+  "price": 4.8,
+  "ev_points": 0.25,
+  "horizon_ev": 0.68,
+  "q10_points": 0.0,
+  "q90_points": 1.01,
+  "ev_minutes": 6.8,
+  "p_appearance": 0.186,
+  "p_60_plus": 0.021,
+  "p_clean_sheet": 0.231,
+  "model_version": "20261024T172140Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Villarreal",
+    "days_ago": 3.9
+  }
+}

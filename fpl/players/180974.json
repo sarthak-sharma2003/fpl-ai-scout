@@ -1,0 +1,16 @@
+{
+  "code": 180974,
+  "name": "Joelinton",
+  "position": "MID",
+  "team": "NEW",
+  "price": 5.4,
+  "ev_points": 2.39,
+  "horizon_ev": 9.76,
+  "q10_points": 0.0,
+  "q90_points": 5.28,
+  "ev_minutes": 65.0,
+  "p_appearance": 0.858,
+  "p_60_plus": 0.654,
+  "p_clean_sheet": 0.341,
+  "model_version": "20261024T172140Z"
+}

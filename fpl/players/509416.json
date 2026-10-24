@@ -1,0 +1,16 @@
+{
+  "code": 509416,
+  "name": "Ayari",
+  "position": "MID",
+  "team": "BHA",
+  "price": 5.4,
+  "ev_points": 2.22,
+  "horizon_ev": 13.04,
+  "q10_points": 1.0,
+  "q90_points": 4.57,
+  "ev_minutes": 81.4,
+  "p_appearance": 0.966,
+  "p_60_plus": 0.873,
+  "p_clean_sheet": 0.123,
+  "model_version": "20261024T172140Z"
+}

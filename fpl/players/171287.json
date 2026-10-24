@@ -1,0 +1,21 @@
+{
+  "code": 171287,
+  "name": "Gomez",
+  "position": "DEF",
+  "team": "LIV",
+  "price": 4.9,
+  "ev_points": 1.17,
+  "horizon_ev": 5.59,
+  "q10_points": 0.0,
+  "q90_points": 2.77,
+  "ev_minutes": 31.2,
+  "p_appearance": 0.62,
+  "p_60_plus": 0.21,
+  "p_clean_sheet": 0.231,
+  "model_version": "20261024T172140Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Villarreal",
+    "days_ago": 3.9
+  }
+}

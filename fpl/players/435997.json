@@ -1,0 +1,21 @@
+{
+  "code": 435997,
+  "name": "Okafor",
+  "position": "MID",
+  "team": "LEE",
+  "price": 5.8,
+  "ev_points": 0.83,
+  "horizon_ev": 9.29,
+  "q10_points": 0.0,
+  "q90_points": 1.53,
+  "ev_minutes": 20.2,
+  "p_appearance": 0.349,
+  "p_60_plus": 0.161,
+  "p_clean_sheet": 0.211,
+  "model_version": "20261024T172140Z",
+  "flag": {
+    "status": "d",
+    "news": "Thigh injury - 50% chance of playing",
+    "chance": 50
+  }
+}

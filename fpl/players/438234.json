@@ -1,0 +1,16 @@
+{
+  "code": 438234,
+  "name": "Marmoush",
+  "position": "FWD",
+  "team": "TOT",
+  "price": 7.0,
+  "ev_points": 3.31,
+  "horizon_ev": 14.86,
+  "q10_points": 1.0,
+  "q90_points": 7.78,
+  "ev_minutes": 69.9,
+  "p_appearance": 0.935,
+  "p_60_plus": 0.697,
+  "p_clean_sheet": 0.291,
+  "model_version": "20261024T172140Z"
+}

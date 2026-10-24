@@ -1,0 +1,21 @@
+{
+  "code": 184029,
+  "name": "\u00d8degaard",
+  "position": "MID",
+  "team": "ARS",
+  "price": 6.8,
+  "ev_points": 3.48,
+  "horizon_ev": 18.87,
+  "q10_points": 1.0,
+  "q90_points": 9.04,
+  "ev_minutes": 80.8,
+  "p_appearance": 0.973,
+  "p_60_plus": 0.86,
+  "p_clean_sheet": 0.322,
+  "model_version": "20261024T172140Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Bayern Munich",
+    "days_ago": 2.9
+  }
+}

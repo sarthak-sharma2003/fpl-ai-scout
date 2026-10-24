@@ -1,0 +1,21 @@
+{
+  "code": 499604,
+  "name": "Rayan",
+  "position": "MID",
+  "team": "BOU",
+  "price": 6.3,
+  "ev_points": 3.9,
+  "horizon_ev": 19.93,
+  "q10_points": 1.0,
+  "q90_points": 9.01,
+  "ev_minutes": 79.6,
+  "p_appearance": 0.966,
+  "p_60_plus": 0.844,
+  "p_clean_sheet": 0.296,
+  "model_version": "20261024T172140Z",
+  "european_fatigue": {
+    "competition": "UEL",
+    "opponent": "AC Milan",
+    "days_ago": 1.9
+  }
+}

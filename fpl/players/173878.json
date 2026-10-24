@@ -1,0 +1,16 @@
+{
+  "code": 173878,
+  "name": "Dasilva",
+  "position": "DEF",
+  "team": "COV",
+  "price": 4.0,
+  "ev_points": 3.12,
+  "horizon_ev": 11.66,
+  "q10_points": 1.0,
+  "q90_points": 6.55,
+  "ev_minutes": 83.1,
+  "p_appearance": 0.967,
+  "p_60_plus": 0.902,
+  "p_clean_sheet": 0.231,
+  "model_version": "20261024T172140Z"
+}

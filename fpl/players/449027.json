@@ -1,0 +1,21 @@
+{
+  "code": 449027,
+  "name": "Mamardashvili",
+  "position": "GKP",
+  "team": "LIV",
+  "price": 4.8,
+  "ev_points": 0.2,
+  "horizon_ev": 0.92,
+  "q10_points": 0.0,
+  "q90_points": 0.06,
+  "ev_minutes": 5.2,
+  "p_appearance": 0.066,
+  "p_60_plus": 0.054,
+  "p_clean_sheet": 0.231,
+  "model_version": "20261024T172140Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Villarreal",
+    "days_ago": 3.9
+  }
+}

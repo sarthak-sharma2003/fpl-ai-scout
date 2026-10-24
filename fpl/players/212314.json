@@ -1,0 +1,21 @@
+{
+  "code": 212314,
+  "name": "Luki\u0107",
+  "position": "MID",
+  "team": "IPS",
+  "price": 4.9,
+  "ev_points": 0.02,
+  "horizon_ev": 3.67,
+  "q10_points": 0.0,
+  "q90_points": 0.0,
+  "ev_minutes": 0.5,
+  "p_appearance": 0.011,
+  "p_60_plus": 0.004,
+  "p_clean_sheet": 0.252,
+  "model_version": "20261024T172140Z",
+  "flag": {
+    "status": "i",
+    "news": "Groin injury - Unknown return date",
+    "chance": 0
+  }
+}

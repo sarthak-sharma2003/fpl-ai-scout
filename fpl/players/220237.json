@@ -1,0 +1,16 @@
+{
+  "code": 220237,
+  "name": "Botman",
+  "position": "DEF",
+  "team": "NEW",
+  "price": 5.0,
+  "ev_points": 4.63,
+  "horizon_ev": 18.8,
+  "q10_points": 1.0,
+  "q90_points": 8.45,
+  "ev_minutes": 84.1,
+  "p_appearance": 0.963,
+  "p_60_plus": 0.921,
+  "p_clean_sheet": 0.341,
+  "model_version": "20261024T172140Z"
+}

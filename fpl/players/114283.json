@@ -1,0 +1,21 @@
+{
+  "code": 114283,
+  "name": "Grealish",
+  "position": "MID",
+  "team": "EVE",
+  "price": 6.5,
+  "ev_points": 1.5,
+  "horizon_ev": 9.51,
+  "q10_points": 0.0,
+  "q90_points": 4.94,
+  "ev_minutes": 38.6,
+  "p_appearance": 0.595,
+  "p_60_plus": 0.345,
+  "p_clean_sheet": 0.209,
+  "model_version": "20261024T172140Z",
+  "flag": {
+    "status": "d",
+    "news": "Illness - 75% chance of playing",
+    "chance": 75
+  }
+}

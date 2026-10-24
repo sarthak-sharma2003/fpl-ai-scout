@@ -1,0 +1,21 @@
+{
+  "code": 515046,
+  "name": "Ellborg",
+  "position": "GKP",
+  "team": "SUN",
+  "price": 4.4,
+  "ev_points": 0.23,
+  "horizon_ev": 0.9,
+  "q10_points": 0.0,
+  "q90_points": 1.58,
+  "ev_minutes": 4.6,
+  "p_appearance": 0.057,
+  "p_60_plus": 0.049,
+  "p_clean_sheet": 0.402,
+  "model_version": "20261024T172140Z",
+  "european_fatigue": {
+    "competition": "UEL",
+    "opponent": "Lech Poznan",
+    "days_ago": 2.0
+  }
+}

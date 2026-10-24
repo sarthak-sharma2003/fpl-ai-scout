@@ -1,0 +1,16 @@
+{
+  "code": 470315,
+  "name": "Netz",
+  "position": "DEF",
+  "team": "NFO",
+  "price": 4.4,
+  "ev_points": 0.47,
+  "horizon_ev": 2.43,
+  "q10_points": 0.0,
+  "q90_points": 1.78,
+  "ev_minutes": 15.2,
+  "p_appearance": 0.364,
+  "p_60_plus": 0.071,
+  "p_clean_sheet": 0.199,
+  "model_version": "20261024T172140Z"
+}

@@ -1,0 +1,26 @@
+{
+  "code": 551499,
+  "name": "Munoz",
+  "position": "MID",
+  "team": "LIV",
+  "price": 6.5,
+  "ev_points": 0.55,
+  "horizon_ev": 9.82,
+  "q10_points": 0.0,
+  "q90_points": 1.61,
+  "ev_minutes": 13.5,
+  "p_appearance": 0.205,
+  "p_60_plus": 0.122,
+  "p_clean_sheet": 0.231,
+  "model_version": "20261024T172140Z",
+  "flag": {
+    "status": "d",
+    "news": "Knee injury - 25% chance of playing",
+    "chance": 25
+  },
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Villarreal",
+    "days_ago": 3.9
+  }
+}

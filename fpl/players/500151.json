@@ -1,0 +1,21 @@
+{
+  "code": 500151,
+  "name": "Savona",
+  "position": "DEF",
+  "team": "NFO",
+  "price": 4.5,
+  "ev_points": 0.01,
+  "horizon_ev": 0.96,
+  "q10_points": 0.0,
+  "q90_points": 0.0,
+  "ev_minutes": 0.3,
+  "p_appearance": 0.006,
+  "p_60_plus": 0.001,
+  "p_clean_sheet": 0.199,
+  "model_version": "20261024T172140Z",
+  "flag": {
+    "status": "i",
+    "news": "Knee injury - Unknown return date",
+    "chance": 0
+  }
+}

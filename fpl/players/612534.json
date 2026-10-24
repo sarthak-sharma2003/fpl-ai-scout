@@ -1,0 +1,16 @@
+{
+  "code": 612534,
+  "name": "Fredrick",
+  "position": "DEF",
+  "team": "BRE",
+  "price": 4.0,
+  "ev_points": 0.04,
+  "horizon_ev": 0.17,
+  "q10_points": 0.0,
+  "q90_points": 0.0,
+  "ev_minutes": 1.0,
+  "p_appearance": 0.021,
+  "p_60_plus": 0.005,
+  "p_clean_sheet": 0.328,
+  "model_version": "20261024T172140Z"
+}

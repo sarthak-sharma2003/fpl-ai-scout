@@ -1,0 +1,26 @@
+{
+  "code": 660392,
+  "name": "Uche",
+  "position": "FWD",
+  "team": "CRY",
+  "price": 5.0,
+  "ev_points": 0.0,
+  "horizon_ev": 0.0,
+  "q10_points": 0.0,
+  "q90_points": 0.0,
+  "ev_minutes": 0.0,
+  "p_appearance": 0.001,
+  "p_60_plus": 0.0,
+  "p_clean_sheet": 0.203,
+  "model_version": "20261024T172140Z",
+  "flag": {
+    "status": "u",
+    "news": "has returned to Getafe CF",
+    "chance": 0
+  },
+  "european_fatigue": {
+    "competition": "UEL",
+    "opponent": "Besiktas",
+    "days_ago": 1.9
+  }
+}

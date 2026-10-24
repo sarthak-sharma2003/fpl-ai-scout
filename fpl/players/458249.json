@@ -1,0 +1,21 @@
+{
+  "code": 458249,
+  "name": "Zirkzee",
+  "position": "FWD",
+  "team": "MUN",
+  "price": 5.3,
+  "ev_points": 1.0,
+  "horizon_ev": 4.51,
+  "q10_points": 0.0,
+  "q90_points": 2.2,
+  "ev_minutes": 25.1,
+  "p_appearance": 0.617,
+  "p_60_plus": 0.111,
+  "p_clean_sheet": 0.174,
+  "model_version": "20261024T172140Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Como",
+    "days_ago": 3.0
+  }
+}

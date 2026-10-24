@@ -1,0 +1,16 @@
+{
+  "code": 60689,
+  "name": "Wood",
+  "position": "FWD",
+  "team": "NFO",
+  "price": 5.7,
+  "ev_points": 1.16,
+  "horizon_ev": 5.37,
+  "q10_points": 0.0,
+  "q90_points": 1.9,
+  "ev_minutes": 28.4,
+  "p_appearance": 0.758,
+  "p_60_plus": 0.094,
+  "p_clean_sheet": 0.199,
+  "model_version": "20261024T172140Z"
+}

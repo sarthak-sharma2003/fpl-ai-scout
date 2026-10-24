@@ -1,0 +1,16 @@
+{
+  "code": 220627,
+  "name": "Justin",
+  "position": "DEF",
+  "team": "LEE",
+  "price": 4.5,
+  "ev_points": 4.04,
+  "horizon_ev": 18.32,
+  "q10_points": 1.0,
+  "q90_points": 7.12,
+  "ev_minutes": 82.3,
+  "p_appearance": 0.973,
+  "p_60_plus": 0.885,
+  "p_clean_sheet": 0.211,
+  "model_version": "20261024T172140Z"
+}

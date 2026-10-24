@@ -1,0 +1,21 @@
+{
+  "code": 91651,
+  "name": "Kova\u010di\u0107",
+  "position": "MID",
+  "team": "MCI",
+  "price": 5.3,
+  "ev_points": 1.19,
+  "horizon_ev": 5.19,
+  "q10_points": 0.0,
+  "q90_points": 1.4,
+  "ev_minutes": 29.6,
+  "p_appearance": 0.686,
+  "p_60_plus": 0.151,
+  "p_clean_sheet": 0.336,
+  "model_version": "20261024T172140Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "AEK Athens",
+    "days_ago": 3.9
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "code": 611695,
+  "name": "Yalcouy\u00e9",
+  "position": "MID",
+  "team": "BHA",
+  "price": 4.5,
+  "ev_points": 1.23,
+  "horizon_ev": 6.26,
+  "q10_points": 0.0,
+  "q90_points": 3.95,
+  "ev_minutes": 35.4,
+  "p_appearance": 0.804,
+  "p_60_plus": 0.188,
+  "p_clean_sheet": 0.123,
+  "model_version": "20261024T172140Z"
+}

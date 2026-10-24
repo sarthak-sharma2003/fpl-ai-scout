@@ -1,0 +1,21 @@
+{
+  "code": 475168,
+  "name": "Jo\u00e3o Pedro",
+  "position": "FWD",
+  "team": "CHE",
+  "price": 7.9,
+  "ev_points": 2.23,
+  "horizon_ev": 12.82,
+  "q10_points": 1.0,
+  "q90_points": 7.34,
+  "ev_minutes": 54.4,
+  "p_appearance": 0.717,
+  "p_60_plus": 0.548,
+  "p_clean_sheet": 0.255,
+  "model_version": "20261024T172140Z",
+  "flag": {
+    "status": "d",
+    "news": "Unspecified injury - 75% chance of playing",
+    "chance": 75
+  }
+}

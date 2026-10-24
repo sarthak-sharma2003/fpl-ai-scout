@@ -1,0 +1,16 @@
+{
+  "code": 577016,
+  "name": "Acheampong",
+  "position": "DEF",
+  "team": "CHE",
+  "price": 4.5,
+  "ev_points": 2.23,
+  "horizon_ev": 10.79,
+  "q10_points": 0.0,
+  "q90_points": 5.16,
+  "ev_minutes": 60.2,
+  "p_appearance": 0.838,
+  "p_60_plus": 0.585,
+  "p_clean_sheet": 0.255,
+  "model_version": "20261024T172140Z"
+}

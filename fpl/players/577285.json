@@ -1,0 +1,21 @@
+{
+  "code": 577285,
+  "name": "George Hemmings",
+  "position": "MID",
+  "team": "AVL",
+  "price": 4.5,
+  "ev_points": 0.77,
+  "horizon_ev": 2.25,
+  "q10_points": 0.0,
+  "q90_points": 1.98,
+  "ev_minutes": 20.8,
+  "p_appearance": 0.449,
+  "p_60_plus": 0.123,
+  "p_clean_sheet": 0.34,
+  "model_version": "20261024T172140Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Viking FK",
+    "days_ago": 2.9
+  }
+}

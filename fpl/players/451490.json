@@ -1,0 +1,16 @@
+{
+  "code": 451490,
+  "name": "Costinha",
+  "position": "DEF",
+  "team": "BHA",
+  "price": 4.5,
+  "ev_points": 0.58,
+  "horizon_ev": 3.65,
+  "q10_points": 0.0,
+  "q90_points": 1.36,
+  "ev_minutes": 21.7,
+  "p_appearance": 0.465,
+  "p_60_plus": 0.129,
+  "p_clean_sheet": 0.123,
+  "model_version": "20261024T172140Z"
+}

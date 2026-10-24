@@ -1,0 +1,22 @@
+{
+  "code": 547027,
+  "name": "Diarra",
+  "position": "MID",
+  "team": "SUN",
+  "price": 5.3,
+  "ev_points": 1.66,
+  "horizon_ev": 5.94,
+  "q10_points": 0.0,
+  "q90_points": 3.31,
+  "ev_minutes": 38.8,
+  "p_appearance": 0.773,
+  "p_60_plus": 0.26,
+  "p_clean_sheet": 0.402,
+  "model_version": "20261024T172140Z",
+  "pk": true,
+  "european_fatigue": {
+    "competition": "UEL",
+    "opponent": "Lech Poznan",
+    "days_ago": 2.0
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "code": 230730,
+  "name": "Thomas-Asante",
+  "position": "FWD",
+  "team": "COV",
+  "price": 5.0,
+  "ev_points": 2.75,
+  "horizon_ev": 12.32,
+  "q10_points": 1.0,
+  "q90_points": 6.78,
+  "ev_minutes": 69.9,
+  "p_appearance": 0.926,
+  "p_60_plus": 0.702,
+  "p_clean_sheet": 0.231,
+  "model_version": "20261024T172140Z"
+}

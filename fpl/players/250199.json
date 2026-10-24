@@ -1,0 +1,21 @@
+{
+  "code": 250199,
+  "name": "Dominguez",
+  "position": "MID",
+  "team": "NFO",
+  "price": 4.8,
+  "ev_points": 0.79,
+  "horizon_ev": 4.28,
+  "q10_points": 0.0,
+  "q90_points": 2.52,
+  "ev_minutes": 23.1,
+  "p_appearance": 0.481,
+  "p_60_plus": 0.144,
+  "p_clean_sheet": 0.199,
+  "model_version": "20261024T172140Z",
+  "flag": {
+    "status": "d",
+    "news": "Muscular injury - 75% chance of playing",
+    "chance": 75
+  }
+}

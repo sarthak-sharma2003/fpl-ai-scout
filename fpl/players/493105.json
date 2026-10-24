@@ -1,0 +1,21 @@
+{
+  "code": 493105,
+  "name": "Garnacho",
+  "position": "MID",
+  "team": "AVL",
+  "price": 5.7,
+  "ev_points": 0.45,
+  "horizon_ev": 2.04,
+  "q10_points": 0.0,
+  "q90_points": 0.59,
+  "ev_minutes": 9.9,
+  "p_appearance": 0.276,
+  "p_60_plus": 0.026,
+  "p_clean_sheet": 0.34,
+  "model_version": "20261024T172140Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Viking FK",
+    "days_ago": 2.9
+  }
+}

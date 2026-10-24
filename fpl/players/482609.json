@@ -1,0 +1,16 @@
+{
+  "code": 482609,
+  "name": "Gusto",
+  "position": "DEF",
+  "team": "CHE",
+  "price": 4.8,
+  "ev_points": 1.22,
+  "horizon_ev": 4.33,
+  "q10_points": 0.0,
+  "q90_points": 3.55,
+  "ev_minutes": 32.6,
+  "p_appearance": 0.574,
+  "p_60_plus": 0.256,
+  "p_clean_sheet": 0.255,
+  "model_version": "20261024T172140Z"
+}

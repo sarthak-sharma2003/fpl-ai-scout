@@ -1,0 +1,16 @@
+{
+  "code": 609873,
+  "name": "Armstrong",
+  "position": "MID",
+  "team": "EVE",
+  "price": 5.0,
+  "ev_points": 3.38,
+  "horizon_ev": 16.18,
+  "q10_points": 1.0,
+  "q90_points": 6.1,
+  "ev_minutes": 81.2,
+  "p_appearance": 0.966,
+  "p_60_plus": 0.87,
+  "p_clean_sheet": 0.209,
+  "model_version": "20261024T172140Z"
+}

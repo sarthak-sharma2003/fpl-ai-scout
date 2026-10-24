@@ -1,0 +1,16 @@
+{
+  "code": 512462,
+  "name": "O'Brien",
+  "position": "DEF",
+  "team": "EVE",
+  "price": 4.8,
+  "ev_points": 2.48,
+  "horizon_ev": 12.77,
+  "q10_points": 0.0,
+  "q90_points": 5.56,
+  "ev_minutes": 59.8,
+  "p_appearance": 0.772,
+  "p_60_plus": 0.612,
+  "p_clean_sheet": 0.209,
+  "model_version": "20261024T172140Z"
+}

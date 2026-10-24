@@ -1,0 +1,21 @@
+{
+  "code": 446008,
+  "name": "Mbeumo",
+  "position": "MID",
+  "team": "MUN",
+  "price": 7.9,
+  "ev_points": 4.57,
+  "horizon_ev": 22.66,
+  "q10_points": 1.0,
+  "q90_points": 8.8,
+  "ev_minutes": 86.2,
+  "p_appearance": 0.983,
+  "p_60_plus": 0.944,
+  "p_clean_sheet": 0.174,
+  "model_version": "20261024T172140Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Como",
+    "days_ago": 3.0
+  }
+}

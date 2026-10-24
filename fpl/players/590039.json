@@ -1,0 +1,26 @@
+{
+  "code": 590039,
+  "name": "Mukasa",
+  "position": "MID",
+  "team": "MCI",
+  "price": 4.5,
+  "ev_points": 0.0,
+  "horizon_ev": 0.0,
+  "q10_points": 0.0,
+  "q90_points": 0.0,
+  "ev_minutes": 0.0,
+  "p_appearance": 0.001,
+  "p_60_plus": 0.0,
+  "p_clean_sheet": 0.336,
+  "model_version": "20261024T172140Z",
+  "flag": {
+    "status": "u",
+    "news": "has joined West Ham on loan for the rest of the seaon.",
+    "chance": 0
+  },
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "AEK Athens",
+    "days_ago": 3.9
+  }
+}

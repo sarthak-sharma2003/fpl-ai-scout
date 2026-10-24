@@ -1,0 +1,16 @@
+{
+  "code": 632794,
+  "name": "Bamba",
+  "position": "MID",
+  "team": "NEW",
+  "price": 4.8,
+  "ev_points": 0.42,
+  "horizon_ev": 2.07,
+  "q10_points": 0.0,
+  "q90_points": 1.0,
+  "ev_minutes": 13.8,
+  "p_appearance": 0.358,
+  "p_60_plus": 0.052,
+  "p_clean_sheet": 0.341,
+  "model_version": "20261024T172140Z"
+}

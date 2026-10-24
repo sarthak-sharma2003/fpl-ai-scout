@@ -1,0 +1,26 @@
+{
+  "code": 441264,
+  "name": "Brobbey",
+  "position": "FWD",
+  "team": "SUN",
+  "price": 5.7,
+  "ev_points": 1.44,
+  "horizon_ev": 8.6,
+  "q10_points": 0.0,
+  "q90_points": 3.76,
+  "ev_minutes": 33.4,
+  "p_appearance": 0.541,
+  "p_60_plus": 0.286,
+  "p_clean_sheet": 0.402,
+  "model_version": "20261024T172140Z",
+  "flag": {
+    "status": "d",
+    "news": "Hamstring injury - 75% chance of playing",
+    "chance": 75
+  },
+  "european_fatigue": {
+    "competition": "UEL",
+    "opponent": "Lech Poznan",
+    "days_ago": 2.0
+  }
+}

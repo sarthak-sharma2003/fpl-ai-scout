@@ -1,0 +1,21 @@
+{
+  "code": 201895,
+  "name": "Alderete",
+  "position": "DEF",
+  "team": "SUN",
+  "price": 4.8,
+  "ev_points": 3.0,
+  "horizon_ev": 10.85,
+  "q10_points": 0.0,
+  "q90_points": 6.24,
+  "ev_minutes": 59.8,
+  "p_appearance": 0.768,
+  "p_60_plus": 0.612,
+  "p_clean_sheet": 0.402,
+  "model_version": "20261024T172140Z",
+  "european_fatigue": {
+    "competition": "UEL",
+    "opponent": "Lech Poznan",
+    "days_ago": 2.0
+  }
+}

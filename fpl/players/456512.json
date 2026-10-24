@@ -1,0 +1,16 @@
+{
+  "code": 456512,
+  "name": "Ndoye",
+  "position": "MID",
+  "team": "NFO",
+  "price": 5.5,
+  "ev_points": 2.99,
+  "horizon_ev": 15.27,
+  "q10_points": 1.0,
+  "q90_points": 6.4,
+  "ev_minutes": 66.9,
+  "p_appearance": 0.94,
+  "p_60_plus": 0.645,
+  "p_clean_sheet": 0.199,
+  "model_version": "20261024T172140Z"
+}

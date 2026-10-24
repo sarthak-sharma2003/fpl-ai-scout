@@ -1,0 +1,21 @@
+{
+  "code": 532605,
+  "name": "Andrey Santos",
+  "position": "MID",
+  "team": "MUN",
+  "price": 4.7,
+  "ev_points": 1.94,
+  "horizon_ev": 9.55,
+  "q10_points": 0.0,
+  "q90_points": 4.66,
+  "ev_minutes": 58.0,
+  "p_appearance": 0.781,
+  "p_60_plus": 0.576,
+  "p_clean_sheet": 0.174,
+  "model_version": "20261024T172140Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Como",
+    "days_ago": 3.0
+  }
+}

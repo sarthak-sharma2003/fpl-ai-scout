@@ -1,0 +1,16 @@
+{
+  "code": 486672,
+  "name": "Caicedo",
+  "position": "MID",
+  "team": "CHE",
+  "price": 5.3,
+  "ev_points": 2.18,
+  "horizon_ev": 10.21,
+  "q10_points": 1.0,
+  "q90_points": 4.73,
+  "ev_minutes": 64.8,
+  "p_appearance": 0.897,
+  "p_60_plus": 0.631,
+  "p_clean_sheet": 0.255,
+  "model_version": "20261024T172140Z"
+}

@@ -1,0 +1,21 @@
+{
+  "code": 214285,
+  "name": "Tsimikas",
+  "position": "DEF",
+  "team": "LIV",
+  "price": 4.9,
+  "ev_points": 0.37,
+  "horizon_ev": 1.9,
+  "q10_points": 0.0,
+  "q90_points": 1.29,
+  "ev_minutes": 11.0,
+  "p_appearance": 0.243,
+  "p_60_plus": 0.062,
+  "p_clean_sheet": 0.231,
+  "model_version": "20261024T172140Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Villarreal",
+    "days_ago": 3.9
+  }
+}

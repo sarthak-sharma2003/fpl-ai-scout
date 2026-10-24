@@ -1,0 +1,21 @@
+{
+  "code": 637238,
+  "name": "Bouaddi",
+  "position": "MID",
+  "team": "MCI",
+  "price": 5.5,
+  "ev_points": 1.41,
+  "horizon_ev": 6.62,
+  "q10_points": 0.0,
+  "q90_points": 3.15,
+  "ev_minutes": 36.1,
+  "p_appearance": 0.633,
+  "p_60_plus": 0.285,
+  "p_clean_sheet": 0.336,
+  "model_version": "20261024T172140Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "AEK Athens",
+    "days_ago": 3.9
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "code": 699989,
+  "name": "Jocelin.T",
+  "position": "MID",
+  "team": "SUN",
+  "price": 4.9,
+  "ev_points": 0.48,
+  "horizon_ev": 2.18,
+  "q10_points": 0.0,
+  "q90_points": 1.0,
+  "ev_minutes": 12.6,
+  "p_appearance": 0.319,
+  "p_60_plus": 0.051,
+  "p_clean_sheet": 0.402,
+  "model_version": "20261024T172140Z",
+  "european_fatigue": {
+    "competition": "UEL",
+    "opponent": "Lech Poznan",
+    "days_ago": 2.0
+  }
+}

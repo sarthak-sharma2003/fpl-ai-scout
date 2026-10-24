@@ -1,0 +1,16 @@
+{
+  "code": 547701,
+  "name": "Gray",
+  "position": "MID",
+  "team": "TOT",
+  "price": 4.9,
+  "ev_points": 3.16,
+  "horizon_ev": 14.09,
+  "q10_points": 1.0,
+  "q90_points": 6.25,
+  "ev_minutes": 77.6,
+  "p_appearance": 0.943,
+  "p_60_plus": 0.822,
+  "p_clean_sheet": 0.291,
+  "model_version": "20261024T172140Z"
+}
