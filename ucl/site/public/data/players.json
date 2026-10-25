@@ -1,6 +1,6 @@
 {
  "schema": 1,
- "generatedAt": "2026-10-25T10:42:19.895761+00:00",
+ "generatedAt": "2026-10-25T17:37:01.654932+00:00",
  "season": "2026-27",
  "tour": 90,
  "matchday": 4,
@@ -657,7 +657,7 @@
    "pStart": 0.67,
    "canCaptain": true,
    "opponentAdj": 1.152,
-   "owned": 8.0,
+   "owned": 9.0,
    "recoveriesPer90": null,
    "status": "",
    "day": "2026-11-03",
