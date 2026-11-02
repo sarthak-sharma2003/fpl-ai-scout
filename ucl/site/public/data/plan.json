@@ -1,6 +1,6 @@
 {
  "schema": 1,
- "generatedAt": "2026-11-01T18:58:47.180749+00:00",
+ "generatedAt": "2026-11-02T02:16:16.319866+00:00",
  "season": "2026-27",
  "tour": 90,
  "matchday": 4,
@@ -23,14 +23,19 @@
   "WARNING: any manual change \u2014 a sub, a captain switch, even reordering the bench \u2014 disables auto-subs for this whole matchday, and reverting does not restore them."
  ],
  "lineups": {
-  "sources": [],
-  "failed": [],
-  "players": 0,
-  "clubs": 0,
-  "matched": 0,
-  "listed": 0,
-  "matchRate": 0.0,
-  "note": "MD4: no club kicks off within 40h; not fetched"
+  "sources": [
+   "futbolfantasy",
+   "rotowire"
+  ],
+  "failed": [
+   "sportsgambler"
+  ],
+  "players": 153,
+  "clubs": 4,
+  "matched": 93,
+  "listed": 99,
+  "matchRate": 0.939,
+  "note": "MD4: 4 clubs kick off within 40h"
  },
  "totalProjected": 755.0,
  "planNote": "",
@@ -249,7 +254,7 @@
      "pStart": 1.0,
      "canCaptain": true,
      "opponentAdj": 1.062,
-     "owned": 12.0,
+     "owned": 13.0,
      "recoveriesPer90": null,
      "status": "",
      "day": "2026-11-24",
@@ -1389,7 +1394,7 @@
      "pStart": 1.0,
      "canCaptain": true,
      "opponentAdj": 0.973,
-     "owned": 12.0,
+     "owned": 13.0,
      "recoveriesPer90": null,
      "status": "",
      "day": null,
