@@ -8,23 +8,23 @@
 # screen before the MD4 deadline (Malen -> P. Esposito, McGinn -> M. Olise
 # had been made in the app but not here). 3 free transfers, EUR0.5m in bank.
 #
-# matchday: 4
-# bank: 0.5
+# matchday: 5
+# bank: 0.0
 # wildcard_used: no
 # limitless_used: no
-# free_transfers: 3
+# free_transfers: 2
 250179137  # DEF I. Fresneda (Sporting CP)
 250010245  # DEF M. Bartra (Real Betis)
 50327420   # DEF V. van Dijk (Liverpool)
 250174126  # DEF W. Pacho (Paris)
 250190353  # DEF Š. Chaloupek (Slavia Praha)
-250163404  # FWD P. Esposito (Inter)
+250081555  # FWD D. Malen (Roma)
 250016833  # FWD H. Kane (Bayern München)
-250172668  # FWD J. Alvarez (Atleti)
+250076574  # FWD K. Mbappé (Real Madrid)
 250171278  # GK  D. Raya (Arsenal)
 250065792  # GK  V. Milinković-Savić (Napoli)
 250101284  # MID F. Valverde (Real Madrid)
-250171184  # MID M. Olise (Bayern München)
 250176450  # MID L. Yamal (Barcelona)
+250153621  # MID N. Paz (Como)
 250055294  # MID R. Marin (AEK Athens)
 250101444  # MID Vitinha (Paris)
