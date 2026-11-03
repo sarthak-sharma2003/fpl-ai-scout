@@ -1,13 +1,13 @@
 {
  "schema": 1,
- "generatedAt": "2026-11-03T13:34:42.143233+00:00",
+ "generatedAt": "2026-11-03T17:03:25.556981+00:00",
  "season": "2026-27",
  "tour": 90,
  "matchday": 4,
  "lastMatchday": 17,
  "deadline": "2026-11-03T17:45:00+00:00",
  "subs": null,
- "budget": 101.3,
+ "budget": 101.1,
  "maxPerClub": 3,
  "round": "league",
  "gamedays": [
@@ -32,8 +32,8 @@
   ],
   "players": 1147,
   "clubs": 36,
-  "matched": 1019,
-  "listed": 1062,
+  "matched": 1026,
+  "listed": 1069,
   "matchRate": 0.96,
   "note": "MD4: 36 clubs kick off within 40h"
  },
@@ -409,13 +409,13 @@
      "home": 52707,
      "away": 50149,
      "kickoff": "2026-11-03T17:45:00+00:00",
-     "lineupAnnounced": false
+     "lineupAnnounced": true
     },
     {
      "home": 50067,
      "away": 50107,
      "kickoff": "2026-11-03T17:45:00+00:00",
-     "lineupAnnounced": false
+     "lineupAnnounced": true
     },
     {
      "home": 52682,
