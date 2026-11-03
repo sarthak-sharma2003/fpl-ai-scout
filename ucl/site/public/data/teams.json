@@ -1,6 +1,6 @@
 {
  "schema": 1,
- "generatedAt": "2026-11-02T14:32:44.062641+00:00",
+ "generatedAt": "2026-11-03T04:04:11.874321+00:00",
  "season": "2026-27",
  "tour": 90,
  "matchday": 4,
@@ -30,12 +30,12 @@
   "failed": [
    "sportsgambler"
   ],
-  "players": 544,
-  "clubs": 18,
-  "matched": 448,
-  "listed": 472,
-  "matchRate": 0.949,
-  "note": "MD4: 18 clubs kick off within 40h"
+  "players": 1147,
+  "clubs": 36,
+  "matched": 1012,
+  "listed": 1054,
+  "matchRate": 0.96,
+  "note": "MD4: 36 clubs kick off within 40h"
  },
  "survivalNote": "2000 simulations; 90 league matches and 0 drawn knockout matches still to play",
  "teams": [
