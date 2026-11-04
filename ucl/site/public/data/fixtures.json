@@ -1,18 +1,13 @@
 {
  "schema": 1,
- "generatedAt": "2026-11-04T13:35:53.562842+00:00",
+ "generatedAt": "2026-11-04T20:42:30.026119+00:00",
  "season": "2026-27",
  "tour": 90,
  "matchday": 5,
  "lastMatchday": 17,
  "deadline": "2026-11-24T17:45:00+00:00",
- "subs": {
-  "matchday": 4,
-  "deadline": "2026-11-04T17:45:00+00:00",
-  "gameday": "2026-11-04",
-  "manualSubs": 2
- },
- "budget": 101.1,
+ "subs": null,
+ "budget": 101.5,
  "maxPerClub": 3,
  "round": "league",
  "gamedays": [
@@ -463,55 +458,55 @@
      "home": 52692,
      "away": 7889,
      "kickoff": "2026-11-04T17:45:00+00:00",
-     "lineupAnnounced": false
+     "lineupAnnounced": true
     },
     {
      "home": 50129,
      "away": 50051,
      "kickoff": "2026-11-04T17:45:00+00:00",
-     "lineupAnnounced": false
+     "lineupAnnounced": true
     },
     {
      "home": 50062,
      "away": 50043,
      "kickoff": "2026-11-04T20:00:00+00:00",
-     "lineupAnnounced": false
+     "lineupAnnounced": true
     },
     {
      "home": 2603790,
      "away": 52919,
      "kickoff": "2026-11-04T20:00:00+00:00",
-     "lineupAnnounced": false
+     "lineupAnnounced": true
     },
     {
      "home": 52319,
      "away": 2609356,
      "kickoff": "2026-11-04T20:00:00+00:00",
-     "lineupAnnounced": false
+     "lineupAnnounced": true
     },
     {
      "home": 52758,
      "away": 52265,
      "kickoff": "2026-11-04T20:00:00+00:00",
-     "lineupAnnounced": false
+     "lineupAnnounced": true
     },
     {
      "home": 50064,
      "away": 50136,
      "kickoff": "2026-11-04T20:00:00+00:00",
-     "lineupAnnounced": false
+     "lineupAnnounced": true
     },
     {
      "home": 52277,
      "away": 79946,
      "kickoff": "2026-11-04T20:00:00+00:00",
-     "lineupAnnounced": false
+     "lineupAnnounced": true
     },
     {
      "home": 52498,
      "away": 52280,
      "kickoff": "2026-11-04T20:00:00+00:00",
-     "lineupAnnounced": false
+     "lineupAnnounced": true
     }
    ]
   },
