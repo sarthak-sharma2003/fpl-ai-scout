@@ -3,6 +3,8 @@ squad is known by hand; hit-taking threshold; formation flex."""
 
 from __future__ import annotations
 
+from dataclasses import replace
+
 import pandas as pd
 import pytest
 
@@ -265,6 +267,33 @@ def test_cap_ev_column_picks_captain_and_vice_by_ceiling_not_total_ev():
         )
     )
     assert no_col.captain == 21  # falls back to total_ev
+
+
+def test_xi_ev_column_picks_lineup_on_this_week_not_horizon():
+    """MID 25 is the worst MID over the horizon (benched on total_ev) but the
+    best this week: with xi_ev he starts, while the squad and objective stay
+    what total_ev chose."""
+    squad15 = _hit_test_squad()
+    universe = pd.DataFrame(squad15)
+    universe.loc[universe["code"] == 25, "total_ev"] = 10.0
+    universe["xi_ev"] = universe["total_ev"] / 5
+    universe.loc[universe["code"] == 25, "xi_ev"] = 30.0
+    inp = OptimizerInput(
+        projections=universe,
+        current_squad={p["code"] for p in squad15},
+        purchase_prices={p["code"]: p["price"] for p in squad15},
+        bank=0,
+        free_transfers=0,
+    )
+    horizon_only = optimize(replace(inp, projections=universe.drop(columns="xi_ev")))
+    assert 25 not in horizon_only.starting_xi
+
+    result = optimize(inp)
+    assert result.status == "Optimal"
+    assert 25 in result.starting_xi
+    assert result.captain == 25  # cap_ev falls back to this week's EV too
+    assert result.squad == horizon_only.squad
+    assert result.objective_value == pytest.approx(horizon_only.objective_value)
 
 
 def test_transfer_penalty_blocks_marginal_free_transfer():

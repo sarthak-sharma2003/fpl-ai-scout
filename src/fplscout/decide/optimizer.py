@@ -20,7 +20,7 @@ weights.
 
 from __future__ import annotations
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 
 import pandas as pd
 import pulp
@@ -256,7 +256,7 @@ def optimize(inp: OptimizerInput) -> OptimizationResult:
     bench3_set = _on(bench3)
     bench_gk_set = {c for c in codes if bench_gk[c].value() and bench_gk[c].value() > 0.5}
 
-    return OptimizationResult(
+    result = OptimizationResult(
         status=status,
         squad=squad_set,
         starting_xi=xi_set,
@@ -273,6 +273,29 @@ def optimize(inp: OptimizerInput) -> OptimizationResult:
         hits=int(round(hits.value() or 0)),
         objective_value=pulp.value(prob.objective) or 0.0,
     )
+    # The XI, bench order and armband pay out THIS gameweek only, but total_ev
+    # is the horizon sum: picking the lineup on it benched Anderson (4.1 this
+    # week) for McAtee (3.7) because McAtee's next month looked kinder. Optional
+    # `xi_ev` column (this gameweek's EV) re-picks the lineup from the squad
+    # just chosen; the squad and objective_value are untouched, so transfer and
+    # chip decisions don't move. Absent -> old behavior.
+    if "xi_ev" in df.columns:
+        mine = inp.projections[inp.projections["code"].isin(squad_set)]
+        lineup = optimize(
+            replace(
+                inp,
+                projections=mine.assign(total_ev=mine["xi_ev"]).drop(columns="xi_ev"),
+                current_squad=squad_set, free_transfers=0, max_hits=0, bank=0,
+            )
+        )
+        if lineup.status == "Optimal":
+            result = replace(
+                result,
+                starting_xi=lineup.starting_xi, bench_order=lineup.bench_order,
+                bench_gk=lineup.bench_gk, captain=lineup.captain,
+                vice_captain=lineup.vice_captain,
+            )
+    return result
 
 
 @dataclass

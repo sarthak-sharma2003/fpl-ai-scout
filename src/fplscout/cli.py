@@ -540,6 +540,7 @@ def optimize(settings_path: Path = typer.Option(DEFAULT_SETTINGS_PATH, "--settin
         (1 - CAPTAIN_Q90_WEIGHT) * proj["ev_points"]
         + CAPTAIN_Q90_WEIGHT * proj["q90_points"]
     )
+    proj["xi_ev"] = proj["ev_points"]  # lineup score: this gameweek only
     roster = pipeline.roster_snapshot(con, season, gw)
     models = pipeline.load_production_models(REPO_ROOT / "data" / "models", model_version)
     total_ev = pipeline.total_ev_for_optimizer(con, models, season, gw, proj)
@@ -548,6 +549,7 @@ def optimize(settings_path: Path = typer.Option(DEFAULT_SETTINGS_PATH, "--settin
     if starts_mult:
         total_ev = total_ev * total_ev.index.to_series().map(starts_mult).fillna(1.0)
         proj["cap_ev"] = proj["cap_ev"] * proj["code"].map(starts_mult).fillna(1.0)
+        proj["xi_ev"] = proj["xi_ev"] * proj["code"].map(starts_mult).fillna(1.0)
     # must read projections before the connection closes
     xi_excluded = pipeline.xi_minutes_floor(con, season, gw, model_version)
 
@@ -589,8 +591,8 @@ def optimize(settings_path: Path = typer.Option(DEFAULT_SETTINGS_PATH, "--settin
 
     total_ev_df = total_ev.rename("total_ev").reset_index().rename(columns={"index": "code"})
     opt_input_df = roster.merge(total_ev_df, on="code", how="inner")
-    opt_input_df = opt_input_df.merge(proj[["code", "cap_ev"]], on="code", how="left")
-    opt_input_df["cap_ev"] = opt_input_df["cap_ev"].fillna(0.0)
+    opt_input_df = opt_input_df.merge(proj[["code", "cap_ev", "xi_ev"]], on="code", how="left")
+    opt_input_df[["cap_ev", "xi_ev"]] = opt_input_df[["cap_ev", "xi_ev"]].fillna(0.0)
     opt_input_df = opt_input_df.dropna(subset=["total_ev", "price", "position", "team_id"])
 
     current_squad = set(state.squad) if state and state.squad else set()
@@ -605,6 +607,7 @@ def optimize(settings_path: Path = typer.Option(DEFAULT_SETTINGS_PATH, "--settin
             fill = owned_rows[owned_rows["code"].isin(missing)].copy()
             fill["total_ev"] = 0.0
             fill["cap_ev"] = 0.0
+            fill["xi_ev"] = 0.0
             fill = fill.dropna(subset=["price", "position", "team_id"])
             if len(fill):
                 opt_input_df = pd.concat([opt_input_df, fill], ignore_index=True)
@@ -615,7 +618,7 @@ def optimize(settings_path: Path = typer.Option(DEFAULT_SETTINGS_PATH, "--settin
                 )
 
     projections_df = opt_input_df[
-        ["code", "position", "team_id", "price", "total_ev", "cap_ev"]
+        ["code", "position", "team_id", "price", "total_ev", "cap_ev", "xi_ev"]
     ]
 
     if current_squad:
