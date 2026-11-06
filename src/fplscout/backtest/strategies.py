@@ -85,6 +85,8 @@ def make_rules(history: pd.DataFrame) -> dict[str, callable]:
         form = h.groupby("code")["total_points"].sum() / FORM_WINDOW
         f = uni["code"].map(form).fillna(0.0)
         uni["cap_ev"] = f
+        if "xi_ev" in uni:
+            uni["xi_ev"] = f
         uni["total_ev"] = f * sum(DECAY**k for k in range(HORIZON))
         return uni
 
@@ -150,6 +152,8 @@ def make_rules(history: pd.DataFrame) -> dict[str, callable]:
             mult = (1 - w) + w * share
             uni["total_ev"] = uni["total_ev"] * mult
             uni["cap_ev"] = uni["cap_ev"] * mult
+            if "xi_ev" in uni:
+                uni["xi_ev"] = uni["xi_ev"] * mult
             return uni
         return rule
 

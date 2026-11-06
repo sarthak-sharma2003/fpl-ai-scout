@@ -240,6 +240,7 @@ def simulate_season(
     hit_cost: float = DECISION_HIT_COST,
     prepared: PreparedSeason | None = None,
     rules: tuple = (),
+    xi_current_gw: bool = True,
 ) -> SeasonResult:
     if prepared is None:
         prepared = prepare_season(con, season, train_seasons)
@@ -277,6 +278,8 @@ def simulate_season(
             + captain_q90_weight * cap_base["q90_points"]
         )
         gw_universe["cap_ev"] = gw_universe["code"].map(cap_ev).fillna(0.0)
+        if xi_current_gw:  # lineup on this gw's EV, as the live optimize does
+            gw_universe["xi_ev"] = gw_universe["code"].map(cap_base["ev_points"]).fillna(0.0)
         gw_universe["price"] = gw_universe["price"].astype(int)
 
         # Strategy rules (backtest/strategies.py): restrict who may be bought /
