@@ -1,0 +1,16 @@
+{
+  "code": 98747,
+  "name": "Pope",
+  "position": "GKP",
+  "team": "NEW",
+  "price": 4.9,
+  "ev_points": 0.35,
+  "horizon_ev": 1.67,
+  "q10_points": 0.0,
+  "q90_points": 0.52,
+  "ev_minutes": 8.7,
+  "p_appearance": 0.107,
+  "p_60_plus": 0.092,
+  "p_clean_sheet": 0.179,
+  "model_version": "20261107T024334Z"
+}

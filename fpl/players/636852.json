@@ -1,0 +1,16 @@
+{
+  "code": 636852,
+  "name": "Steur",
+  "position": "MID",
+  "team": "NEW",
+  "price": 4.8,
+  "ev_points": 1.1,
+  "horizon_ev": 5.69,
+  "q10_points": 0.0,
+  "q90_points": 2.39,
+  "ev_minutes": 35.0,
+  "p_appearance": 0.736,
+  "p_60_plus": 0.215,
+  "p_clean_sheet": 0.179,
+  "model_version": "20261107T024334Z"
+}

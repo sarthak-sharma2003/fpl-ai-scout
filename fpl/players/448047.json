@@ -1,0 +1,21 @@
+{
+  "code": 448047,
+  "name": "Enzo",
+  "position": "MID",
+  "team": "MCI",
+  "price": 6.9,
+  "ev_points": 4.83,
+  "horizon_ev": 19.1,
+  "q10_points": 1.0,
+  "q90_points": 9.79,
+  "ev_minutes": 76.6,
+  "p_appearance": 0.95,
+  "p_60_plus": 0.802,
+  "p_clean_sheet": 0.449,
+  "model_version": "20261107T024334Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "RB Leipzig",
+    "days_ago": 2.3
+  }
+}

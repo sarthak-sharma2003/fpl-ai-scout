@@ -1,0 +1,16 @@
+{
+  "code": 244850,
+  "name": "Rogers",
+  "position": "MID",
+  "team": "CHE",
+  "price": 8.2,
+  "ev_points": 3.86,
+  "horizon_ev": 18.21,
+  "q10_points": 1.0,
+  "q90_points": 9.84,
+  "ev_minutes": 86.3,
+  "p_appearance": 0.982,
+  "p_60_plus": 0.948,
+  "p_clean_sheet": 0.328,
+  "model_version": "20261107T024334Z"
+}

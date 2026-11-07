@@ -1,0 +1,16 @@
+{
+  "code": 210462,
+  "name": "I.Sangar\u00e9",
+  "position": "MID",
+  "team": "NFO",
+  "price": 4.7,
+  "ev_points": 0.98,
+  "horizon_ev": 3.96,
+  "q10_points": 0.0,
+  "q90_points": 2.26,
+  "ev_minutes": 30.5,
+  "p_appearance": 0.607,
+  "p_60_plus": 0.204,
+  "p_clean_sheet": 0.209,
+  "model_version": "20261107T024334Z"
+}

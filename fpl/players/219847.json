@@ -1,0 +1,21 @@
+{
+  "code": 219847,
+  "name": "Havertz",
+  "position": "FWD",
+  "team": "ARS",
+  "price": 7.4,
+  "ev_points": 3.92,
+  "horizon_ev": 16.59,
+  "q10_points": 1.0,
+  "q90_points": 9.03,
+  "ev_minutes": 71.1,
+  "p_appearance": 0.956,
+  "p_60_plus": 0.708,
+  "p_clean_sheet": 0.386,
+  "model_version": "20261107T024334Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Slavia Prague",
+    "days_ago": 2.3
+  }
+}

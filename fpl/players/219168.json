@@ -1,0 +1,21 @@
+{
+  "code": 219168,
+  "name": "Isak",
+  "position": "FWD",
+  "team": "LIV",
+  "price": 9.2,
+  "ev_points": 5.08,
+  "horizon_ev": 20.5,
+  "q10_points": 1.0,
+  "q90_points": 7.56,
+  "ev_minutes": 80.6,
+  "p_appearance": 0.967,
+  "p_60_plus": 0.86,
+  "p_clean_sheet": 0.313,
+  "model_version": "20261107T024334Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Fenerbahce",
+    "days_ago": 2.4
+  }
+}

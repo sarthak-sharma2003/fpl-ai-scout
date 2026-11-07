@@ -1,0 +1,21 @@
+{
+  "code": 121709,
+  "name": "Benitez",
+  "position": "GKP",
+  "team": "CRY",
+  "price": 4.5,
+  "ev_points": 0.63,
+  "horizon_ev": 2.81,
+  "q10_points": 0.0,
+  "q90_points": 3.4,
+  "ev_minutes": 14.9,
+  "p_appearance": 0.171,
+  "p_60_plus": 0.162,
+  "p_clean_sheet": 0.266,
+  "model_version": "20261107T024334Z",
+  "european_fatigue": {
+    "competition": "UEL",
+    "opponent": "TSG Hoffenheim",
+    "days_ago": 1.4
+  }
+}

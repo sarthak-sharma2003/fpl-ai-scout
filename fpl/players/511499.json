@@ -1,0 +1,16 @@
+{
+  "code": 511499,
+  "name": "Tel",
+  "position": "MID",
+  "team": "TOT",
+  "price": 5.6,
+  "ev_points": 3.01,
+  "horizon_ev": 12.58,
+  "q10_points": 1.0,
+  "q90_points": 7.81,
+  "ev_minutes": 67.0,
+  "p_appearance": 0.951,
+  "p_60_plus": 0.641,
+  "p_clean_sheet": 0.298,
+  "model_version": "20261107T024334Z"
+}

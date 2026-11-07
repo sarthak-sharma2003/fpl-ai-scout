@@ -1,0 +1,16 @@
+{
+  "code": 462635,
+  "name": "Gelhardt",
+  "position": "MID",
+  "team": "HUL",
+  "price": 5.0,
+  "ev_points": 1.7,
+  "horizon_ev": 7.77,
+  "q10_points": 0.0,
+  "q90_points": 2.61,
+  "ev_minutes": 33.7,
+  "p_appearance": 0.837,
+  "p_60_plus": 0.143,
+  "p_clean_sheet": 0.104,
+  "model_version": "20261107T024334Z"
+}

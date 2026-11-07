@@ -1,0 +1,22 @@
+{
+  "code": 424876,
+  "name": "Szoboszlai",
+  "position": "MID",
+  "team": "LIV",
+  "price": 6.7,
+  "ev_points": 3.19,
+  "horizon_ev": 14.06,
+  "q10_points": 1.0,
+  "q90_points": 7.53,
+  "ev_minutes": 68.5,
+  "p_appearance": 0.941,
+  "p_60_plus": 0.672,
+  "p_clean_sheet": 0.313,
+  "model_version": "20261107T024334Z",
+  "pk": true,
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Fenerbahce",
+    "days_ago": 2.4
+  }
+}

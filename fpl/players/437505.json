@@ -1,0 +1,21 @@
+{
+  "code": 437505,
+  "name": "Isidor",
+  "position": "FWD",
+  "team": "SUN",
+  "price": 5.4,
+  "ev_points": 1.81,
+  "horizon_ev": 7.73,
+  "q10_points": 1.0,
+  "q90_points": 4.11,
+  "ev_minutes": 39.3,
+  "p_appearance": 0.81,
+  "p_60_plus": 0.25,
+  "p_clean_sheet": 0.195,
+  "model_version": "20261107T024334Z",
+  "european_fatigue": {
+    "competition": "UEL",
+    "opponent": "Dinamo Zagreb",
+    "days_ago": 1.3
+  }
+}

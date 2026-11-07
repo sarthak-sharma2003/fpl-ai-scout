@@ -1,0 +1,21 @@
+{
+  "code": 242882,
+  "name": "Diakit\u00e9",
+  "position": "DEF",
+  "team": "BOU",
+  "price": 4.9,
+  "ev_points": 0.68,
+  "horizon_ev": 3.26,
+  "q10_points": 0.0,
+  "q90_points": 1.42,
+  "ev_minutes": 19.1,
+  "p_appearance": 0.426,
+  "p_60_plus": 0.106,
+  "p_clean_sheet": 0.331,
+  "model_version": "20261107T024334Z",
+  "european_fatigue": {
+    "competition": "UEL",
+    "opponent": "Sparta Prague",
+    "days_ago": 1.4
+  }
+}

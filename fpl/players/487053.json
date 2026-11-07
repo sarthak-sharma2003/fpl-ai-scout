@@ -1,0 +1,16 @@
+{
+  "code": 487053,
+  "name": "Udogie",
+  "position": "DEF",
+  "team": "TOT",
+  "price": 4.4,
+  "ev_points": 1.46,
+  "horizon_ev": 5.25,
+  "q10_points": 0.0,
+  "q90_points": 4.65,
+  "ev_minutes": 30.7,
+  "p_appearance": 0.544,
+  "p_60_plus": 0.239,
+  "p_clean_sheet": 0.298,
+  "model_version": "20261107T024334Z"
+}

@@ -1,0 +1,21 @@
+{
+  "code": 638411,
+  "name": "Methalie",
+  "position": "DEF",
+  "team": "SUN",
+  "price": 4.5,
+  "ev_points": 0.65,
+  "horizon_ev": 1.92,
+  "q10_points": 0.0,
+  "q90_points": 1.14,
+  "ev_minutes": 20.2,
+  "p_appearance": 0.333,
+  "p_60_plus": 0.171,
+  "p_clean_sheet": 0.195,
+  "model_version": "20261107T024334Z",
+  "european_fatigue": {
+    "competition": "UEL",
+    "opponent": "Dinamo Zagreb",
+    "days_ago": 1.3
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "code": 176420,
+  "name": "Furlong",
+  "position": "DEF",
+  "team": "IPS",
+  "price": 3.9,
+  "ev_points": 0.09,
+  "horizon_ev": 0.47,
+  "q10_points": 0.0,
+  "q90_points": 0.89,
+  "ev_minutes": 3.4,
+  "p_appearance": 0.075,
+  "p_60_plus": 0.019,
+  "p_clean_sheet": 0.099,
+  "model_version": "20261107T024334Z"
+}

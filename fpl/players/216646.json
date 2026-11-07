@@ -1,0 +1,17 @@
+{
+  "code": 216646,
+  "name": "Wissa",
+  "position": "FWD",
+  "team": "NEW",
+  "price": 5.9,
+  "ev_points": 2.09,
+  "horizon_ev": 11.07,
+  "q10_points": 1.0,
+  "q90_points": 4.69,
+  "ev_minutes": 58.5,
+  "p_appearance": 0.906,
+  "p_60_plus": 0.521,
+  "p_clean_sheet": 0.179,
+  "model_version": "20261107T024334Z",
+  "pk": true
+}

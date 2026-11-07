@@ -1,0 +1,16 @@
+{
+  "code": 661016,
+  "name": "Ibrahim",
+  "position": "MID",
+  "team": "BHA",
+  "price": 4.5,
+  "ev_points": 0.05,
+  "horizon_ev": 0.22,
+  "q10_points": 0.0,
+  "q90_points": 0.0,
+  "ev_minutes": 1.2,
+  "p_appearance": 0.028,
+  "p_60_plus": 0.006,
+  "p_clean_sheet": 0.434,
+  "model_version": "20261107T024334Z"
+}

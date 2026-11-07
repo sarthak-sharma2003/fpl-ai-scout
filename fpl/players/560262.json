@@ -1,0 +1,22 @@
+{
+  "code": 560262,
+  "name": "Kroupi.Jr",
+  "position": "MID",
+  "team": "BOU",
+  "price": 7.3,
+  "ev_points": 2.1,
+  "horizon_ev": 8.82,
+  "q10_points": 0.0,
+  "q90_points": 5.06,
+  "ev_minutes": 38.5,
+  "p_appearance": 0.818,
+  "p_60_plus": 0.232,
+  "p_clean_sheet": 0.331,
+  "model_version": "20261107T024334Z",
+  "pk": true,
+  "european_fatigue": {
+    "competition": "UEL",
+    "opponent": "Sparta Prague",
+    "days_ago": 1.4
+  }
+}

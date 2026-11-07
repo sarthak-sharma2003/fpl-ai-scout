@@ -1,0 +1,16 @@
+{
+  "code": 549939,
+  "name": "Penders",
+  "position": "GKP",
+  "team": "CHE",
+  "price": 4.4,
+  "ev_points": 2.9,
+  "horizon_ev": 11.7,
+  "q10_points": 0.0,
+  "q90_points": 8.25,
+  "ev_minutes": 63.4,
+  "p_appearance": 0.717,
+  "p_60_plus": 0.698,
+  "p_clean_sheet": 0.328,
+  "model_version": "20261107T024334Z"
+}

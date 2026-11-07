@@ -1,0 +1,16 @@
+{
+  "code": 174594,
+  "name": "Nmecha",
+  "position": "FWD",
+  "team": "LEE",
+  "price": 5.3,
+  "ev_points": 1.33,
+  "horizon_ev": 6.27,
+  "q10_points": 1.0,
+  "q90_points": 3.2,
+  "ev_minutes": 34.8,
+  "p_appearance": 0.834,
+  "p_60_plus": 0.163,
+  "p_clean_sheet": 0.169,
+  "model_version": "20261107T024334Z"
+}

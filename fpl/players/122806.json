@@ -1,0 +1,21 @@
+{
+  "code": 122806,
+  "name": "McGinn",
+  "position": "MID",
+  "team": "AVL",
+  "price": 5.4,
+  "ev_points": 4.0,
+  "horizon_ev": 17.42,
+  "q10_points": 1.0,
+  "q90_points": 8.3,
+  "ev_minutes": 80.0,
+  "p_appearance": 0.966,
+  "p_60_plus": 0.85,
+  "p_clean_sheet": 0.402,
+  "model_version": "20261107T024334Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Barcelona",
+    "days_ago": 3.3
+  }
+}

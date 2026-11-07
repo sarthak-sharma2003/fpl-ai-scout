@@ -1,0 +1,21 @@
+{
+  "code": 428580,
+  "name": "Onyeka",
+  "position": "MID",
+  "team": "COV",
+  "price": 4.8,
+  "ev_points": 0.42,
+  "horizon_ev": 3.06,
+  "q10_points": 0.0,
+  "q90_points": 1.07,
+  "ev_minutes": 11.3,
+  "p_appearance": 0.247,
+  "p_60_plus": 0.064,
+  "p_clean_sheet": 0.239,
+  "model_version": "20261107T024334Z",
+  "flag": {
+    "status": "d",
+    "news": "Groin injury - 50% chance of playing",
+    "chance": 50
+  }
+}

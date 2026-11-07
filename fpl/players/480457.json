@@ -1,0 +1,17 @@
+{
+  "code": 480457,
+  "name": "Rudoni",
+  "position": "MID",
+  "team": "COV",
+  "price": 4.9,
+  "ev_points": 4.17,
+  "horizon_ev": 17.45,
+  "q10_points": 1.0,
+  "q90_points": 8.23,
+  "ev_minutes": 85.0,
+  "p_appearance": 0.977,
+  "p_60_plus": 0.928,
+  "p_clean_sheet": 0.239,
+  "model_version": "20261107T024334Z",
+  "pk": true
+}

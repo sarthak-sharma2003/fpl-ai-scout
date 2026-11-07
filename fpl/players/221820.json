@@ -1,0 +1,26 @@
+{
+  "code": 221820,
+  "name": "Martinez",
+  "position": "DEF",
+  "team": "MUN",
+  "price": 4.8,
+  "ev_points": 0.03,
+  "horizon_ev": 6.85,
+  "q10_points": 0.0,
+  "q90_points": 0.0,
+  "ev_minutes": 1.0,
+  "p_appearance": 0.016,
+  "p_60_plus": 0.009,
+  "p_clean_sheet": 0.14,
+  "model_version": "20261107T024334Z",
+  "flag": {
+    "status": "s",
+    "news": "Suspended until 22 Nov",
+    "chance": 0
+  },
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "AS Roma",
+    "days_ago": 3.3
+  }
+}

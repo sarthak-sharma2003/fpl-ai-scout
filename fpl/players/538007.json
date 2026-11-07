@@ -1,0 +1,16 @@
+{
+  "code": 538007,
+  "name": "David",
+  "position": "FWD",
+  "team": "BHA",
+  "price": 5.9,
+  "ev_points": 0.3,
+  "horizon_ev": 1.57,
+  "q10_points": 0.0,
+  "q90_points": 1.01,
+  "ev_minutes": 8.6,
+  "p_appearance": 0.242,
+  "p_60_plus": 0.023,
+  "p_clean_sheet": 0.434,
+  "model_version": "20261107T024334Z"
+}

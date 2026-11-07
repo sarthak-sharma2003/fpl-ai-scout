@@ -1,0 +1,22 @@
+{
+  "code": 141746,
+  "name": "B.Fernandes",
+  "position": "MID",
+  "team": "MUN",
+  "price": 11.7,
+  "ev_points": 4.3,
+  "horizon_ev": 22.79,
+  "q10_points": 1.0,
+  "q90_points": 9.57,
+  "ev_minutes": 80.5,
+  "p_appearance": 0.953,
+  "p_60_plus": 0.864,
+  "p_clean_sheet": 0.14,
+  "model_version": "20261107T024334Z",
+  "pk": true,
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "AS Roma",
+    "days_ago": 3.3
+  }
+}

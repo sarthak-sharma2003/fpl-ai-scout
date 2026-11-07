@@ -1,0 +1,204 @@
+{
+  "gw": 11,
+  "season": "2026-27",
+  "is_live": true,
+  "state": "live",
+  "deadline": "2026-11-21T11:00:00Z",
+  "generated_at": "2026-11-07T02:44:55.966077Z",
+  "avg_points": 510,
+  "our_points": 57.6,
+  "overall_rank": null,
+  "mini_league": null,
+  "insight": {
+    "text": "Live recommendation for the upcoming gameweek.",
+    "transfer_summary": "No hits taken",
+    "captain": "Haaland"
+  },
+  "captain_code": 223094,
+  "vice_captain_code": 483067,
+  "bench_order": [
+    {
+      "code": 215379,
+      "name": "Anderson",
+      "team": "MCI",
+      "position": "MID",
+      "price": 6.3,
+      "ev": 4.24,
+      "european_fatigue": {
+        "competition": "UCL",
+        "opponent": "RB Leipzig",
+        "days_ago": 2.3
+      }
+    },
+    {
+      "code": 607464,
+      "name": "Kayode",
+      "team": "BRE",
+      "position": "DEF",
+      "price": 4.5,
+      "ev": 3.99
+    },
+    {
+      "code": 599303,
+      "name": "Neave",
+      "team": "NEW",
+      "position": "FWD",
+      "price": 4.5,
+      "ev": 0.0,
+      "flag": {
+        "status": "u",
+        "news": "Has joined Wolves on loan for the rest of the season",
+        "chance": 0
+      }
+    },
+    {
+      "code": 465247,
+      "name": "Lammens",
+      "team": "MUN",
+      "position": "GKP",
+      "price": 4.8,
+      "ev": 2.44,
+      "european_fatigue": {
+        "competition": "UCL",
+        "opponent": "AS Roma",
+        "days_ago": 3.3
+      }
+    }
+  ],
+  "pitch": {
+    "gk": [
+      {
+        "code": 154561,
+        "name": "Raya",
+        "team": "ARS",
+        "position": "GKP",
+        "price": 6.2,
+        "ev": 4.15,
+        "european_fatigue": {
+          "competition": "UCL",
+          "opponent": "Slavia Prague",
+          "days_ago": 2.3
+        }
+      }
+    ],
+    "def": [
+      {
+        "code": 226597,
+        "name": "Gabriel",
+        "team": "ARS",
+        "position": "DEF",
+        "price": 8.1,
+        "ev": 5.19,
+        "european_fatigue": {
+          "competition": "UCL",
+          "opponent": "Slavia Prague",
+          "days_ago": 2.3
+        }
+      },
+      {
+        "code": 606702,
+        "name": "Jacquet",
+        "team": "LIV",
+        "position": "DEF",
+        "price": 5.1,
+        "ev": 4.51,
+        "european_fatigue": {
+          "competition": "UCL",
+          "opponent": "Fenerbahce",
+          "days_ago": 2.4
+        }
+      },
+      {
+        "code": 483067,
+        "name": "Silva",
+        "team": "BOU",
+        "position": "DEF",
+        "price": 5.1,
+        "ev": 5.17,
+        "european_fatigue": {
+          "competition": "UEL",
+          "opponent": "Sparta Prague",
+          "days_ago": 1.4
+        }
+      },
+      {
+        "code": 465730,
+        "name": "De Cuyper",
+        "team": "BHA",
+        "position": "DEF",
+        "price": 5.4,
+        "ev": 4.47
+      }
+    ],
+    "mid": [
+      {
+        "code": 204480,
+        "name": "Rice",
+        "team": "ARS",
+        "position": "MID",
+        "price": 7.5,
+        "ev": 4.34,
+        "european_fatigue": {
+          "competition": "UCL",
+          "opponent": "Slavia Prague",
+          "days_ago": 2.3
+        }
+      },
+      {
+        "code": 446008,
+        "name": "Mbeumo",
+        "team": "MUN",
+        "position": "MID",
+        "price": 7.9,
+        "ev": 4.72,
+        "european_fatigue": {
+          "competition": "UCL",
+          "opponent": "AS Roma",
+          "days_ago": 3.3
+        }
+      },
+      {
+        "code": 432714,
+        "name": "McAtee",
+        "team": "NFO",
+        "position": "MID",
+        "price": 5.5,
+        "ev": 3.82
+      },
+      {
+        "code": 222531,
+        "name": "Gibbs-White",
+        "team": "NFO",
+        "position": "MID",
+        "price": 7.8,
+        "ev": 4.53,
+        "pk": true
+      }
+    ],
+    "fwd": [
+      {
+        "code": 223094,
+        "name": "Haaland",
+        "team": "MCI",
+        "position": "FWD",
+        "price": 15.8,
+        "ev": 6.54,
+        "pk": true,
+        "european_fatigue": {
+          "competition": "UCL",
+          "opponent": "RB Leipzig",
+          "days_ago": 2.3
+        }
+      },
+      {
+        "code": 586309,
+        "name": "Barry",
+        "team": "EVE",
+        "position": "FWD",
+        "price": 5.7,
+        "ev": 3.68,
+        "pk": true
+      }
+    ]
+  }
+}

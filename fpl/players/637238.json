@@ -1,0 +1,21 @@
+{
+  "code": 637238,
+  "name": "Bouaddi",
+  "position": "MID",
+  "team": "MCI",
+  "price": 5.5,
+  "ev_points": 1.68,
+  "horizon_ev": 7.39,
+  "q10_points": 0.0,
+  "q90_points": 5.34,
+  "ev_minutes": 44.9,
+  "p_appearance": 0.722,
+  "p_60_plus": 0.388,
+  "p_clean_sheet": 0.449,
+  "model_version": "20261107T024334Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "RB Leipzig",
+    "days_ago": 2.3
+  }
+}

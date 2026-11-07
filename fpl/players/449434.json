@@ -1,0 +1,16 @@
+{
+  "code": 449434,
+  "name": "Elanga",
+  "position": "MID",
+  "team": "NEW",
+  "price": 6.0,
+  "ev_points": 2.15,
+  "horizon_ev": 10.97,
+  "q10_points": 0.0,
+  "q90_points": 4.64,
+  "ev_minutes": 52.4,
+  "p_appearance": 0.885,
+  "p_60_plus": 0.431,
+  "p_clean_sheet": 0.179,
+  "model_version": "20261107T024334Z"
+}

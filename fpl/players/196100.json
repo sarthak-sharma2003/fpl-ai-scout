@@ -1,0 +1,16 @@
+{
+  "code": 196100,
+  "name": "Hamer",
+  "position": "MID",
+  "team": "COV",
+  "price": 5.3,
+  "ev_points": 0.75,
+  "horizon_ev": 3.53,
+  "q10_points": 0.0,
+  "q90_points": 1.6,
+  "ev_minutes": 20.3,
+  "p_appearance": 0.55,
+  "p_60_plus": 0.064,
+  "p_clean_sheet": 0.239,
+  "model_version": "20261107T024334Z"
+}

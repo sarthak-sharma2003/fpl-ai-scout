@@ -1,0 +1,21 @@
+{
+  "code": 216051,
+  "name": "Dalot",
+  "position": "DEF",
+  "team": "MUN",
+  "price": 4.8,
+  "ev_points": 1.98,
+  "horizon_ev": 12.89,
+  "q10_points": 0.0,
+  "q90_points": 4.66,
+  "ev_minutes": 79.3,
+  "p_appearance": 0.931,
+  "p_60_plus": 0.856,
+  "p_clean_sheet": 0.14,
+  "model_version": "20261107T024334Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "AS Roma",
+    "days_ago": 3.3
+  }
+}

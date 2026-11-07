@@ -1,0 +1,21 @@
+{
+  "code": 466052,
+  "name": "Cherki",
+  "position": "MID",
+  "team": "MCI",
+  "price": 7.9,
+  "ev_points": 3.49,
+  "horizon_ev": 13.96,
+  "q10_points": 0.0,
+  "q90_points": 8.32,
+  "ev_minutes": 53.9,
+  "p_appearance": 0.884,
+  "p_60_plus": 0.457,
+  "p_clean_sheet": 0.449,
+  "model_version": "20261107T024334Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "RB Leipzig",
+    "days_ago": 2.3
+  }
+}

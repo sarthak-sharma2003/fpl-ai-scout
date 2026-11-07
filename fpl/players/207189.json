@@ -1,0 +1,16 @@
+{
+  "code": 207189,
+  "name": "Berge",
+  "position": "MID",
+  "team": "FUL",
+  "price": 4.9,
+  "ev_points": 2.27,
+  "horizon_ev": 12.04,
+  "q10_points": 1.0,
+  "q90_points": 4.11,
+  "ev_minutes": 76.5,
+  "p_appearance": 0.945,
+  "p_60_plus": 0.803,
+  "p_clean_sheet": 0.117,
+  "model_version": "20261107T024334Z"
+}

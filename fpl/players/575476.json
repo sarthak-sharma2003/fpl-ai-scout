@@ -1,0 +1,16 @@
+{
+  "code": 575476,
+  "name": "Murillo",
+  "position": "DEF",
+  "team": "NFO",
+  "price": 5.5,
+  "ev_points": 3.48,
+  "horizon_ev": 17.09,
+  "q10_points": 0.05,
+  "q90_points": 7.37,
+  "ev_minutes": 84.7,
+  "p_appearance": 0.97,
+  "p_60_plus": 0.926,
+  "p_clean_sheet": 0.209,
+  "model_version": "20261107T024334Z"
+}

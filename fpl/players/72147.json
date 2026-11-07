@@ -1,0 +1,21 @@
+{
+  "code": 72147,
+  "name": "M.Bizot",
+  "position": "GKP",
+  "team": "AVL",
+  "price": 4.5,
+  "ev_points": 0.24,
+  "horizon_ev": 0.66,
+  "q10_points": 0.0,
+  "q90_points": 0.93,
+  "ev_minutes": 5.5,
+  "p_appearance": 0.067,
+  "p_60_plus": 0.059,
+  "p_clean_sheet": 0.402,
+  "model_version": "20261107T024334Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Barcelona",
+    "days_ago": 3.3
+  }
+}

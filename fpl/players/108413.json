@@ -1,0 +1,21 @@
+{
+  "code": 108413,
+  "name": "Hughes",
+  "position": "MID",
+  "team": "CRY",
+  "price": 4.3,
+  "ev_points": 0.66,
+  "horizon_ev": 3.07,
+  "q10_points": 0.0,
+  "q90_points": 1.35,
+  "ev_minutes": 20.1,
+  "p_appearance": 0.483,
+  "p_60_plus": 0.094,
+  "p_clean_sheet": 0.266,
+  "model_version": "20261107T024334Z",
+  "european_fatigue": {
+    "competition": "UEL",
+    "opponent": "TSG Hoffenheim",
+    "days_ago": 1.4
+  }
+}

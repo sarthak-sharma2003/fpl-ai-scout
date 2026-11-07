@@ -1,0 +1,21 @@
+{
+  "code": 445028,
+  "name": "Morita",
+  "position": "MID",
+  "team": "HUL",
+  "price": 4.9,
+  "ev_points": 0.02,
+  "horizon_ev": 2.82,
+  "q10_points": 0.0,
+  "q90_points": 0.0,
+  "ev_minutes": 0.7,
+  "p_appearance": 0.014,
+  "p_60_plus": 0.004,
+  "p_clean_sheet": 0.104,
+  "model_version": "20261107T024334Z",
+  "flag": {
+    "status": "i",
+    "news": "Groin injury - Unknown return date",
+    "chance": 0
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "code": 482616,
+  "name": "Barcola",
+  "position": "MID",
+  "team": "LIV",
+  "price": 8.1,
+  "ev_points": 3.45,
+  "horizon_ev": 17.16,
+  "q10_points": 1.0,
+  "q90_points": 9.41,
+  "ev_minutes": 79.8,
+  "p_appearance": 0.964,
+  "p_60_plus": 0.847,
+  "p_clean_sheet": 0.313,
+  "model_version": "20261107T024334Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Fenerbahce",
+    "days_ago": 2.4
+  }
+}

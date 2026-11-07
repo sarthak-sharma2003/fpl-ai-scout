@@ -1,0 +1,16 @@
+{
+  "code": 85633,
+  "name": "Sels",
+  "position": "GKP",
+  "team": "NFO",
+  "price": 5.0,
+  "ev_points": 3.34,
+  "horizon_ev": 16.9,
+  "q10_points": 1.0,
+  "q90_points": 7.24,
+  "ev_minutes": 86.2,
+  "p_appearance": 0.961,
+  "p_60_plus": 0.956,
+  "p_clean_sheet": 0.209,
+  "model_version": "20261107T024334Z"
+}

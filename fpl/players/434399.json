@@ -1,0 +1,21 @@
+{
+  "code": 434399,
+  "name": "Reinildo",
+  "position": "DEF",
+  "team": "SUN",
+  "price": 4.4,
+  "ev_points": 2.23,
+  "horizon_ev": 12.26,
+  "q10_points": 0.0,
+  "q90_points": 5.68,
+  "ev_minutes": 79.0,
+  "p_appearance": 0.919,
+  "p_60_plus": 0.857,
+  "p_clean_sheet": 0.195,
+  "model_version": "20261107T024334Z",
+  "european_fatigue": {
+    "competition": "UEL",
+    "opponent": "Dinamo Zagreb",
+    "days_ago": 1.3
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "code": 489639,
+  "name": "Verbruggen",
+  "position": "GKP",
+  "team": "BHA",
+  "price": 4.6,
+  "ev_points": 4.48,
+  "horizon_ev": 18.85,
+  "q10_points": 1.0,
+  "q90_points": 6.78,
+  "ev_minutes": 87.8,
+  "p_appearance": 0.979,
+  "p_60_plus": 0.974,
+  "p_clean_sheet": 0.434,
+  "model_version": "20261107T024334Z"
+}

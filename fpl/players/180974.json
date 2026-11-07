@@ -1,0 +1,21 @@
+{
+  "code": 180974,
+  "name": "Joelinton",
+  "position": "MID",
+  "team": "NEW",
+  "price": 5.4,
+  "ev_points": 0.03,
+  "horizon_ev": 6.61,
+  "q10_points": 0.0,
+  "q90_points": 0.0,
+  "ev_minutes": 0.9,
+  "p_appearance": 0.016,
+  "p_60_plus": 0.007,
+  "p_clean_sheet": 0.179,
+  "model_version": "20261107T024334Z",
+  "flag": {
+    "status": "i",
+    "news": "Unspecified injury - Unknown return date",
+    "chance": 0
+  }
+}

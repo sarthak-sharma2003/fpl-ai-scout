@@ -1,0 +1,21 @@
+{
+  "code": 547037,
+  "name": "J.Fletcher",
+  "position": "MID",
+  "team": "MUN",
+  "price": 4.9,
+  "ev_points": 0.13,
+  "horizon_ev": 0.65,
+  "q10_points": 0.0,
+  "q90_points": 0.17,
+  "ev_minutes": 4.1,
+  "p_appearance": 0.11,
+  "p_60_plus": 0.013,
+  "p_clean_sheet": 0.14,
+  "model_version": "20261107T024334Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "AS Roma",
+    "days_ago": 3.3
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "code": 250199,
+  "name": "Dominguez",
+  "position": "MID",
+  "team": "NFO",
+  "price": 4.8,
+  "ev_points": 0.02,
+  "horizon_ev": 0.02,
+  "q10_points": 0.0,
+  "q90_points": 0.0,
+  "ev_minutes": 0.6,
+  "p_appearance": 0.011,
+  "p_60_plus": 0.004,
+  "p_clean_sheet": 0.209,
+  "model_version": "20261107T024334Z",
+  "flag": {
+    "status": "i",
+    "news": "Muscular injury - Expected back 30 Dec",
+    "chance": 0
+  }
+}

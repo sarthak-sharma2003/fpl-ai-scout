@@ -1,0 +1,16 @@
+{
+  "code": 474120,
+  "name": "Enciso",
+  "position": "MID",
+  "team": "IPS",
+  "price": 5.5,
+  "ev_points": 3.55,
+  "horizon_ev": 16.03,
+  "q10_points": 1.0,
+  "q90_points": 7.55,
+  "ev_minutes": 85.0,
+  "p_appearance": 0.978,
+  "p_60_plus": 0.928,
+  "p_clean_sheet": 0.099,
+  "model_version": "20261107T024334Z"
+}

@@ -1,0 +1,16 @@
+{
+  "code": 166477,
+  "name": "Castagne",
+  "position": "DEF",
+  "team": "FUL",
+  "price": 4.5,
+  "ev_points": 2.55,
+  "horizon_ev": 15.01,
+  "q10_points": 0.0,
+  "q90_points": 3.64,
+  "ev_minutes": 79.7,
+  "p_appearance": 0.962,
+  "p_60_plus": 0.847,
+  "p_clean_sheet": 0.117,
+  "model_version": "20261107T024334Z"
+}

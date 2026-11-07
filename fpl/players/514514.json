@@ -1,0 +1,21 @@
+{
+  "code": 514514,
+  "name": "Koumas",
+  "position": "MID",
+  "team": "LIV",
+  "price": 5.0,
+  "ev_points": 1.23,
+  "horizon_ev": 6.06,
+  "q10_points": 0.0,
+  "q90_points": 2.47,
+  "ev_minutes": 28.1,
+  "p_appearance": 0.69,
+  "p_60_plus": 0.124,
+  "p_clean_sheet": 0.313,
+  "model_version": "20261107T024334Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Fenerbahce",
+    "days_ago": 2.4
+  }
+}

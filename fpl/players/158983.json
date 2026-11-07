@@ -1,0 +1,21 @@
+{
+  "code": 158983,
+  "name": "Endo",
+  "position": "MID",
+  "team": "LIV",
+  "price": 4.8,
+  "ev_points": 0.3,
+  "horizon_ev": 0.75,
+  "q10_points": 0.0,
+  "q90_points": 1.0,
+  "ev_minutes": 7.7,
+  "p_appearance": 0.205,
+  "p_60_plus": 0.026,
+  "p_clean_sheet": 0.313,
+  "model_version": "20261107T024334Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Fenerbahce",
+    "days_ago": 2.4
+  }
+}

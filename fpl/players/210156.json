@@ -1,0 +1,16 @@
+{
+  "code": 210156,
+  "name": "Awoniyi",
+  "position": "FWD",
+  "team": "COV",
+  "price": 5.4,
+  "ev_points": 3.58,
+  "horizon_ev": 14.86,
+  "q10_points": 1.0,
+  "q90_points": 8.81,
+  "ev_minutes": 66.4,
+  "p_appearance": 0.928,
+  "p_60_plus": 0.643,
+  "p_clean_sheet": 0.239,
+  "model_version": "20261107T024334Z"
+}

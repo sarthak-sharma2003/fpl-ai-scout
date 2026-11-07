@@ -1,0 +1,16 @@
+{
+  "code": 543968,
+  "name": "Emersonn",
+  "position": "FWD",
+  "team": "IPS",
+  "price": 5.5,
+  "ev_points": 3.54,
+  "horizon_ev": 14.08,
+  "q10_points": 1.0,
+  "q90_points": 5.87,
+  "ev_minutes": 70.1,
+  "p_appearance": 0.943,
+  "p_60_plus": 0.696,
+  "p_clean_sheet": 0.099,
+  "model_version": "20261107T024334Z"
+}

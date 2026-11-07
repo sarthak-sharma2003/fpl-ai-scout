@@ -1,0 +1,21 @@
+{
+  "code": 500058,
+  "name": "Danns",
+  "position": "FWD",
+  "team": "LIV",
+  "price": 4.5,
+  "ev_points": 0.13,
+  "horizon_ev": 0.29,
+  "q10_points": 0.0,
+  "q90_points": 0.17,
+  "ev_minutes": 3.3,
+  "p_appearance": 0.08,
+  "p_60_plus": 0.015,
+  "p_clean_sheet": 0.313,
+  "model_version": "20261107T024334Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Fenerbahce",
+    "days_ago": 2.4
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "code": 482973,
+  "name": "Igor Jesus",
+  "position": "FWD",
+  "team": "NFO",
+  "price": 5.6,
+  "ev_points": 1.5,
+  "horizon_ev": 5.89,
+  "q10_points": 0.0,
+  "q90_points": 3.99,
+  "ev_minutes": 31.2,
+  "p_appearance": 0.657,
+  "p_60_plus": 0.192,
+  "p_clean_sheet": 0.209,
+  "model_version": "20261107T024334Z",
+  "flag": {
+    "status": "d",
+    "news": "Calf injury - 75% chance of playing",
+    "chance": 75
+  }
+}

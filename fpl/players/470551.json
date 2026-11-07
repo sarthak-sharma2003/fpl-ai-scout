@@ -1,0 +1,16 @@
+{
+  "code": 470551,
+  "name": "Horn\u00ed\u010dek",
+  "position": "GKP",
+  "team": "NEW",
+  "price": 5.0,
+  "ev_points": 3.22,
+  "horizon_ev": 16.99,
+  "q10_points": 1.0,
+  "q90_points": 5.34,
+  "ev_minutes": 86.5,
+  "p_appearance": 0.964,
+  "p_60_plus": 0.96,
+  "p_clean_sheet": 0.179,
+  "model_version": "20261107T024334Z"
+}

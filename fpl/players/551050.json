@@ -1,0 +1,16 @@
+{
+  "code": 551050,
+  "name": "Larsson",
+  "position": "MID",
+  "team": "FUL",
+  "price": 5.0,
+  "ev_points": 1.11,
+  "horizon_ev": 5.33,
+  "q10_points": 0.0,
+  "q90_points": 2.15,
+  "ev_minutes": 31.2,
+  "p_appearance": 0.701,
+  "p_60_plus": 0.169,
+  "p_clean_sheet": 0.117,
+  "model_version": "20261107T024334Z"
+}

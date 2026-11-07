@@ -1,0 +1,21 @@
+{
+  "code": 463981,
+  "name": "Hill",
+  "position": "DEF",
+  "team": "BOU",
+  "price": 5.6,
+  "ev_points": 4.52,
+  "horizon_ev": 17.99,
+  "q10_points": 1.0,
+  "q90_points": 9.11,
+  "ev_minutes": 84.5,
+  "p_appearance": 0.969,
+  "p_60_plus": 0.923,
+  "p_clean_sheet": 0.331,
+  "model_version": "20261107T024334Z",
+  "european_fatigue": {
+    "competition": "UEL",
+    "opponent": "Sparta Prague",
+    "days_ago": 1.4
+  }
+}

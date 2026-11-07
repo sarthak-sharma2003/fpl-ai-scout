@@ -1,0 +1,16 @@
+{
+  "code": 480455,
+  "name": "Branthwaite",
+  "position": "DEF",
+  "team": "EVE",
+  "price": 5.5,
+  "ev_points": 3.45,
+  "horizon_ev": 16.67,
+  "q10_points": 0.0,
+  "q90_points": 7.36,
+  "ev_minutes": 79.7,
+  "p_appearance": 0.936,
+  "p_60_plus": 0.859,
+  "p_clean_sheet": 0.225,
+  "model_version": "20261107T024334Z"
+}

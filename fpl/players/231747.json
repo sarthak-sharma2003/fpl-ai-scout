@@ -1,0 +1,27 @@
+{
+  "code": 231747,
+  "name": "Mateta",
+  "position": "FWD",
+  "team": "CRY",
+  "price": 6.3,
+  "ev_points": 0.04,
+  "horizon_ev": 3.71,
+  "q10_points": 0.0,
+  "q90_points": 0.0,
+  "ev_minutes": 0.9,
+  "p_appearance": 0.016,
+  "p_60_plus": 0.007,
+  "p_clean_sheet": 0.266,
+  "model_version": "20261107T024334Z",
+  "flag": {
+    "status": "s",
+    "news": "Suspended until 2 Dec",
+    "chance": 0
+  },
+  "pk": true,
+  "european_fatigue": {
+    "competition": "UEL",
+    "opponent": "TSG Hoffenheim",
+    "days_ago": 1.4
+  }
+}

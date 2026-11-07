@@ -1,0 +1,21 @@
+{
+  "code": 91651,
+  "name": "Kova\u010di\u0107",
+  "position": "MID",
+  "team": "MCI",
+  "price": 5.3,
+  "ev_points": 1.2,
+  "horizon_ev": 4.77,
+  "q10_points": 0.0,
+  "q90_points": 2.04,
+  "ev_minutes": 26.7,
+  "p_appearance": 0.598,
+  "p_60_plus": 0.146,
+  "p_clean_sheet": 0.449,
+  "model_version": "20261107T024334Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "RB Leipzig",
+    "days_ago": 2.3
+  }
+}

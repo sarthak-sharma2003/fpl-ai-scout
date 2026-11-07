@@ -1,0 +1,16 @@
+{
+  "code": 215136,
+  "name": "N.Williams",
+  "position": "DEF",
+  "team": "NFO",
+  "price": 4.9,
+  "ev_points": 3.38,
+  "horizon_ev": 16.64,
+  "q10_points": 0.05,
+  "q90_points": 6.31,
+  "ev_minutes": 84.7,
+  "p_appearance": 0.978,
+  "p_60_plus": 0.922,
+  "p_clean_sheet": 0.209,
+  "model_version": "20261107T024334Z"
+}

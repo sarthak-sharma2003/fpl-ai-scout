@@ -1,0 +1,21 @@
+{
+  "code": 149484,
+  "name": "Mings",
+  "position": "DEF",
+  "team": "AVL",
+  "price": 4.5,
+  "ev_points": 1.17,
+  "horizon_ev": 5.86,
+  "q10_points": 0.0,
+  "q90_points": 2.72,
+  "ev_minutes": 31.0,
+  "p_appearance": 0.546,
+  "p_60_plus": 0.244,
+  "p_clean_sheet": 0.402,
+  "model_version": "20261107T024334Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Barcelona",
+    "days_ago": 3.3
+  }
+}

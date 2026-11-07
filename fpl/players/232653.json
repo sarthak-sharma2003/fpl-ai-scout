@@ -1,0 +1,21 @@
+{
+  "code": 232653,
+  "name": "J.Ramsey",
+  "position": "MID",
+  "team": "NEW",
+  "price": 4.8,
+  "ev_points": 0.03,
+  "horizon_ev": 3.62,
+  "q10_points": 0.0,
+  "q90_points": 0.0,
+  "ev_minutes": 0.9,
+  "p_appearance": 0.015,
+  "p_60_plus": 0.007,
+  "p_clean_sheet": 0.179,
+  "model_version": "20261107T024334Z",
+  "flag": {
+    "status": "s",
+    "news": "Suspended until 21 Nov",
+    "chance": 0
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "code": 611665,
+  "name": "Tour\u00e9",
+  "position": "MID",
+  "team": "NEW",
+  "price": 5.7,
+  "ev_points": 1.37,
+  "horizon_ev": 7.07,
+  "q10_points": 0.0,
+  "q90_points": 3.15,
+  "ev_minutes": 36.7,
+  "p_appearance": 0.83,
+  "p_60_plus": 0.197,
+  "p_clean_sheet": 0.179,
+  "model_version": "20261107T024334Z"
+}

@@ -1,0 +1,21 @@
+{
+  "code": 486672,
+  "name": "Caicedo",
+  "position": "MID",
+  "team": "CHE",
+  "price": 5.3,
+  "ev_points": 1.45,
+  "horizon_ev": 10.19,
+  "q10_points": 0.0,
+  "q90_points": 3.89,
+  "ev_minutes": 42.3,
+  "p_appearance": 0.567,
+  "p_60_plus": 0.421,
+  "p_clean_sheet": 0.328,
+  "model_version": "20261107T024334Z",
+  "flag": {
+    "status": "d",
+    "news": "Calf injury - 75% chance of playing",
+    "chance": 75
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "code": 536661,
+  "name": "N.Angulo",
+  "position": "MID",
+  "team": "SUN",
+  "price": 5.0,
+  "ev_points": 1.92,
+  "horizon_ev": 9.39,
+  "q10_points": 0.0,
+  "q90_points": 4.8,
+  "ev_minutes": 50.1,
+  "p_appearance": 0.829,
+  "p_60_plus": 0.42,
+  "p_clean_sheet": 0.195,
+  "model_version": "20261107T024334Z",
+  "european_fatigue": {
+    "competition": "UEL",
+    "opponent": "Dinamo Zagreb",
+    "days_ago": 1.3
+  }
+}

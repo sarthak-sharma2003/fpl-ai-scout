@@ -1,0 +1,26 @@
+{
+  "code": 441266,
+  "name": "Gravenberch",
+  "position": "MID",
+  "team": "LIV",
+  "price": 5.8,
+  "ev_points": 1.26,
+  "horizon_ev": 7.92,
+  "q10_points": 0.0,
+  "q90_points": 3.62,
+  "ev_minutes": 34.7,
+  "p_appearance": 0.576,
+  "p_60_plus": 0.29,
+  "p_clean_sheet": 0.313,
+  "model_version": "20261107T024334Z",
+  "flag": {
+    "status": "d",
+    "news": "Foot injury - 75% chance of playing",
+    "chance": 75
+  },
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Fenerbahce",
+    "days_ago": 2.4
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "code": 515046,
+  "name": "Ellborg",
+  "position": "GKP",
+  "team": "SUN",
+  "price": 4.4,
+  "ev_points": 0.1,
+  "horizon_ev": 0.49,
+  "q10_points": 0.0,
+  "q90_points": 0.29,
+  "ev_minutes": 2.6,
+  "p_appearance": 0.034,
+  "p_60_plus": 0.027,
+  "p_clean_sheet": 0.195,
+  "model_version": "20261107T024334Z",
+  "european_fatigue": {
+    "competition": "UEL",
+    "opponent": "Dinamo Zagreb",
+    "days_ago": 1.3
+  }
+}

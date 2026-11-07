@@ -1,0 +1,26 @@
+{
+  "code": 616077,
+  "name": "Dowman",
+  "position": "MID",
+  "team": "ARS",
+  "price": 5.3,
+  "ev_points": 0.02,
+  "horizon_ev": 1.45,
+  "q10_points": 0.0,
+  "q90_points": 0.0,
+  "ev_minutes": 0.5,
+  "p_appearance": 0.009,
+  "p_60_plus": 0.003,
+  "p_clean_sheet": 0.386,
+  "model_version": "20261107T024334Z",
+  "flag": {
+    "status": "s",
+    "news": "Suspended until 29 Nov",
+    "chance": 0
+  },
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Slavia Prague",
+    "days_ago": 2.3
+  }
+}

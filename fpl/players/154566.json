@@ -1,0 +1,17 @@
+{
+  "code": 154566,
+  "name": "Solanke",
+  "position": "FWD",
+  "team": "TOT",
+  "price": 5.8,
+  "ev_points": 3.15,
+  "horizon_ev": 11.14,
+  "q10_points": 1.0,
+  "q90_points": 7.68,
+  "ev_minutes": 61.2,
+  "p_appearance": 0.925,
+  "p_60_plus": 0.558,
+  "p_clean_sheet": 0.298,
+  "model_version": "20261107T024334Z",
+  "pk": true
+}

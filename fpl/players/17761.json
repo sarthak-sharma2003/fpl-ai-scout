@@ -1,0 +1,16 @@
+{
+  "code": 17761,
+  "name": "Tarkowski",
+  "position": "DEF",
+  "team": "EVE",
+  "price": 6.2,
+  "ev_points": 3.76,
+  "horizon_ev": 17.23,
+  "q10_points": 1.0,
+  "q90_points": 7.34,
+  "ev_minutes": 85.4,
+  "p_appearance": 0.967,
+  "p_60_plus": 0.939,
+  "p_clean_sheet": 0.225,
+  "model_version": "20261107T024334Z"
+}

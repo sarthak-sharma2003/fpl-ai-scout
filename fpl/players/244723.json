@@ -1,0 +1,21 @@
+{
+  "code": 244723,
+  "name": "Mitchell",
+  "position": "DEF",
+  "team": "CRY",
+  "price": 4.5,
+  "ev_points": 3.62,
+  "horizon_ev": 15.85,
+  "q10_points": 0.0,
+  "q90_points": 5.98,
+  "ev_minutes": 83.0,
+  "p_appearance": 0.952,
+  "p_60_plus": 0.907,
+  "p_clean_sheet": 0.266,
+  "model_version": "20261107T024334Z",
+  "european_fatigue": {
+    "competition": "UEL",
+    "opponent": "TSG Hoffenheim",
+    "days_ago": 1.4
+  }
+}

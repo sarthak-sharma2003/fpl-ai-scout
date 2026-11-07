@@ -1,0 +1,16 @@
+{
+  "code": 441164,
+  "name": "Pedro Porro",
+  "position": "DEF",
+  "team": "TOT",
+  "price": 5.3,
+  "ev_points": 2.59,
+  "horizon_ev": 10.24,
+  "q10_points": 0.0,
+  "q90_points": 6.01,
+  "ev_minutes": 49.7,
+  "p_appearance": 0.808,
+  "p_60_plus": 0.424,
+  "p_clean_sheet": 0.298,
+  "model_version": "20261107T024334Z"
+}

@@ -1,0 +1,16 @@
+{
+  "code": 513466,
+  "name": "R\u00f6hl",
+  "position": "MID",
+  "team": "EVE",
+  "price": 4.9,
+  "ev_points": 2.41,
+  "horizon_ev": 11.34,
+  "q10_points": 1.0,
+  "q90_points": 4.42,
+  "ev_minutes": 73.3,
+  "p_appearance": 0.935,
+  "p_60_plus": 0.755,
+  "p_clean_sheet": 0.225,
+  "model_version": "20261107T024334Z"
+}

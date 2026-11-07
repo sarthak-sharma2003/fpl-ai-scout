@@ -1,0 +1,16 @@
+{
+  "code": 490884,
+  "name": "Cho",
+  "position": "MID",
+  "team": "HUL",
+  "price": 5.0,
+  "ev_points": 1.78,
+  "horizon_ev": 7.95,
+  "q10_points": 0.0,
+  "q90_points": 3.81,
+  "ev_minutes": 43.7,
+  "p_appearance": 0.858,
+  "p_60_plus": 0.299,
+  "p_clean_sheet": 0.104,
+  "model_version": "20261107T024334Z"
+}

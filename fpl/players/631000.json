@@ -1,0 +1,16 @@
+{
+  "code": 631000,
+  "name": "Vaz",
+  "position": "FWD",
+  "team": "HUL",
+  "price": 5.0,
+  "ev_points": 0.88,
+  "horizon_ev": 4.06,
+  "q10_points": 0.0,
+  "q90_points": 2.27,
+  "ev_minutes": 24.6,
+  "p_appearance": 0.651,
+  "p_60_plus": 0.084,
+  "p_clean_sheet": 0.104,
+  "model_version": "20261107T024334Z"
+}

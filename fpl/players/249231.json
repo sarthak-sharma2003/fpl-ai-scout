@@ -1,0 +1,16 @@
+{
+  "code": 249231,
+  "name": "Lewis-Potter",
+  "position": "MID",
+  "team": "BRE",
+  "price": 5.5,
+  "ev_points": 3.45,
+  "horizon_ev": 15.11,
+  "q10_points": 1.0,
+  "q90_points": 7.16,
+  "ev_minutes": 79.5,
+  "p_appearance": 0.963,
+  "p_60_plus": 0.843,
+  "p_clean_sheet": 0.362,
+  "model_version": "20261107T024334Z"
+}

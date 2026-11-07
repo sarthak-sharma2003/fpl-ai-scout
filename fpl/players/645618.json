@@ -1,0 +1,21 @@
+{
+  "code": 645618,
+  "name": "Burrowes",
+  "position": "MID",
+  "team": "AVL",
+  "price": 4.4,
+  "ev_points": 0.05,
+  "horizon_ev": 0.24,
+  "q10_points": 0.0,
+  "q90_points": 0.0,
+  "ev_minutes": 1.2,
+  "p_appearance": 0.03,
+  "p_60_plus": 0.006,
+  "p_clean_sheet": 0.402,
+  "model_version": "20261107T024334Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Barcelona",
+    "days_ago": 3.3
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "code": 501390,
+  "name": "N\u00fa\u00f1ez",
+  "position": "MID",
+  "team": "IPS",
+  "price": 4.8,
+  "ev_points": 0.34,
+  "horizon_ev": 1.62,
+  "q10_points": 0.0,
+  "q90_points": 1.0,
+  "ev_minutes": 10.3,
+  "p_appearance": 0.264,
+  "p_60_plus": 0.04,
+  "p_clean_sheet": 0.099,
+  "model_version": "20261107T024334Z"
+}

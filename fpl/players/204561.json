@@ -1,0 +1,16 @@
+{
+  "code": 204561,
+  "name": "Schlager",
+  "position": "MID",
+  "team": "NFO",
+  "price": 5.0,
+  "ev_points": 2.77,
+  "horizon_ev": 13.68,
+  "q10_points": 1.0,
+  "q90_points": 4.32,
+  "ev_minutes": 70.7,
+  "p_appearance": 0.937,
+  "p_60_plus": 0.709,
+  "p_clean_sheet": 0.209,
+  "model_version": "20261107T024334Z"
+}

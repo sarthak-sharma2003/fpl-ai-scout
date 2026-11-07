@@ -1,0 +1,26 @@
+{
+  "code": 201895,
+  "name": "Alderete",
+  "position": "DEF",
+  "team": "SUN",
+  "price": 4.8,
+  "ev_points": 0.03,
+  "horizon_ev": 10.34,
+  "q10_points": 0.0,
+  "q90_points": 0.0,
+  "ev_minutes": 0.9,
+  "p_appearance": 0.014,
+  "p_60_plus": 0.008,
+  "p_clean_sheet": 0.195,
+  "model_version": "20261107T024334Z",
+  "flag": {
+    "status": "s",
+    "news": "Suspended until 21 Nov",
+    "chance": 0
+  },
+  "european_fatigue": {
+    "competition": "UEL",
+    "opponent": "Dinamo Zagreb",
+    "days_ago": 1.3
+  }
+}

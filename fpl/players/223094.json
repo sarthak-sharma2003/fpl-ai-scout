@@ -1,0 +1,22 @@
+{
+  "code": 223094,
+  "name": "Haaland",
+  "position": "FWD",
+  "team": "MCI",
+  "price": 15.8,
+  "ev_points": 6.54,
+  "horizon_ev": 28.09,
+  "q10_points": 1.0,
+  "q90_points": 12.09,
+  "ev_minutes": 86.7,
+  "p_appearance": 0.982,
+  "p_60_plus": 0.954,
+  "p_clean_sheet": 0.449,
+  "model_version": "20261107T024334Z",
+  "pk": true,
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "RB Leipzig",
+    "days_ago": 2.3
+  }
+}

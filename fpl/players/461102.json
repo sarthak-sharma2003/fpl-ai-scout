@@ -1,0 +1,21 @@
+{
+  "code": 461102,
+  "name": "Thomas",
+  "position": "DEF",
+  "team": "COV",
+  "price": 4.0,
+  "ev_points": 0.56,
+  "horizon_ev": 3.67,
+  "q10_points": 0.0,
+  "q90_points": 0.76,
+  "ev_minutes": 14.9,
+  "p_appearance": 0.258,
+  "p_60_plus": 0.119,
+  "p_clean_sheet": 0.239,
+  "model_version": "20261107T024334Z",
+  "flag": {
+    "status": "d",
+    "news": "Calf injury - 50% chance of playing",
+    "chance": 50
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "code": 543158,
+  "name": "Barco",
+  "position": "MID",
+  "team": "CHE",
+  "price": 5.3,
+  "ev_points": 0.93,
+  "horizon_ev": 4.13,
+  "q10_points": 0.0,
+  "q90_points": 1.24,
+  "ev_minutes": 20.8,
+  "p_appearance": 0.516,
+  "p_60_plus": 0.089,
+  "p_clean_sheet": 0.328,
+  "model_version": "20261107T024334Z"
+}

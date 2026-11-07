@@ -1,0 +1,16 @@
+{
+  "code": 513418,
+  "name": "Schade",
+  "position": "MID",
+  "team": "BRE",
+  "price": 6.1,
+  "ev_points": 3.4,
+  "horizon_ev": 16.02,
+  "q10_points": 1.0,
+  "q90_points": 7.47,
+  "ev_minutes": 77.8,
+  "p_appearance": 0.959,
+  "p_60_plus": 0.816,
+  "p_clean_sheet": 0.362,
+  "model_version": "20261107T024334Z"
+}

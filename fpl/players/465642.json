@@ -1,0 +1,16 @@
+{
+  "code": 465642,
+  "name": "Thiaw",
+  "position": "DEF",
+  "team": "NEW",
+  "price": 4.9,
+  "ev_points": 1.44,
+  "horizon_ev": 7.41,
+  "q10_points": 0.0,
+  "q90_points": 2.94,
+  "ev_minutes": 39.8,
+  "p_appearance": 0.581,
+  "p_60_plus": 0.373,
+  "p_clean_sheet": 0.179,
+  "model_version": "20261107T024334Z"
+}

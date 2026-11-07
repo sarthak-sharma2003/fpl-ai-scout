@@ -1,0 +1,21 @@
+{
+  "code": 158499,
+  "name": "Christie",
+  "position": "MID",
+  "team": "BOU",
+  "price": 5.0,
+  "ev_points": 3.06,
+  "horizon_ev": 13.67,
+  "q10_points": 1.0,
+  "q90_points": 6.52,
+  "ev_minutes": 61.8,
+  "p_appearance": 0.935,
+  "p_60_plus": 0.563,
+  "p_clean_sheet": 0.331,
+  "model_version": "20261107T024334Z",
+  "european_fatigue": {
+    "competition": "UEL",
+    "opponent": "Sparta Prague",
+    "days_ago": 1.4
+  }
+}

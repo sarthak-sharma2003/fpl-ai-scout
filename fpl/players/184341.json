@@ -1,0 +1,21 @@
+{
+  "code": 184341,
+  "name": "Mount",
+  "position": "MID",
+  "team": "MUN",
+  "price": 5.4,
+  "ev_points": 1.97,
+  "horizon_ev": 9.53,
+  "q10_points": 0.0,
+  "q90_points": 4.66,
+  "ev_minutes": 56.4,
+  "p_appearance": 0.876,
+  "p_60_plus": 0.502,
+  "p_clean_sheet": 0.14,
+  "model_version": "20261107T024334Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "AS Roma",
+    "days_ago": 3.3
+  }
+}

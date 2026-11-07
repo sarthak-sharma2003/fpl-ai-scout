@@ -1,0 +1,21 @@
+{
+  "code": 493250,
+  "name": "Amad",
+  "position": "MID",
+  "team": "MUN",
+  "price": 5.7,
+  "ev_points": 2.56,
+  "horizon_ev": 13.75,
+  "q10_points": 1.0,
+  "q90_points": 4.85,
+  "ev_minutes": 68.2,
+  "p_appearance": 0.927,
+  "p_60_plus": 0.673,
+  "p_clean_sheet": 0.14,
+  "model_version": "20261107T024334Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "AS Roma",
+    "days_ago": 3.3
+  }
+}

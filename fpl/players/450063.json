@@ -1,0 +1,21 @@
+{
+  "code": 450063,
+  "name": "Timber",
+  "position": "MID",
+  "team": "CRY",
+  "price": 5.0,
+  "ev_points": 1.73,
+  "horizon_ev": 6.56,
+  "q10_points": 0.0,
+  "q90_points": 3.5,
+  "ev_minutes": 38.7,
+  "p_appearance": 0.732,
+  "p_60_plus": 0.279,
+  "p_clean_sheet": 0.266,
+  "model_version": "20261107T024334Z",
+  "european_fatigue": {
+    "competition": "UEL",
+    "opponent": "TSG Hoffenheim",
+    "days_ago": 1.4
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "code": 550864,
+  "name": "Yoro",
+  "position": "DEF",
+  "team": "MUN",
+  "price": 4.8,
+  "ev_points": 2.42,
+  "horizon_ev": 14.51,
+  "q10_points": 0.0,
+  "q90_points": 4.41,
+  "ev_minutes": 76.4,
+  "p_appearance": 0.912,
+  "p_60_plus": 0.818,
+  "p_clean_sheet": 0.14,
+  "model_version": "20261107T024334Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "AS Roma",
+    "days_ago": 3.3
+  }
+}

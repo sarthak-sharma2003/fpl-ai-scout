@@ -1,0 +1,21 @@
+{
+  "code": 244858,
+  "name": "Carvalho",
+  "position": "MID",
+  "team": "BRE",
+  "price": 5.0,
+  "ev_points": 0.01,
+  "horizon_ev": 1.42,
+  "q10_points": 0.0,
+  "q90_points": 0.0,
+  "ev_minutes": 0.3,
+  "p_appearance": 0.007,
+  "p_60_plus": 0.001,
+  "p_clean_sheet": 0.362,
+  "model_version": "20261107T024334Z",
+  "flag": {
+    "status": "i",
+    "news": "Knock - Expected back 23 Nov",
+    "chance": 0
+  }
+}

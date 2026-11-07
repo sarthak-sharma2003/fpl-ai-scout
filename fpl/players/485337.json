@@ -1,0 +1,21 @@
+{
+  "code": 485337,
+  "name": "Guessand",
+  "position": "MID",
+  "team": "CRY",
+  "price": 5.3,
+  "ev_points": 0.48,
+  "horizon_ev": 2.24,
+  "q10_points": 0.0,
+  "q90_points": 1.0,
+  "ev_minutes": 12.8,
+  "p_appearance": 0.295,
+  "p_60_plus": 0.066,
+  "p_clean_sheet": 0.266,
+  "model_version": "20261107T024334Z",
+  "european_fatigue": {
+    "competition": "UEL",
+    "opponent": "TSG Hoffenheim",
+    "days_ago": 1.4
+  }
+}

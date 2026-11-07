@@ -1,0 +1,16 @@
+{
+  "code": 114243,
+  "name": "J.Murphy",
+  "position": "MID",
+  "team": "NEW",
+  "price": 5.9,
+  "ev_points": 1.92,
+  "horizon_ev": 9.98,
+  "q10_points": 0.0,
+  "q90_points": 4.04,
+  "ev_minutes": 51.6,
+  "p_appearance": 0.874,
+  "p_60_plus": 0.422,
+  "p_clean_sheet": 0.179,
+  "model_version": "20261107T024334Z"
+}

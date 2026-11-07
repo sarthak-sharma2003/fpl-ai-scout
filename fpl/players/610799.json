@@ -1,0 +1,16 @@
+{
+  "code": 610799,
+  "name": "Vuskovic",
+  "position": "DEF",
+  "team": "BHA",
+  "price": 5.2,
+  "ev_points": 4.73,
+  "horizon_ev": 18.51,
+  "q10_points": 1.0,
+  "q90_points": 9.6,
+  "ev_minutes": 85.0,
+  "p_appearance": 0.972,
+  "p_60_plus": 0.93,
+  "p_clean_sheet": 0.434,
+  "model_version": "20261107T024334Z"
+}

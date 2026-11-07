@@ -1,0 +1,16 @@
+{
+  "code": 207283,
+  "name": "Jensen",
+  "position": "MID",
+  "team": "BRE",
+  "price": 5.4,
+  "ev_points": 2.27,
+  "horizon_ev": 10.45,
+  "q10_points": 1.0,
+  "q90_points": 4.83,
+  "ev_minutes": 64.7,
+  "p_appearance": 0.918,
+  "p_60_plus": 0.619,
+  "p_clean_sheet": 0.362,
+  "model_version": "20261107T024334Z"
+}

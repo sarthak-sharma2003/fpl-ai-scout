@@ -1,0 +1,21 @@
+{
+  "code": 448514,
+  "name": "A\u00eft-Nouri",
+  "position": "DEF",
+  "team": "MCI",
+  "price": 5.2,
+  "ev_points": 0.61,
+  "horizon_ev": 2.78,
+  "q10_points": 0.0,
+  "q90_points": 1.47,
+  "ev_minutes": 12.9,
+  "p_appearance": 0.272,
+  "p_60_plus": 0.079,
+  "p_clean_sheet": 0.449,
+  "model_version": "20261107T024334Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "RB Leipzig",
+    "days_ago": 2.3
+  }
+}

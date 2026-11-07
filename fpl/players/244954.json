@@ -1,0 +1,21 @@
+{
+  "code": 244954,
+  "name": "Pau",
+  "position": "DEF",
+  "team": "AVL",
+  "price": 4.4,
+  "ev_points": 2.64,
+  "horizon_ev": 12.94,
+  "q10_points": 0.0,
+  "q90_points": 7.46,
+  "ev_minutes": 68.4,
+  "p_appearance": 0.85,
+  "p_60_plus": 0.716,
+  "p_clean_sheet": 0.402,
+  "model_version": "20261107T024334Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Barcelona",
+    "days_ago": 3.3
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "code": 442967,
+  "name": "Maeda",
+  "position": "MID",
+  "team": "IPS",
+  "price": 5.3,
+  "ev_points": 1.82,
+  "horizon_ev": 8.46,
+  "q10_points": 0.0,
+  "q90_points": 3.11,
+  "ev_minutes": 42.5,
+  "p_appearance": 0.808,
+  "p_60_plus": 0.305,
+  "p_clean_sheet": 0.099,
+  "model_version": "20261107T024334Z"
+}

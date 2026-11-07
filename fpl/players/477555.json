@@ -1,0 +1,16 @@
+{
+  "code": 477555,
+  "name": "Bobb",
+  "position": "MID",
+  "team": "FUL",
+  "price": 5.5,
+  "ev_points": 2.64,
+  "horizon_ev": 13.35,
+  "q10_points": 1.0,
+  "q90_points": 6.11,
+  "ev_minutes": 77.7,
+  "p_appearance": 0.964,
+  "p_60_plus": 0.814,
+  "p_clean_sheet": 0.117,
+  "model_version": "20261107T024334Z"
+}

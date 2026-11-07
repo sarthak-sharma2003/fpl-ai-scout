@@ -1,0 +1,16 @@
+{
+  "code": 432714,
+  "name": "McAtee",
+  "position": "MID",
+  "team": "NFO",
+  "price": 5.5,
+  "ev_points": 3.82,
+  "horizon_ev": 18.65,
+  "q10_points": 1.0,
+  "q90_points": 7.29,
+  "ev_minutes": 82.6,
+  "p_appearance": 0.973,
+  "p_60_plus": 0.89,
+  "p_clean_sheet": 0.209,
+  "model_version": "20261107T024334Z"
+}

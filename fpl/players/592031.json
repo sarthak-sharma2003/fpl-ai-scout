@@ -1,0 +1,16 @@
+{
+  "code": 592031,
+  "name": "Minteh",
+  "position": "MID",
+  "team": "BHA",
+  "price": 5.8,
+  "ev_points": 1.27,
+  "horizon_ev": 3.47,
+  "q10_points": 0.0,
+  "q90_points": 3.75,
+  "ev_minutes": 24.6,
+  "p_appearance": 0.643,
+  "p_60_plus": 0.088,
+  "p_clean_sheet": 0.434,
+  "model_version": "20261107T024334Z"
+}

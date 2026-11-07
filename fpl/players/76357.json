@@ -1,0 +1,21 @@
+{
+  "code": 76357,
+  "name": "Cairney",
+  "position": "MID",
+  "team": "FUL",
+  "price": 4.9,
+  "ev_points": 0.02,
+  "horizon_ev": 3.91,
+  "q10_points": 0.0,
+  "q90_points": 0.0,
+  "ev_minutes": 0.6,
+  "p_appearance": 0.013,
+  "p_60_plus": 0.003,
+  "p_clean_sheet": 0.117,
+  "model_version": "20261107T024334Z",
+  "flag": {
+    "status": "i",
+    "news": "Knee injury - Expected back 21 Nov",
+    "chance": 0
+  }
+}

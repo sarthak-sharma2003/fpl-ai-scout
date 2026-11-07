@@ -1,0 +1,21 @@
+{
+  "code": 487676,
+  "name": "Hume",
+  "position": "DEF",
+  "team": "SUN",
+  "price": 4.2,
+  "ev_points": 2.65,
+  "horizon_ev": 14.12,
+  "q10_points": 0.0,
+  "q90_points": 5.86,
+  "ev_minutes": 74.9,
+  "p_appearance": 0.896,
+  "p_60_plus": 0.801,
+  "p_clean_sheet": 0.195,
+  "model_version": "20261107T024334Z",
+  "european_fatigue": {
+    "competition": "UEL",
+    "opponent": "Dinamo Zagreb",
+    "days_ago": 1.3
+  }
+}

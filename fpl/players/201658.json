@@ -1,0 +1,21 @@
+{
+  "code": 201658,
+  "name": "Tavernier",
+  "position": "MID",
+  "team": "BOU",
+  "price": 6.6,
+  "ev_points": 3.93,
+  "horizon_ev": 18.32,
+  "q10_points": 1.0,
+  "q90_points": 9.16,
+  "ev_minutes": 84.8,
+  "p_appearance": 0.979,
+  "p_60_plus": 0.923,
+  "p_clean_sheet": 0.331,
+  "model_version": "20261107T024334Z",
+  "european_fatigue": {
+    "competition": "UEL",
+    "opponent": "Sparta Prague",
+    "days_ago": 1.4
+  }
+}

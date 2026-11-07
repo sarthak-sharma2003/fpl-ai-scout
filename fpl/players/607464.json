@@ -1,0 +1,16 @@
+{
+  "code": 607464,
+  "name": "Kayode",
+  "position": "DEF",
+  "team": "BRE",
+  "price": 4.5,
+  "ev_points": 3.99,
+  "horizon_ev": 16.4,
+  "q10_points": 1.0,
+  "q90_points": 7.22,
+  "ev_minutes": 83.1,
+  "p_appearance": 0.961,
+  "p_60_plus": 0.905,
+  "p_clean_sheet": 0.362,
+  "model_version": "20261107T024334Z"
+}

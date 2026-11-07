@@ -1,0 +1,16 @@
+{
+  "code": 111234,
+  "name": "Pickford",
+  "position": "GKP",
+  "team": "EVE",
+  "price": 5.5,
+  "ev_points": 3.54,
+  "horizon_ev": 16.91,
+  "q10_points": 1.0,
+  "q90_points": 7.12,
+  "ev_minutes": 87.8,
+  "p_appearance": 0.979,
+  "p_60_plus": 0.974,
+  "p_clean_sheet": 0.225,
+  "model_version": "20261107T024334Z"
+}

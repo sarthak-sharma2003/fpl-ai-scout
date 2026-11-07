@@ -1,0 +1,16 @@
+{
+  "code": 551226,
+  "name": "Fernandes",
+  "position": "MID",
+  "team": "TOT",
+  "price": 5.6,
+  "ev_points": 4.07,
+  "horizon_ev": 17.88,
+  "q10_points": 1.0,
+  "q90_points": 8.37,
+  "ev_minutes": 76.2,
+  "p_appearance": 0.955,
+  "p_60_plus": 0.793,
+  "p_clean_sheet": 0.298,
+  "model_version": "20261107T024334Z"
+}

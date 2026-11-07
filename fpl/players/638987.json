@@ -1,0 +1,21 @@
+{
+  "code": 638987,
+  "name": "Mbaye",
+  "position": "MID",
+  "team": "AVL",
+  "price": 6.0,
+  "ev_points": 1.93,
+  "horizon_ev": 8.69,
+  "q10_points": 0.0,
+  "q90_points": 3.34,
+  "ev_minutes": 39.4,
+  "p_appearance": 0.855,
+  "p_60_plus": 0.23,
+  "p_clean_sheet": 0.402,
+  "model_version": "20261107T024334Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Barcelona",
+    "days_ago": 3.3
+  }
+}

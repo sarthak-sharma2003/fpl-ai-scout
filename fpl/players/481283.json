@@ -1,0 +1,21 @@
+{
+  "code": 481283,
+  "name": "Wright",
+  "position": "GKP",
+  "team": "AVL",
+  "price": 4.0,
+  "ev_points": 0.02,
+  "horizon_ev": 0.08,
+  "q10_points": 0.0,
+  "q90_points": 0.0,
+  "ev_minutes": 0.5,
+  "p_appearance": 0.007,
+  "p_60_plus": 0.004,
+  "p_clean_sheet": 0.402,
+  "model_version": "20261107T024334Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Barcelona",
+    "days_ago": 3.3
+  }
+}

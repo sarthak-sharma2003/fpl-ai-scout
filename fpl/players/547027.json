@@ -1,0 +1,27 @@
+{
+  "code": 547027,
+  "name": "Diarra",
+  "position": "MID",
+  "team": "SUN",
+  "price": 5.3,
+  "ev_points": 0.02,
+  "horizon_ev": 2.83,
+  "q10_points": 0.0,
+  "q90_points": 0.0,
+  "ev_minutes": 0.7,
+  "p_appearance": 0.013,
+  "p_60_plus": 0.005,
+  "p_clean_sheet": 0.195,
+  "model_version": "20261107T024334Z",
+  "flag": {
+    "status": "i",
+    "news": "Muscular injury - Unknown return date",
+    "chance": 0
+  },
+  "pk": true,
+  "european_fatigue": {
+    "competition": "UEL",
+    "opponent": "Dinamo Zagreb",
+    "days_ago": 1.3
+  }
+}

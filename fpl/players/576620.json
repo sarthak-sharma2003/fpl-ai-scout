@@ -1,0 +1,21 @@
+{
+  "code": 576620,
+  "name": "Bendito Mantato",
+  "position": "MID",
+  "team": "MUN",
+  "price": 4.4,
+  "ev_points": 0.05,
+  "horizon_ev": 0.25,
+  "q10_points": 0.0,
+  "q90_points": 0.0,
+  "ev_minutes": 1.5,
+  "p_appearance": 0.037,
+  "p_60_plus": 0.007,
+  "p_clean_sheet": 0.14,
+  "model_version": "20261107T024334Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "AS Roma",
+    "days_ago": 3.3
+  }
+}

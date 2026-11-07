@@ -1,0 +1,16 @@
+{
+  "code": 514254,
+  "name": "Gomez",
+  "position": "MID",
+  "team": "BHA",
+  "price": 5.0,
+  "ev_points": 4.04,
+  "horizon_ev": 17.6,
+  "q10_points": 1.0,
+  "q90_points": 8.32,
+  "ev_minutes": 81.3,
+  "p_appearance": 0.973,
+  "p_60_plus": 0.869,
+  "p_clean_sheet": 0.434,
+  "model_version": "20261107T024334Z"
+}

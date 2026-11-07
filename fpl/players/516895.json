@@ -1,0 +1,21 @@
+{
+  "code": 516895,
+  "name": "Mainoo",
+  "position": "MID",
+  "team": "MUN",
+  "price": 5.5,
+  "ev_points": 2.11,
+  "horizon_ev": 9.21,
+  "q10_points": 0.0,
+  "q90_points": 4.62,
+  "ev_minutes": 55.1,
+  "p_appearance": 0.836,
+  "p_60_plus": 0.5,
+  "p_clean_sheet": 0.14,
+  "model_version": "20261107T024334Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "AS Roma",
+    "days_ago": 3.3
+  }
+}

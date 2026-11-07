@@ -1,0 +1,17 @@
+{
+  "code": 244851,
+  "name": "Palmer",
+  "position": "MID",
+  "team": "CHE",
+  "price": 9.8,
+  "ev_points": 4.23,
+  "horizon_ev": 20.56,
+  "q10_points": 1.0,
+  "q90_points": 10.1,
+  "ev_minutes": 83.9,
+  "p_appearance": 0.976,
+  "p_60_plus": 0.911,
+  "p_clean_sheet": 0.328,
+  "model_version": "20261107T024334Z",
+  "pk": true
+}

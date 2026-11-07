@@ -1,0 +1,16 @@
+{
+  "code": 473284,
+  "name": "Tzolakis",
+  "position": "GKP",
+  "team": "HUL",
+  "price": 4.7,
+  "ev_points": 2.48,
+  "horizon_ev": 13.78,
+  "q10_points": 0.0,
+  "q90_points": 4.14,
+  "ev_minutes": 86.9,
+  "p_appearance": 0.969,
+  "p_60_plus": 0.964,
+  "p_clean_sheet": 0.104,
+  "model_version": "20261107T024334Z"
+}

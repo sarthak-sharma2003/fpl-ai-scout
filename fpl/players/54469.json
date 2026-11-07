@@ -1,0 +1,21 @@
+{
+  "code": 54469,
+  "name": "Smith",
+  "position": "DEF",
+  "team": "BOU",
+  "price": 4.5,
+  "ev_points": 3.69,
+  "horizon_ev": 14.87,
+  "q10_points": 1.0,
+  "q90_points": 7.36,
+  "ev_minutes": 81.2,
+  "p_appearance": 0.961,
+  "p_60_plus": 0.873,
+  "p_clean_sheet": 0.331,
+  "model_version": "20261107T024334Z",
+  "european_fatigue": {
+    "competition": "UEL",
+    "opponent": "Sparta Prague",
+    "days_ago": 1.4
+  }
+}

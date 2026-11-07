@@ -1,0 +1,21 @@
+{
+  "code": 441264,
+  "name": "Brobbey",
+  "position": "FWD",
+  "team": "SUN",
+  "price": 5.7,
+  "ev_points": 3.42,
+  "horizon_ev": 15.43,
+  "q10_points": 1.0,
+  "q90_points": 6.67,
+  "ev_minutes": 71.2,
+  "p_appearance": 0.938,
+  "p_60_plus": 0.719,
+  "p_clean_sheet": 0.195,
+  "model_version": "20261107T024334Z",
+  "european_fatigue": {
+    "competition": "UEL",
+    "opponent": "Dinamo Zagreb",
+    "days_ago": 1.3
+  }
+}

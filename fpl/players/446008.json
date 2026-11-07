@@ -1,0 +1,21 @@
+{
+  "code": 446008,
+  "name": "Mbeumo",
+  "position": "MID",
+  "team": "MUN",
+  "price": 7.9,
+  "ev_points": 4.72,
+  "horizon_ev": 23.48,
+  "q10_points": 1.0,
+  "q90_points": 8.7,
+  "ev_minutes": 86.0,
+  "p_appearance": 0.978,
+  "p_60_plus": 0.944,
+  "p_clean_sheet": 0.14,
+  "model_version": "20261107T024334Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "AS Roma",
+    "days_ago": 3.3
+  }
+}

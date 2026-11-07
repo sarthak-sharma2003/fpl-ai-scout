@@ -1,0 +1,16 @@
+{
+  "code": 184349,
+  "name": "Sessegnon",
+  "position": "DEF",
+  "team": "FUL",
+  "price": 4.3,
+  "ev_points": 0.99,
+  "horizon_ev": 4.66,
+  "q10_points": 0.0,
+  "q90_points": 2.78,
+  "ev_minutes": 28.3,
+  "p_appearance": 0.517,
+  "p_60_plus": 0.214,
+  "p_clean_sheet": 0.117,
+  "model_version": "20261107T024334Z"
+}

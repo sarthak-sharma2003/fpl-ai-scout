@@ -1,0 +1,16 @@
+{
+  "code": 440089,
+  "name": "Damsgaard",
+  "position": "MID",
+  "team": "BRE",
+  "price": 5.3,
+  "ev_points": 2.16,
+  "horizon_ev": 9.31,
+  "q10_points": 1.0,
+  "q90_points": 5.64,
+  "ev_minutes": 51.1,
+  "p_appearance": 0.909,
+  "p_60_plus": 0.396,
+  "p_clean_sheet": 0.362,
+  "model_version": "20261107T024334Z"
+}

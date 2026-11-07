@@ -1,0 +1,21 @@
+{
+  "code": 243298,
+  "name": "Gakpo",
+  "position": "MID",
+  "team": "LIV",
+  "price": 7.1,
+  "ev_points": 4.18,
+  "horizon_ev": 19.08,
+  "q10_points": 1.0,
+  "q90_points": 8.33,
+  "ev_minutes": 75.3,
+  "p_appearance": 0.957,
+  "p_60_plus": 0.777,
+  "p_clean_sheet": 0.313,
+  "model_version": "20261107T024334Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Fenerbahce",
+    "days_ago": 2.4
+  }
+}

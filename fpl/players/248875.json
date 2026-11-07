@@ -1,0 +1,21 @@
+{
+  "code": 248875,
+  "name": "Doku",
+  "position": "MID",
+  "team": "MCI",
+  "price": 7.5,
+  "ev_points": 4.74,
+  "horizon_ev": 18.71,
+  "q10_points": 1.0,
+  "q90_points": 10.58,
+  "ev_minutes": 80.4,
+  "p_appearance": 0.962,
+  "p_60_plus": 0.859,
+  "p_clean_sheet": 0.449,
+  "model_version": "20261107T024334Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "RB Leipzig",
+    "days_ago": 2.3
+  }
+}

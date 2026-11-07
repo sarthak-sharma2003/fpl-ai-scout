@@ -1,0 +1,16 @@
+{
+  "code": 243951,
+  "name": "Thomas",
+  "position": "MID",
+  "team": "HUL",
+  "price": 5.5,
+  "ev_points": 1.32,
+  "horizon_ev": 6.37,
+  "q10_points": 0.0,
+  "q90_points": 2.08,
+  "ev_minutes": 32.1,
+  "p_appearance": 0.748,
+  "p_60_plus": 0.161,
+  "p_clean_sheet": 0.104,
+  "model_version": "20261107T024334Z"
+}

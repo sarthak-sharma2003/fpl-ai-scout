@@ -1,0 +1,17 @@
+{
+  "code": 222531,
+  "name": "Gibbs-White",
+  "position": "MID",
+  "team": "NFO",
+  "price": 7.8,
+  "ev_points": 4.53,
+  "horizon_ev": 22.49,
+  "q10_points": 1.0,
+  "q90_points": 8.0,
+  "ev_minutes": 82.4,
+  "p_appearance": 0.957,
+  "p_60_plus": 0.895,
+  "p_clean_sheet": 0.209,
+  "model_version": "20261107T024334Z",
+  "pk": true
+}

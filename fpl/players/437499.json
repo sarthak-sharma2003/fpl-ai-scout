@@ -1,0 +1,21 @@
+{
+  "code": 437499,
+  "name": "Lacroix",
+  "position": "DEF",
+  "team": "CHE",
+  "price": 5.9,
+  "ev_points": 0.03,
+  "horizon_ev": 7.24,
+  "q10_points": 0.0,
+  "q90_points": 0.0,
+  "ev_minutes": 0.6,
+  "p_appearance": 0.012,
+  "p_60_plus": 0.005,
+  "p_clean_sheet": 0.328,
+  "model_version": "20261107T024334Z",
+  "flag": {
+    "status": "i",
+    "news": "Hamstring injury - Unknown return date",
+    "chance": 0
+  }
+}

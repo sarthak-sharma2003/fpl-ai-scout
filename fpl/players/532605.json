@@ -1,0 +1,21 @@
+{
+  "code": 532605,
+  "name": "Andrey Santos",
+  "position": "MID",
+  "team": "MUN",
+  "price": 4.7,
+  "ev_points": 2.17,
+  "horizon_ev": 11.52,
+  "q10_points": 1.0,
+  "q90_points": 4.95,
+  "ev_minutes": 67.3,
+  "p_appearance": 0.905,
+  "p_60_plus": 0.669,
+  "p_clean_sheet": 0.14,
+  "model_version": "20261107T024334Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "AS Roma",
+    "days_ago": 3.3
+  }
+}

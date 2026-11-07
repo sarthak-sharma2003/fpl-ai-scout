@@ -1,0 +1,21 @@
+{
+  "code": 616288,
+  "name": "McAidoo",
+  "position": "MID",
+  "team": "MCI",
+  "price": 4.4,
+  "ev_points": 0.35,
+  "horizon_ev": 1.6,
+  "q10_points": 0.0,
+  "q90_points": 1.09,
+  "ev_minutes": 8.7,
+  "p_appearance": 0.211,
+  "p_60_plus": 0.04,
+  "p_clean_sheet": 0.449,
+  "model_version": "20261107T024334Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "RB Leipzig",
+    "days_ago": 2.3
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "code": 496208,
+  "name": "Gannon-Doak",
+  "position": "MID",
+  "team": "BOU",
+  "price": 4.8,
+  "ev_points": 0.87,
+  "horizon_ev": 4.09,
+  "q10_points": 0.0,
+  "q90_points": 1.07,
+  "ev_minutes": 22.5,
+  "p_appearance": 0.58,
+  "p_60_plus": 0.085,
+  "p_clean_sheet": 0.331,
+  "model_version": "20261107T024334Z",
+  "european_fatigue": {
+    "competition": "UEL",
+    "opponent": "Sparta Prague",
+    "days_ago": 1.4
+  }
+}

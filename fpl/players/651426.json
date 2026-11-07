@@ -1,0 +1,21 @@
+{
+  "code": 651426,
+  "name": "Canvot",
+  "position": "DEF",
+  "team": "CRY",
+  "price": 4.8,
+  "ev_points": 3.43,
+  "horizon_ev": 15.8,
+  "q10_points": 0.0,
+  "q90_points": 6.17,
+  "ev_minutes": 77.3,
+  "p_appearance": 0.91,
+  "p_60_plus": 0.834,
+  "p_clean_sheet": 0.266,
+  "model_version": "20261107T024334Z",
+  "european_fatigue": {
+    "competition": "UEL",
+    "opponent": "TSG Hoffenheim",
+    "days_ago": 1.4
+  }
+}

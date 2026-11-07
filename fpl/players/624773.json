@@ -1,0 +1,16 @@
+{
+  "code": 624773,
+  "name": "Est\u00eav\u00e3o",
+  "position": "MID",
+  "team": "CHE",
+  "price": 6.3,
+  "ev_points": 2.51,
+  "horizon_ev": 11.95,
+  "q10_points": 0.0,
+  "q90_points": 5.27,
+  "ev_minutes": 46.4,
+  "p_appearance": 0.867,
+  "p_60_plus": 0.339,
+  "p_clean_sheet": 0.328,
+  "model_version": "20261107T024334Z"
+}
