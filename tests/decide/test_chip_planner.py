@@ -266,6 +266,28 @@ def test_chip_bar_is_zero_once_the_plan_sees_the_whole_window():
     assert v[("bboost", 1, 19)]["planned_gw"] == 14
 
 
+def test_a_noise_level_wildcard_does_not_take_a_week_or_get_played():
+    from fplscout.decide.chip_planner import chip_verdicts
+
+    # live 2026-11-10: wildcard +1.76 this week was planned for GW11 and pushed
+    # Triple Captain off its best week onto a 5.5 one
+    windows = [ChipWindow("3xc", 1, 19), ChipWindow("wildcard", 2, 19)]
+    ev = {("3xc", gw): 5.5 for gw in range(11, 19)} | {("3xc", 11): 6.6}
+    ev |= {("wildcard", gw): 0.5 for gw in range(11, 19)} | {("wildcard", 11): 1.76}
+    plan = {r.chip: r for r in plan_chips(windows, ev)}
+    assert plan["3xc"].gw == 11
+    assert plan["wildcard"].gw == 18 and plan["wildcard"].ev == 0.5  # waits, true EV kept
+    v = chip_verdicts(11, windows, ev, list(plan.values()))
+    assert v[("3xc", 1, 19)]["advice"] == "play"
+    assert v[("wildcard", 2, 19)]["advice"] == "hold"
+    # a real wildcard (squad wrecked) still wins its week
+    ev[("wildcard", 11)] = 20.0
+    plan = {r.chip: r for r in plan_chips(windows, ev)}
+    assert plan["wildcard"].gw == 11 and plan["3xc"].gw != 11
+    v = chip_verdicts(11, windows, ev, list(plan.values()))
+    assert v[("wildcard", 2, 19)]["advice"] == "play"
+
+
 def test_chip_bars_fall_as_the_window_runs_out():
     from fplscout.decide.chip_planner import chip_verdicts
 

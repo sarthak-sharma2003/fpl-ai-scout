@@ -138,6 +138,15 @@ class ChipRecommendation:
     ev: float
 
 
+# Wildcard and Free Hit are insurance: they are worth what an injury crisis or
+# a blank makes them worth, which no plan can see coming. So a gain under one
+# hit's cost is model noise, not a reason to take a week from a chip with a
+# real edge (live 2026-11-10: wildcard +1.76 took GW11 from Triple Captain's
+# best week), and they keep their play bar until the window is nearly shut.
+INSURANCE = ("wildcard", "freehit")
+INSURANCE_NOISE = REAL_HIT_COST
+
+
 def plan_chips(
     chip_windows: list[ChipWindow], ev_by_chip_gw: dict[tuple[str, int], float]
 ) -> list[ChipRecommendation]:
@@ -159,10 +168,14 @@ def plan_chips(
     invalid = -1e9
     score = np.full((len(rows), len(gws)), invalid)
     for r, i in enumerate(rows):
+        insurance = chip_windows[i].chip in INSURANCE
         for gw, ev in cands[i].items():
-            score[r, gws.index(gw)] = ev
+            # noise-level insurance competes for nothing, and waits: later is better
+            col = gws.index(gw)
+            score[r, col] = 1e-6 * col if insurance and ev < INSURANCE_NOISE else ev
     return [
-        ChipRecommendation(chip=chip_windows[rows[r]].chip, gw=gws[c], ev=float(score[r, c]))
+        ChipRecommendation(chip=chip_windows[rows[r]].chip, gw=gws[c],
+                           ev=float(cands[rows[r]][gws[c]]))
         for r, c in zip(*linear_sum_assignment(score, maximize=True), strict=True)
         if score[r, c] > invalid
     ]
@@ -439,6 +452,7 @@ def chip_verdicts(
     # The bar is the price of waiting for a better week nobody can see yet.
     # Once the projected weeks reach the end of a window (bar one), there is
     # no such week: the plan's week IS the best one, so play on the plan.
+    # (Not the INSURANCE chips: what they wait for is not in any projection.)
     # Without this every first-half chip read "hold" through GW11 of 2026-27:
     # no doubles, so no single week ever cleared a bar built for doubles.
     seen_to = max((gw for _, gw in ev_by_chip_gw), default=current_gw)
@@ -453,7 +467,7 @@ def chip_verdicts(
         weeks_left = w.stop_gw - max(current_gw, w.start_gw) + 1
         sharing = sum(1 for o in windows if o.stop_gw == w.stop_gw)
         spare = max(0.0, min(1.0, (weeks_left - sharing) / max(1, sharing)))
-        if w.stop_gw - seen_to <= 1:
+        if w.stop_gw - seen_to <= 1 and w.chip not in INSURANCE:
             spare = 0.0
         bar = round(bars.get(w.chip, 0.0) * spare, 1)
         best_gw = max(cands, key=cands.get) if cands else None
