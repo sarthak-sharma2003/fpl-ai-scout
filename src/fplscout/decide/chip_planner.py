@@ -54,7 +54,10 @@ REAL_HIT_COST = 4.0
 # cli.WILDCARD_MIN_GAIN. They drop to zero once the chips still unused need
 # every remaining week of their window (see chip_verdicts), because an expired
 # chip is worth nothing.
-PLAY_BARS = {"wildcard": 15.0, "freehit": 12.0, "bboost": 15.0, "3xc": 8.0}
+# 3xc was 8.0 until 2026-10-29: above every single-fixture EV the model made
+# after GW2 (weekly top 6.7-7.7), so only a double gameweek could clear it, and
+# 2024-25 to 2026-27 had no first-half doubles. 7.0 = a normal top-captain week.
+PLAY_BARS = {"wildcard": 15.0, "freehit": 12.0, "bboost": 15.0, "3xc": 7.0}
 
 
 def dgw_bgw_counts(fixtures: pd.DataFrame) -> pd.DataFrame:
@@ -433,6 +436,12 @@ def chip_verdicts(
     chip is worth nothing, so a modest week then beats waiting.
     """
     bars = PLAY_BARS if bars is None else bars
+    # The bar is the price of waiting for a better week nobody can see yet.
+    # Once the projected weeks reach the end of a window (bar one), there is
+    # no such week: the plan's week IS the best one, so play on the plan.
+    # Without this every first-half chip read "hold" through GW11 of 2026-27:
+    # no doubles, so no single week ever cleared a bar built for doubles.
+    seen_to = max((gw for _, gw in ev_by_chip_gw), default=current_gw)
     out: dict[tuple[str, int, int], dict] = {}
     for w in windows:
         if w.stop_gw < current_gw:
@@ -444,6 +453,8 @@ def chip_verdicts(
         weeks_left = w.stop_gw - max(current_gw, w.start_gw) + 1
         sharing = sum(1 for o in windows if o.stop_gw == w.stop_gw)
         spare = max(0.0, min(1.0, (weeks_left - sharing) / max(1, sharing)))
+        if w.stop_gw - seen_to <= 1:
+            spare = 0.0
         bar = round(bars.get(w.chip, 0.0) * spare, 1)
         best_gw = max(cands, key=cands.get) if cands else None
         v = {

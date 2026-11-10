@@ -250,6 +250,22 @@ def test_chip_verdicts_play_only_when_planned_now_and_over_the_bar():
     assert v[("3xc", 1, 19)]["advice"] == "hold"
 
 
+def test_chip_bar_is_zero_once_the_plan_sees_the_whole_window():
+    from fplscout.decide.chip_planner import chip_verdicts
+
+    # GW11 of 2026-27: four first-half chips, weeks 11-18 projected, window
+    # ends GW19. Nothing clears a doubles-sized bar, and nothing better is
+    # coming that the plan cannot already see -- so the plan is the advice.
+    windows = [ChipWindow("3xc", 1, 19), ChipWindow("bboost", 1, 19)]
+    ev = {("3xc", gw): 5.0 for gw in range(11, 19)} | {("3xc", 11): 6.6}
+    ev |= {("bboost", gw): 12.0 for gw in range(11, 19)} | {("bboost", 14): 14.0}
+    plan = plan_chips(windows, ev)
+    v = chip_verdicts(11, windows, ev, plan, bars={"3xc": 8.0, "bboost": 15.0})
+    assert v[("3xc", 1, 19)] | {"advice": "play", "bar": 0.0} == v[("3xc", 1, 19)]
+    assert v[("bboost", 1, 19)]["advice"] == "planned"
+    assert v[("bboost", 1, 19)]["planned_gw"] == 14
+
+
 def test_chip_bars_fall_as_the_window_runs_out():
     from fplscout.decide.chip_planner import chip_verdicts
 
@@ -262,5 +278,7 @@ def test_chip_bars_fall_as_the_window_runs_out():
     assert v[("3xc", 1, 19)]["bar"] == 0.0
     assert v[("3xc", 1, 19)]["advice"] == "play"
     assert v[("bboost", 1, 19)]["advice"] == "planned"
-    # plenty of weeks left: the full bar applies
-    assert chip_verdicts(7, windows, ev, plan, bars=bars)[("3xc", 1, 19)]["bar"] == 8.0
+    # plenty of weeks left, most of them not projected yet: the full bar applies
+    early = {("3xc", 7): 3.0, ("bboost", 8): 4.0}
+    v = chip_verdicts(7, windows, early, plan_chips(windows, early), bars=bars)
+    assert v[("3xc", 1, 19)]["bar"] == 8.0
