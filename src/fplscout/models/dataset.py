@@ -99,6 +99,13 @@ def load_dataset(
         LEFT JOIN predeadline_signals p
           ON f.season = p.season AND f.gw = p.gw AND f.code = p.code
         WHERE f.season IN ({placeholders})
+        -- A fixed row order is part of the model: DuckDB returns an unordered
+        -- join in whatever order its threads finish, and LightGBM's seeded
+        -- bagging picks rows BY POSITION. Unordered, two trainings on the same
+        -- database disagreed by up to 0.61 EV on a player (129 of 672 moved
+        -- by more than 0.1, measured 2026-11-10) and the transfer advice
+        -- flipped between deploys 90 minutes apart.
+        ORDER BY f.season, f.gw, f.fixture_id, f.code
         """,
         seasons,
     ).df()

@@ -443,7 +443,15 @@ def build_features(con: duckdb.DuckDBPyConnection) -> pd.DataFrame:
         "prev_season_minutes", "prev_season_points_per90", "prev_season_xgi_per90",
         "prev_season_starts_share", "played_prev_season",
     ]
-    return features[output_cols]
+    # Six decimals, on purpose: the same data built on two machines differs in
+    # the last bits (4,110 of 7,234 rows between two CI runs, all under 1e-9),
+    # and that is enough to move a tree split and, 500 boosting rounds later,
+    # a player's EV by 0.5 (measured 2026-11-10 with a 1e-13 nudge). No
+    # football signal lives past the sixth decimal.
+    out = features[output_cols].copy()
+    floats = out.select_dtypes("float").columns
+    out[floats] = out[floats].round(6)
+    return out
 
 
 def write_features(con: duckdb.DuckDBPyConnection) -> int:

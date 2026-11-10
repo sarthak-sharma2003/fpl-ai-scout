@@ -164,6 +164,9 @@ def add_model_features(
     out["mins_p60_plus"] = minutes_proba[:, 2]
     out["expected_minutes"] = minutes_proba @ np.array([0.0, 30.0, 90.0])
     out = out.merge(team_goals_lookup, on=["season", "fixture_id", "code"], how="left")
+    # same reason as features/build.py: last-bit noise in a model INPUT (here
+    # another model's output) must not be able to move a split
+    out[EXTRA_FEATURE_COLUMNS] = out[EXTRA_FEATURE_COLUMNS].round(6)
     return out
 
 
