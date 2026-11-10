@@ -1,6 +1,7 @@
 """uclscout command line."""
 from __future__ import annotations
 
+import json
 from datetime import UTC, datetime
 from pathlib import Path
 
@@ -165,6 +166,31 @@ def advance(
     squadfile.write(squad_file, new, names)
     typer.echo(f"advance: applied {desc}; squad now goes into MD{new.matchday}, "
                f"bank EUR{new.bank:.1f}m")
+
+
+@app.command("import-team")
+def import_team(
+    squad_file: Path = typer.Option(..., "--squad"),
+    json_file: Path = typer.Option(..., "--json", help="saved UEFA team response"),
+) -> None:
+    """Replace the squad file with your real UEFA team.
+
+    `--json` is the response of the request the signed-in My Team page makes
+    (`.../services/api/Gameplay/user/<id>/team?matchdayId=N...`). UEFA serves
+    it only to the signed-in owner, so this cannot be fetched from here.
+    """
+    new = squadfile.from_uefa(json.loads(json_file.read_text(encoding="utf-8")),
+                              day=datetime.now(UTC).date().isoformat())
+    old = squadfile.read(squad_file)
+    names = {p.id: f"{p.pos:3} {p.name} ({p.team})"
+             for p in feeds.players(feeds.CURRENT_TOUR, feeds.constraints().matchday)}
+    squadfile.write(squad_file, new, names)
+    if old is None or old.ids == new.ids:
+        typer.echo(f"import: 15 players, no change to the squad; MD{new.matchday}, "
+                   f"bank EUR{new.bank:.1f}m, {new.free_transfers} free transfers")
+        return
+    for label, ids in (("out", old.ids - new.ids), ("in", new.ids - old.ids)):
+        typer.echo(f"import: {label}: " + ", ".join(names.get(i, str(i)) for i in sorted(ids)))
 
 
 if __name__ == "__main__":

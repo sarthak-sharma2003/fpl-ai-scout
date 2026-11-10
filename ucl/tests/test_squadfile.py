@@ -98,3 +98,29 @@ def test_knockout_allowances_do_not_roll():
         new, _ = squadfile.advance(_at(nxt - 1), _plan(md=nxt - 1), now=AFTER,
                                    next_matchday=nxt)
         assert new.free_transfers == free, nxt
+
+
+def _uefa(n=15, **over):
+    v = {"mdid": 5, "teamBalance": 0.5, "substitutionsLeft": 3, "isWildCardTaken": 1,
+         "isLimitless": 0, "isBoosterOneTaken": 0,
+         "playerid": [{"id": 100 + i, "skill": 2} for i in range(n)]}
+    return {"data": {"value": v | over}, "meta": {"retVal": 1}}
+
+
+def test_import_from_uefa_team_response(tmp_path):
+    sq = squadfile.from_uefa(_uefa(), day="2026-11-10")
+    assert sq.ids == frozenset(range(100, 115)) and sq.matchday == 5 and sq.bank == 0.5
+    assert sq.free_transfers == 3 and sq.wildcard_used and not sq.limitless_used
+    f = tmp_path / "squad.txt"
+    squadfile.write(f, sq)
+    assert squadfile.read(f) == sq           # header survives the round trip
+    assert "2026-11-10" in f.read_text()
+
+
+def test_import_refuses_what_is_not_a_full_team():
+    import pytest
+
+    with pytest.raises(ValueError):
+        squadfile.from_uefa(_uefa(n=14), day="x")
+    with pytest.raises(ValueError):     # UEFA's "Not Authorized" body
+        squadfile.from_uefa({"data": {"value": -70}, "meta": {"retVal": -70}}, day="x")

@@ -84,6 +84,39 @@ def write(path: Path, sq: HeldSquad, names: dict[int, str] | None = None) -> Non
     path.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
+IMPORT_NOTE = """\
+# Your UCL Fantasy squad, as held going into the matchday below.
+# Imported from your real UEFA team on {day} (`uclscout import-team`).
+# UEFA only serves a team to its signed-in owner (the no-login route was shut
+# by 2026-11-10), so the deploy cannot fetch it. Between imports the deploy
+# advances this file after each deadline by applying the moves the site
+# recommended. If you did something different, import again or edit the ids."""
+
+
+def from_uefa(payload: dict, *, day: str) -> HeldSquad:
+    """UEFA's own `Gameplay/user/{guid}/team` response -> the squad file.
+
+    Field meanings were read off a real response (2026-11-10, matchday 5):
+    `playerid` is the 15, `teamBalance` the bank, `mdid` the matchday the team
+    goes into. `substitutionsLeft` is the free TRANSFERS left -- UEFA calls
+    transfers substitutions here, and `subsNegativePoints: 4` beside it is the
+    4-point cost of an extra one. Raises on anything that is not 15 players:
+    a wrong squad is worse than a stale one."""
+    v = payload.get("data", payload).get("value", payload)
+    if not isinstance(v, dict) or "playerid" not in v:
+        raise ValueError(f"not a UEFA team response: {str(payload)[:120]}")
+    ids = frozenset(int(p["id"]) for p in v["playerid"])
+    if len(ids) != 15:
+        raise ValueError(f"expected 15 players, got {len(ids)}")
+    return HeldSquad(
+        ids=ids, matchday=int(v["mdid"]), bank=float(v.get("teamBalance") or 0.0),
+        wildcard_used=bool(v.get("isWildCardTaken")),
+        limitless_used=bool(v.get("isBoosterOneTaken") or v.get("isLimitless")),
+        free_transfers=int(v.get("substitutionsLeft", FREE_PER_MATCHDAY)),
+        comments=tuple(IMPORT_NOTE.format(day=day).splitlines()),
+    )
+
+
 def advance(sq: HeldSquad, plan_json: dict, *, now: datetime,
             next_matchday: int) -> tuple[HeldSquad, str] | None:
     """Apply the published recommendation once its deadline has passed.

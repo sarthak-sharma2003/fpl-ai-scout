@@ -1,12 +1,9 @@
 # Your UCL Fantasy squad, as held going into the matchday below.
-# The tool cannot read your real UCL team (UEFA's team pages need a login),
-# so this file IS your team as far as the planner knows. The deploy advances
-# it automatically after each deadline by applying the moves the site
-# recommended for that matchday. If you did something different, edit this
-# file (one UEFA player id per line) and fix bank/chips below.
-# Source: hand-corrected 2026-11-03 from the real UCL Fantasy transfers
-# screen before the MD4 deadline (Malen -> P. Esposito, McGinn -> M. Olise
-# had been made in the app but not here). 3 free transfers, EUR0.5m in bank.
+# Imported from your real UEFA team on 2026-11-10 (`uclscout import-team`).
+# UEFA only serves a team to its signed-in owner (the no-login route was shut
+# by 2026-11-10), so the deploy cannot fetch it. Between imports the deploy
+# advances this file after each deadline by applying the moves the site
+# recommended. If you did something different, import again or edit the ids.
 #
 # matchday: 5
 # bank: 0.0
