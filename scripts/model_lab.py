@@ -46,7 +46,7 @@ from fplscout.models.dataset import (  # noqa: E402
 )
 from fplscout.models.train import _team_goals_lookup  # noqa: E402
 
-ALL_SEASONS = ["2021-22", "2022-23", "2023-24", "2024-25", "2025-26"]
+ALL_SEASONS = ["2021-22", "2022-23", "2023-24", "2024-25", "2025-26", "2026-27"]
 TOPK = {"GKP": 2, "DEF": 8, "MID": 8, "FWD": 5}
 GOAL_PTS = {"GKP": 6, "DEF": 6, "MID": 5, "FWD": 4}
 CS_PTS = {"GKP": 4, "DEF": 4, "MID": 1, "FWD": 0}
@@ -333,6 +333,17 @@ VARIANTS = {
     "crowd+xpts+reg": {"crowd": True, "xpts": True, "reg": True},
     "pd": {"pd": True},
     "euro": {"euro": True},
+    # "he scored fewer points lately but the model likes his minutes": lean the
+    # mean toward the last five matches' actual points and see if it ranks better
+    "form20": {"blend_naive": 0.2},
+    "form35": {"blend_naive": 0.35},
+    "form50": {"blend_naive": 0.5},
+    # the same questions asked of the PRODUCTION model (v2: hurdle+xpts+reg)
+    "prod": {"hurdle": True, "xpts": True, "reg": True},
+    "prod+euro": {"hurdle": True, "xpts": True, "reg": True, "euro": True},
+    "prod+form10": {"hurdle": True, "xpts": True, "reg": True, "blend_naive": 0.1},
+    "prod+form20": {"hurdle": True, "xpts": True, "reg": True, "blend_naive": 0.2},
+    "prod+form30": {"hurdle": True, "xpts": True, "reg": True, "blend_naive": 0.3},
     "no_euro": {"euro": False},
     "pd+hurdle": {"pd": True, "hurdle": True},
     "pd+xpts+reg": {"pd": True, "xpts": True, "reg": True},
