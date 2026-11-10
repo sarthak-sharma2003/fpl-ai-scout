@@ -47,7 +47,12 @@ jobs:
       name: github-pages
       url: ${{ steps.deploy.outputs.page_url }}
     steps:
+      # Full commit history (no file contents: blob:none) so `publish` can
+      # write the site's changelog from git log -- meta.json, "What's live".
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          filter: blob:none
 
       - uses: actions/setup-python@v5
         with:
@@ -206,9 +211,31 @@ jobs:
       - uses: actions/upload-pages-artifact@v3
         with:
           path: site/dist
+      # Pages' own deployment API fails now and then with everything upstream
+      # green (run 42755770430, 2026-11-10): one retry before calling it failed.
       - name: Deploy to GitHub Pages
         id: deploy
+        continue-on-error: true
         uses: actions/deploy-pages@v4
+      - name: Deploy to GitHub Pages (retry)
+        if: steps.deploy.outcome == 'failure'
+        uses: actions/deploy-pages@v4
+
+      # A failed deploy keeps serving the old gameweek without a word, so say
+      # it where it gets seen: one open issue, commented on while it lasts.
+      - name: Raise an issue when the deploy fails
+        if: failure()
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          n=$(gh issue list --search "in:title Deploy failed" --state open --json number --jq '.[0].number')
+          if [ -n "$n" ]; then
+            gh issue comment "$n" --body "Failed again: $RUN_URL"
+          else
+            gh issue create --title "Deploy failed: the site is serving old data" --body "$RUN_URL"
+          fi
 
       - name: Open/update deadline alert issues
         if: always()

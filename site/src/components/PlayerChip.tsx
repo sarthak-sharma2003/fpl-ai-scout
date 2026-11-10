@@ -1,4 +1,6 @@
+import { useState } from 'react';
 import type { PlayerCard } from '../types';
+import { PlayerDialog } from './RecentForm';
 import { FlagMark, PkMark, Roundel } from './ui';
 
 const POS_STRIPE: Record<string, string> = {
@@ -18,8 +20,21 @@ export default function PitchCard({
   player: PlayerCard;
   badge?: 'C' | 'V';
 }) {
+  const [open, setOpen] = useState(false);
   return (
-    <div className="relative w-full">
+    <div
+      className="relative w-full cursor-pointer"
+      role="button"
+      tabIndex={0}
+      title="Recent matches"
+      onClick={() => setOpen(true)}
+      onKeyDown={(e) => e.key === 'Enter' && setOpen(true)}
+    >
+      {open && (
+        <span onClick={(e) => e.stopPropagation()}>
+          <PlayerDialog code={player.code} name={player.name} onClose={() => setOpen(false)} />
+        </span>
+      )}
       {badge && (
         <div className="absolute -right-1.5 -top-1.5 z-10">
           <Roundel kind={badge} />

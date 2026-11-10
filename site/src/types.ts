@@ -309,3 +309,28 @@ export interface LeagueResponse {
     threats: OwnershipRow[];
   };
 }
+
+export interface RecentMatch {
+  gw: number;
+  opp: string | null;
+  home: boolean;
+  minutes: number;
+  points: number;
+  goals: number;
+  assists: number;
+  cs: number;
+  bonus: number;
+  xgi: number | null;
+}
+
+/** players/{code}.json: the projection plus this season's last few matches. */
+export interface PlayerDetail extends PlayerProjection {
+  recent?: RecentMatch[];
+}
+
+/** meta.json: when the data was built, from which commit, and what changed. */
+export interface Meta {
+  generated_at: string;
+  commit: string | null;
+  changelog: { sha: string; date: string; subject: string }[];
+}

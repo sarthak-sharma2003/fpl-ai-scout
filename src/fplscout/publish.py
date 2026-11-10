@@ -16,6 +16,7 @@ which is the thing that actually changes behavior; this module just reports it.
 from __future__ import annotations
 
 import json
+import subprocess
 from datetime import UTC, datetime
 from pathlib import Path
 
@@ -1195,6 +1196,58 @@ def build_player_projections(
     return out
 
 
+def build_recent(con: duckdb.DuckDBPyConnection, season: str, n: int = 6) -> dict[int, list[dict]]:
+    """code -> this season's last `n` matches, newest first: what the player
+    actually did, next to what the model expects of him. Published per player
+    (players/{code}.json), fetched when a card is opened."""
+    rows = con.execute(
+        """
+        SELECT * FROM (
+            SELECT h.code, h.gw, t.short_name AS opp, h.was_home, h.minutes,
+                   h.total_points, h.goals_scored, h.assists, h.clean_sheets, h.bonus,
+                   h.expected_goal_involvements AS xgi,
+                   ROW_NUMBER() OVER (PARTITION BY h.code ORDER BY h.kickoff_time DESC) AS rn
+            FROM player_gw_history h
+            LEFT JOIN teams t ON t.season = h.season AND t.team_id = h.opponent_team_id
+            WHERE h.season = ?
+        ) WHERE rn <= ? ORDER BY code, rn
+        """,
+        [season, n],
+    ).df()
+    out: dict[int, list[dict]] = {}
+    for r in rows.itertuples():
+        out.setdefault(int(r.code), []).append({
+            "gw": int(r.gw), "opp": r.opp, "home": bool(r.was_home),
+            "minutes": int(r.minutes or 0), "points": int(r.total_points or 0),
+            "goals": int(r.goals_scored or 0), "assists": int(r.assists or 0),
+            "cs": int(r.clean_sheets or 0), "bonus": int(r.bonus or 0),
+            "xgi": _round_or_none(r.xgi, 2),
+        })
+    return out
+
+
+def build_meta(repo_dir: Path | None = None, n: int = 25) -> dict:
+    """What is live: when this data was built, from which commit, and the last
+    `n` real changes (the bot's data-only commits carry [skip ci] and are left
+    out). The site shows it, so "did that change ship?" is answered by the
+    site itself. No git (tests, a tarball) -> an empty changelog, not a crash."""
+    try:
+        log = subprocess.run(
+            ["git", "log", "--no-merges", "-n", "600", "--format=%h%x09%cI%x09%s"],
+            cwd=repo_dir, capture_output=True, text=True, check=True, timeout=30,
+        ).stdout.splitlines()
+    except (OSError, subprocess.SubprocessError):
+        log = []
+    commits = [dict(zip(("sha", "date", "subject"), line.split("\t", 2), strict=True))
+               for line in log if line.count("\t") >= 2]
+    changes = [c for c in commits if "[skip ci]" not in c["subject"]]
+    return {
+        "generated_at": datetime.now(UTC).isoformat(),
+        "commit": commits[0]["sha"] if commits else None,
+        "changelog": changes[:n],
+    }
+
+
 def publish_all(
     con: duckdb.DuckDBPyConnection,
     site_data_dir: Path,
@@ -1251,6 +1304,7 @@ def publish_all(
         "league.json": build_league(con, season, gw, our_entry_id=our_entry_id),
         "rules.json": build_rules(rules_path),
         "analytics.json": build_analytics(reports_dir, model_version),
+        "meta.json": build_meta(),
     }
 
     written = {}
@@ -1261,8 +1315,9 @@ def publish_all(
         written[name] = len(text)
 
     player_projections = build_player_projections(ref, horizon_ev)
+    recent = build_recent(con, season)
     for code, payload in player_projections.items():
-        text = json.dumps(payload, indent=2)
+        text = json.dumps(payload | {"recent": recent.get(code, [])}, indent=2)
         (players_dir / f"{code}.json").write_text(text)
     written["players/*.json"] = len(player_projections)
 

@@ -2,7 +2,7 @@ import { useState, type ReactNode } from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
 import { useJson } from '../lib/useJson';
 import Xabi from './Xabi';
-import type { Analytics } from '../types';
+import type { Analytics, Meta } from '../types';
 
 const UCL_SCOUT_URL = '/fpl-ai-scout/ucl/';
 
@@ -125,6 +125,26 @@ function Floodlights() {
   );
 }
 
+/** "Updated 3h ago · build abc1234 · what's live". Three deploys a day, so data
+ * older than 16h means a deploy failed -- say so instead of looking normal. */
+function BuildStamp() {
+  const meta = useJson<Meta>('meta.json');
+  if (meta.status !== 'ready') return <span>updated —</span>;
+  const hours = (Date.now() - new Date(meta.data.generated_at).getTime()) / 36e5;
+  const age = hours < 1 ? 'under an hour ago' : `${Math.round(hours)}h ago`;
+  return (
+    <>
+      <span className={hours > 16 ? 'font-bold text-danger' : undefined}>
+        {hours > 16 ? `stale: last update ${age}` : `updated ${age}`}
+      </span>
+      <span aria-hidden>·</span>
+      <NavLink to="/changelog" className="underline hover:text-ink-100">
+        build {meta.data.commit ?? '—'} · what's live
+      </NavLink>
+    </>
+  );
+}
+
 function Footer() {
   // One fetch per session (Layout persists across routes); powers the
   // "model vX" stamp without every page threading it through.
@@ -137,7 +157,7 @@ function Footer() {
         <span aria-hidden>·</span>
         <span>model {version ?? '—'}</span>
         <span aria-hidden>·</span>
-        <span>updated nightly</span>
+        <BuildStamp />
         <span aria-hidden>·</span>
         <span>$0-budget build</span>
       </p>

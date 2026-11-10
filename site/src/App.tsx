@@ -10,6 +10,7 @@ import Transfers from './pages/Transfers';
 import Signals from './pages/Signals';
 import Analytics from './pages/Analytics';
 import Rules from './pages/Rules';
+import Changelog from './pages/Changelog';
 
 // HashRouter (not BrowserRouter): on GitHub Pages there's no server-side
 // fallback, so a refresh or deep-link to /transfers would 404. Hash routes
@@ -32,6 +33,7 @@ export default function App() {
           <Route path="signals" element={<Signals />} />
           <Route path="analytics" element={<Analytics />} />
           <Route path="rules" element={<Rules />} />
+          <Route path="changelog" element={<Changelog />} />
         </Route>
       </Routes>
     </HashRouter>

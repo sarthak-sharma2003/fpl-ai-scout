@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
 import { useJson } from '../lib/useJson';
+import { RecentForm } from '../components/RecentForm';
 import type { PlayerProjection, Position, Projections } from '../types';
 import { PageHeader } from '../components/Layout';
 import { Card, DataGate, FlagMark, PkMark, PosBadge } from '../components/ui';
@@ -87,6 +88,9 @@ function DetailRow({ p }: { p: PlayerProjection }) {
             <p className="text-sm font-semibold tabular-nums text-ink-100">{value}</p>
           </div>
         ))}
+      </div>
+      <div className="mt-3 max-w-xl">
+        <RecentForm code={p.code} />
       </div>
       {p.flag?.news && (
         <p className="mt-2.5 text-xs text-armband/90">
