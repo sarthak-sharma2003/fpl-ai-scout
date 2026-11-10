@@ -36,6 +36,7 @@ from scipy.stats import spearmanr
 REPO = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO / "src"))
 
+from fplscout.features.build import add_euro_gaps  # noqa: E402
 from fplscout.models import minutes, points, team_goals  # noqa: E402
 from fplscout.models.dataset import (  # noqa: E402
     CATEGORICAL_COLUMNS,
@@ -98,6 +99,9 @@ DASTAN = Path("/tmp/claude-0/-home-user-fpl-ai-scout/004bd79f-9545-5705-a04e-df7
 PD_COLS = ["pd_status_risk", "pd_chance", "pd_has_news", "pd_ep_next"]
 
 
+EURO_COLS = ["euro_days_before", "euro_days_after"]
+
+
 def _predeadline() -> pd.DataFrame:
     """Dastan's provenance-checked pre-deadline snapshots (fplcache), keyed
     (season, gw, code). Missing is -1, never 0 (0 is a real ep_next/chance)."""
@@ -129,6 +133,9 @@ def load(con, seasons: list[str]) -> pd.DataFrame:
         pdl = _predeadline()
         df = df.merge(pdl, on=["season", "gw", "code"], how="left")
     df[PD_COLS] = df[PD_COLS].fillna(-1.0)
+    if not set(EURO_COLS) <= set(df.columns):   # not in the features table yet
+        df = add_euro_gaps(df, con.execute(
+            "SELECT season, team_id, kickoff_time FROM european_fixtures").df())
     return df
 
 
@@ -249,8 +256,11 @@ def run_variant(name: str, opts: dict, train: pd.DataFrame, test: pd.DataFrame,
             kx, ky = pav(p_va.to_numpy()[mv], va["total_points"].to_numpy(float)[mv])
             out[mt] = np.interp(pred.to_numpy()[mt], kx, ky)
         return out
-    mfeats = list(dict.fromkeys(list(FEATURE_COLUMNS) + (PD_COLS if opts.get("pd") else [])))
-    if opts.get("pd"):
+    added = (PD_COLS if opts.get("pd") else []) + (EURO_COLS if opts.get("euro") else [])
+    mfeats = list(dict.fromkeys([c for c in FEATURE_COLUMNS
+                                 if opts.get("euro") is not False or c not in EURO_COLS]
+                                + added))
+    if added or opts.get("euro") is False:
         y = minutes_class(train["actual_minutes"])
         ds = lgb.Dataset(train[mfeats], label=y, categorical_feature=CATEGORICAL_COLUMNS,
                          free_raw_data=False)
@@ -273,6 +283,10 @@ def run_variant(name: str, opts: dict, train: pd.DataFrame, test: pd.DataFrame,
         feats += ["own_rel_lag1", "tb_rel_lag1"]
     if opts.get("pd"):
         feats += PD_COLS
+    if opts.get("euro"):
+        feats += EURO_COLS
+    if opts.get("euro") is False:   # ablation, once they are production features
+        feats = [c for c in feats if c not in EURO_COLS]
     feats = list(dict.fromkeys(feats))
     target = xpts_target(tr) if opts.get("xpts") else tr["total_points"].astype(float)
     params = REG_PARAMS if opts.get("reg") else points.MEAN_PARAMS
@@ -318,6 +332,8 @@ VARIANTS = {
     "all": {"hurdle": True, "xpts": True, "reg": True, "crowd": True},
     "crowd+xpts+reg": {"crowd": True, "xpts": True, "reg": True},
     "pd": {"pd": True},
+    "euro": {"euro": True},
+    "no_euro": {"euro": False},
     "pd+hurdle": {"pd": True, "hurdle": True},
     "pd+xpts+reg": {"pd": True, "xpts": True, "reg": True},
     "pd+hurdle+xpts+reg": {"pd": True, "hurdle": True, "xpts": True, "reg": True},

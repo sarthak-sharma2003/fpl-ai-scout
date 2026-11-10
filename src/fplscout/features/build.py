@@ -154,6 +154,44 @@ def _build_team_rolling(fixtures: pd.DataFrame) -> pd.DataFrame:
                  "team_roll5_goals_against"]]
 
 
+EURO_WINDOW_DAYS = 8.0
+
+
+def add_euro_gaps(features: pd.DataFrame, euro: pd.DataFrame) -> pd.DataFrame:
+    """Adds euro_days_before / euro_days_after: days from each league kickoff
+    back to the club's last European tie and forward to its next one, NaN when
+    there is none within EURO_WINDOW_DAYS. `rest_days` only knows league
+    fixtures, so a club three days off a Thursday in Europe looks fully rested;
+    the tie AFTER matters too, a manager rests players for it. Both are known
+    before the deadline: the tie is on the calendar. `euro` is the
+    european_fixtures table (season, team_id, kickoff_time)."""
+    out = features.copy()
+    out["euro_days_before"] = np.nan
+    out["euro_days_after"] = np.nan
+    if euro.empty:
+        return out
+    left = pd.DataFrame({
+        "season": features["season"].astype(str).to_numpy(),
+        "team_id": features["team_id"].astype("int64").to_numpy(),
+        "kickoff_time": pd.to_datetime(features["kickoff_time"]).to_numpy(),
+        "row": np.arange(len(features)),
+    }).dropna(subset=["kickoff_time"]).sort_values("kickoff_time")
+    right = pd.DataFrame({
+        "season": euro["season"].astype(str).to_numpy(),
+        "team_id": euro["team_id"].astype("int64").to_numpy(),
+        "kickoff_time": pd.to_datetime(euro["kickoff_time"]).to_numpy(),
+    }).dropna().sort_values("kickoff_time")
+    right["euro_kickoff"] = right["kickoff_time"]
+    for col, direction in (("euro_days_before", "backward"), ("euro_days_after", "forward")):
+        hit = pd.merge_asof(
+            left, right, on="kickoff_time", by=["season", "team_id"], direction=direction,
+            allow_exact_matches=False, tolerance=pd.Timedelta(days=EURO_WINDOW_DAYS),
+        )
+        gap = (hit["kickoff_time"] - hit["euro_kickoff"]).abs().dt.total_seconds() / 86400
+        out.iloc[hit["row"].to_numpy(), out.columns.get_loc(col)] = gap.to_numpy()
+    return out
+
+
 def _price_band(value: pd.Series) -> pd.Series:
     # value is price * 10 (e.g. 55 == £5.5m)
     bins = [-np.inf, 45, 55, 70, 90, np.inf]

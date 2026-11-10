@@ -109,3 +109,17 @@ def test_normalise_returns_empty_frame_for_no_events():
     con = _con_with_teams()
     out = _normalise([], "2026-27", "UEL", _resolve_team_ids(con, "2026-27"))
     assert len(out) == 0
+
+
+def test_espn_long_names_resolve_to_fpl_short_names():
+    """ "Brighton & Hove Albion" is FPL's "Brighton": exact-only lookup dropped
+    the club's European ties for all of 2026-27 until this was caught."""
+    from fplscout.ingest.european import _season_of, _team_id
+
+    ids = {"Brighton": 6, "Man Utd": 16, "Manchester United": 16}
+    assert _team_id("Brighton & Hove Albion", ids) == 6
+    assert _team_id("Manchester United", ids) == 16
+    assert _team_id("Brighton Rock FC", ids) == 6  # ponytail: prefix, PL names are distinctive
+    assert _team_id("Real Sociedad", ids) is None
+    assert _season_of("2026-11-03T20:00Z") == "2026-27"
+    assert _season_of("2027-02-16T20:00Z") == "2026-27"
