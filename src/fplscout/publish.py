@@ -48,7 +48,7 @@ def _reference_frame(con: duckdb.DuckDBPyConnection, season: str, gw: int) -> pd
     # works for an UNPLAYED reference gameweek (upcoming-GW synthetic rows,
     # issue #5 / provisional 26/27); equivalent for played gameweeks since
     # features derive from history.
-    return con.execute(
+    ref = con.execute(
         f"""
         WITH latest AS (
             SELECT *, ROW_NUMBER() OVER (
@@ -86,6 +86,13 @@ def _reference_frame(con: duckdb.DuckDBPyConnection, season: str, gw: int) -> pd
         """,
         [season, gw, season, season, gw, season],
     ).df()
+    # The score the lineup is actually picked on (cli.optimize: this week's EV
+    # x the starts multiplier). Published next to the raw EV because a card
+    # showing 4.1 on the bench under a 3.4 starter reads as a bug when it is
+    # the model marking down a player with two DNPs in his last five.
+    mult = pipeline.starts_multiplier(con, season, gw)
+    ref["xi_ev"] = ref["ev_points"] * ref["code"].map(mult).fillna(1.0)
+    return ref
 
 
 def _round_or_none(value, digits: int) -> float | None:
@@ -120,6 +127,9 @@ def _player_card(row: pd.Series) -> dict:
         "price": round(row["price"] / 10, 1) if pd.notna(row["price"]) else None,
         "ev": round(row["ev_points"], 2) if pd.notna(row["ev_points"]) else None,
     }
+    xi_ev = row.get("xi_ev")
+    if pd.notna(xi_ev) and card["ev"] is not None and round(xi_ev, 2) < card["ev"]:
+        card["xi_ev"] = round(xi_ev, 2)  # marked down for rotation risk
     # availability/penalty flags, only when noteworthy (keeps cards lean)
     status = row.get("status")
     if pd.notna(status) and status != "a":
@@ -278,7 +288,9 @@ def _dashboard_payload(
 
     bench = ref_by_code[ref_by_code["code"].isin(squad - xi)]
     bench_gk = bench[bench["position"] == "GKP"]
-    bench_outfield = bench[bench["position"] != "GKP"].sort_values("ev_points", ascending=False)
+    bench_outfield = bench[bench["position"] != "GKP"].sort_values(
+        "xi_ev" if "xi_ev" in bench else "ev_points", ascending=False
+    )
     bench_order = [
         _player_card(r)
         for _, r in pd.concat([bench_outfield, bench_gk]).iterrows()

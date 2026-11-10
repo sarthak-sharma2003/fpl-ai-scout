@@ -55,11 +55,19 @@ export default function PitchCard({
           </p>
           <div className="mt-0.5 flex items-center justify-center gap-1">
             <span className="font-display text-[17px] font-semibold leading-none text-[#d4f34b]">
-              {player.ev != null ? player.ev.toFixed(1) : '—'}
+              {player.ev != null ? (player.xi_ev ?? player.ev).toFixed(1) : '—'}
             </span>
             {player.flag && <FlagMark flag={player.flag} />}
             {player.pk && <PkMark />}
           </div>
+          {player.xi_ev != null && player.ev != null && (
+            <p
+              className="font-mono text-[8px] uppercase tracking-wide text-[#c9a25a]"
+              title="Marked down: he has not started every recent match. The lineup is picked on this lower number."
+            >
+              {player.ev.toFixed(1)} if he starts
+            </p>
+          )}
         </div>
       </div>
     </div>

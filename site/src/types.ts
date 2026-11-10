@@ -17,6 +17,8 @@ export interface PlayerCard {
   position: Position;
   price: number | null;
   ev: number | null;
+  /** the score the lineup is picked on, when rotation risk marks `ev` down */
+  xi_ev?: number;
   flag?: AvailabilityFlag;
   pk?: boolean;
 }
