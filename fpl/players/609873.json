@@ -1,0 +1,90 @@
+{
+  "code": 609873,
+  "name": "Armstrong",
+  "position": "MID",
+  "team": "EVE",
+  "price": 5.0,
+  "ev_points": 2.92,
+  "horizon_ev": 13.5,
+  "q10_points": 1.0,
+  "q90_points": 4.77,
+  "ev_minutes": 80.6,
+  "p_appearance": 0.965,
+  "p_60_plus": 0.861,
+  "p_clean_sheet": 0.229,
+  "model_version": "20261114T025240Z",
+  "recent": [
+    {
+      "gw": 10,
+      "opp": "COV",
+      "home": true,
+      "minutes": 72,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.05
+    },
+    {
+      "gw": 9,
+      "opp": "NEW",
+      "home": false,
+      "minutes": 90,
+      "points": 3,
+      "goals": 0,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 0.39
+    },
+    {
+      "gw": 8,
+      "opp": "ARS",
+      "home": false,
+      "minutes": 90,
+      "points": 4,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.21
+    },
+    {
+      "gw": 7,
+      "opp": "CHE",
+      "home": true,
+      "minutes": 84,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.01
+    },
+    {
+      "gw": 6,
+      "opp": "HUL",
+      "home": false,
+      "minutes": 77,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.27
+    },
+    {
+      "gw": 5,
+      "opp": "IPS",
+      "home": true,
+      "minutes": 90,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 0.49
+    }
+  ]
+}

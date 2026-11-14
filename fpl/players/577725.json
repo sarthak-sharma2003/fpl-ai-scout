@@ -1,0 +1,90 @@
+{
+  "code": 577725,
+  "name": "King",
+  "position": "MID",
+  "team": "FUL",
+  "price": 5.5,
+  "ev_points": 2.62,
+  "horizon_ev": 14.27,
+  "q10_points": 1.0,
+  "q90_points": 6.24,
+  "ev_minutes": 74.4,
+  "p_appearance": 0.963,
+  "p_60_plus": 0.758,
+  "p_clean_sheet": 0.12,
+  "model_version": "20261114T025240Z",
+  "recent": [
+    {
+      "gw": 10,
+      "opp": "NEW",
+      "home": true,
+      "minutes": 71,
+      "points": 3,
+      "goals": 0,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 0.17
+    },
+    {
+      "gw": 9,
+      "opp": "AVL",
+      "home": false,
+      "minutes": 78,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.2
+    },
+    {
+      "gw": 8,
+      "opp": "COV",
+      "home": false,
+      "minutes": 80,
+      "points": 6,
+      "goals": 0,
+      "assists": 1,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 0.21
+    },
+    {
+      "gw": 7,
+      "opp": "HUL",
+      "home": true,
+      "minutes": 77,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 0.51
+    },
+    {
+      "gw": 6,
+      "opp": "IPS",
+      "home": false,
+      "minutes": 75,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 0.28
+    },
+    {
+      "gw": 5,
+      "opp": "MUN",
+      "home": true,
+      "minutes": 79,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 0.41
+    }
+  ]
+}

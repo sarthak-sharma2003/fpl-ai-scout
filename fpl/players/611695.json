@@ -1,0 +1,90 @@
+{
+  "code": 611695,
+  "name": "Yalcouy\u00e9",
+  "position": "MID",
+  "team": "BHA",
+  "price": 4.4,
+  "ev_points": 1.43,
+  "horizon_ev": 6.92,
+  "q10_points": 0.0,
+  "q90_points": 2.85,
+  "ev_minutes": 33.8,
+  "p_appearance": 0.79,
+  "p_60_plus": 0.168,
+  "p_clean_sheet": 0.36,
+  "model_version": "20261114T025240Z",
+  "recent": [
+    {
+      "gw": 10,
+      "opp": "BRE",
+      "home": true,
+      "minutes": 1,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 9,
+      "opp": "MCI",
+      "home": false,
+      "minutes": 18,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 8,
+      "opp": "LIV",
+      "home": false,
+      "minutes": 36,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.17
+    },
+    {
+      "gw": 7,
+      "opp": "CRY",
+      "home": true,
+      "minutes": 9,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 6,
+      "opp": "SUN",
+      "home": false,
+      "minutes": 22,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 5,
+      "opp": "ARS",
+      "home": true,
+      "minutes": 5,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.22
+    }
+  ]
+}

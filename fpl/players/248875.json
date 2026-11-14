@@ -1,0 +1,90 @@
+{
+  "code": 248875,
+  "name": "Doku",
+  "position": "MID",
+  "team": "MCI",
+  "price": 7.5,
+  "ev_points": 4.49,
+  "horizon_ev": 17.23,
+  "q10_points": 1.0,
+  "q90_points": 9.56,
+  "ev_minutes": 79.2,
+  "p_appearance": 0.952,
+  "p_60_plus": 0.843,
+  "p_clean_sheet": 0.44,
+  "model_version": "20261114T025240Z",
+  "recent": [
+    {
+      "gw": 10,
+      "opp": "NFO",
+      "home": false,
+      "minutes": 90,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.21
+    },
+    {
+      "gw": 9,
+      "opp": "BHA",
+      "home": true,
+      "minutes": 90,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.57
+    },
+    {
+      "gw": 8,
+      "opp": "AVL",
+      "home": false,
+      "minutes": 90,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.59
+    },
+    {
+      "gw": 7,
+      "opp": "IPS",
+      "home": true,
+      "minutes": 76,
+      "points": 6,
+      "goals": 0,
+      "assists": 1,
+      "cs": 0,
+      "bonus": 1,
+      "xgi": 0.49
+    },
+    {
+      "gw": 6,
+      "opp": "LIV",
+      "home": false,
+      "minutes": 34,
+      "points": 12,
+      "goals": 1,
+      "assists": 1,
+      "cs": 0,
+      "bonus": 3,
+      "xgi": 0.14
+    },
+    {
+      "gw": 5,
+      "opp": "SUN",
+      "home": true,
+      "minutes": 15,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.55
+    }
+  ]
+}

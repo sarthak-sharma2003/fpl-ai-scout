@@ -1,0 +1,95 @@
+{
+  "code": 214590,
+  "name": "Wan-Bissaka",
+  "position": "DEF",
+  "team": "AVL",
+  "price": 4.5,
+  "ev_points": 0.61,
+  "horizon_ev": 3.45,
+  "q10_points": 0.0,
+  "q90_points": 1.18,
+  "ev_minutes": 14.6,
+  "p_appearance": 0.265,
+  "p_60_plus": 0.11,
+  "p_clean_sheet": 0.392,
+  "model_version": "20261114T025240Z",
+  "flag": {
+    "status": "d",
+    "news": "Hamstring injury - 50% chance of playing",
+    "chance": 50
+  },
+  "recent": [
+    {
+      "gw": 10,
+      "opp": "MUN",
+      "home": false,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 9,
+      "opp": "FUL",
+      "home": true,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 8,
+      "opp": "MCI",
+      "home": true,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 7,
+      "opp": "NEW",
+      "home": false,
+      "minutes": 76,
+      "points": 6,
+      "goals": 0,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 0.02
+    },
+    {
+      "gw": 6,
+      "opp": "BRE",
+      "home": true,
+      "minutes": 45,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.01
+    },
+    {
+      "gw": 5,
+      "opp": "TOT",
+      "home": false,
+      "minutes": 45,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.01
+    }
+  ]
+}

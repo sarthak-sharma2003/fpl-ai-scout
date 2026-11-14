@@ -1,0 +1,90 @@
+{
+  "code": 448089,
+  "name": "Gomes",
+  "position": "MID",
+  "team": "AVL",
+  "price": 5.5,
+  "ev_points": 2.14,
+  "horizon_ev": 9.27,
+  "q10_points": 0.0,
+  "q90_points": 5.58,
+  "ev_minutes": 56.0,
+  "p_appearance": 0.864,
+  "p_60_plus": 0.502,
+  "p_clean_sheet": 0.392,
+  "model_version": "20261114T025240Z",
+  "recent": [
+    {
+      "gw": 10,
+      "opp": "MUN",
+      "home": false,
+      "minutes": 12,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 9,
+      "opp": "FUL",
+      "home": true,
+      "minutes": 24,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.01
+    },
+    {
+      "gw": 8,
+      "opp": "MCI",
+      "home": true,
+      "minutes": 81,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 7,
+      "opp": "NEW",
+      "home": false,
+      "minutes": 71,
+      "points": 5,
+      "goals": 0,
+      "assists": 1,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 0.24
+    },
+    {
+      "gw": 6,
+      "opp": "BRE",
+      "home": true,
+      "minutes": 85,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.01
+    },
+    {
+      "gw": 5,
+      "opp": "TOT",
+      "home": false,
+      "minutes": 90,
+      "points": 4,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.02
+    }
+  ]
+}

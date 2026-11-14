@@ -1,0 +1,90 @@
+{
+  "code": 50175,
+  "name": "Welbeck",
+  "position": "FWD",
+  "team": "CHE",
+  "price": 5.8,
+  "ev_points": 1.98,
+  "horizon_ev": 8.48,
+  "q10_points": 0.0,
+  "q90_points": 3.31,
+  "ev_minutes": 36.1,
+  "p_appearance": 0.849,
+  "p_60_plus": 0.178,
+  "p_clean_sheet": 0.334,
+  "model_version": "20261114T025240Z",
+  "recent": [
+    {
+      "gw": 10,
+      "opp": "SUN",
+      "home": false,
+      "minutes": 28,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.14
+    },
+    {
+      "gw": 9,
+      "opp": "MUN",
+      "home": true,
+      "minutes": 3,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 8,
+      "opp": "TOT",
+      "home": true,
+      "minutes": 2,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 7,
+      "opp": "EVE",
+      "home": false,
+      "minutes": 1,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 6,
+      "opp": "BOU",
+      "home": true,
+      "minutes": 7,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 5,
+      "opp": "BRE",
+      "home": false,
+      "minutes": 70,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.08
+    }
+  ]
+}

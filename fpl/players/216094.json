@@ -1,0 +1,95 @@
+{
+  "code": 216094,
+  "name": "Frimpong",
+  "position": "DEF",
+  "team": "LIV",
+  "price": 5.2,
+  "ev_points": 0.02,
+  "horizon_ev": 1.67,
+  "q10_points": 0.0,
+  "q90_points": 0.0,
+  "ev_minutes": 0.5,
+  "p_appearance": 0.01,
+  "p_60_plus": 0.003,
+  "p_clean_sheet": 0.303,
+  "model_version": "20261114T025240Z",
+  "flag": {
+    "status": "i",
+    "news": "Hamstring injury - Unknown return date",
+    "chance": 0
+  },
+  "recent": [
+    {
+      "gw": 10,
+      "opp": "CRY",
+      "home": false,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 9,
+      "opp": "ARS",
+      "home": true,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 8,
+      "opp": "BHA",
+      "home": true,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 7,
+      "opp": "BRE",
+      "home": false,
+      "minutes": 6,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.01
+    },
+    {
+      "gw": 6,
+      "opp": "MCI",
+      "home": true,
+      "minutes": 15,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 5,
+      "opp": "BOU",
+      "home": false,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    }
+  ]
+}

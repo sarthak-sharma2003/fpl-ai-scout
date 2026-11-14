@@ -1,0 +1,90 @@
+{
+  "code": 221820,
+  "name": "Martinez",
+  "position": "DEF",
+  "team": "MUN",
+  "price": 4.8,
+  "ev_points": 1.66,
+  "horizon_ev": 7.27,
+  "q10_points": 0.0,
+  "q90_points": 3.4,
+  "ev_minutes": 51.4,
+  "p_appearance": 0.718,
+  "p_60_plus": 0.498,
+  "p_clean_sheet": 0.126,
+  "model_version": "20261114T025240Z",
+  "recent": [
+    {
+      "gw": 10,
+      "opp": "AVL",
+      "home": true,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 9,
+      "opp": "CHE",
+      "home": false,
+      "minutes": 62,
+      "points": -2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.01
+    },
+    {
+      "gw": 8,
+      "opp": "BOU",
+      "home": true,
+      "minutes": 25,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.68
+    },
+    {
+      "gw": 7,
+      "opp": "LEE",
+      "home": false,
+      "minutes": 45,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.01
+    },
+    {
+      "gw": 6,
+      "opp": "TOT",
+      "home": true,
+      "minutes": 90,
+      "points": 3,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.02
+    },
+    {
+      "gw": 5,
+      "opp": "FUL",
+      "home": false,
+      "minutes": 90,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.17
+    }
+  ]
+}

@@ -1,0 +1,90 @@
+{
+  "code": 173878,
+  "name": "Dasilva",
+  "position": "DEF",
+  "team": "COV",
+  "price": 4.0,
+  "ev_points": 3.55,
+  "horizon_ev": 13.5,
+  "q10_points": 0.0,
+  "q90_points": 7.27,
+  "ev_minutes": 81.5,
+  "p_appearance": 0.95,
+  "p_60_plus": 0.883,
+  "p_clean_sheet": 0.239,
+  "model_version": "20261114T025240Z",
+  "recent": [
+    {
+      "gw": 10,
+      "opp": "EVE",
+      "home": false,
+      "minutes": 90,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.08
+    },
+    {
+      "gw": 9,
+      "opp": "SUN",
+      "home": true,
+      "minutes": 90,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.02
+    },
+    {
+      "gw": 8,
+      "opp": "FUL",
+      "home": true,
+      "minutes": 90,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.1
+    },
+    {
+      "gw": 7,
+      "opp": "TOT",
+      "home": false,
+      "minutes": 90,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.05
+    },
+    {
+      "gw": 6,
+      "opp": "NEW",
+      "home": true,
+      "minutes": 90,
+      "points": 5,
+      "goals": 0,
+      "assists": 1,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.02
+    },
+    {
+      "gw": 5,
+      "opp": "NFO",
+      "home": false,
+      "minutes": 90,
+      "points": 15,
+      "goals": 1,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 3,
+      "xgi": 0.36
+    }
+  ]
+}

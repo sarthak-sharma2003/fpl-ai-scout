@@ -1,0 +1,95 @@
+{
+  "code": 95658,
+  "name": "Maguire",
+  "position": "DEF",
+  "team": "MUN",
+  "price": 4.6,
+  "ev_points": 1.28,
+  "horizon_ev": 10.13,
+  "q10_points": 0.0,
+  "q90_points": 2.02,
+  "ev_minutes": 38.0,
+  "p_appearance": 0.543,
+  "p_60_plus": 0.362,
+  "p_clean_sheet": 0.126,
+  "model_version": "20261114T025240Z",
+  "flag": {
+    "status": "d",
+    "news": "Back injury - 75% chance of playing",
+    "chance": 75
+  },
+  "recent": [
+    {
+      "gw": 10,
+      "opp": "AVL",
+      "home": true,
+      "minutes": 45,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 9,
+      "opp": "CHE",
+      "home": false,
+      "minutes": 90,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 8,
+      "opp": "BOU",
+      "home": true,
+      "minutes": 90,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.05
+    },
+    {
+      "gw": 7,
+      "opp": "LEE",
+      "home": false,
+      "minutes": 90,
+      "points": 4,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.01
+    },
+    {
+      "gw": 6,
+      "opp": "TOT",
+      "home": true,
+      "minutes": 90,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.12
+    },
+    {
+      "gw": 5,
+      "opp": "FUL",
+      "home": false,
+      "minutes": 90,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.04
+    }
+  ]
+}

@@ -1,0 +1,90 @@
+{
+  "code": 207283,
+  "name": "Jensen",
+  "position": "MID",
+  "team": "BRE",
+  "price": 5.4,
+  "ev_points": 2.27,
+  "horizon_ev": 10.3,
+  "q10_points": 1.0,
+  "q90_points": 5.05,
+  "ev_minutes": 59.0,
+  "p_appearance": 0.913,
+  "p_60_plus": 0.527,
+  "p_clean_sheet": 0.363,
+  "model_version": "20261114T025240Z",
+  "recent": [
+    {
+      "gw": 10,
+      "opp": "BHA",
+      "home": false,
+      "minutes": 31,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.05
+    },
+    {
+      "gw": 9,
+      "opp": "NFO",
+      "home": true,
+      "minutes": 61,
+      "points": 3,
+      "goals": 0,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 0.05
+    },
+    {
+      "gw": 8,
+      "opp": "HUL",
+      "home": false,
+      "minutes": 90,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.09
+    },
+    {
+      "gw": 7,
+      "opp": "LIV",
+      "home": true,
+      "minutes": 45,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.02
+    },
+    {
+      "gw": 6,
+      "opp": "AVL",
+      "home": false,
+      "minutes": 23,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.06
+    },
+    {
+      "gw": 5,
+      "opp": "CHE",
+      "home": true,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    }
+  ]
+}

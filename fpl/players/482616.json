@@ -1,0 +1,90 @@
+{
+  "code": 482616,
+  "name": "Barcola",
+  "position": "MID",
+  "team": "LIV",
+  "price": 8.1,
+  "ev_points": 3.35,
+  "horizon_ev": 16.04,
+  "q10_points": 1.0,
+  "q90_points": 8.72,
+  "ev_minutes": 76.0,
+  "p_appearance": 0.958,
+  "p_60_plus": 0.788,
+  "p_clean_sheet": 0.303,
+  "model_version": "20261114T025240Z",
+  "recent": [
+    {
+      "gw": 10,
+      "opp": "CRY",
+      "home": false,
+      "minutes": 68,
+      "points": 5,
+      "goals": 0,
+      "assists": 1,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 0.49
+    },
+    {
+      "gw": 9,
+      "opp": "ARS",
+      "home": true,
+      "minutes": 90,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.21
+    },
+    {
+      "gw": 8,
+      "opp": "BHA",
+      "home": true,
+      "minutes": 76,
+      "points": 6,
+      "goals": 0,
+      "assists": 1,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 0.44
+    },
+    {
+      "gw": 7,
+      "opp": "BRE",
+      "home": false,
+      "minutes": 90,
+      "points": 4,
+      "goals": 0,
+      "assists": 1,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.72
+    },
+    {
+      "gw": 6,
+      "opp": "MCI",
+      "home": true,
+      "minutes": 87,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.07
+    },
+    {
+      "gw": 5,
+      "opp": "BOU",
+      "home": false,
+      "minutes": 71,
+      "points": 3,
+      "goals": 0,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 0.08
+    }
+  ]
+}

@@ -1,0 +1,90 @@
+{
+  "code": 489639,
+  "name": "Verbruggen",
+  "position": "GKP",
+  "team": "BHA",
+  "price": 4.7,
+  "ev_points": 4.24,
+  "horizon_ev": 19.54,
+  "q10_points": 1.0,
+  "q90_points": 7.4,
+  "ev_minutes": 87.6,
+  "p_appearance": 0.979,
+  "p_60_plus": 0.971,
+  "p_clean_sheet": 0.36,
+  "model_version": "20261114T025240Z",
+  "recent": [
+    {
+      "gw": 10,
+      "opp": "BRE",
+      "home": true,
+      "minutes": 90,
+      "points": 6,
+      "goals": 0,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 9,
+      "opp": "MCI",
+      "home": false,
+      "minutes": 90,
+      "points": 11,
+      "goals": 0,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 3,
+      "xgi": 0.0
+    },
+    {
+      "gw": 8,
+      "opp": "LIV",
+      "home": false,
+      "minutes": 90,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 7,
+      "opp": "CRY",
+      "home": true,
+      "minutes": 90,
+      "points": 6,
+      "goals": 0,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 0.01
+    },
+    {
+      "gw": 6,
+      "opp": "SUN",
+      "home": false,
+      "minutes": 90,
+      "points": 9,
+      "goals": 0,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 2,
+      "xgi": 0.0
+    },
+    {
+      "gw": 5,
+      "opp": "ARS",
+      "home": true,
+      "minutes": 90,
+      "points": 6,
+      "goals": 0,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 0.0
+    }
+  ]
+}

@@ -1,0 +1,91 @@
+{
+  "code": 244851,
+  "name": "Palmer",
+  "position": "MID",
+  "team": "CHE",
+  "price": 9.8,
+  "ev_points": 4.79,
+  "horizon_ev": 21.6,
+  "q10_points": 1.0,
+  "q90_points": 10.49,
+  "ev_minutes": 84.3,
+  "p_appearance": 0.975,
+  "p_60_plus": 0.918,
+  "p_clean_sheet": 0.334,
+  "model_version": "20261114T025240Z",
+  "pk": true,
+  "recent": [
+    {
+      "gw": 10,
+      "opp": "SUN",
+      "home": false,
+      "minutes": 90,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.11
+    },
+    {
+      "gw": 9,
+      "opp": "MUN",
+      "home": true,
+      "minutes": 90,
+      "points": 8,
+      "goals": 1,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 1.03
+    },
+    {
+      "gw": 8,
+      "opp": "TOT",
+      "home": true,
+      "minutes": 79,
+      "points": -1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.23
+    },
+    {
+      "gw": 7,
+      "opp": "EVE",
+      "home": false,
+      "minutes": 90,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 0.19
+    },
+    {
+      "gw": 6,
+      "opp": "BOU",
+      "home": true,
+      "minutes": 87,
+      "points": 8,
+      "goals": 0,
+      "assists": 2,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.07
+    },
+    {
+      "gw": 5,
+      "opp": "BRE",
+      "home": false,
+      "minutes": 90,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.31
+    }
+  ]
+}

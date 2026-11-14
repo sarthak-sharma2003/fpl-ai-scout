@@ -1,0 +1,90 @@
+{
+  "code": 215413,
+  "name": "Dewsbury-Hall",
+  "position": "MID",
+  "team": "EVE",
+  "price": 6.7,
+  "ev_points": 3.01,
+  "horizon_ev": 14.3,
+  "q10_points": 1.0,
+  "q90_points": 8.25,
+  "ev_minutes": 84.2,
+  "p_appearance": 0.982,
+  "p_60_plus": 0.913,
+  "p_clean_sheet": 0.229,
+  "model_version": "20261114T025240Z",
+  "recent": [
+    {
+      "gw": 10,
+      "opp": "COV",
+      "home": true,
+      "minutes": 90,
+      "points": 9,
+      "goals": 1,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 2,
+      "xgi": 0.29
+    },
+    {
+      "gw": 9,
+      "opp": "NEW",
+      "home": false,
+      "minutes": 90,
+      "points": 4,
+      "goals": 0,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 1,
+      "xgi": 0.43
+    },
+    {
+      "gw": 8,
+      "opp": "ARS",
+      "home": false,
+      "minutes": 85,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.08
+    },
+    {
+      "gw": 7,
+      "opp": "CHE",
+      "home": true,
+      "minutes": 90,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.09
+    },
+    {
+      "gw": 6,
+      "opp": "HUL",
+      "home": false,
+      "minutes": 90,
+      "points": 13,
+      "goals": 1,
+      "assists": 1,
+      "cs": 0,
+      "bonus": 3,
+      "xgi": 0.46
+    },
+    {
+      "gw": 5,
+      "opp": "IPS",
+      "home": true,
+      "minutes": 90,
+      "points": 3,
+      "goals": 0,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 0.71
+    }
+  ]
+}

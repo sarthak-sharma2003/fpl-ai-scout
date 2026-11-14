@@ -1,0 +1,90 @@
+{
+  "code": 244042,
+  "name": "Muniz",
+  "position": "FWD",
+  "team": "FUL",
+  "price": 5.3,
+  "ev_points": 1.62,
+  "horizon_ev": 7.8,
+  "q10_points": 0.0,
+  "q90_points": 1.65,
+  "ev_minutes": 33.4,
+  "p_appearance": 0.816,
+  "p_60_plus": 0.149,
+  "p_clean_sheet": 0.12,
+  "model_version": "20261114T025240Z",
+  "recent": [
+    {
+      "gw": 10,
+      "opp": "NEW",
+      "home": true,
+      "minutes": 25,
+      "points": 7,
+      "goals": 1,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 2,
+      "xgi": 0.15
+    },
+    {
+      "gw": 9,
+      "opp": "AVL",
+      "home": false,
+      "minutes": 3,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 8,
+      "opp": "COV",
+      "home": false,
+      "minutes": 16,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.06
+    },
+    {
+      "gw": 7,
+      "opp": "HUL",
+      "home": true,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 6,
+      "opp": "IPS",
+      "home": false,
+      "minutes": 14,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 5,
+      "opp": "MUN",
+      "home": true,
+      "minutes": 10,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    }
+  ]
+}

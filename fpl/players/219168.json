@@ -1,0 +1,90 @@
+{
+  "code": 219168,
+  "name": "Isak",
+  "position": "FWD",
+  "team": "LIV",
+  "price": 9.3,
+  "ev_points": 4.94,
+  "horizon_ev": 20.22,
+  "q10_points": 1.0,
+  "q90_points": 8.85,
+  "ev_minutes": 81.6,
+  "p_appearance": 0.971,
+  "p_60_plus": 0.874,
+  "p_clean_sheet": 0.303,
+  "model_version": "20261114T025240Z",
+  "recent": [
+    {
+      "gw": 10,
+      "opp": "CRY",
+      "home": false,
+      "minutes": 90,
+      "points": 8,
+      "goals": 1,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 2,
+      "xgi": 0.55
+    },
+    {
+      "gw": 9,
+      "opp": "ARS",
+      "home": true,
+      "minutes": 90,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.21
+    },
+    {
+      "gw": 8,
+      "opp": "BHA",
+      "home": true,
+      "minutes": 76,
+      "points": 9,
+      "goals": 1,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 3,
+      "xgi": 0.43
+    },
+    {
+      "gw": 7,
+      "opp": "BRE",
+      "home": false,
+      "minutes": 78,
+      "points": 9,
+      "goals": 1,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 3,
+      "xgi": 0.35
+    },
+    {
+      "gw": 6,
+      "opp": "MCI",
+      "home": true,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 5,
+      "opp": "BOU",
+      "home": false,
+      "minutes": 80,
+      "points": 8,
+      "goals": 1,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 3,
+      "xgi": 0.77
+    }
+  ]
+}

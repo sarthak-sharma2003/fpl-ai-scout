@@ -1,0 +1,90 @@
+{
+  "code": 460842,
+  "name": "Kudus",
+  "position": "MID",
+  "team": "TOT",
+  "price": 6.6,
+  "ev_points": 4.46,
+  "horizon_ev": 16.57,
+  "q10_points": 1.0,
+  "q90_points": 10.2,
+  "ev_minutes": 78.6,
+  "p_appearance": 0.964,
+  "p_60_plus": 0.829,
+  "p_clean_sheet": 0.306,
+  "model_version": "20261114T025240Z",
+  "recent": [
+    {
+      "gw": 10,
+      "opp": "LEE",
+      "home": false,
+      "minutes": 82,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.08
+    },
+    {
+      "gw": 9,
+      "opp": "CRY",
+      "home": true,
+      "minutes": 90,
+      "points": 7,
+      "goals": 0,
+      "assists": 1,
+      "cs": 1,
+      "bonus": 1,
+      "xgi": 1.03
+    },
+    {
+      "gw": 8,
+      "opp": "CHE",
+      "home": false,
+      "minutes": 88,
+      "points": 3,
+      "goals": 0,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 0.07
+    },
+    {
+      "gw": 7,
+      "opp": "COV",
+      "home": true,
+      "minutes": 86,
+      "points": 6,
+      "goals": 0,
+      "assists": 1,
+      "cs": 0,
+      "bonus": 1,
+      "xgi": 0.13
+    },
+    {
+      "gw": 6,
+      "opp": "MUN",
+      "home": false,
+      "minutes": 65,
+      "points": 3,
+      "goals": 0,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 0.29
+    },
+    {
+      "gw": 5,
+      "opp": "AVL",
+      "home": true,
+      "minutes": 45,
+      "points": 4,
+      "goals": 0,
+      "assists": 1,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.27
+    }
+  ]
+}

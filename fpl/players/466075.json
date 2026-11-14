@@ -1,0 +1,90 @@
+{
+  "code": 466075,
+  "name": "Calafiori",
+  "position": "DEF",
+  "team": "ARS",
+  "price": 5.9,
+  "ev_points": 3.95,
+  "horizon_ev": 18.49,
+  "q10_points": 0.0,
+  "q90_points": 7.9,
+  "ev_minutes": 79.7,
+  "p_appearance": 0.945,
+  "p_60_plus": 0.855,
+  "p_clean_sheet": 0.392,
+  "model_version": "20261114T025240Z",
+  "recent": [
+    {
+      "gw": 10,
+      "opp": "HUL",
+      "home": true,
+      "minutes": 68,
+      "points": 6,
+      "goals": 0,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 0.01
+    },
+    {
+      "gw": 9,
+      "opp": "LIV",
+      "home": false,
+      "minutes": 90,
+      "points": 6,
+      "goals": 0,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 0.02
+    },
+    {
+      "gw": 8,
+      "opp": "EVE",
+      "home": true,
+      "minutes": 22,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 7,
+      "opp": "NFO",
+      "home": false,
+      "minutes": 90,
+      "points": 6,
+      "goals": 0,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 0.3
+    },
+    {
+      "gw": 6,
+      "opp": "LEE",
+      "home": true,
+      "minutes": 81,
+      "points": 9,
+      "goals": 1,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 1,
+      "xgi": 0.61
+    },
+    {
+      "gw": 5,
+      "opp": "BHA",
+      "home": false,
+      "minutes": 90,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.1
+    }
+  ]
+}

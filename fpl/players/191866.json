@@ -1,0 +1,90 @@
+{
+  "code": 191866,
+  "name": "Ajer",
+  "position": "DEF",
+  "team": "BRE",
+  "price": 4.5,
+  "ev_points": 4.44,
+  "horizon_ev": 16.96,
+  "q10_points": 1.0,
+  "q90_points": 9.13,
+  "ev_minutes": 85.0,
+  "p_appearance": 0.967,
+  "p_60_plus": 0.933,
+  "p_clean_sheet": 0.363,
+  "model_version": "20261114T025240Z",
+  "recent": [
+    {
+      "gw": 10,
+      "opp": "BHA",
+      "home": false,
+      "minutes": 90,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.14
+    },
+    {
+      "gw": 9,
+      "opp": "NFO",
+      "home": true,
+      "minutes": 90,
+      "points": 8,
+      "goals": 0,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 8,
+      "opp": "HUL",
+      "home": false,
+      "minutes": 90,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.01
+    },
+    {
+      "gw": 7,
+      "opp": "LIV",
+      "home": true,
+      "minutes": 90,
+      "points": 3,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.18
+    },
+    {
+      "gw": 6,
+      "opp": "AVL",
+      "home": false,
+      "minutes": 90,
+      "points": 6,
+      "goals": 1,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.19
+    },
+    {
+      "gw": 5,
+      "opp": "CHE",
+      "home": true,
+      "minutes": 90,
+      "points": 7,
+      "goals": 0,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 1,
+      "xgi": 0.05
+    }
+  ]
+}

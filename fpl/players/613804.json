@@ -1,0 +1,90 @@
+{
+  "code": 613804,
+  "name": "Diouf",
+  "position": "DEF",
+  "team": "BRE",
+  "price": 4.4,
+  "ev_points": 1.83,
+  "horizon_ev": 7.77,
+  "q10_points": 0.0,
+  "q90_points": 4.48,
+  "ev_minutes": 38.7,
+  "p_appearance": 0.673,
+  "p_60_plus": 0.308,
+  "p_clean_sheet": 0.363,
+  "model_version": "20261114T025240Z",
+  "recent": [
+    {
+      "gw": 10,
+      "opp": "BHA",
+      "home": false,
+      "minutes": 31,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.01
+    },
+    {
+      "gw": 9,
+      "opp": "NFO",
+      "home": true,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 8,
+      "opp": "HUL",
+      "home": false,
+      "minutes": 12,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.05
+    },
+    {
+      "gw": 7,
+      "opp": "LIV",
+      "home": true,
+      "minutes": 13,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.01
+    },
+    {
+      "gw": 6,
+      "opp": "AVL",
+      "home": false,
+      "minutes": 90,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.12
+    },
+    {
+      "gw": 5,
+      "opp": "CHE",
+      "home": true,
+      "minutes": 9,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    }
+  ]
+}

@@ -1,0 +1,95 @@
+{
+  "code": 180974,
+  "name": "Joelinton",
+  "position": "MID",
+  "team": "NEW",
+  "price": 5.4,
+  "ev_points": 0.02,
+  "horizon_ev": 4.7,
+  "q10_points": 0.0,
+  "q90_points": 0.0,
+  "ev_minutes": 0.6,
+  "p_appearance": 0.012,
+  "p_60_plus": 0.004,
+  "p_clean_sheet": 0.183,
+  "model_version": "20261114T025240Z",
+  "flag": {
+    "status": "i",
+    "news": "Unspecified injury - Unknown return date",
+    "chance": 0
+  },
+  "recent": [
+    {
+      "gw": 10,
+      "opp": "FUL",
+      "home": false,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 9,
+      "opp": "EVE",
+      "home": true,
+      "minutes": 74,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.1
+    },
+    {
+      "gw": 8,
+      "opp": "CRY",
+      "home": false,
+      "minutes": 84,
+      "points": 3,
+      "goals": 0,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 0.1
+    },
+    {
+      "gw": 7,
+      "opp": "AVL",
+      "home": true,
+      "minutes": 89,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.06
+    },
+    {
+      "gw": 6,
+      "opp": "COV",
+      "home": false,
+      "minutes": 31,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.01
+    },
+    {
+      "gw": 5,
+      "opp": "HUL",
+      "home": true,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    }
+  ]
+}

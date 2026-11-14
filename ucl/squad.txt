@@ -1,0 +1,27 @@
+# Your UCL Fantasy squad, as held going into the matchday below.
+# Imported from your real UEFA team on 2026-11-10 (`uclscout import-team`).
+# UEFA only serves a team to its signed-in owner (the no-login route was shut
+# by 2026-11-10), so the deploy cannot fetch it. Between imports the deploy
+# advances this file after each deadline by applying the moves the site
+# recommended. If you did something different, import again or edit the ids.
+#
+# matchday: 5
+# bank: 0.0
+# wildcard_used: no
+# limitless_used: no
+# free_transfers: 2
+250179137  # DEF I. Fresneda (Sporting CP)
+250010245  # DEF M. Bartra (Real Betis)
+50327420   # DEF V. van Dijk (Liverpool)
+250174126  # DEF W. Pacho (Paris)
+250190353  # DEF Š. Chaloupek (Slavia Praha)
+250081555  # FWD D. Malen (Roma)
+250016833  # FWD H. Kane (Bayern München)
+250076574  # FWD K. Mbappé (Real Madrid)
+250171278  # GK  D. Raya (Arsenal)
+250065792  # GK  V. Milinković-Savić (Napoli)
+250101284  # MID F. Valverde (Real Madrid)
+250176450  # MID L. Yamal (Barcelona)
+250153621  # MID N. Paz (Como)
+250055294  # MID R. Marin (AEK Athens)
+250101444  # MID Vitinha (Paris)

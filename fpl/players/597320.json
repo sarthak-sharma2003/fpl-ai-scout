@@ -1,0 +1,95 @@
+{
+  "code": 597320,
+  "name": "Howell",
+  "position": "MID",
+  "team": "BHA",
+  "price": 4.5,
+  "ev_points": 0.0,
+  "horizon_ev": 0.0,
+  "q10_points": 0.0,
+  "q90_points": 0.0,
+  "ev_minutes": 0.0,
+  "p_appearance": 0.001,
+  "p_60_plus": 0.0,
+  "p_clean_sheet": 0.36,
+  "model_version": "20261114T025240Z",
+  "flag": {
+    "status": "u",
+    "news": "Has joined Leicester City on loan for the rest of the season",
+    "chance": 0
+  },
+  "recent": [
+    {
+      "gw": 10,
+      "opp": "BRE",
+      "home": true,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 9,
+      "opp": "MCI",
+      "home": false,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 8,
+      "opp": "LIV",
+      "home": false,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 7,
+      "opp": "CRY",
+      "home": true,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 6,
+      "opp": "SUN",
+      "home": false,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 5,
+      "opp": "ARS",
+      "home": true,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    }
+  ]
+}

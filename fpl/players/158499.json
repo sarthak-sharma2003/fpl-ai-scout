@@ -1,0 +1,90 @@
+{
+  "code": 158499,
+  "name": "Christie",
+  "position": "MID",
+  "team": "BOU",
+  "price": 5.0,
+  "ev_points": 3.3,
+  "horizon_ev": 14.39,
+  "q10_points": 1.0,
+  "q90_points": 7.96,
+  "ev_minutes": 66.3,
+  "p_appearance": 0.916,
+  "p_60_plus": 0.648,
+  "p_clean_sheet": 0.323,
+  "model_version": "20261114T025240Z",
+  "recent": [
+    {
+      "gw": 10,
+      "opp": "IPS",
+      "home": false,
+      "minutes": 66,
+      "points": 7,
+      "goals": 0,
+      "assists": 1,
+      "cs": 1,
+      "bonus": 1,
+      "xgi": 0.14
+    },
+    {
+      "gw": 9,
+      "opp": "LEE",
+      "home": true,
+      "minutes": 67,
+      "points": 4,
+      "goals": 0,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 0.1
+    },
+    {
+      "gw": 8,
+      "opp": "MUN",
+      "home": false,
+      "minutes": 15,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 7,
+      "opp": "SUN",
+      "home": true,
+      "minutes": 90,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 0.51
+    },
+    {
+      "gw": 6,
+      "opp": "CHE",
+      "home": false,
+      "minutes": 72,
+      "points": 3,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.43
+    },
+    {
+      "gw": 5,
+      "opp": "LIV",
+      "home": true,
+      "minutes": 74,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.51
+    }
+  ]
+}

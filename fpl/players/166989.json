@@ -1,0 +1,90 @@
+{
+  "code": 166989,
+  "name": "Tielemans",
+  "position": "MID",
+  "team": "MUN",
+  "price": 5.6,
+  "ev_points": 2.51,
+  "horizon_ev": 12.45,
+  "q10_points": 1.0,
+  "q90_points": 6.01,
+  "ev_minutes": 63.3,
+  "p_appearance": 0.897,
+  "p_60_plus": 0.607,
+  "p_clean_sheet": 0.126,
+  "model_version": "20261114T025240Z",
+  "recent": [
+    {
+      "gw": 10,
+      "opp": "AVL",
+      "home": true,
+      "minutes": 65,
+      "points": 7,
+      "goals": 1,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.38
+    },
+    {
+      "gw": 9,
+      "opp": "CHE",
+      "home": false,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 8,
+      "opp": "BOU",
+      "home": true,
+      "minutes": 45,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 7,
+      "opp": "LEE",
+      "home": false,
+      "minutes": 83,
+      "points": 7,
+      "goals": 0,
+      "assists": 1,
+      "cs": 0,
+      "bonus": 2,
+      "xgi": 0.43
+    },
+    {
+      "gw": 6,
+      "opp": "TOT",
+      "home": true,
+      "minutes": 58,
+      "points": 3,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.14
+    },
+    {
+      "gw": 5,
+      "opp": "FUL",
+      "home": false,
+      "minutes": 90,
+      "points": 4,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.29
+    }
+  ]
+}

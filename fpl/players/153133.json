@@ -1,0 +1,90 @@
+{
+  "code": 153133,
+  "name": "Iwobi",
+  "position": "MID",
+  "team": "FUL",
+  "price": 5.4,
+  "ev_points": 3.15,
+  "horizon_ev": 16.69,
+  "q10_points": 1.0,
+  "q90_points": 5.38,
+  "ev_minutes": 82.1,
+  "p_appearance": 0.971,
+  "p_60_plus": 0.882,
+  "p_clean_sheet": 0.12,
+  "model_version": "20261114T025240Z",
+  "recent": [
+    {
+      "gw": 10,
+      "opp": "NEW",
+      "home": true,
+      "minutes": 90,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.18
+    },
+    {
+      "gw": 9,
+      "opp": "AVL",
+      "home": false,
+      "minutes": 74,
+      "points": 6,
+      "goals": 0,
+      "assists": 1,
+      "cs": 0,
+      "bonus": 1,
+      "xgi": 0.79
+    },
+    {
+      "gw": 8,
+      "opp": "COV",
+      "home": false,
+      "minutes": 73,
+      "points": 3,
+      "goals": 0,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 0.31
+    },
+    {
+      "gw": 7,
+      "opp": "HUL",
+      "home": true,
+      "minutes": 90,
+      "points": 11,
+      "goals": 1,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 3,
+      "xgi": 1.21
+    },
+    {
+      "gw": 6,
+      "opp": "IPS",
+      "home": false,
+      "minutes": 86,
+      "points": 4,
+      "goals": 0,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 1,
+      "xgi": 0.19
+    },
+    {
+      "gw": 5,
+      "opp": "MUN",
+      "home": true,
+      "minutes": 70,
+      "points": 5,
+      "goals": 0,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 2,
+      "xgi": 0.6
+    }
+  ]
+}

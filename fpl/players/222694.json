@@ -1,0 +1,95 @@
+{
+  "code": 222694,
+  "name": "Struijk",
+  "position": "DEF",
+  "team": "BHA",
+  "price": 4.9,
+  "ev_points": 0.02,
+  "horizon_ev": 2.61,
+  "q10_points": 0.0,
+  "q90_points": 0.0,
+  "ev_minutes": 0.5,
+  "p_appearance": 0.01,
+  "p_60_plus": 0.003,
+  "p_clean_sheet": 0.36,
+  "model_version": "20261114T025240Z",
+  "flag": {
+    "status": "i",
+    "news": "Hamstring injury - Expected back 8 Nov",
+    "chance": 0
+  },
+  "recent": [
+    {
+      "gw": 10,
+      "opp": "BRE",
+      "home": true,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 9,
+      "opp": "MCI",
+      "home": false,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 8,
+      "opp": "LIV",
+      "home": false,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 7,
+      "opp": "CRY",
+      "home": true,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 6,
+      "opp": "SUN",
+      "home": false,
+      "minutes": 56,
+      "points": -2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.15
+    },
+    {
+      "gw": 5,
+      "opp": "ARS",
+      "home": true,
+      "minutes": 85,
+      "points": 5,
+      "goals": 0,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 0.16
+    }
+  ]
+}

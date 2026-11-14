@@ -1,0 +1,90 @@
+{
+  "code": 477555,
+  "name": "Bobb",
+  "position": "MID",
+  "team": "FUL",
+  "price": 5.5,
+  "ev_points": 2.69,
+  "horizon_ev": 14.6,
+  "q10_points": 1.0,
+  "q90_points": 5.47,
+  "ev_minutes": 77.6,
+  "p_appearance": 0.97,
+  "p_60_plus": 0.809,
+  "p_clean_sheet": 0.12,
+  "model_version": "20261114T025240Z",
+  "recent": [
+    {
+      "gw": 10,
+      "opp": "NEW",
+      "home": true,
+      "minutes": 76,
+      "points": 3,
+      "goals": 0,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 0.13
+    },
+    {
+      "gw": 9,
+      "opp": "AVL",
+      "home": false,
+      "minutes": 78,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.55
+    },
+    {
+      "gw": 8,
+      "opp": "COV",
+      "home": false,
+      "minutes": 80,
+      "points": 11,
+      "goals": 1,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 3,
+      "xgi": 0.24
+    },
+    {
+      "gw": 7,
+      "opp": "HUL",
+      "home": true,
+      "minutes": 77,
+      "points": 3,
+      "goals": 0,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 0.41
+    },
+    {
+      "gw": 6,
+      "opp": "IPS",
+      "home": false,
+      "minutes": 75,
+      "points": 3,
+      "goals": 0,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 0.53
+    },
+    {
+      "gw": 5,
+      "opp": "MUN",
+      "home": true,
+      "minutes": 70,
+      "points": 3,
+      "goals": 0,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 0.31
+    }
+  ]
+}

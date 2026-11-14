@@ -1,0 +1,90 @@
+{
+  "code": 249231,
+  "name": "Lewis-Potter",
+  "position": "MID",
+  "team": "BRE",
+  "price": 5.5,
+  "ev_points": 2.96,
+  "horizon_ev": 13.34,
+  "q10_points": 1.0,
+  "q90_points": 6.28,
+  "ev_minutes": 68.5,
+  "p_appearance": 0.948,
+  "p_60_plus": 0.668,
+  "p_clean_sheet": 0.363,
+  "model_version": "20261114T025240Z",
+  "recent": [
+    {
+      "gw": 10,
+      "opp": "BHA",
+      "home": false,
+      "minutes": 58,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.13
+    },
+    {
+      "gw": 9,
+      "opp": "NFO",
+      "home": true,
+      "minutes": 90,
+      "points": 3,
+      "goals": 0,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 0.02
+    },
+    {
+      "gw": 8,
+      "opp": "HUL",
+      "home": false,
+      "minutes": 77,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.02
+    },
+    {
+      "gw": 7,
+      "opp": "LIV",
+      "home": true,
+      "minutes": 76,
+      "points": 9,
+      "goals": 1,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 2,
+      "xgi": 0.18
+    },
+    {
+      "gw": 6,
+      "opp": "AVL",
+      "home": false,
+      "minutes": 66,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.08
+    },
+    {
+      "gw": 5,
+      "opp": "CHE",
+      "home": true,
+      "minutes": 80,
+      "points": 3,
+      "goals": 0,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 0.16
+    }
+  ]
+}

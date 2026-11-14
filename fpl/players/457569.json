@@ -1,0 +1,90 @@
+{
+  "code": 457569,
+  "name": "Petrovi\u0107",
+  "position": "GKP",
+  "team": "BOU",
+  "price": 4.5,
+  "ev_points": 3.79,
+  "horizon_ev": 16.14,
+  "q10_points": 1.0,
+  "q90_points": 6.92,
+  "ev_minutes": 87.5,
+  "p_appearance": 0.976,
+  "p_60_plus": 0.971,
+  "p_clean_sheet": 0.323,
+  "model_version": "20261114T025240Z",
+  "recent": [
+    {
+      "gw": 10,
+      "opp": "IPS",
+      "home": false,
+      "minutes": 90,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 9,
+      "opp": "LEE",
+      "home": true,
+      "minutes": 90,
+      "points": 6,
+      "goals": 0,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 8,
+      "opp": "MUN",
+      "home": false,
+      "minutes": 90,
+      "points": 7,
+      "goals": 0,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 7,
+      "opp": "SUN",
+      "home": true,
+      "minutes": 90,
+      "points": 6,
+      "goals": 0,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 6,
+      "opp": "CHE",
+      "home": false,
+      "minutes": 90,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 5,
+      "opp": "LIV",
+      "home": true,
+      "minutes": 90,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    }
+  ]
+}

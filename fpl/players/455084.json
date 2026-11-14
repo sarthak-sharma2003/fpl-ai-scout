@@ -1,0 +1,90 @@
+{
+  "code": 455084,
+  "name": "Davis",
+  "position": "DEF",
+  "team": "IPS",
+  "price": 4.0,
+  "ev_points": 2.26,
+  "horizon_ev": 11.37,
+  "q10_points": 0.0,
+  "q90_points": 4.22,
+  "ev_minutes": 82.3,
+  "p_appearance": 0.943,
+  "p_60_plus": 0.9,
+  "p_clean_sheet": 0.103,
+  "model_version": "20261114T025240Z",
+  "recent": [
+    {
+      "gw": 10,
+      "opp": "BOU",
+      "home": true,
+      "minutes": 90,
+      "points": -1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.03
+    },
+    {
+      "gw": 9,
+      "opp": "HUL",
+      "home": false,
+      "minutes": 90,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.01
+    },
+    {
+      "gw": 8,
+      "opp": "NFO",
+      "home": true,
+      "minutes": 90,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.06
+    },
+    {
+      "gw": 7,
+      "opp": "MCI",
+      "home": false,
+      "minutes": 90,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.11
+    },
+    {
+      "gw": 6,
+      "opp": "FUL",
+      "home": true,
+      "minutes": 90,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.06
+    },
+    {
+      "gw": 5,
+      "opp": "EVE",
+      "home": false,
+      "minutes": 90,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.44
+    }
+  ]
+}

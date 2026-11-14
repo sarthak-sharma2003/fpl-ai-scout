@@ -1,0 +1,95 @@
+{
+  "code": 466525,
+  "name": "Stach",
+  "position": "MID",
+  "team": "LEE",
+  "price": 6.0,
+  "ev_points": 0.82,
+  "horizon_ev": 7.83,
+  "q10_points": 0.0,
+  "q90_points": 2.09,
+  "ev_minutes": 19.8,
+  "p_appearance": 0.383,
+  "p_60_plus": 0.138,
+  "p_clean_sheet": 0.182,
+  "model_version": "20261114T025240Z",
+  "flag": {
+    "status": "d",
+    "news": "Foot injury - 50% chance of playing",
+    "chance": 50
+  },
+  "recent": [
+    {
+      "gw": 10,
+      "opp": "TOT",
+      "home": true,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 9,
+      "opp": "BOU",
+      "home": false,
+      "minutes": 25,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.13
+    },
+    {
+      "gw": 8,
+      "opp": "SUN",
+      "home": false,
+      "minutes": 24,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.01
+    },
+    {
+      "gw": 7,
+      "opp": "MUN",
+      "home": true,
+      "minutes": 90,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.47
+    },
+    {
+      "gw": 6,
+      "opp": "ARS",
+      "home": false,
+      "minutes": 90,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.14
+    },
+    {
+      "gw": 5,
+      "opp": "CRY",
+      "home": true,
+      "minutes": 90,
+      "points": 5,
+      "goals": 0,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 0.13
+    }
+  ]
+}

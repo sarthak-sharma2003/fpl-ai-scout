@@ -1,0 +1,91 @@
+{
+  "code": 169432,
+  "name": "McBurnie",
+  "position": "FWD",
+  "team": "HUL",
+  "price": 5.5,
+  "ev_points": 3.14,
+  "horizon_ev": 15.97,
+  "q10_points": 1.0,
+  "q90_points": 7.81,
+  "ev_minutes": 85.8,
+  "p_appearance": 0.981,
+  "p_60_plus": 0.939,
+  "p_clean_sheet": 0.309,
+  "model_version": "20261114T025240Z",
+  "pk": true,
+  "recent": [
+    {
+      "gw": 10,
+      "opp": "ARS",
+      "home": false,
+      "minutes": 90,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.02
+    },
+    {
+      "gw": 9,
+      "opp": "IPS",
+      "home": true,
+      "minutes": 90,
+      "points": 12,
+      "goals": 1,
+      "assists": 1,
+      "cs": 0,
+      "bonus": 3,
+      "xgi": 0.21
+    },
+    {
+      "gw": 8,
+      "opp": "BRE",
+      "home": true,
+      "minutes": 85,
+      "points": 8,
+      "goals": 1,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 2,
+      "xgi": 0.8
+    },
+    {
+      "gw": 7,
+      "opp": "FUL",
+      "home": false,
+      "minutes": 90,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 6,
+      "opp": "EVE",
+      "home": true,
+      "minutes": 90,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.09
+    },
+    {
+      "gw": 5,
+      "opp": "NEW",
+      "home": false,
+      "minutes": 90,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.38
+    }
+  ]
+}

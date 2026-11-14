@@ -1,0 +1,131 @@
+{
+  "generated_at": "2026-11-14T02:53:31.312057+00:00",
+  "commit": "c1df0b4",
+  "changelog": [
+    {
+      "sha": "5726cac",
+      "date": "2026-11-10T17:17:30-06:00",
+      "subject": "UCL: import the real team from UEFA's own team response"
+    },
+    {
+      "sha": "cc00d29",
+      "date": "2026-11-10T16:59:30-06:00",
+      "subject": "Show the score the lineup was picked on"
+    },
+    {
+      "sha": "dd2466d",
+      "date": "2026-11-10T16:49:43-06:00",
+      "subject": "Chips: wildcard and free hit are insurance, not a +1.8 play"
+    },
+    {
+      "sha": "ad89a3e",
+      "date": "2026-11-10T16:49:43-06:00",
+      "subject": "Measure European congestion and recent-form weighting; ship neither"
+    },
+    {
+      "sha": "94999d4",
+      "date": "2026-11-10T16:26:19-06:00",
+      "subject": "Make training reproducible: same data, same advice"
+    },
+    {
+      "sha": "9dcb0d3",
+      "date": "2026-11-10T16:02:06-06:00",
+      "subject": "European fixtures: load whole seasons, stop dropping Brighton"
+    },
+    {
+      "sha": "6b2c7e1",
+      "date": "2026-11-10T16:00:55-06:00",
+      "subject": "Site: recent matches on any player, a What's live page, deploy retry + alert"
+    },
+    {
+      "sha": "41c2863",
+      "date": "2026-11-10T16:00:54-06:00",
+      "subject": "Chips: play on the plan once it can see the whole window"
+    },
+    {
+      "sha": "d824913",
+      "date": "2026-11-10T15:51:43-06:00",
+      "subject": "Pick the lineup on this gameweek's EV, not the 8-week horizon"
+    },
+    {
+      "sha": "f622ffd",
+      "date": "2026-11-03T16:58:18Z",
+      "subject": "UCL: sync tracked squad with real team before MD4 deadline"
+    },
+    {
+      "sha": "e7c2ee6",
+      "date": "2026-10-13T23:26:09Z",
+      "subject": "UCL: a matchday's transfers lock at its first kick-off, and show the subs deadline"
+    },
+    {
+      "sha": "ef78abc",
+      "date": "2026-10-13T15:42:03Z",
+      "subject": "Live strategy replay: report strategies with no history instead of crashing"
+    },
+    {
+      "sha": "a266e64",
+      "date": "2026-10-13T12:57:24Z",
+      "subject": "UCL site: a missing match day must not blank the whole page"
+    },
+    {
+      "sha": "840b342",
+      "date": "2026-10-13T09:50:03Z",
+      "subject": "Models: stop using bookmaker odds as features"
+    },
+    {
+      "sha": "06287c6",
+      "date": "2026-10-13T09:21:24Z",
+      "subject": "backtest_grid: DROP_FEATURES prep for feature ablations (e.g. bookmaker odds)"
+    },
+    {
+      "sha": "fc840ef",
+      "date": "2026-10-13T09:19:01Z",
+      "subject": "model_lab: merge only the extra columns load_dataset lacks"
+    },
+    {
+      "sha": "aa15d16",
+      "date": "2026-10-13T09:18:21Z",
+      "subject": "model_lab: don't re-merge pre-deadline columns load_dataset already carries"
+    },
+    {
+      "sha": "3dbeb2f",
+      "date": "2026-10-13T09:17:51Z",
+      "subject": "model_lab: odds ablation variant (production v2 without bookmaker-odds features)"
+    },
+    {
+      "sha": "6ff173e",
+      "date": "2026-10-13T09:09:55Z",
+      "subject": "Backtest sweep: run a season's preps on one runner so diffs are paired"
+    },
+    {
+      "sha": "5652a0e",
+      "date": "2026-10-13T09:08:45Z",
+      "subject": "ROADMAP: HORIZON=5 did not replicate on current main; replays vary by runner"
+    },
+    {
+      "sha": "470c3fa",
+      "date": "2026-10-13T09:07:49Z",
+      "subject": "Chips: a move must clear the noise threshold to count toward a chip's value"
+    },
+    {
+      "sha": "61c00fb",
+      "date": "2026-10-13T08:53:38Z",
+      "subject": "Minutes model: regularise it so the advice stops flipping between runs"
+    },
+    {
+      "sha": "1ec9266",
+      "date": "2026-10-13T08:49:10Z",
+      "subject": "UCL: pair each sale with a purchase in the same position"
+    },
+    {
+      "sha": "a100b55",
+      "date": "2026-10-13T08:47:57Z",
+      "subject": "FPL: check every chip every week, price the wildcard by simulating both paths"
+    },
+    {
+      "sha": "0770a0a",
+      "date": "2026-10-13T08:30:44Z",
+      "subject": "backtest_grid: allow minutes-model overrides in --prep"
+    }
+  ]
+}

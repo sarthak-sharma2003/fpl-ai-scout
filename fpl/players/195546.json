@@ -1,0 +1,90 @@
+{
+  "code": 195546,
+  "name": "Buend\u00eda",
+  "position": "MID",
+  "team": "AVL",
+  "price": 5.9,
+  "ev_points": 2.41,
+  "horizon_ev": 10.64,
+  "q10_points": 0.0,
+  "q90_points": 5.84,
+  "ev_minutes": 44.3,
+  "p_appearance": 0.876,
+  "p_60_plus": 0.301,
+  "p_clean_sheet": 0.392,
+  "model_version": "20261114T025240Z",
+  "recent": [
+    {
+      "gw": 10,
+      "opp": "MUN",
+      "home": false,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 9,
+      "opp": "FUL",
+      "home": true,
+      "minutes": 24,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.16
+    },
+    {
+      "gw": 8,
+      "opp": "MCI",
+      "home": true,
+      "minutes": 24,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 7,
+      "opp": "NEW",
+      "home": false,
+      "minutes": 71,
+      "points": 3,
+      "goals": 0,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 0.24
+    },
+    {
+      "gw": 6,
+      "opp": "BRE",
+      "home": true,
+      "minutes": 63,
+      "points": 4,
+      "goals": 0,
+      "assists": 1,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.5
+    },
+    {
+      "gw": 5,
+      "opp": "TOT",
+      "home": false,
+      "minutes": 90,
+      "points": 12,
+      "goals": 1,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 3,
+      "xgi": 0.21
+    }
+  ]
+}

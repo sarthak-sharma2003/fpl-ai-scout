@@ -1,0 +1,30 @@
+{
+  "code": 671103,
+  "name": "Ciss\u00e9",
+  "position": "DEF",
+  "team": "AVL",
+  "price": 4.5,
+  "ev_points": 0.36,
+  "horizon_ev": 1.51,
+  "q10_points": 0.0,
+  "q90_points": 1.15,
+  "ev_minutes": 8.4,
+  "p_appearance": 0.163,
+  "p_60_plus": 0.058,
+  "p_clean_sheet": 0.392,
+  "model_version": "20261114T025240Z",
+  "recent": [
+    {
+      "gw": 10,
+      "opp": "MUN",
+      "home": false,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    }
+  ]
+}

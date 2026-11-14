@@ -1,0 +1,91 @@
+{
+  "code": 60307,
+  "name": "Gro\u00df",
+  "position": "MID",
+  "team": "BHA",
+  "price": 6.3,
+  "ev_points": 3.98,
+  "horizon_ev": 17.77,
+  "q10_points": 1.0,
+  "q90_points": 9.96,
+  "ev_minutes": 85.8,
+  "p_appearance": 0.981,
+  "p_60_plus": 0.94,
+  "p_clean_sheet": 0.36,
+  "model_version": "20261114T025240Z",
+  "pk": true,
+  "recent": [
+    {
+      "gw": 10,
+      "opp": "BRE",
+      "home": true,
+      "minutes": 90,
+      "points": 10,
+      "goals": 1,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 2,
+      "xgi": 1.52
+    },
+    {
+      "gw": 9,
+      "opp": "MCI",
+      "home": false,
+      "minutes": 90,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 0.06
+    },
+    {
+      "gw": 8,
+      "opp": "LIV",
+      "home": false,
+      "minutes": 90,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.35
+    },
+    {
+      "gw": 7,
+      "opp": "CRY",
+      "home": true,
+      "minutes": 70,
+      "points": 5,
+      "goals": 0,
+      "assists": 1,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 0.25
+    },
+    {
+      "gw": 6,
+      "opp": "SUN",
+      "home": false,
+      "minutes": 90,
+      "points": 6,
+      "goals": 0,
+      "assists": 1,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 0.44
+    },
+    {
+      "gw": 5,
+      "opp": "ARS",
+      "home": true,
+      "minutes": 90,
+      "points": 14,
+      "goals": 1,
+      "assists": 1,
+      "cs": 1,
+      "bonus": 3,
+      "xgi": 0.36
+    }
+  ]
+}

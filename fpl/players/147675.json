@@ -1,0 +1,90 @@
+{
+  "code": 147675,
+  "name": "Akpom",
+  "position": "FWD",
+  "team": "IPS",
+  "price": 5.0,
+  "ev_points": 1.39,
+  "horizon_ev": 6.16,
+  "q10_points": 0.0,
+  "q90_points": 2.17,
+  "ev_minutes": 26.7,
+  "p_appearance": 0.72,
+  "p_60_plus": 0.085,
+  "p_clean_sheet": 0.103,
+  "model_version": "20261114T025240Z",
+  "recent": [
+    {
+      "gw": 10,
+      "opp": "BOU",
+      "home": true,
+      "minutes": 5,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 9,
+      "opp": "HUL",
+      "home": false,
+      "minutes": 1,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 8,
+      "opp": "NFO",
+      "home": true,
+      "minutes": 4,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 7,
+      "opp": "MCI",
+      "home": false,
+      "minutes": 12,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 6,
+      "opp": "FUL",
+      "home": true,
+      "minutes": 19,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.16
+    },
+    {
+      "gw": 5,
+      "opp": "EVE",
+      "home": false,
+      "minutes": 9,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.17
+    }
+  ]
+}

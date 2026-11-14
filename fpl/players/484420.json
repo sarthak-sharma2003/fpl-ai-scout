@@ -1,0 +1,91 @@
+{
+  "code": 484420,
+  "name": "E.Le F\u00e9e",
+  "position": "MID",
+  "team": "SUN",
+  "price": 5.7,
+  "ev_points": 3.91,
+  "horizon_ev": 17.96,
+  "q10_points": 1.0,
+  "q90_points": 7.63,
+  "ev_minutes": 85.9,
+  "p_appearance": 0.982,
+  "p_60_plus": 0.94,
+  "p_clean_sheet": 0.194,
+  "model_version": "20261114T025240Z",
+  "pk": true,
+  "recent": [
+    {
+      "gw": 10,
+      "opp": "CHE",
+      "home": true,
+      "minutes": 87,
+      "points": 11,
+      "goals": 1,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 3,
+      "xgi": 0.85
+    },
+    {
+      "gw": 9,
+      "opp": "COV",
+      "home": false,
+      "minutes": 90,
+      "points": 8,
+      "goals": 1,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 1,
+      "xgi": 0.88
+    },
+    {
+      "gw": 8,
+      "opp": "LEE",
+      "home": true,
+      "minutes": 78,
+      "points": 3,
+      "goals": 0,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 0.27
+    },
+    {
+      "gw": 7,
+      "opp": "BOU",
+      "home": false,
+      "minutes": 90,
+      "points": 4,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.02
+    },
+    {
+      "gw": 6,
+      "opp": "BHA",
+      "home": true,
+      "minutes": 80,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.27
+    },
+    {
+      "gw": 5,
+      "opp": "MCI",
+      "home": false,
+      "minutes": 90,
+      "points": 5,
+      "goals": 0,
+      "assists": 1,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.52
+    }
+  ]
+}

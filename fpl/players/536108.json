@@ -1,0 +1,30 @@
+{
+  "code": 536108,
+  "name": "Gunter",
+  "position": "GKP",
+  "team": "TOT",
+  "price": 4.0,
+  "ev_points": 0.03,
+  "horizon_ev": 0.11,
+  "q10_points": 0.0,
+  "q90_points": 0.0,
+  "ev_minutes": 0.6,
+  "p_appearance": 0.009,
+  "p_60_plus": 0.006,
+  "p_clean_sheet": 0.306,
+  "model_version": "20261114T025240Z",
+  "recent": [
+    {
+      "gw": 10,
+      "opp": "LEE",
+      "home": false,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    }
+  ]
+}

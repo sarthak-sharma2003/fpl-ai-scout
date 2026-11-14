@@ -1,0 +1,90 @@
+{
+  "code": 489888,
+  "name": "Adli",
+  "position": "MID",
+  "team": "BOU",
+  "price": 4.8,
+  "ev_points": 1.16,
+  "horizon_ev": 5.19,
+  "q10_points": 0.0,
+  "q90_points": 3.35,
+  "ev_minutes": 30.4,
+  "p_appearance": 0.826,
+  "p_60_plus": 0.093,
+  "p_clean_sheet": 0.323,
+  "model_version": "20261114T025240Z",
+  "recent": [
+    {
+      "gw": 10,
+      "opp": "IPS",
+      "home": false,
+      "minutes": 5,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.06
+    },
+    {
+      "gw": 9,
+      "opp": "LEE",
+      "home": true,
+      "minutes": 2,
+      "points": 8,
+      "goals": 1,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 2,
+      "xgi": 0.32
+    },
+    {
+      "gw": 8,
+      "opp": "MUN",
+      "home": false,
+      "minutes": 3,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 7,
+      "opp": "SUN",
+      "home": true,
+      "minutes": 11,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.18
+    },
+    {
+      "gw": 6,
+      "opp": "CHE",
+      "home": false,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 5,
+      "opp": "LIV",
+      "home": true,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    }
+  ]
+}

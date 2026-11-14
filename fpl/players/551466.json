@@ -1,0 +1,91 @@
+{
+  "code": 551466,
+  "name": "Gonzalo",
+  "position": "FWD",
+  "team": "FUL",
+  "price": 5.9,
+  "ev_points": 2.96,
+  "horizon_ev": 13.15,
+  "q10_points": 1.0,
+  "q90_points": 5.4,
+  "ev_minutes": 65.7,
+  "p_appearance": 0.952,
+  "p_60_plus": 0.618,
+  "p_clean_sheet": 0.12,
+  "model_version": "20261114T025240Z",
+  "pk": true,
+  "recent": [
+    {
+      "gw": 10,
+      "opp": "NEW",
+      "home": true,
+      "minutes": 65,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 0.09
+    },
+    {
+      "gw": 9,
+      "opp": "AVL",
+      "home": false,
+      "minutes": 86,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.37
+    },
+    {
+      "gw": 8,
+      "opp": "COV",
+      "home": false,
+      "minutes": 73,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 0.16
+    },
+    {
+      "gw": 7,
+      "opp": "HUL",
+      "home": true,
+      "minutes": 84,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 0.6
+    },
+    {
+      "gw": 6,
+      "opp": "IPS",
+      "home": false,
+      "minutes": 86,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 0.68
+    },
+    {
+      "gw": 5,
+      "opp": "MUN",
+      "home": true,
+      "minutes": 79,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 1.02
+    }
+  ]
+}

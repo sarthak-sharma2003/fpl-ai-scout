@@ -1,0 +1,91 @@
+{
+  "code": 560262,
+  "name": "Kroupi.Jr",
+  "position": "MID",
+  "team": "BOU",
+  "price": 7.3,
+  "ev_points": 2.01,
+  "horizon_ev": 8.49,
+  "q10_points": 0.0,
+  "q90_points": 4.84,
+  "ev_minutes": 39.2,
+  "p_appearance": 0.819,
+  "p_60_plus": 0.244,
+  "p_clean_sheet": 0.323,
+  "model_version": "20261114T025240Z",
+  "pk": true,
+  "recent": [
+    {
+      "gw": 10,
+      "opp": "IPS",
+      "home": false,
+      "minutes": 22,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.01
+    },
+    {
+      "gw": 9,
+      "opp": "LEE",
+      "home": true,
+      "minutes": 22,
+      "points": 4,
+      "goals": 0,
+      "assists": 1,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.28
+    },
+    {
+      "gw": 8,
+      "opp": "MUN",
+      "home": false,
+      "minutes": 3,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 7,
+      "opp": "SUN",
+      "home": true,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 6,
+      "opp": "CHE",
+      "home": false,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 5,
+      "opp": "LIV",
+      "home": true,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    }
+  ]
+}

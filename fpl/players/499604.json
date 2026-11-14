@@ -1,0 +1,90 @@
+{
+  "code": 499604,
+  "name": "Rayan",
+  "position": "MID",
+  "team": "BOU",
+  "price": 6.3,
+  "ev_points": 3.68,
+  "horizon_ev": 16.99,
+  "q10_points": 1.0,
+  "q90_points": 9.41,
+  "ev_minutes": 81.3,
+  "p_appearance": 0.974,
+  "p_60_plus": 0.867,
+  "p_clean_sheet": 0.323,
+  "model_version": "20261114T025240Z",
+  "recent": [
+    {
+      "gw": 10,
+      "opp": "IPS",
+      "home": false,
+      "minutes": 85,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.07
+    },
+    {
+      "gw": 9,
+      "opp": "LEE",
+      "home": true,
+      "minutes": 87,
+      "points": 3,
+      "goals": 0,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 0.08
+    },
+    {
+      "gw": 8,
+      "opp": "MUN",
+      "home": false,
+      "minutes": 90,
+      "points": 10,
+      "goals": 1,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 0.93
+    },
+    {
+      "gw": 7,
+      "opp": "SUN",
+      "home": true,
+      "minutes": 88,
+      "points": 3,
+      "goals": 0,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 0.52
+    },
+    {
+      "gw": 6,
+      "opp": "CHE",
+      "home": false,
+      "minutes": 90,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.3
+    },
+    {
+      "gw": 5,
+      "opp": "LIV",
+      "home": true,
+      "minutes": 87,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.35
+    }
+  ]
+}

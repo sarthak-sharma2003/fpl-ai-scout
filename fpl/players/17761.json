@@ -1,0 +1,90 @@
+{
+  "code": 17761,
+  "name": "Tarkowski",
+  "position": "DEF",
+  "team": "EVE",
+  "price": 6.2,
+  "ev_points": 3.86,
+  "horizon_ev": 17.43,
+  "q10_points": 1.0,
+  "q90_points": 7.19,
+  "ev_minutes": 85.7,
+  "p_appearance": 0.969,
+  "p_60_plus": 0.944,
+  "p_clean_sheet": 0.229,
+  "model_version": "20261114T025240Z",
+  "recent": [
+    {
+      "gw": 10,
+      "opp": "COV",
+      "home": true,
+      "minutes": 90,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 9,
+      "opp": "NEW",
+      "home": false,
+      "minutes": 90,
+      "points": 6,
+      "goals": 0,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 8,
+      "opp": "ARS",
+      "home": false,
+      "minutes": 90,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.01
+    },
+    {
+      "gw": 7,
+      "opp": "CHE",
+      "home": true,
+      "minutes": 90,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.05
+    },
+    {
+      "gw": 6,
+      "opp": "HUL",
+      "home": false,
+      "minutes": 90,
+      "points": 3,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.01
+    },
+    {
+      "gw": 5,
+      "opp": "IPS",
+      "home": true,
+      "minutes": 90,
+      "points": 14,
+      "goals": 0,
+      "assists": 1,
+      "cs": 1,
+      "bonus": 3,
+      "xgi": 0.02
+    }
+  ]
+}

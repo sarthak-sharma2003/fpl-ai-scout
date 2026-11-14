@@ -1,0 +1,90 @@
+{
+  "code": 496221,
+  "name": "Wharton",
+  "position": "MID",
+  "team": "CRY",
+  "price": 5.3,
+  "ev_points": 4.28,
+  "horizon_ev": 17.7,
+  "q10_points": 1.0,
+  "q90_points": 7.32,
+  "ev_minutes": 83.8,
+  "p_appearance": 0.977,
+  "p_60_plus": 0.909,
+  "p_clean_sheet": 0.255,
+  "model_version": "20261114T025240Z",
+  "recent": [
+    {
+      "gw": 10,
+      "opp": "LIV",
+      "home": true,
+      "minutes": 90,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.39
+    },
+    {
+      "gw": 9,
+      "opp": "TOT",
+      "home": false,
+      "minutes": 87,
+      "points": 4,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 8,
+      "opp": "NEW",
+      "home": true,
+      "minutes": 90,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.09
+    },
+    {
+      "gw": 7,
+      "opp": "BHA",
+      "home": false,
+      "minutes": 90,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.15
+    },
+    {
+      "gw": 6,
+      "opp": "NFO",
+      "home": true,
+      "minutes": 90,
+      "points": 7,
+      "goals": 0,
+      "assists": 1,
+      "cs": 0,
+      "bonus": 2,
+      "xgi": 0.43
+    },
+    {
+      "gw": 5,
+      "opp": "LEE",
+      "home": false,
+      "minutes": 90,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 0.29
+    }
+  ]
+}

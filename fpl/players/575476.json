@@ -1,0 +1,90 @@
+{
+  "code": 575476,
+  "name": "Murillo",
+  "position": "DEF",
+  "team": "NFO",
+  "price": 5.5,
+  "ev_points": 4.53,
+  "horizon_ev": 20.38,
+  "q10_points": 1.0,
+  "q90_points": 6.96,
+  "ev_minutes": 84.7,
+  "p_appearance": 0.973,
+  "p_60_plus": 0.926,
+  "p_clean_sheet": 0.212,
+  "model_version": "20261114T025240Z",
+  "recent": [
+    {
+      "gw": 10,
+      "opp": "MCI",
+      "home": true,
+      "minutes": 90,
+      "points": 4,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.16
+    },
+    {
+      "gw": 9,
+      "opp": "BRE",
+      "home": false,
+      "minutes": 90,
+      "points": 3,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.05
+    },
+    {
+      "gw": 8,
+      "opp": "IPS",
+      "home": false,
+      "minutes": 90,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.22
+    },
+    {
+      "gw": 7,
+      "opp": "ARS",
+      "home": true,
+      "minutes": 90,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.4
+    },
+    {
+      "gw": 6,
+      "opp": "CRY",
+      "home": false,
+      "minutes": 90,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.29
+    },
+    {
+      "gw": 5,
+      "opp": "COV",
+      "home": true,
+      "minutes": 90,
+      "points": 4,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.15
+    }
+  ]
+}

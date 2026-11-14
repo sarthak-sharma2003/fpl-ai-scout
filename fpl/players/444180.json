@@ -1,0 +1,90 @@
+{
+  "code": 444180,
+  "name": "Anthony",
+  "position": "MID",
+  "team": "BRE",
+  "price": 5.9,
+  "ev_points": 2.28,
+  "horizon_ev": 10.58,
+  "q10_points": 1.0,
+  "q90_points": 6.25,
+  "ev_minutes": 49.8,
+  "p_appearance": 0.921,
+  "p_60_plus": 0.37,
+  "p_clean_sheet": 0.363,
+  "model_version": "20261114T025240Z",
+  "recent": [
+    {
+      "gw": 10,
+      "opp": "BHA",
+      "home": false,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 9,
+      "opp": "NFO",
+      "home": true,
+      "minutes": 18,
+      "points": 4,
+      "goals": 0,
+      "assists": 1,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.18
+    },
+    {
+      "gw": 8,
+      "opp": "HUL",
+      "home": false,
+      "minutes": 28,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.31
+    },
+    {
+      "gw": 7,
+      "opp": "LIV",
+      "home": true,
+      "minutes": 76,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.2
+    },
+    {
+      "gw": 6,
+      "opp": "AVL",
+      "home": false,
+      "minutes": 84,
+      "points": 5,
+      "goals": 0,
+      "assists": 1,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.1
+    },
+    {
+      "gw": 5,
+      "opp": "CHE",
+      "home": true,
+      "minutes": 80,
+      "points": 10,
+      "goals": 1,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 2,
+      "xgi": 0.98
+    }
+  ]
+}

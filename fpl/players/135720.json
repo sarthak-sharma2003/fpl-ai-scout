@@ -1,0 +1,90 @@
+{
+  "code": 135720,
+  "name": "Danso",
+  "position": "DEF",
+  "team": "SUN",
+  "price": 5.0,
+  "ev_points": 1.08,
+  "horizon_ev": 3.02,
+  "q10_points": 0.0,
+  "q90_points": 3.65,
+  "ev_minutes": 31.7,
+  "p_appearance": 0.467,
+  "p_60_plus": 0.294,
+  "p_clean_sheet": 0.194,
+  "model_version": "20261114T025240Z",
+  "recent": [
+    {
+      "gw": 10,
+      "opp": "CHE",
+      "home": true,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 9,
+      "opp": "COV",
+      "home": false,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 8,
+      "opp": "LEE",
+      "home": true,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 7,
+      "opp": "BOU",
+      "home": false,
+      "minutes": 16,
+      "points": -3,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.04
+    },
+    {
+      "gw": 6,
+      "opp": "BHA",
+      "home": true,
+      "minutes": 90,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.22
+    },
+    {
+      "gw": 5,
+      "opp": "MCI",
+      "home": false,
+      "minutes": 90,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.08
+    }
+  ]
+}

@@ -1,0 +1,90 @@
+{
+  "code": 243413,
+  "name": "Slater",
+  "position": "MID",
+  "team": "HUL",
+  "price": 4.5,
+  "ev_points": 2.69,
+  "horizon_ev": 12.72,
+  "q10_points": 1.0,
+  "q90_points": 4.15,
+  "ev_minutes": 79.0,
+  "p_appearance": 0.954,
+  "p_60_plus": 0.839,
+  "p_clean_sheet": 0.309,
+  "model_version": "20261114T025240Z",
+  "recent": [
+    {
+      "gw": 10,
+      "opp": "ARS",
+      "home": false,
+      "minutes": 90,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.05
+    },
+    {
+      "gw": 9,
+      "opp": "IPS",
+      "home": true,
+      "minutes": 89,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.11
+    },
+    {
+      "gw": 8,
+      "opp": "BRE",
+      "home": true,
+      "minutes": 90,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.11
+    },
+    {
+      "gw": 7,
+      "opp": "FUL",
+      "home": false,
+      "minutes": 74,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.04
+    },
+    {
+      "gw": 6,
+      "opp": "EVE",
+      "home": true,
+      "minutes": 74,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.02
+    },
+    {
+      "gw": 5,
+      "opp": "NEW",
+      "home": false,
+      "minutes": 77,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.16
+    }
+  ]
+}

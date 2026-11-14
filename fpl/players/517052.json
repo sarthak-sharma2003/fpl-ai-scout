@@ -1,0 +1,90 @@
+{
+  "code": 517052,
+  "name": "N.Jackson",
+  "position": "FWD",
+  "team": "AVL",
+  "price": 7.1,
+  "ev_points": 4.84,
+  "horizon_ev": 21.48,
+  "q10_points": 1.0,
+  "q90_points": 10.93,
+  "ev_minutes": 84.9,
+  "p_appearance": 0.976,
+  "p_60_plus": 0.926,
+  "p_clean_sheet": 0.392,
+  "model_version": "20261114T025240Z",
+  "recent": [
+    {
+      "gw": 10,
+      "opp": "MUN",
+      "home": false,
+      "minutes": 85,
+      "points": 11,
+      "goals": 1,
+      "assists": 1,
+      "cs": 0,
+      "bonus": 2,
+      "xgi": 1.32
+    },
+    {
+      "gw": 9,
+      "opp": "FUL",
+      "home": true,
+      "minutes": 90,
+      "points": 9,
+      "goals": 1,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 3,
+      "xgi": 0.34
+    },
+    {
+      "gw": 8,
+      "opp": "MCI",
+      "home": true,
+      "minutes": 81,
+      "points": 13,
+      "goals": 2,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 3,
+      "xgi": 0.39
+    },
+    {
+      "gw": 7,
+      "opp": "NEW",
+      "home": false,
+      "minutes": 90,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 0.48
+    },
+    {
+      "gw": 6,
+      "opp": "BRE",
+      "home": true,
+      "minutes": 90,
+      "points": 9,
+      "goals": 1,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 3,
+      "xgi": 0.55
+    },
+    {
+      "gw": 5,
+      "opp": "TOT",
+      "home": false,
+      "minutes": 87,
+      "points": 6,
+      "goals": 1,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 1,
+      "xgi": 0.46
+    }
+  ]
+}

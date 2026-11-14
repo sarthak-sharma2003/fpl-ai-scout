@@ -1,0 +1,90 @@
+{
+  "code": 439509,
+  "name": "Tzolis",
+  "position": "MID",
+  "team": "ARS",
+  "price": 6.1,
+  "ev_points": 2.79,
+  "horizon_ev": 12.9,
+  "q10_points": 1.0,
+  "q90_points": 6.14,
+  "ev_minutes": 65.1,
+  "p_appearance": 0.921,
+  "p_60_plus": 0.625,
+  "p_clean_sheet": 0.392,
+  "model_version": "20261114T025240Z",
+  "recent": [
+    {
+      "gw": 10,
+      "opp": "HUL",
+      "home": true,
+      "minutes": 68,
+      "points": 3,
+      "goals": 0,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 0.28
+    },
+    {
+      "gw": 9,
+      "opp": "LIV",
+      "home": false,
+      "minutes": 83,
+      "points": 3,
+      "goals": 0,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 0.32
+    },
+    {
+      "gw": 8,
+      "opp": "EVE",
+      "home": true,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 7,
+      "opp": "NFO",
+      "home": false,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 6,
+      "opp": "LEE",
+      "home": true,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 5,
+      "opp": "BHA",
+      "home": false,
+      "minutes": 72,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.07
+    }
+  ]
+}

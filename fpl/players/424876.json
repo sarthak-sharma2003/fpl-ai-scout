@@ -1,0 +1,91 @@
+{
+  "code": 424876,
+  "name": "Szoboszlai",
+  "position": "MID",
+  "team": "LIV",
+  "price": 6.7,
+  "ev_points": 4.14,
+  "horizon_ev": 18.99,
+  "q10_points": 1.0,
+  "q90_points": 9.11,
+  "ev_minutes": 77.6,
+  "p_appearance": 0.957,
+  "p_60_plus": 0.816,
+  "p_clean_sheet": 0.303,
+  "model_version": "20261114T025240Z",
+  "pk": true,
+  "recent": [
+    {
+      "gw": 10,
+      "opp": "CRY",
+      "home": false,
+      "minutes": 68,
+      "points": 7,
+      "goals": 0,
+      "assists": 1,
+      "cs": 1,
+      "bonus": 1,
+      "xgi": 0.51
+    },
+    {
+      "gw": 9,
+      "opp": "ARS",
+      "home": true,
+      "minutes": 32,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.05
+    },
+    {
+      "gw": 8,
+      "opp": "BHA",
+      "home": true,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 7,
+      "opp": "BRE",
+      "home": false,
+      "minutes": 31,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.34
+    },
+    {
+      "gw": 6,
+      "opp": "MCI",
+      "home": true,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 5,
+      "opp": "BOU",
+      "home": false,
+      "minutes": 80,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 0.15
+    }
+  ]
+}

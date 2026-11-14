@@ -1,0 +1,90 @@
+{
+  "code": 531442,
+  "name": "Fatawu",
+  "position": "MID",
+  "team": "IPS",
+  "price": 5.4,
+  "ev_points": 2.44,
+  "horizon_ev": 11.54,
+  "q10_points": 1.0,
+  "q90_points": 4.97,
+  "ev_minutes": 61.7,
+  "p_appearance": 0.911,
+  "p_60_plus": 0.573,
+  "p_clean_sheet": 0.103,
+  "model_version": "20261114T025240Z",
+  "recent": [
+    {
+      "gw": 10,
+      "opp": "BOU",
+      "home": true,
+      "minutes": 25,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.2
+    },
+    {
+      "gw": 9,
+      "opp": "HUL",
+      "home": false,
+      "minutes": 69,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.21
+    },
+    {
+      "gw": 8,
+      "opp": "NFO",
+      "home": true,
+      "minutes": 72,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.03
+    },
+    {
+      "gw": 7,
+      "opp": "MCI",
+      "home": false,
+      "minutes": 19,
+      "points": 4,
+      "goals": 0,
+      "assists": 1,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 6,
+      "opp": "FUL",
+      "home": true,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 5,
+      "opp": "EVE",
+      "home": false,
+      "minutes": 66,
+      "points": -1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.42
+    }
+  ]
+}

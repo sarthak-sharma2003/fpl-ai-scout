@@ -1,0 +1,90 @@
+{
+  "code": 490094,
+  "name": "Iroegbunam",
+  "position": "MID",
+  "team": "HUL",
+  "price": 5.0,
+  "ev_points": 2.96,
+  "horizon_ev": 13.46,
+  "q10_points": 1.0,
+  "q90_points": 4.55,
+  "ev_minutes": 74.3,
+  "p_appearance": 0.953,
+  "p_60_plus": 0.762,
+  "p_clean_sheet": 0.309,
+  "model_version": "20261114T025240Z",
+  "recent": [
+    {
+      "gw": 10,
+      "opp": "ARS",
+      "home": false,
+      "minutes": 74,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.1
+    },
+    {
+      "gw": 9,
+      "opp": "IPS",
+      "home": true,
+      "minutes": 76,
+      "points": 8,
+      "goals": 1,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 1,
+      "xgi": 0.38
+    },
+    {
+      "gw": 8,
+      "opp": "BRE",
+      "home": true,
+      "minutes": 71,
+      "points": 9,
+      "goals": 0,
+      "assists": 1,
+      "cs": 0,
+      "bonus": 2,
+      "xgi": 0.05
+    },
+    {
+      "gw": 7,
+      "opp": "FUL",
+      "home": false,
+      "minutes": 45,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.01
+    },
+    {
+      "gw": 6,
+      "opp": "EVE",
+      "home": true,
+      "minutes": 25,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.01
+    },
+    {
+      "gw": 5,
+      "opp": "NEW",
+      "home": false,
+      "minutes": 45,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.13
+    }
+  ]
+}

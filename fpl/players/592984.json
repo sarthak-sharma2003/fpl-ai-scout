@@ -1,0 +1,90 @@
+{
+  "code": 592984,
+  "name": "Andr\u00e9s",
+  "position": "MID",
+  "team": "BHA",
+  "price": 5.5,
+  "ev_points": 2.69,
+  "horizon_ev": 11.41,
+  "q10_points": 0.0,
+  "q90_points": 5.79,
+  "ev_minutes": 60.6,
+  "p_appearance": 0.89,
+  "p_60_plus": 0.565,
+  "p_clean_sheet": 0.36,
+  "model_version": "20261114T025240Z",
+  "recent": [
+    {
+      "gw": 10,
+      "opp": "BRE",
+      "home": true,
+      "minutes": 45,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.15
+    },
+    {
+      "gw": 9,
+      "opp": "MCI",
+      "home": false,
+      "minutes": 63,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 8,
+      "opp": "LIV",
+      "home": false,
+      "minutes": 53,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.03
+    },
+    {
+      "gw": 7,
+      "opp": "CRY",
+      "home": true,
+      "minutes": 90,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 0.02
+    },
+    {
+      "gw": 6,
+      "opp": "SUN",
+      "home": false,
+      "minutes": 90,
+      "points": 3,
+      "goals": 0,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 0.01
+    },
+    {
+      "gw": 5,
+      "opp": "ARS",
+      "home": true,
+      "minutes": 84,
+      "points": 8,
+      "goals": 1,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 0.39
+    }
+  ]
+}

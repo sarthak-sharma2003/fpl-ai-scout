@@ -1,0 +1,90 @@
+{
+  "code": 247348,
+  "name": "Mu\u00f1oz",
+  "position": "DEF",
+  "team": "NFO",
+  "price": 5.2,
+  "ev_points": 2.93,
+  "horizon_ev": 14.36,
+  "q10_points": 0.0,
+  "q90_points": 5.62,
+  "ev_minutes": 69.6,
+  "p_appearance": 0.926,
+  "p_60_plus": 0.697,
+  "p_clean_sheet": 0.212,
+  "model_version": "20261114T025240Z",
+  "recent": [
+    {
+      "gw": 10,
+      "opp": "MCI",
+      "home": true,
+      "minutes": 64,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.03
+    },
+    {
+      "gw": 9,
+      "opp": "BRE",
+      "home": false,
+      "minutes": 45,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.07
+    },
+    {
+      "gw": 8,
+      "opp": "IPS",
+      "home": false,
+      "minutes": 90,
+      "points": 7,
+      "goals": 0,
+      "assists": 1,
+      "cs": 0,
+      "bonus": 2,
+      "xgi": 0.24
+    },
+    {
+      "gw": 7,
+      "opp": "ARS",
+      "home": true,
+      "minutes": 90,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 6,
+      "opp": "CRY",
+      "home": false,
+      "minutes": 90,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.63
+    },
+    {
+      "gw": 5,
+      "opp": "COV",
+      "home": true,
+      "minutes": 82,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.14
+    }
+  ]
+}

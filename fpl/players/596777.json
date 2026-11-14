@@ -1,0 +1,90 @@
+{
+  "code": 596777,
+  "name": "Dorgu",
+  "position": "MID",
+  "team": "MUN",
+  "price": 5.7,
+  "ev_points": 2.02,
+  "horizon_ev": 10.07,
+  "q10_points": 1.0,
+  "q90_points": 5.4,
+  "ev_minutes": 46.0,
+  "p_appearance": 0.909,
+  "p_60_plus": 0.311,
+  "p_clean_sheet": 0.126,
+  "model_version": "20261114T025240Z",
+  "recent": [
+    {
+      "gw": 10,
+      "opp": "AVL",
+      "home": true,
+      "minutes": 24,
+      "points": 11,
+      "goals": 1,
+      "assists": 1,
+      "cs": 0,
+      "bonus": 2,
+      "xgi": 0.51
+    },
+    {
+      "gw": 9,
+      "opp": "CHE",
+      "home": false,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 8,
+      "opp": "BOU",
+      "home": true,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 7,
+      "opp": "LEE",
+      "home": false,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 6,
+      "opp": "TOT",
+      "home": true,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 5,
+      "opp": "FUL",
+      "home": false,
+      "minutes": 6,
+      "points": 4,
+      "goals": 0,
+      "assists": 1,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.14
+    }
+  ]
+}

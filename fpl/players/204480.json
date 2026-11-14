@@ -1,0 +1,90 @@
+{
+  "code": 204480,
+  "name": "Rice",
+  "position": "MID",
+  "team": "ARS",
+  "price": 7.5,
+  "ev_points": 4.5,
+  "horizon_ev": 20.6,
+  "q10_points": 1.0,
+  "q90_points": 9.03,
+  "ev_minutes": 81.1,
+  "p_appearance": 0.969,
+  "p_60_plus": 0.868,
+  "p_clean_sheet": 0.392,
+  "model_version": "20261114T025240Z",
+  "recent": [
+    {
+      "gw": 10,
+      "opp": "HUL",
+      "home": true,
+      "minutes": 62,
+      "points": 3,
+      "goals": 0,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 0.16
+    },
+    {
+      "gw": 9,
+      "opp": "LIV",
+      "home": false,
+      "minutes": 90,
+      "points": 8,
+      "goals": 0,
+      "assists": 1,
+      "cs": 1,
+      "bonus": 2,
+      "xgi": 0.48
+    },
+    {
+      "gw": 8,
+      "opp": "EVE",
+      "home": true,
+      "minutes": 79,
+      "points": 3,
+      "goals": 0,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 0.53
+    },
+    {
+      "gw": 7,
+      "opp": "NFO",
+      "home": false,
+      "minutes": 90,
+      "points": 9,
+      "goals": 0,
+      "assists": 1,
+      "cs": 1,
+      "bonus": 3,
+      "xgi": 0.55
+    },
+    {
+      "gw": 6,
+      "opp": "LEE",
+      "home": true,
+      "minutes": 90,
+      "points": 7,
+      "goals": 0,
+      "assists": 1,
+      "cs": 0,
+      "bonus": 2,
+      "xgi": 0.08
+    },
+    {
+      "gw": 5,
+      "opp": "BHA",
+      "home": false,
+      "minutes": 90,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.08
+    }
+  ]
+}

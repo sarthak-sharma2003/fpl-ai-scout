@@ -1,0 +1,96 @@
+{
+  "code": 502500,
+  "name": "Thiago",
+  "position": "FWD",
+  "team": "BRE",
+  "price": 7.8,
+  "ev_points": 0.09,
+  "horizon_ev": 9.81,
+  "q10_points": 0.0,
+  "q90_points": 0.0,
+  "ev_minutes": 1.8,
+  "p_appearance": 0.027,
+  "p_60_plus": 0.017,
+  "p_clean_sheet": 0.363,
+  "model_version": "20261114T025240Z",
+  "flag": {
+    "status": "s",
+    "news": "Suspended until 5 Dec",
+    "chance": 0
+  },
+  "pk": true,
+  "recent": [
+    {
+      "gw": 10,
+      "opp": "BHA",
+      "home": false,
+      "minutes": 22,
+      "points": -2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.06
+    },
+    {
+      "gw": 9,
+      "opp": "NFO",
+      "home": true,
+      "minutes": 90,
+      "points": 9,
+      "goals": 1,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 3,
+      "xgi": 0.28
+    },
+    {
+      "gw": 8,
+      "opp": "HUL",
+      "home": false,
+      "minutes": 90,
+      "points": 5,
+      "goals": 0,
+      "assists": 1,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.87
+    },
+    {
+      "gw": 7,
+      "opp": "LIV",
+      "home": true,
+      "minutes": 90,
+      "points": 4,
+      "goals": 0,
+      "assists": 1,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.68
+    },
+    {
+      "gw": 6,
+      "opp": "AVL",
+      "home": false,
+      "minutes": 90,
+      "points": 4,
+      "goals": 0,
+      "assists": 1,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.2
+    },
+    {
+      "gw": 5,
+      "opp": "CHE",
+      "home": true,
+      "minutes": 90,
+      "points": 5,
+      "goals": 1,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 0.75
+    }
+  ]
+}

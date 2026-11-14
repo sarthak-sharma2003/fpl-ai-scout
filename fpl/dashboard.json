@@ -1,0 +1,164 @@
+{
+  "gw": 11,
+  "season": "2026-27",
+  "is_live": true,
+  "state": "live",
+  "deadline": "2026-11-21T11:00:00Z",
+  "generated_at": "2026-11-14T02:53:31.041798Z",
+  "avg_points": 563,
+  "our_points": 54.8,
+  "overall_rank": null,
+  "mini_league": null,
+  "insight": {
+    "text": "Live recommendation for the upcoming gameweek.",
+    "transfer_summary": "No hits taken",
+    "captain": "Haaland"
+  },
+  "captain_code": 223094,
+  "vice_captain_code": 244851,
+  "bench_order": [
+    {
+      "code": 487676,
+      "name": "Hume",
+      "team": "SUN",
+      "position": "DEF",
+      "price": 4.2,
+      "ev": 3.17
+    },
+    {
+      "code": 424876,
+      "name": "Szoboszlai",
+      "team": "LIV",
+      "position": "MID",
+      "price": 6.7,
+      "ev": 4.14,
+      "xi_ev": 2.9,
+      "pk": true
+    },
+    {
+      "code": 599303,
+      "name": "Neave",
+      "team": "NEW",
+      "position": "FWD",
+      "price": 4.5,
+      "ev": 0.0,
+      "flag": {
+        "status": "u",
+        "news": "Has joined Wolves on loan for the rest of the season",
+        "chance": 0
+      }
+    },
+    {
+      "code": 465247,
+      "name": "Lammens",
+      "team": "MUN",
+      "position": "GKP",
+      "price": 4.8,
+      "ev": 2.59
+    }
+  ],
+  "pitch": {
+    "gk": [
+      {
+        "code": 432720,
+        "name": "Trafford",
+        "team": "LEE",
+        "position": "GKP",
+        "price": 5.0,
+        "ev": 4.22
+      }
+    ],
+    "def": [
+      {
+        "code": 199798,
+        "name": "Konsa",
+        "team": "ARS",
+        "position": "DEF",
+        "price": 4.8,
+        "ev": 4.58
+      },
+      {
+        "code": 445087,
+        "name": "Araujo",
+        "team": "LIV",
+        "position": "DEF",
+        "price": 5.5,
+        "ev": 4.57
+      },
+      {
+        "code": 226597,
+        "name": "Gabriel",
+        "team": "ARS",
+        "position": "DEF",
+        "price": 8.1,
+        "ev": 4.93
+      },
+      {
+        "code": 465730,
+        "name": "De Cuyper",
+        "team": "BHA",
+        "position": "DEF",
+        "price": 5.5,
+        "ev": 4.3
+      }
+    ],
+    "mid": [
+      {
+        "code": 432714,
+        "name": "McAtee",
+        "team": "NFO",
+        "position": "MID",
+        "price": 5.5,
+        "ev": 3.37
+      },
+      {
+        "code": 244851,
+        "name": "Palmer",
+        "team": "CHE",
+        "position": "MID",
+        "price": 9.8,
+        "ev": 4.79,
+        "pk": true
+      },
+      {
+        "code": 215379,
+        "name": "Anderson",
+        "team": "MCI",
+        "position": "MID",
+        "price": 6.2,
+        "ev": 4.03,
+        "xi_ev": 3.63
+      },
+      {
+        "code": 222531,
+        "name": "Gibbs-White",
+        "team": "NFO",
+        "position": "MID",
+        "price": 7.8,
+        "ev": 3.88,
+        "xi_ev": 3.5,
+        "pk": true
+      }
+    ],
+    "fwd": [
+      {
+        "code": 223094,
+        "name": "Haaland",
+        "team": "MCI",
+        "position": "FWD",
+        "price": 15.8,
+        "ev": 6.39,
+        "pk": true
+      },
+      {
+        "code": 586309,
+        "name": "Barry",
+        "team": "EVE",
+        "position": "FWD",
+        "price": 5.7,
+        "ev": 3.34,
+        "pk": true
+      }
+    ]
+  }
+}

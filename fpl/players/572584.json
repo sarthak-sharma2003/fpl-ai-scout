@@ -1,0 +1,90 @@
+{
+  "code": 572584,
+  "name": "Ouattara",
+  "position": "DEF",
+  "team": "IPS",
+  "price": 4.0,
+  "ev_points": 1.78,
+  "horizon_ev": 9.27,
+  "q10_points": 0.0,
+  "q90_points": 3.71,
+  "ev_minutes": 77.9,
+  "p_appearance": 0.942,
+  "p_60_plus": 0.826,
+  "p_clean_sheet": 0.103,
+  "model_version": "20261114T025240Z",
+  "recent": [
+    {
+      "gw": 10,
+      "opp": "BOU",
+      "home": true,
+      "minutes": 90,
+      "points": 4,
+      "goals": 0,
+      "assists": 1,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.02
+    },
+    {
+      "gw": 9,
+      "opp": "HUL",
+      "home": false,
+      "minutes": 90,
+      "points": 4,
+      "goals": 0,
+      "assists": 1,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.32
+    },
+    {
+      "gw": 8,
+      "opp": "NFO",
+      "home": true,
+      "minutes": 90,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.02
+    },
+    {
+      "gw": 7,
+      "opp": "MCI",
+      "home": false,
+      "minutes": 90,
+      "points": 3,
+      "goals": 0,
+      "assists": 1,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.2
+    },
+    {
+      "gw": 6,
+      "opp": "FUL",
+      "home": true,
+      "minutes": 90,
+      "points": 10,
+      "goals": 1,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 2,
+      "xgi": 0.07
+    },
+    {
+      "gw": 5,
+      "opp": "EVE",
+      "home": false,
+      "minutes": 90,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.03
+    }
+  ]
+}

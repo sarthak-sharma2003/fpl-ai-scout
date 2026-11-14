@@ -1,0 +1,2914 @@
+{
+  "configured": true,
+  "note": null,
+  "league": {
+    "id": 928777,
+    "name": "League of AI misfits",
+    "fetched_at": "2026-11-14 02:49:13.668838"
+  },
+  "our_entry_id": 5874404,
+  "our_squad_source": "synced picks",
+  "picks_gw": 10,
+  "projection_gw": 11,
+  "standings": [
+    {
+      "entry_id": 190324,
+      "entry_name": "Alibrime",
+      "player_name": "Ali \u0130\u00e7ingir",
+      "rank": 1,
+      "last_rank": 1,
+      "total": 645,
+      "event_total": 69,
+      "is_us": false,
+      "chips_used": [
+        {
+          "chip": "freehit",
+          "gw": 5
+        },
+        {
+          "chip": "wildcard",
+          "gw": 9
+        }
+      ],
+      "bank": 0.8,
+      "team_value": 100.9,
+      "projected_next_ev": 56.5,
+      "captain": {
+        "code": 223094,
+        "name": "Haaland",
+        "team": "MCI",
+        "position": "FWD",
+        "price": 15.8,
+        "ev": 6.39,
+        "multiplier": 2,
+        "is_captain": true
+      },
+      "squad": [
+        {
+          "code": 154561,
+          "name": "Raya",
+          "team": "ARS",
+          "position": "GKP",
+          "price": 6.2,
+          "ev": 3.8,
+          "multiplier": 1,
+          "is_captain": false
+        },
+        {
+          "code": 483067,
+          "name": "Silva",
+          "team": "BOU",
+          "position": "DEF",
+          "price": 5.1,
+          "ev": 4.68,
+          "multiplier": 1,
+          "is_captain": false
+        },
+        {
+          "code": 610799,
+          "name": "Vuskovic",
+          "team": "BHA",
+          "position": "DEF",
+          "price": 5.3,
+          "ev": 4.57,
+          "multiplier": 1,
+          "is_captain": false
+        },
+        {
+          "code": 17761,
+          "name": "Tarkowski",
+          "team": "EVE",
+          "position": "DEF",
+          "price": 6.2,
+          "ev": 3.86,
+          "multiplier": 1,
+          "is_captain": false
+        },
+        {
+          "code": 199798,
+          "name": "Konsa",
+          "team": "ARS",
+          "position": "DEF",
+          "price": 4.8,
+          "ev": 4.58,
+          "multiplier": 1,
+          "is_captain": false
+        },
+        {
+          "code": 201658,
+          "name": "Tavernier",
+          "team": "BOU",
+          "position": "MID",
+          "price": 6.7,
+          "ev": 4.24,
+          "multiplier": 1,
+          "is_captain": false
+        },
+        {
+          "code": 60307,
+          "name": "Gro\u00df",
+          "team": "BHA",
+          "position": "MID",
+          "price": 6.3,
+          "ev": 3.98,
+          "multiplier": 1,
+          "is_captain": false
+        },
+        {
+          "code": 244850,
+          "name": "Rogers",
+          "team": "CHE",
+          "position": "MID",
+          "price": 8.2,
+          "ev": 4.23,
+          "multiplier": 1,
+          "is_captain": false
+        },
+        {
+          "code": 517052,
+          "name": "N.Jackson",
+          "team": "AVL",
+          "position": "FWD",
+          "price": 7.1,
+          "ev": 4.84,
+          "multiplier": 1,
+          "is_captain": false
+        },
+        {
+          "code": 223094,
+          "name": "Haaland",
+          "team": "MCI",
+          "position": "FWD",
+          "price": 15.8,
+          "ev": 6.39,
+          "multiplier": 2,
+          "is_captain": true
+        },
+        {
+          "code": 219168,
+          "name": "Isak",
+          "team": "LIV",
+          "position": "FWD",
+          "price": 9.3,
+          "ev": 4.94,
+          "multiplier": 1,
+          "is_captain": false
+        },
+        {
+          "code": 67089,
+          "name": "Dubravka",
+          "team": "TOT",
+          "position": "GKP",
+          "price": 4.0,
+          "ev": 0.15,
+          "multiplier": 0,
+          "is_captain": false
+        },
+        {
+          "code": 522047,
+          "name": "Muharemovi\u0107",
+          "team": "LEE",
+          "position": "DEF",
+          "price": 5.1,
+          "ev": 4.0,
+          "multiplier": 0,
+          "is_captain": false
+        },
+        {
+          "code": 614071,
+          "name": "Manzambi",
+          "team": "AVL",
+          "position": "MID",
+          "price": 6.2,
+          "ev": 2.24,
+          "multiplier": 0,
+          "is_captain": false
+        },
+        {
+          "code": 108413,
+          "name": "Hughes",
+          "team": "CRY",
+          "position": "MID",
+          "price": 4.3,
+          "ev": 0.56,
+          "multiplier": 0,
+          "is_captain": false
+        }
+      ]
+    },
+    {
+      "entry_id": 6286989,
+      "entry_name": "Ha Ha land",
+      "player_name": "Sumit Sharma",
+      "rank": 2,
+      "last_rank": 2,
+      "total": 626,
+      "event_total": 63,
+      "is_us": false,
+      "chips_used": [
+        {
+          "chip": "3xc",
+          "gw": 3
+        },
+        {
+          "chip": "wildcard",
+          "gw": 4
+        }
+      ],
+      "bank": 0.8,
+      "team_value": 101.7,
+      "projected_next_ev": 55.0,
+      "captain": {
+        "code": 223094,
+        "name": "Haaland",
+        "team": "MCI",
+        "position": "FWD",
+        "price": 15.8,
+        "ev": 6.39,
+        "multiplier": 2,
+        "is_captain": true
+      },
+      "squad": [
+        {
+          "code": 154561,
+          "name": "Raya",
+          "team": "ARS",
+          "position": "GKP",
+          "price": 6.2,
+          "ev": 3.8,
+          "multiplier": 1,
+          "is_captain": false
+        },
+        {
+          "code": 199798,
+          "name": "Konsa",
+          "team": "ARS",
+          "position": "DEF",
+          "price": 4.8,
+          "ev": 4.58,
+          "multiplier": 1,
+          "is_captain": false
+        },
+        {
+          "code": 465730,
+          "name": "De Cuyper",
+          "team": "BHA",
+          "position": "DEF",
+          "price": 5.5,
+          "ev": 4.3,
+          "multiplier": 1,
+          "is_captain": false
+        },
+        {
+          "code": 469142,
+          "name": "Van Hecke",
+          "team": "TOT",
+          "position": "DEF",
+          "price": 5.1,
+          "ev": 4.15,
+          "multiplier": 1,
+          "is_captain": false
+        },
+        {
+          "code": 184029,
+          "name": "\u00d8degaard",
+          "team": "ARS",
+          "position": "MID",
+          "price": 6.7,
+          "ev": 3.74,
+          "multiplier": 1,
+          "is_captain": false
+        },
+        {
+          "code": 466052,
+          "name": "Cherki",
+          "team": "MCI",
+          "position": "MID",
+          "price": 7.9,
+          "ev": 4.13,
+          "multiplier": 1,
+          "is_captain": false
+        },
+        {
+          "code": 244851,
+          "name": "Palmer",
+          "team": "CHE",
+          "position": "MID",
+          "price": 9.8,
+          "ev": 4.79,
+          "multiplier": 1,
+          "is_captain": false
+        },
+        {
+          "code": 201658,
+          "name": "Tavernier",
+          "team": "BOU",
+          "position": "MID",
+          "price": 6.7,
+          "ev": 4.24,
+          "multiplier": 1,
+          "is_captain": false
+        },
+        {
+          "code": 543968,
+          "name": "Emersonn",
+          "team": "IPS",
+          "position": "FWD",
+          "price": 5.4,
+          "ev": 3.34,
+          "multiplier": 1,
+          "is_captain": false
+        },
+        {
+          "code": 223094,
+          "name": "Haaland",
+          "team": "MCI",
+          "position": "FWD",
+          "price": 15.8,
+          "ev": 6.39,
+          "multiplier": 2,
+          "is_captain": true
+        },
+        {
+          "code": 444102,
+          "name": "Evanilson",
+          "team": "BOU",
+          "position": "FWD",
+          "price": 6.5,
+          "ev": 5.12,
+          "multiplier": 1,
+          "is_captain": false
+        },
+        {
+          "code": 473284,
+          "name": "Tzolakis",
+          "team": "HUL",
+          "position": "GKP",
+          "price": 4.7,
+          "ev": 2.96,
+          "multiplier": 0,
+          "is_captain": false
+        },
+        {
+          "code": 446008,
+          "name": "Mbeumo",
+          "team": "MUN",
+          "position": "MID",
+          "price": 7.9,
+          "ev": 4.15,
+          "multiplier": 0,
+          "is_captain": false
+        },
+        {
+          "code": 146426,
+          "name": "Ajayi",
+          "team": "HUL",
+          "position": "DEF",
+          "price": 4.2,
+          "ev": 3.33,
+          "multiplier": 0,
+          "is_captain": false
+        },
+        {
+          "code": 461102,
+          "name": "Thomas",
+          "team": "COV",
+          "position": "DEF",
+          "price": 4.0,
+          "ev": 0.55,
+          "multiplier": 0,
+          "is_captain": false
+        }
+      ]
+    },
+    {
+      "entry_id": 5874404,
+      "entry_name": "Xabi's Long-Xo",
+      "player_name": "Sarthak Sharma",
+      "rank": 3,
+      "last_rank": 3,
+      "total": 588,
+      "event_total": 61,
+      "is_us": true,
+      "chips_used": [],
+      "bank": 1.3,
+      "team_value": 100.2,
+      "projected_next_ev": 44.2,
+      "captain": {
+        "code": 223340,
+        "name": "Saka",
+        "team": "ARS",
+        "position": "MID",
+        "price": 9.4,
+        "ev": 0.07,
+        "multiplier": 0,
+        "is_captain": true
+      },
+      "squad": [
+        {
+          "code": 154561,
+          "name": "Raya",
+          "team": "ARS",
+          "position": "GKP",
+          "price": 6.2,
+          "ev": 3.8,
+          "multiplier": 1,
+          "is_captain": false
+        },
+        {
+          "code": 17761,
+          "name": "Tarkowski",
+          "team": "EVE",
+          "position": "DEF",
+          "price": 6.2,
+          "ev": 3.86,
+          "multiplier": 1,
+          "is_captain": false
+        },
+        {
+          "code": 465730,
+          "name": "De Cuyper",
+          "team": "BHA",
+          "position": "DEF",
+          "price": 5.5,
+          "ev": 4.3,
+          "multiplier": 1,
+          "is_captain": false
+        },
+        {
+          "code": 466075,
+          "name": "Calafiori",
+          "team": "ARS",
+          "position": "DEF",
+          "price": 5.9,
+          "ev": 3.95,
+          "multiplier": 1,
+          "is_captain": false
+        },
+        {
+          "code": 487676,
+          "name": "Hume",
+          "team": "SUN",
+          "position": "DEF",
+          "price": 4.2,
+          "ev": 3.17,
+          "multiplier": 1,
+          "is_captain": false
+        },
+        {
+          "code": 424876,
+          "name": "Szoboszlai",
+          "team": "LIV",
+          "position": "MID",
+          "price": 6.7,
+          "ev": 4.14,
+          "multiplier": 1,
+          "is_captain": false
+        },
+        {
+          "code": 215379,
+          "name": "Anderson",
+          "team": "MCI",
+          "position": "MID",
+          "price": 6.2,
+          "ev": 4.03,
+          "multiplier": 1,
+          "is_captain": false
+        },
+        {
+          "code": 432714,
+          "name": "McAtee",
+          "team": "NFO",
+          "position": "MID",
+          "price": 5.5,
+          "ev": 3.37,
+          "multiplier": 1,
+          "is_captain": false
+        },
+        {
+          "code": 222531,
+          "name": "Gibbs-White",
+          "team": "NFO",
+          "position": "MID",
+          "price": 7.8,
+          "ev": 3.88,
+          "multiplier": 1,
+          "is_captain": false
+        },
+        {
+          "code": 223094,
+          "name": "Haaland",
+          "team": "MCI",
+          "position": "FWD",
+          "price": 15.8,
+          "ev": 6.39,
+          "multiplier": 2,
+          "is_captain": false
+        },
+        {
+          "code": 586309,
+          "name": "Barry",
+          "team": "EVE",
+          "position": "FWD",
+          "price": 5.7,
+          "ev": 3.34,
+          "multiplier": 1,
+          "is_captain": false
+        },
+        {
+          "code": 465247,
+          "name": "Lammens",
+          "team": "MUN",
+          "position": "GKP",
+          "price": 4.8,
+          "ev": 2.59,
+          "multiplier": 0,
+          "is_captain": false
+        },
+        {
+          "code": 599303,
+          "name": "Neave",
+          "team": "NEW",
+          "position": "FWD",
+          "price": 4.5,
+          "ev": 0.0,
+          "multiplier": 0,
+          "is_captain": false
+        },
+        {
+          "code": 223340,
+          "name": "Saka",
+          "team": "ARS",
+          "position": "MID",
+          "price": 9.4,
+          "ev": 0.07,
+          "multiplier": 0,
+          "is_captain": true
+        },
+        {
+          "code": 607464,
+          "name": "Kayode",
+          "team": "BRE",
+          "position": "DEF",
+          "price": 4.5,
+          "ev": 3.57,
+          "multiplier": 0,
+          "is_captain": false
+        }
+      ]
+    },
+    {
+      "entry_id": 9927826,
+      "entry_name": "Var-ified XI",
+      "player_name": "Vatsal Jain",
+      "rank": 4,
+      "last_rank": 4,
+      "total": 567,
+      "event_total": 57,
+      "is_us": false,
+      "chips_used": [
+        {
+          "chip": "wildcard",
+          "gw": 7
+        }
+      ],
+      "bank": 0.2,
+      "team_value": 101.3,
+      "projected_next_ev": 45.7,
+      "captain": {
+        "code": 226597,
+        "name": "Gabriel",
+        "team": "ARS",
+        "position": "DEF",
+        "price": 8.1,
+        "ev": 4.93,
+        "multiplier": 2,
+        "is_captain": true
+      },
+      "squad": [
+        {
+          "code": 154561,
+          "name": "Raya",
+          "team": "ARS",
+          "position": "GKP",
+          "price": 6.2,
+          "ev": 3.8,
+          "multiplier": 1,
+          "is_captain": false
+        },
+        {
+          "code": 575476,
+          "name": "Murillo",
+          "team": "NFO",
+          "position": "DEF",
+          "price": 5.5,
+          "ev": 4.53,
+          "multiplier": 1,
+          "is_captain": false
+        },
+        {
+          "code": 199798,
+          "name": "Konsa",
+          "team": "ARS",
+          "position": "DEF",
+          "price": 4.8,
+          "ev": 4.58,
+          "multiplier": 1,
+          "is_captain": false
+        },
+        {
+          "code": 226597,
+          "name": "Gabriel",
+          "team": "ARS",
+          "position": "DEF",
+          "price": 8.1,
+          "ev": 4.93,
+          "multiplier": 2,
+          "is_captain": true
+        },
+        {
+          "code": 201666,
+          "name": "Barnes",
+          "team": "NEW",
+          "position": "MID",
+          "price": 6.1,
+          "ev": 3.28,
+          "multiplier": 1,
+          "is_captain": false
+        },
+        {
+          "code": 84450,
+          "name": "Xhaka",
+          "team": "SUN",
+          "position": "MID",
+          "price": 5.3,
+          "ev": 1.95,
+          "multiplier": 1,
+          "is_captain": false
+        },
+        {
+          "code": 244850,
+          "name": "Rogers",
+          "team": "CHE",
+          "position": "MID",
+          "price": 8.2,
+          "ev": 4.23,
+          "multiplier": 1,
+          "is_captain": false
+        },
+        {
+          "code": 499604,
+          "name": "Rayan",
+          "team": "BOU",
+          "position": "MID",
+          "price": 6.3,
+          "ev": 3.68,
+          "multiplier": 1,
+          "is_captain": false
+        },
+        {
+          "code": 223094,
+          "name": "Haaland",
+          "team": "MCI",
+          "position": "FWD",
+          "price": 15.8,
+          "ev": 6.39,
+          "multiplier": 1,
+          "is_captain": false
+        },
+        {
+          "code": 502500,
+          "name": "Thiago",
+          "team": "BRE",
+          "position": "FWD",
+          "price": 7.8,
+          "ev": 0.09,
+          "multiplier": 1,
+          "is_captain": false
+        },
+        {
+          "code": 586309,
+          "name": "Barry",
+          "team": "EVE",
+          "position": "FWD",
+          "price": 5.7,
+          "ev": 3.34,
+          "multiplier": 1,
+          "is_captain": false
+        },
+        {
+          "code": 489639,
+          "name": "Verbruggen",
+          "team": "BHA",
+          "position": "GKP",
+          "price": 4.7,
+          "ev": 4.24,
+          "multiplier": 0,
+          "is_captain": false
+        },
+        {
+          "code": 200834,
+          "name": "Mukiele",
+          "team": "SUN",
+          "position": "DEF",
+          "price": 5.3,
+          "ev": 3.15,
+          "multiplier": 0,
+          "is_captain": false
+        },
+        {
+          "code": 220237,
+          "name": "Botman",
+          "team": "NEW",
+          "position": "DEF",
+          "price": 5.0,
+          "ev": 0.59,
+          "multiplier": 0,
+          "is_captain": false
+        },
+        {
+          "code": 510281,
+          "name": "S\u00e1vio",
+          "team": "TOT",
+          "position": "MID",
+          "price": 6.4,
+          "ev": 0.03,
+          "multiplier": 0,
+          "is_captain": false
+        }
+      ]
+    },
+    {
+      "entry_id": 4801643,
+      "entry_name": "Bangladesh FC",
+      "player_name": "Aamer Quazi",
+      "rank": 5,
+      "last_rank": 5,
+      "total": 548,
+      "event_total": 59,
+      "is_us": false,
+      "chips_used": [],
+      "bank": 0.0,
+      "team_value": 99.3,
+      "projected_next_ev": 44.1,
+      "captain": {
+        "code": 141746,
+        "name": "B.Fernandes",
+        "team": "MUN",
+        "position": "MID",
+        "price": 11.6,
+        "ev": 3.76,
+        "multiplier": 2,
+        "is_captain": true
+      },
+      "squad": [
+        {
+          "code": 485055,
+          "name": "Kinsky",
+          "team": "TOT",
+          "position": "GKP",
+          "price": 4.4,
+          "ev": 4.22,
+          "multiplier": 1,
+          "is_captain": false
+        },
+        {
+          "code": 108416,
+          "name": "Egan",
+          "team": "HUL",
+          "position": "DEF",
+          "price": 4.1,
+          "ev": 3.3,
+          "multiplier": 1,
+          "is_captain": false
+        },
+        {
+          "code": 226597,
+          "name": "Gabriel",
+          "team": "ARS",
+          "position": "DEF",
+          "price": 8.1,
+          "ev": 4.93,
+          "multiplier": 1,
+          "is_captain": false
+        },
+        {
+          "code": 95658,
+          "name": "Maguire",
+          "team": "MUN",
+          "position": "DEF",
+          "price": 4.6,
+          "ev": 1.28,
+          "multiplier": 1,
+          "is_captain": false
+        },
+        {
+          "code": 60307,
+          "name": "Gro\u00df",
+          "team": "BHA",
+          "position": "MID",
+          "price": 6.3,
+          "ev": 3.98,
+          "multiplier": 1,
+          "is_captain": false
+        },
+        {
+          "code": 484420,
+          "name": "E.Le F\u00e9e",
+          "team": "SUN",
+          "position": "MID",
+          "price": 5.7,
+          "ev": 3.91,
+          "multiplier": 1,
+          "is_captain": false
+        },
+        {
+          "code": 141746,
+          "name": "B.Fernandes",
+          "team": "MUN",
+          "position": "MID",
+          "price": 11.6,
+          "ev": 3.76,
+          "multiplier": 2,
+          "is_captain": true
+        },
+        {
+          "code": 446008,
+          "name": "Mbeumo",
+          "team": "MUN",
+          "position": "MID",
+          "price": 7.9,
+          "ev": 4.15,
+          "multiplier": 1,
+          "is_captain": false
+        },
+        {
+          "code": 243413,
+          "name": "Slater",
+          "team": "HUL",
+          "position": "MID",
+          "price": 4.5,
+          "ev": 2.69,
+          "multiplier": 1,
+          "is_captain": false
+        },
+        {
+          "code": 482973,
+          "name": "Igor Jesus",
+          "team": "NFO",
+          "position": "FWD",
+          "price": 5.6,
+          "ev": 1.77,
+          "multiplier": 1,
+          "is_captain": false
+        },
+        {
+          "code": 223094,
+          "name": "Haaland",
+          "team": "MCI",
+          "position": "FWD",
+          "price": 15.8,
+          "ev": 6.39,
+          "multiplier": 1,
+          "is_captain": false
+        },
+        {
+          "code": 67089,
+          "name": "Dubravka",
+          "team": "TOT",
+          "position": "GKP",
+          "price": 4.0,
+          "ev": 0.15,
+          "multiplier": 0,
+          "is_captain": false
+        },
+        {
+          "code": 500040,
+          "name": "Mosquera",
+          "team": "ARS",
+          "position": "DEF",
+          "price": 5.1,
+          "ev": 0.75,
+          "multiplier": 0,
+          "is_captain": false
+        },
+        {
+          "code": 461102,
+          "name": "Thomas",
+          "team": "COV",
+          "position": "DEF",
+          "price": 4.0,
+          "ev": 0.55,
+          "multiplier": 0,
+          "is_captain": false
+        },
+        {
+          "code": 475168,
+          "name": "Jo\u00e3o Pedro",
+          "team": "CHE",
+          "position": "FWD",
+          "price": 7.6,
+          "ev": 0.05,
+          "multiplier": 0,
+          "is_captain": false
+        }
+      ]
+    },
+    {
+      "entry_id": 5475730,
+      "entry_name": "mbappe special",
+      "player_name": "Kaustav Sikder",
+      "rank": 6,
+      "last_rank": 7,
+      "total": 524,
+      "event_total": 58,
+      "is_us": false,
+      "chips_used": [],
+      "bank": 0.3,
+      "team_value": 100.8,
+      "projected_next_ev": 48.4,
+      "captain": {
+        "code": 223094,
+        "name": "Haaland",
+        "team": "MCI",
+        "position": "FWD",
+        "price": 15.8,
+        "ev": 6.39,
+        "multiplier": 2,
+        "is_captain": true
+      },
+      "squad": [
+        {
+          "code": 432720,
+          "name": "Trafford",
+          "team": "LEE",
+          "position": "GKP",
+          "price": 5.0,
+          "ev": 4.22,
+          "multiplier": 1,
+          "is_captain": false
+        },
+        {
+          "code": 193278,
+          "name": "Coyle",
+          "team": "HUL",
+          "position": "DEF",
+          "price": 4.0,
+          "ev": 2.51,
+          "multiplier": 1,
+          "is_captain": false
+        },
+        {
+          "code": 466075,
+          "name": "Calafiori",
+          "team": "ARS",
+          "position": "DEF",
+          "price": 5.9,
+          "ev": 3.95,
+          "multiplier": 1,
+          "is_captain": false
+        },
+        {
+          "code": 550864,
+          "name": "Yoro",
+          "team": "MUN",
+          "position": "DEF",
+          "price": 4.8,
+          "ev": 2.52,
+          "multiplier": 1,
+          "is_captain": false
+        },
+        {
+          "code": 465730,
+          "name": "De Cuyper",
+          "team": "BHA",
+          "position": "DEF",
+          "price": 5.5,
+          "ev": 4.3,
+          "multiplier": 1,
+          "is_captain": false
+        },
+        {
+          "code": 466052,
+          "name": "Cherki",
+          "team": "MCI",
+          "position": "MID",
+          "price": 7.9,
+          "ev": 4.13,
+          "multiplier": 1,
+          "is_captain": false
+        },
+        {
+          "code": 448047,
+          "name": "Enzo",
+          "team": "MCI",
+          "position": "MID",
+          "price": 6.9,
+          "ev": 4.91,
+          "multiplier": 1,
+          "is_captain": false
+        },
+        {
+          "code": 232413,
+          "name": "Eze",
+          "team": "ARS",
+          "position": "MID",
+          "price": 6.2,
+          "ev": 1.67,
+          "multiplier": 1,
+          "is_captain": false
+        },
+        {
+          "code": 205533,
+          "name": "Nketiah",
+          "team": "CRY",
+          "position": "FWD",
+          "price": 5.4,
+          "ev": 2.49,
+          "multiplier": 1,
+          "is_captain": false
+        },
+        {
+          "code": 223094,
+          "name": "Haaland",
+          "team": "MCI",
+          "position": "FWD",
+          "price": 15.8,
+          "ev": 6.39,
+          "multiplier": 2,
+          "is_captain": true
+        },
+        {
+          "code": 219168,
+          "name": "Isak",
+          "team": "LIV",
+          "position": "FWD",
+          "price": 9.3,
+          "ev": 4.94,
+          "multiplier": 1,
+          "is_captain": false
+        },
+        {
+          "code": 67089,
+          "name": "Dubravka",
+          "team": "TOT",
+          "position": "GKP",
+          "price": 4.0,
+          "ev": 0.15,
+          "multiplier": 0,
+          "is_captain": false
+        },
+        {
+          "code": 225796,
+          "name": "James",
+          "team": "CHE",
+          "position": "DEF",
+          "price": 5.2,
+          "ev": 0.02,
+          "multiplier": 0,
+          "is_captain": false
+        },
+        {
+          "code": 543158,
+          "name": "Barco",
+          "team": "CHE",
+          "position": "MID",
+          "price": 5.3,
+          "ev": 0.66,
+          "multiplier": 0,
+          "is_captain": false
+        },
+        {
+          "code": 223340,
+          "name": "Saka",
+          "team": "ARS",
+          "position": "MID",
+          "price": 9.4,
+          "ev": 0.07,
+          "multiplier": 0,
+          "is_captain": false
+        }
+      ]
+    },
+    {
+      "entry_id": 5103376,
+      "entry_name": "forcabarca",
+      "player_name": "Pat Thakkar",
+      "rank": 7,
+      "last_rank": 6,
+      "total": 519,
+      "event_total": 45,
+      "is_us": false,
+      "chips_used": [
+        {
+          "chip": "wildcard",
+          "gw": 2
+        },
+        {
+          "chip": "3xc",
+          "gw": 3
+        },
+        {
+          "chip": "bboost",
+          "gw": 7
+        }
+      ],
+      "bank": 0.1,
+      "team_value": 100.0,
+      "projected_next_ev": 40.1,
+      "captain": {
+        "code": 475168,
+        "name": "Jo\u00e3o Pedro",
+        "team": "CHE",
+        "position": "FWD",
+        "price": 7.6,
+        "ev": 0.05,
+        "multiplier": 0,
+        "is_captain": true
+      },
+      "squad": [
+        {
+          "code": 204936,
+          "name": "Donnarumma",
+          "team": "MCI",
+          "position": "GKP",
+          "price": 5.4,
+          "ev": 4.41,
+          "multiplier": 1,
+          "is_captain": false
+        },
+        {
+          "code": 441164,
+          "name": "Pedro Porro",
+          "team": "TOT",
+          "position": "DEF",
+          "price": 5.3,
+          "ev": 3.25,
+          "multiplier": 1,
+          "is_captain": false
+        },
+        {
+          "code": 232351,
+          "name": "Giles",
+          "team": "HUL",
+          "position": "DEF",
+          "price": 4.0,
+          "ev": 1.63,
+          "multiplier": 1,
+          "is_captain": false
+        },
+        {
+          "code": 199798,
+          "name": "Konsa",
+          "team": "ARS",
+          "position": "DEF",
+          "price": 4.8,
+          "ev": 4.58,
+          "multiplier": 1,
+          "is_captain": false
+        },
+        {
+          "code": 108416,
+          "name": "Egan",
+          "team": "HUL",
+          "position": "DEF",
+          "price": 4.1,
+          "ev": 3.3,
+          "multiplier": 1,
+          "is_captain": false
+        },
+        {
+          "code": 244851,
+          "name": "Palmer",
+          "team": "CHE",
+          "position": "MID",
+          "price": 9.8,
+          "ev": 4.79,
+          "multiplier": 1,
+          "is_captain": false
+        },
+        {
+          "code": 204480,
+          "name": "Rice",
+          "team": "ARS",
+          "position": "MID",
+          "price": 7.5,
+          "ev": 4.5,
+          "multiplier": 1,
+          "is_captain": false
+        },
+        {
+          "code": 208706,
+          "name": "Bruno G.",
+          "team": "ARS",
+          "position": "MID",
+          "price": 6.7,
+          "ev": 3.0,
+          "multiplier": 1,
+          "is_captain": false
+        },
+        {
+          "code": 466052,
+          "name": "Cherki",
+          "team": "MCI",
+          "position": "MID",
+          "price": 7.9,
+          "ev": 4.13,
+          "multiplier": 2,
+          "is_captain": false
+        },
+        {
+          "code": 247632,
+          "name": "Neto",
+          "team": "CHE",
+          "position": "MID",
+          "price": 6.6,
+          "ev": 3.31,
+          "multiplier": 1,
+          "is_captain": false
+        },
+        {
+          "code": 154566,
+          "name": "Solanke",
+          "team": "TOT",
+          "position": "FWD",
+          "price": 5.8,
+          "ev": 3.16,
+          "multiplier": 1,
+          "is_captain": false
+        },
+        {
+          "code": 67089,
+          "name": "Dubravka",
+          "team": "TOT",
+          "position": "GKP",
+          "price": 4.0,
+          "ev": 0.15,
+          "multiplier": 0,
+          "is_captain": false
+        },
+        {
+          "code": 475168,
+          "name": "Jo\u00e3o Pedro",
+          "team": "CHE",
+          "position": "FWD",
+          "price": 7.6,
+          "ev": 0.05,
+          "multiplier": 0,
+          "is_captain": true
+        },
+        {
+          "code": 223094,
+          "name": "Haaland",
+          "team": "MCI",
+          "position": "FWD",
+          "price": 15.8,
+          "ev": 6.39,
+          "multiplier": 0,
+          "is_captain": false
+        },
+        {
+          "code": 607464,
+          "name": "Kayode",
+          "team": "BRE",
+          "position": "DEF",
+          "price": 4.5,
+          "ev": 3.57,
+          "multiplier": 0,
+          "is_captain": false
+        }
+      ]
+    },
+    {
+      "entry_id": 7912130,
+      "entry_name": "Ak.17",
+      "player_name": "Akshit Kudyar",
+      "rank": 8,
+      "last_rank": 8,
+      "total": 489,
+      "event_total": 69,
+      "is_us": false,
+      "chips_used": [],
+      "bank": 0.0,
+      "team_value": 99.6,
+      "projected_next_ev": 39.6,
+      "captain": {
+        "code": 475168,
+        "name": "Jo\u00e3o Pedro",
+        "team": "CHE",
+        "position": "FWD",
+        "price": 7.6,
+        "ev": 0.05,
+        "multiplier": 1,
+        "is_captain": true
+      },
+      "squad": [
+        {
+          "code": 111234,
+          "name": "Pickford",
+          "team": "EVE",
+          "position": "GKP",
+          "price": 5.5,
+          "ev": 3.55,
+          "multiplier": 1,
+          "is_captain": false
+        },
+        {
+          "code": 226597,
+          "name": "Gabriel",
+          "team": "ARS",
+          "position": "DEF",
+          "price": 8.1,
+          "ev": 4.93,
+          "multiplier": 1,
+          "is_captain": false
+        },
+        {
+          "code": 17761,
+          "name": "Tarkowski",
+          "team": "EVE",
+          "position": "DEF",
+          "price": 6.2,
+          "ev": 3.86,
+          "multiplier": 1,
+          "is_captain": false
+        },
+        {
+          "code": 466075,
+          "name": "Calafiori",
+          "team": "ARS",
+          "position": "DEF",
+          "price": 5.9,
+          "ev": 3.95,
+          "multiplier": 1,
+          "is_captain": false
+        },
+        {
+          "code": 484420,
+          "name": "E.Le F\u00e9e",
+          "team": "SUN",
+          "position": "MID",
+          "price": 5.7,
+          "ev": 3.91,
+          "multiplier": 1,
+          "is_captain": false
+        },
+        {
+          "code": 141746,
+          "name": "B.Fernandes",
+          "team": "MUN",
+          "position": "MID",
+          "price": 11.6,
+          "ev": 3.76,
+          "multiplier": 2,
+          "is_captain": false
+        },
+        {
+          "code": 466052,
+          "name": "Cherki",
+          "team": "MCI",
+          "position": "MID",
+          "price": 7.9,
+          "ev": 4.13,
+          "multiplier": 1,
+          "is_captain": false
+        },
+        {
+          "code": 424876,
+          "name": "Szoboszlai",
+          "team": "LIV",
+          "position": "MID",
+          "price": 6.7,
+          "ev": 4.14,
+          "multiplier": 1,
+          "is_captain": false
+        },
+        {
+          "code": 219847,
+          "name": "Havertz",
+          "team": "ARS",
+          "position": "FWD",
+          "price": 7.4,
+          "ev": 3.98,
+          "multiplier": 1,
+          "is_captain": false
+        },
+        {
+          "code": 543968,
+          "name": "Emersonn",
+          "team": "IPS",
+          "position": "FWD",
+          "price": 5.4,
+          "ev": 3.34,
+          "multiplier": 1,
+          "is_captain": false
+        },
+        {
+          "code": 475168,
+          "name": "Jo\u00e3o Pedro",
+          "team": "CHE",
+          "position": "FWD",
+          "price": 7.6,
+          "ev": 0.05,
+          "multiplier": 1,
+          "is_captain": true
+        },
+        {
+          "code": 49262,
+          "name": "Steele",
+          "team": "BHA",
+          "position": "GKP",
+          "price": 4.0,
+          "ev": 0.02,
+          "multiplier": 0,
+          "is_captain": false
+        },
+        {
+          "code": 434752,
+          "name": "Bijol",
+          "team": "LEE",
+          "position": "DEF",
+          "price": 5.0,
+          "ev": 1.28,
+          "multiplier": 0,
+          "is_captain": false
+        },
+        {
+          "code": 106760,
+          "name": "Shaw",
+          "team": "MUN",
+          "position": "DEF",
+          "price": 4.2,
+          "ev": 0.02,
+          "multiplier": 0,
+          "is_captain": false
+        },
+        {
+          "code": 437730,
+          "name": "Semenyo",
+          "team": "MCI",
+          "position": "MID",
+          "price": 8.2,
+          "ev": 0.05,
+          "multiplier": 0,
+          "is_captain": false
+        }
+      ]
+    },
+    {
+      "entry_id": 9765092,
+      "entry_name": "MyTeam!",
+      "player_name": "Mr Glass",
+      "rank": 9,
+      "last_rank": 9,
+      "total": 448,
+      "event_total": 54,
+      "is_us": false,
+      "chips_used": [],
+      "bank": 13.1,
+      "team_value": 101.1,
+      "projected_next_ev": 36.6,
+      "captain": {
+        "code": 475168,
+        "name": "Jo\u00e3o Pedro",
+        "team": "CHE",
+        "position": "FWD",
+        "price": 7.6,
+        "ev": 0.05,
+        "multiplier": 1,
+        "is_captain": true
+      },
+      "squad": [
+        {
+          "code": 432720,
+          "name": "Trafford",
+          "team": "LEE",
+          "position": "GKP",
+          "price": 5.0,
+          "ev": 4.22,
+          "multiplier": 2,
+          "is_captain": false
+        },
+        {
+          "code": 606930,
+          "name": "Mendy",
+          "team": "HUL",
+          "position": "DEF",
+          "price": 4.1,
+          "ev": 3.53,
+          "multiplier": 1,
+          "is_captain": false
+        },
+        {
+          "code": 465730,
+          "name": "De Cuyper",
+          "team": "BHA",
+          "position": "DEF",
+          "price": 5.5,
+          "ev": 4.3,
+          "multiplier": 1,
+          "is_captain": false
+        },
+        {
+          "code": 607464,
+          "name": "Kayode",
+          "team": "BRE",
+          "position": "DEF",
+          "price": 4.5,
+          "ev": 3.57,
+          "multiplier": 1,
+          "is_captain": false
+        },
+        {
+          "code": 532529,
+          "name": "Hinshelwood",
+          "team": "BHA",
+          "position": "MID",
+          "price": 5.9,
+          "ev": 2.19,
+          "multiplier": 1,
+          "is_captain": false
+        },
+        {
+          "code": 244851,
+          "name": "Palmer",
+          "team": "CHE",
+          "position": "MID",
+          "price": 9.8,
+          "ev": 4.79,
+          "multiplier": 1,
+          "is_captain": false
+        },
+        {
+          "code": 243298,
+          "name": "Gakpo",
+          "team": "LIV",
+          "position": "MID",
+          "price": 7.1,
+          "ev": 4.24,
+          "multiplier": 1,
+          "is_captain": false
+        },
+        {
+          "code": 513545,
+          "name": "M.Sangar\u00e9",
+          "team": "BRE",
+          "position": "MID",
+          "price": 5.4,
+          "ev": 3.0,
+          "multiplier": 1,
+          "is_captain": false
+        },
+        {
+          "code": 586309,
+          "name": "Barry",
+          "team": "EVE",
+          "position": "FWD",
+          "price": 5.7,
+          "ev": 3.34,
+          "multiplier": 1,
+          "is_captain": false
+        },
+        {
+          "code": 475168,
+          "name": "Jo\u00e3o Pedro",
+          "team": "CHE",
+          "position": "FWD",
+          "price": 7.6,
+          "ev": 0.05,
+          "multiplier": 1,
+          "is_captain": true
+        },
+        {
+          "code": 543968,
+          "name": "Emersonn",
+          "team": "IPS",
+          "position": "FWD",
+          "price": 5.4,
+          "ev": 3.34,
+          "multiplier": 1,
+          "is_captain": false
+        },
+        {
+          "code": 473284,
+          "name": "Tzolakis",
+          "team": "HUL",
+          "position": "GKP",
+          "price": 4.7,
+          "ev": 2.96,
+          "multiplier": 0,
+          "is_captain": false
+        },
+        {
+          "code": 437499,
+          "name": "Lacroix",
+          "team": "CHE",
+          "position": "DEF",
+          "price": 5.8,
+          "ev": 0.03,
+          "multiplier": 0,
+          "is_captain": false
+        },
+        {
+          "code": 198869,
+          "name": "White",
+          "team": "ARS",
+          "position": "DEF",
+          "price": 5.4,
+          "ev": 2.3,
+          "multiplier": 0,
+          "is_captain": false
+        },
+        {
+          "code": 466525,
+          "name": "Stach",
+          "team": "LEE",
+          "position": "MID",
+          "price": 6.0,
+          "ev": 0.82,
+          "multiplier": 0,
+          "is_captain": false
+        }
+      ]
+    },
+    {
+      "entry_id": 3168209,
+      "entry_name": "Haalandaise Sauce",
+      "player_name": "Sumit Kumar Sharma",
+      "rank": 10,
+      "last_rank": 10,
+      "total": 430,
+      "event_total": 47,
+      "is_us": false,
+      "chips_used": [],
+      "bank": 3.5,
+      "team_value": 98.5,
+      "projected_next_ev": 42.3,
+      "captain": {
+        "code": 424876,
+        "name": "Szoboszlai",
+        "team": "LIV",
+        "position": "MID",
+        "price": 6.7,
+        "ev": 4.14,
+        "multiplier": 2,
+        "is_captain": true
+      },
+      "squad": [
+        {
+          "code": 111234,
+          "name": "Pickford",
+          "team": "EVE",
+          "position": "GKP",
+          "price": 5.5,
+          "ev": 3.55,
+          "multiplier": 1,
+          "is_captain": false
+        },
+        {
+          "code": 480455,
+          "name": "Branthwaite",
+          "team": "EVE",
+          "position": "DEF",
+          "price": 5.5,
+          "ev": 3.45,
+          "multiplier": 1,
+          "is_captain": false
+        },
+        {
+          "code": 146426,
+          "name": "Ajayi",
+          "team": "HUL",
+          "position": "DEF",
+          "price": 4.2,
+          "ev": 3.33,
+          "multiplier": 1,
+          "is_captain": false
+        },
+        {
+          "code": 578153,
+          "name": "Khusanov",
+          "team": "MCI",
+          "position": "DEF",
+          "price": 5.3,
+          "ev": 4.34,
+          "multiplier": 1,
+          "is_captain": false
+        },
+        {
+          "code": 244850,
+          "name": "Rogers",
+          "team": "CHE",
+          "position": "MID",
+          "price": 8.2,
+          "ev": 4.23,
+          "multiplier": 1,
+          "is_captain": false
+        },
+        {
+          "code": 494595,
+          "name": "Wirtz",
+          "team": "LIV",
+          "position": "MID",
+          "price": 7.2,
+          "ev": 4.43,
+          "multiplier": 1,
+          "is_captain": false
+        },
+        {
+          "code": 204480,
+          "name": "Rice",
+          "team": "ARS",
+          "position": "MID",
+          "price": 7.5,
+          "ev": 4.5,
+          "multiplier": 1,
+          "is_captain": false
+        },
+        {
+          "code": 424876,
+          "name": "Szoboszlai",
+          "team": "LIV",
+          "position": "MID",
+          "price": 6.7,
+          "ev": 4.14,
+          "multiplier": 2,
+          "is_captain": true
+        },
+        {
+          "code": 216646,
+          "name": "Wissa",
+          "team": "NEW",
+          "position": "FWD",
+          "price": 5.9,
+          "ev": 2.15,
+          "multiplier": 1,
+          "is_captain": false
+        },
+        {
+          "code": 502500,
+          "name": "Thiago",
+          "team": "BRE",
+          "position": "FWD",
+          "price": 7.8,
+          "ev": 0.09,
+          "multiplier": 1,
+          "is_captain": false
+        },
+        {
+          "code": 219847,
+          "name": "Havertz",
+          "team": "ARS",
+          "position": "FWD",
+          "price": 7.4,
+          "ev": 3.98,
+          "multiplier": 1,
+          "is_captain": false
+        },
+        {
+          "code": 40383,
+          "name": "Forster",
+          "team": "BOU",
+          "position": "GKP",
+          "price": 4.0,
+          "ev": 0.02,
+          "multiplier": 0,
+          "is_captain": false
+        },
+        {
+          "code": 221466,
+          "name": "Senesi",
+          "team": "TOT",
+          "position": "DEF",
+          "price": 5.7,
+          "ev": 1.05,
+          "multiplier": 0,
+          "is_captain": false
+        },
+        {
+          "code": 437730,
+          "name": "Semenyo",
+          "team": "MCI",
+          "position": "MID",
+          "price": 8.2,
+          "ev": 0.05,
+          "multiplier": 0,
+          "is_captain": false
+        },
+        {
+          "code": 437499,
+          "name": "Lacroix",
+          "team": "CHE",
+          "position": "DEF",
+          "price": 5.8,
+          "ev": 0.03,
+          "multiplier": 0,
+          "is_captain": false
+        }
+      ]
+    }
+  ],
+  "ownership": [
+    {
+      "code": 223094,
+      "name": "Haaland",
+      "team": "MCI",
+      "position": "FWD",
+      "price": 15.8,
+      "ev": 6.39,
+      "owned_by": [
+        "Alibrime",
+        "Bangladesh FC",
+        "Ha Ha land",
+        "Var-ified XI",
+        "forcabarca",
+        "mbappe special"
+      ],
+      "n_owned": 6,
+      "n_captained": 3,
+      "we_own": true
+    },
+    {
+      "code": 199798,
+      "name": "Konsa",
+      "team": "ARS",
+      "position": "DEF",
+      "price": 4.8,
+      "ev": 4.58,
+      "owned_by": [
+        "Alibrime",
+        "Ha Ha land",
+        "Var-ified XI",
+        "forcabarca"
+      ],
+      "n_owned": 4,
+      "n_captained": 0,
+      "we_own": false
+    },
+    {
+      "code": 466052,
+      "name": "Cherki",
+      "team": "MCI",
+      "position": "MID",
+      "price": 7.9,
+      "ev": 4.13,
+      "owned_by": [
+        "Ak.17",
+        "Ha Ha land",
+        "forcabarca",
+        "mbappe special"
+      ],
+      "n_owned": 4,
+      "n_captained": 0,
+      "we_own": false
+    },
+    {
+      "code": 67089,
+      "name": "Dubravka",
+      "team": "TOT",
+      "position": "GKP",
+      "price": 4.0,
+      "ev": 0.15,
+      "owned_by": [
+        "Alibrime",
+        "Bangladesh FC",
+        "forcabarca",
+        "mbappe special"
+      ],
+      "n_owned": 4,
+      "n_captained": 0,
+      "we_own": false
+    },
+    {
+      "code": 475168,
+      "name": "Jo\u00e3o Pedro",
+      "team": "CHE",
+      "position": "FWD",
+      "price": 7.6,
+      "ev": 0.05,
+      "owned_by": [
+        "Ak.17",
+        "Bangladesh FC",
+        "MyTeam!",
+        "forcabarca"
+      ],
+      "n_owned": 4,
+      "n_captained": 3,
+      "we_own": false
+    },
+    {
+      "code": 226597,
+      "name": "Gabriel",
+      "team": "ARS",
+      "position": "DEF",
+      "price": 8.1,
+      "ev": 4.93,
+      "owned_by": [
+        "Ak.17",
+        "Bangladesh FC",
+        "Var-ified XI"
+      ],
+      "n_owned": 3,
+      "n_captained": 1,
+      "we_own": false
+    },
+    {
+      "code": 244851,
+      "name": "Palmer",
+      "team": "CHE",
+      "position": "MID",
+      "price": 9.8,
+      "ev": 4.79,
+      "owned_by": [
+        "Ha Ha land",
+        "MyTeam!",
+        "forcabarca"
+      ],
+      "n_owned": 3,
+      "n_captained": 0,
+      "we_own": false
+    },
+    {
+      "code": 465730,
+      "name": "De Cuyper",
+      "team": "BHA",
+      "position": "DEF",
+      "price": 5.5,
+      "ev": 4.3,
+      "owned_by": [
+        "Ha Ha land",
+        "MyTeam!",
+        "mbappe special"
+      ],
+      "n_owned": 3,
+      "n_captained": 0,
+      "we_own": true
+    },
+    {
+      "code": 244850,
+      "name": "Rogers",
+      "team": "CHE",
+      "position": "MID",
+      "price": 8.2,
+      "ev": 4.23,
+      "owned_by": [
+        "Alibrime",
+        "Haalandaise Sauce",
+        "Var-ified XI"
+      ],
+      "n_owned": 3,
+      "n_captained": 0,
+      "we_own": false
+    },
+    {
+      "code": 154561,
+      "name": "Raya",
+      "team": "ARS",
+      "position": "GKP",
+      "price": 6.2,
+      "ev": 3.8,
+      "owned_by": [
+        "Alibrime",
+        "Ha Ha land",
+        "Var-ified XI"
+      ],
+      "n_owned": 3,
+      "n_captained": 0,
+      "we_own": true
+    },
+    {
+      "code": 543968,
+      "name": "Emersonn",
+      "team": "IPS",
+      "position": "FWD",
+      "price": 5.4,
+      "ev": 3.34,
+      "owned_by": [
+        "Ak.17",
+        "Ha Ha land",
+        "MyTeam!"
+      ],
+      "n_owned": 3,
+      "n_captained": 0,
+      "we_own": false
+    },
+    {
+      "code": 219168,
+      "name": "Isak",
+      "team": "LIV",
+      "position": "FWD",
+      "price": 9.3,
+      "ev": 4.94,
+      "owned_by": [
+        "Alibrime",
+        "mbappe special"
+      ],
+      "n_owned": 2,
+      "n_captained": 0,
+      "we_own": false
+    },
+    {
+      "code": 204480,
+      "name": "Rice",
+      "team": "ARS",
+      "position": "MID",
+      "price": 7.5,
+      "ev": 4.5,
+      "owned_by": [
+        "Haalandaise Sauce",
+        "forcabarca"
+      ],
+      "n_owned": 2,
+      "n_captained": 0,
+      "we_own": false
+    },
+    {
+      "code": 201658,
+      "name": "Tavernier",
+      "team": "BOU",
+      "position": "MID",
+      "price": 6.7,
+      "ev": 4.24,
+      "owned_by": [
+        "Alibrime",
+        "Ha Ha land"
+      ],
+      "n_owned": 2,
+      "n_captained": 0,
+      "we_own": false
+    },
+    {
+      "code": 432720,
+      "name": "Trafford",
+      "team": "LEE",
+      "position": "GKP",
+      "price": 5.0,
+      "ev": 4.22,
+      "owned_by": [
+        "MyTeam!",
+        "mbappe special"
+      ],
+      "n_owned": 2,
+      "n_captained": 0,
+      "we_own": false
+    },
+    {
+      "code": 446008,
+      "name": "Mbeumo",
+      "team": "MUN",
+      "position": "MID",
+      "price": 7.9,
+      "ev": 4.15,
+      "owned_by": [
+        "Bangladesh FC",
+        "Ha Ha land"
+      ],
+      "n_owned": 2,
+      "n_captained": 0,
+      "we_own": false
+    },
+    {
+      "code": 424876,
+      "name": "Szoboszlai",
+      "team": "LIV",
+      "position": "MID",
+      "price": 6.7,
+      "ev": 4.14,
+      "owned_by": [
+        "Ak.17",
+        "Haalandaise Sauce"
+      ],
+      "n_owned": 2,
+      "n_captained": 1,
+      "we_own": true
+    },
+    {
+      "code": 60307,
+      "name": "Gro\u00df",
+      "team": "BHA",
+      "position": "MID",
+      "price": 6.3,
+      "ev": 3.98,
+      "owned_by": [
+        "Alibrime",
+        "Bangladesh FC"
+      ],
+      "n_owned": 2,
+      "n_captained": 0,
+      "we_own": false
+    },
+    {
+      "code": 219847,
+      "name": "Havertz",
+      "team": "ARS",
+      "position": "FWD",
+      "price": 7.4,
+      "ev": 3.98,
+      "owned_by": [
+        "Ak.17",
+        "Haalandaise Sauce"
+      ],
+      "n_owned": 2,
+      "n_captained": 0,
+      "we_own": false
+    },
+    {
+      "code": 466075,
+      "name": "Calafiori",
+      "team": "ARS",
+      "position": "DEF",
+      "price": 5.9,
+      "ev": 3.95,
+      "owned_by": [
+        "Ak.17",
+        "mbappe special"
+      ],
+      "n_owned": 2,
+      "n_captained": 0,
+      "we_own": true
+    },
+    {
+      "code": 484420,
+      "name": "E.Le F\u00e9e",
+      "team": "SUN",
+      "position": "MID",
+      "price": 5.7,
+      "ev": 3.91,
+      "owned_by": [
+        "Ak.17",
+        "Bangladesh FC"
+      ],
+      "n_owned": 2,
+      "n_captained": 0,
+      "we_own": false
+    },
+    {
+      "code": 17761,
+      "name": "Tarkowski",
+      "team": "EVE",
+      "position": "DEF",
+      "price": 6.2,
+      "ev": 3.86,
+      "owned_by": [
+        "Ak.17",
+        "Alibrime"
+      ],
+      "n_owned": 2,
+      "n_captained": 0,
+      "we_own": true
+    },
+    {
+      "code": 141746,
+      "name": "B.Fernandes",
+      "team": "MUN",
+      "position": "MID",
+      "price": 11.6,
+      "ev": 3.76,
+      "owned_by": [
+        "Ak.17",
+        "Bangladesh FC"
+      ],
+      "n_owned": 2,
+      "n_captained": 1,
+      "we_own": false
+    },
+    {
+      "code": 607464,
+      "name": "Kayode",
+      "team": "BRE",
+      "position": "DEF",
+      "price": 4.5,
+      "ev": 3.57,
+      "owned_by": [
+        "MyTeam!",
+        "forcabarca"
+      ],
+      "n_owned": 2,
+      "n_captained": 0,
+      "we_own": true
+    },
+    {
+      "code": 111234,
+      "name": "Pickford",
+      "team": "EVE",
+      "position": "GKP",
+      "price": 5.5,
+      "ev": 3.55,
+      "owned_by": [
+        "Ak.17",
+        "Haalandaise Sauce"
+      ],
+      "n_owned": 2,
+      "n_captained": 0,
+      "we_own": false
+    },
+    {
+      "code": 586309,
+      "name": "Barry",
+      "team": "EVE",
+      "position": "FWD",
+      "price": 5.7,
+      "ev": 3.34,
+      "owned_by": [
+        "MyTeam!",
+        "Var-ified XI"
+      ],
+      "n_owned": 2,
+      "n_captained": 0,
+      "we_own": true
+    },
+    {
+      "code": 146426,
+      "name": "Ajayi",
+      "team": "HUL",
+      "position": "DEF",
+      "price": 4.2,
+      "ev": 3.33,
+      "owned_by": [
+        "Ha Ha land",
+        "Haalandaise Sauce"
+      ],
+      "n_owned": 2,
+      "n_captained": 0,
+      "we_own": false
+    },
+    {
+      "code": 108416,
+      "name": "Egan",
+      "team": "HUL",
+      "position": "DEF",
+      "price": 4.1,
+      "ev": 3.3,
+      "owned_by": [
+        "Bangladesh FC",
+        "forcabarca"
+      ],
+      "n_owned": 2,
+      "n_captained": 0,
+      "we_own": false
+    },
+    {
+      "code": 473284,
+      "name": "Tzolakis",
+      "team": "HUL",
+      "position": "GKP",
+      "price": 4.7,
+      "ev": 2.96,
+      "owned_by": [
+        "Ha Ha land",
+        "MyTeam!"
+      ],
+      "n_owned": 2,
+      "n_captained": 0,
+      "we_own": false
+    },
+    {
+      "code": 461102,
+      "name": "Thomas",
+      "team": "COV",
+      "position": "DEF",
+      "price": 4.0,
+      "ev": 0.55,
+      "owned_by": [
+        "Bangladesh FC",
+        "Ha Ha land"
+      ],
+      "n_owned": 2,
+      "n_captained": 0,
+      "we_own": false
+    },
+    {
+      "code": 502500,
+      "name": "Thiago",
+      "team": "BRE",
+      "position": "FWD",
+      "price": 7.8,
+      "ev": 0.09,
+      "owned_by": [
+        "Haalandaise Sauce",
+        "Var-ified XI"
+      ],
+      "n_owned": 2,
+      "n_captained": 0,
+      "we_own": false
+    },
+    {
+      "code": 437730,
+      "name": "Semenyo",
+      "team": "MCI",
+      "position": "MID",
+      "price": 8.2,
+      "ev": 0.05,
+      "owned_by": [
+        "Ak.17",
+        "Haalandaise Sauce"
+      ],
+      "n_owned": 2,
+      "n_captained": 0,
+      "we_own": false
+    },
+    {
+      "code": 437499,
+      "name": "Lacroix",
+      "team": "CHE",
+      "position": "DEF",
+      "price": 5.8,
+      "ev": 0.03,
+      "owned_by": [
+        "Haalandaise Sauce",
+        "MyTeam!"
+      ],
+      "n_owned": 2,
+      "n_captained": 0,
+      "we_own": false
+    },
+    {
+      "code": 444102,
+      "name": "Evanilson",
+      "team": "BOU",
+      "position": "FWD",
+      "price": 6.5,
+      "ev": 5.12,
+      "owned_by": [
+        "Ha Ha land"
+      ],
+      "n_owned": 1,
+      "n_captained": 0,
+      "we_own": false
+    },
+    {
+      "code": 448047,
+      "name": "Enzo",
+      "team": "MCI",
+      "position": "MID",
+      "price": 6.9,
+      "ev": 4.91,
+      "owned_by": [
+        "mbappe special"
+      ],
+      "n_owned": 1,
+      "n_captained": 0,
+      "we_own": false
+    },
+    {
+      "code": 517052,
+      "name": "N.Jackson",
+      "team": "AVL",
+      "position": "FWD",
+      "price": 7.1,
+      "ev": 4.84,
+      "owned_by": [
+        "Alibrime"
+      ],
+      "n_owned": 1,
+      "n_captained": 0,
+      "we_own": false
+    },
+    {
+      "code": 483067,
+      "name": "Silva",
+      "team": "BOU",
+      "position": "DEF",
+      "price": 5.1,
+      "ev": 4.68,
+      "owned_by": [
+        "Alibrime"
+      ],
+      "n_owned": 1,
+      "n_captained": 0,
+      "we_own": false
+    },
+    {
+      "code": 610799,
+      "name": "Vuskovic",
+      "team": "BHA",
+      "position": "DEF",
+      "price": 5.3,
+      "ev": 4.57,
+      "owned_by": [
+        "Alibrime"
+      ],
+      "n_owned": 1,
+      "n_captained": 0,
+      "we_own": false
+    },
+    {
+      "code": 575476,
+      "name": "Murillo",
+      "team": "NFO",
+      "position": "DEF",
+      "price": 5.5,
+      "ev": 4.53,
+      "owned_by": [
+        "Var-ified XI"
+      ],
+      "n_owned": 1,
+      "n_captained": 0,
+      "we_own": false
+    },
+    {
+      "code": 494595,
+      "name": "Wirtz",
+      "team": "LIV",
+      "position": "MID",
+      "price": 7.2,
+      "ev": 4.43,
+      "owned_by": [
+        "Haalandaise Sauce"
+      ],
+      "n_owned": 1,
+      "n_captained": 0,
+      "we_own": false
+    },
+    {
+      "code": 204936,
+      "name": "Donnarumma",
+      "team": "MCI",
+      "position": "GKP",
+      "price": 5.4,
+      "ev": 4.41,
+      "owned_by": [
+        "forcabarca"
+      ],
+      "n_owned": 1,
+      "n_captained": 0,
+      "we_own": false
+    },
+    {
+      "code": 578153,
+      "name": "Khusanov",
+      "team": "MCI",
+      "position": "DEF",
+      "price": 5.3,
+      "ev": 4.34,
+      "owned_by": [
+        "Haalandaise Sauce"
+      ],
+      "n_owned": 1,
+      "n_captained": 0,
+      "we_own": false
+    },
+    {
+      "code": 243298,
+      "name": "Gakpo",
+      "team": "LIV",
+      "position": "MID",
+      "price": 7.1,
+      "ev": 4.24,
+      "owned_by": [
+        "MyTeam!"
+      ],
+      "n_owned": 1,
+      "n_captained": 0,
+      "we_own": false
+    },
+    {
+      "code": 489639,
+      "name": "Verbruggen",
+      "team": "BHA",
+      "position": "GKP",
+      "price": 4.7,
+      "ev": 4.24,
+      "owned_by": [
+        "Var-ified XI"
+      ],
+      "n_owned": 1,
+      "n_captained": 0,
+      "we_own": false
+    },
+    {
+      "code": 485055,
+      "name": "Kinsky",
+      "team": "TOT",
+      "position": "GKP",
+      "price": 4.4,
+      "ev": 4.22,
+      "owned_by": [
+        "Bangladesh FC"
+      ],
+      "n_owned": 1,
+      "n_captained": 0,
+      "we_own": false
+    },
+    {
+      "code": 469142,
+      "name": "Van Hecke",
+      "team": "TOT",
+      "position": "DEF",
+      "price": 5.1,
+      "ev": 4.15,
+      "owned_by": [
+        "Ha Ha land"
+      ],
+      "n_owned": 1,
+      "n_captained": 0,
+      "we_own": false
+    },
+    {
+      "code": 522047,
+      "name": "Muharemovi\u0107",
+      "team": "LEE",
+      "position": "DEF",
+      "price": 5.1,
+      "ev": 4.0,
+      "owned_by": [
+        "Alibrime"
+      ],
+      "n_owned": 1,
+      "n_captained": 0,
+      "we_own": false
+    },
+    {
+      "code": 184029,
+      "name": "\u00d8degaard",
+      "team": "ARS",
+      "position": "MID",
+      "price": 6.7,
+      "ev": 3.74,
+      "owned_by": [
+        "Ha Ha land"
+      ],
+      "n_owned": 1,
+      "n_captained": 0,
+      "we_own": false
+    },
+    {
+      "code": 499604,
+      "name": "Rayan",
+      "team": "BOU",
+      "position": "MID",
+      "price": 6.3,
+      "ev": 3.68,
+      "owned_by": [
+        "Var-ified XI"
+      ],
+      "n_owned": 1,
+      "n_captained": 0,
+      "we_own": false
+    },
+    {
+      "code": 606930,
+      "name": "Mendy",
+      "team": "HUL",
+      "position": "DEF",
+      "price": 4.1,
+      "ev": 3.53,
+      "owned_by": [
+        "MyTeam!"
+      ],
+      "n_owned": 1,
+      "n_captained": 0,
+      "we_own": false
+    },
+    {
+      "code": 480455,
+      "name": "Branthwaite",
+      "team": "EVE",
+      "position": "DEF",
+      "price": 5.5,
+      "ev": 3.45,
+      "owned_by": [
+        "Haalandaise Sauce"
+      ],
+      "n_owned": 1,
+      "n_captained": 0,
+      "we_own": false
+    },
+    {
+      "code": 247632,
+      "name": "Neto",
+      "team": "CHE",
+      "position": "MID",
+      "price": 6.6,
+      "ev": 3.31,
+      "owned_by": [
+        "forcabarca"
+      ],
+      "n_owned": 1,
+      "n_captained": 0,
+      "we_own": false
+    },
+    {
+      "code": 201666,
+      "name": "Barnes",
+      "team": "NEW",
+      "position": "MID",
+      "price": 6.1,
+      "ev": 3.28,
+      "owned_by": [
+        "Var-ified XI"
+      ],
+      "n_owned": 1,
+      "n_captained": 0,
+      "we_own": false
+    },
+    {
+      "code": 441164,
+      "name": "Pedro Porro",
+      "team": "TOT",
+      "position": "DEF",
+      "price": 5.3,
+      "ev": 3.25,
+      "owned_by": [
+        "forcabarca"
+      ],
+      "n_owned": 1,
+      "n_captained": 0,
+      "we_own": false
+    },
+    {
+      "code": 154566,
+      "name": "Solanke",
+      "team": "TOT",
+      "position": "FWD",
+      "price": 5.8,
+      "ev": 3.16,
+      "owned_by": [
+        "forcabarca"
+      ],
+      "n_owned": 1,
+      "n_captained": 0,
+      "we_own": false
+    },
+    {
+      "code": 200834,
+      "name": "Mukiele",
+      "team": "SUN",
+      "position": "DEF",
+      "price": 5.3,
+      "ev": 3.15,
+      "owned_by": [
+        "Var-ified XI"
+      ],
+      "n_owned": 1,
+      "n_captained": 0,
+      "we_own": false
+    },
+    {
+      "code": 208706,
+      "name": "Bruno G.",
+      "team": "ARS",
+      "position": "MID",
+      "price": 6.7,
+      "ev": 3.0,
+      "owned_by": [
+        "forcabarca"
+      ],
+      "n_owned": 1,
+      "n_captained": 0,
+      "we_own": false
+    },
+    {
+      "code": 513545,
+      "name": "M.Sangar\u00e9",
+      "team": "BRE",
+      "position": "MID",
+      "price": 5.4,
+      "ev": 3.0,
+      "owned_by": [
+        "MyTeam!"
+      ],
+      "n_owned": 1,
+      "n_captained": 0,
+      "we_own": false
+    },
+    {
+      "code": 243413,
+      "name": "Slater",
+      "team": "HUL",
+      "position": "MID",
+      "price": 4.5,
+      "ev": 2.69,
+      "owned_by": [
+        "Bangladesh FC"
+      ],
+      "n_owned": 1,
+      "n_captained": 0,
+      "we_own": false
+    },
+    {
+      "code": 550864,
+      "name": "Yoro",
+      "team": "MUN",
+      "position": "DEF",
+      "price": 4.8,
+      "ev": 2.52,
+      "owned_by": [
+        "mbappe special"
+      ],
+      "n_owned": 1,
+      "n_captained": 0,
+      "we_own": false
+    }
+  ],
+  "differentials": {
+    "our_edges": [
+      {
+        "code": 424876,
+        "name": "Szoboszlai",
+        "team": "LIV",
+        "position": "MID",
+        "price": 6.7,
+        "ev": 4.14,
+        "n_owned": 2
+      },
+      {
+        "code": 215379,
+        "name": "Anderson",
+        "team": "MCI",
+        "position": "MID",
+        "price": 6.2,
+        "ev": 4.03,
+        "n_owned": 0
+      },
+      {
+        "code": 466075,
+        "name": "Calafiori",
+        "team": "ARS",
+        "position": "DEF",
+        "price": 5.9,
+        "ev": 3.95,
+        "n_owned": 2
+      },
+      {
+        "code": 222531,
+        "name": "Gibbs-White",
+        "team": "NFO",
+        "position": "MID",
+        "price": 7.8,
+        "ev": 3.88,
+        "n_owned": 0
+      },
+      {
+        "code": 17761,
+        "name": "Tarkowski",
+        "team": "EVE",
+        "position": "DEF",
+        "price": 6.2,
+        "ev": 3.86,
+        "n_owned": 2
+      },
+      {
+        "code": 607464,
+        "name": "Kayode",
+        "team": "BRE",
+        "position": "DEF",
+        "price": 4.5,
+        "ev": 3.57,
+        "n_owned": 2
+      },
+      {
+        "code": 432714,
+        "name": "McAtee",
+        "team": "NFO",
+        "position": "MID",
+        "price": 5.5,
+        "ev": 3.37,
+        "n_owned": 0
+      },
+      {
+        "code": 586309,
+        "name": "Barry",
+        "team": "EVE",
+        "position": "FWD",
+        "price": 5.7,
+        "ev": 3.34,
+        "n_owned": 2
+      }
+    ],
+    "threats": [
+      {
+        "code": 199798,
+        "name": "Konsa",
+        "team": "ARS",
+        "position": "DEF",
+        "price": 4.8,
+        "ev": 4.58,
+        "owned_by": [
+          "Alibrime",
+          "Ha Ha land",
+          "Var-ified XI",
+          "forcabarca"
+        ],
+        "n_owned": 4,
+        "n_captained": 0,
+        "we_own": false
+      },
+      {
+        "code": 466052,
+        "name": "Cherki",
+        "team": "MCI",
+        "position": "MID",
+        "price": 7.9,
+        "ev": 4.13,
+        "owned_by": [
+          "Ak.17",
+          "Ha Ha land",
+          "forcabarca",
+          "mbappe special"
+        ],
+        "n_owned": 4,
+        "n_captained": 0,
+        "we_own": false
+      },
+      {
+        "code": 67089,
+        "name": "Dubravka",
+        "team": "TOT",
+        "position": "GKP",
+        "price": 4.0,
+        "ev": 0.15,
+        "owned_by": [
+          "Alibrime",
+          "Bangladesh FC",
+          "forcabarca",
+          "mbappe special"
+        ],
+        "n_owned": 4,
+        "n_captained": 0,
+        "we_own": false
+      },
+      {
+        "code": 475168,
+        "name": "Jo\u00e3o Pedro",
+        "team": "CHE",
+        "position": "FWD",
+        "price": 7.6,
+        "ev": 0.05,
+        "owned_by": [
+          "Ak.17",
+          "Bangladesh FC",
+          "MyTeam!",
+          "forcabarca"
+        ],
+        "n_owned": 4,
+        "n_captained": 3,
+        "we_own": false
+      },
+      {
+        "code": 226597,
+        "name": "Gabriel",
+        "team": "ARS",
+        "position": "DEF",
+        "price": 8.1,
+        "ev": 4.93,
+        "owned_by": [
+          "Ak.17",
+          "Bangladesh FC",
+          "Var-ified XI"
+        ],
+        "n_owned": 3,
+        "n_captained": 1,
+        "we_own": false
+      },
+      {
+        "code": 244851,
+        "name": "Palmer",
+        "team": "CHE",
+        "position": "MID",
+        "price": 9.8,
+        "ev": 4.79,
+        "owned_by": [
+          "Ha Ha land",
+          "MyTeam!",
+          "forcabarca"
+        ],
+        "n_owned": 3,
+        "n_captained": 0,
+        "we_own": false
+      },
+      {
+        "code": 244850,
+        "name": "Rogers",
+        "team": "CHE",
+        "position": "MID",
+        "price": 8.2,
+        "ev": 4.23,
+        "owned_by": [
+          "Alibrime",
+          "Haalandaise Sauce",
+          "Var-ified XI"
+        ],
+        "n_owned": 3,
+        "n_captained": 0,
+        "we_own": false
+      },
+      {
+        "code": 543968,
+        "name": "Emersonn",
+        "team": "IPS",
+        "position": "FWD",
+        "price": 5.4,
+        "ev": 3.34,
+        "owned_by": [
+          "Ak.17",
+          "Ha Ha land",
+          "MyTeam!"
+        ],
+        "n_owned": 3,
+        "n_captained": 0,
+        "we_own": false
+      }
+    ]
+  }
+}
