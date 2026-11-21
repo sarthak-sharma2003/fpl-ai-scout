@@ -1,0 +1,90 @@
+{
+  "code": 488024,
+  "name": "Yeremy",
+  "position": "MID",
+  "team": "CRY",
+  "price": 5.5,
+  "ev_points": 3.62,
+  "horizon_ev": 15.5,
+  "q10_points": 1.0,
+  "q90_points": 6.62,
+  "ev_minutes": 75.6,
+  "p_appearance": 0.947,
+  "p_60_plus": 0.787,
+  "p_clean_sheet": 0.348,
+  "model_version": "20261121T135857Z",
+  "recent": [
+    {
+      "gw": 10,
+      "opp": "LIV",
+      "home": true,
+      "minutes": 86,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.83
+    },
+    {
+      "gw": 9,
+      "opp": "TOT",
+      "home": false,
+      "minutes": 59,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 8,
+      "opp": "NEW",
+      "home": true,
+      "minutes": 90,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.3
+    },
+    {
+      "gw": 7,
+      "opp": "BHA",
+      "home": false,
+      "minutes": 60,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.05
+    },
+    {
+      "gw": 6,
+      "opp": "NFO",
+      "home": true,
+      "minutes": 82,
+      "points": 9,
+      "goals": 1,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 3,
+      "xgi": 0.52
+    },
+    {
+      "gw": 5,
+      "opp": "LEE",
+      "home": false,
+      "minutes": 81,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 0.31
+    }
+  ]
+}

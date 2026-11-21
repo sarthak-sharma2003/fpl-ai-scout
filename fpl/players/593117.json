@@ -1,0 +1,90 @@
+{
+  "code": 593117,
+  "name": "Quenda",
+  "position": "MID",
+  "team": "CHE",
+  "price": 5.2,
+  "ev_points": 1.22,
+  "horizon_ev": 5.39,
+  "q10_points": 0.0,
+  "q90_points": 3.36,
+  "ev_minutes": 33.1,
+  "p_appearance": 0.716,
+  "p_60_plus": 0.193,
+  "p_clean_sheet": 0.257,
+  "model_version": "20261121T135857Z",
+  "recent": [
+    {
+      "gw": 10,
+      "opp": "SUN",
+      "home": false,
+      "minutes": 11,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.05
+    },
+    {
+      "gw": 9,
+      "opp": "MUN",
+      "home": true,
+      "minutes": 1,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 8,
+      "opp": "TOT",
+      "home": true,
+      "minutes": 71,
+      "points": 3,
+      "goals": 0,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 7,
+      "opp": "EVE",
+      "home": false,
+      "minutes": 1,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 6,
+      "opp": "BOU",
+      "home": true,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 5,
+      "opp": "BRE",
+      "home": false,
+      "minutes": 19,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.04
+    }
+  ]
+}

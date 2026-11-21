@@ -1,0 +1,90 @@
+{
+  "code": 627221,
+  "name": "Cherif",
+  "position": "FWD",
+  "team": "COV",
+  "price": 5.0,
+  "ev_points": 1.48,
+  "horizon_ev": 6.73,
+  "q10_points": 0.0,
+  "q90_points": 2.6,
+  "ev_minutes": 35.3,
+  "p_appearance": 0.807,
+  "p_60_plus": 0.184,
+  "p_clean_sheet": 0.169,
+  "model_version": "20261121T135857Z",
+  "recent": [
+    {
+      "gw": 10,
+      "opp": "EVE",
+      "home": false,
+      "minutes": 3,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 9,
+      "opp": "SUN",
+      "home": true,
+      "minutes": 18,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.02
+    },
+    {
+      "gw": 8,
+      "opp": "FUL",
+      "home": true,
+      "minutes": 66,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 0.02
+    },
+    {
+      "gw": 7,
+      "opp": "TOT",
+      "home": false,
+      "minutes": 59,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.04
+    },
+    {
+      "gw": 6,
+      "opp": "NEW",
+      "home": true,
+      "minutes": 77,
+      "points": 12,
+      "goals": 1,
+      "assists": 1,
+      "cs": 0,
+      "bonus": 3,
+      "xgi": 0.33
+    },
+    {
+      "gw": 5,
+      "opp": "NFO",
+      "home": false,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    }
+  ]
+}

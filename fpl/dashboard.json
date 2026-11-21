@@ -1,0 +1,161 @@
+{
+  "gw": 12,
+  "season": "2026-27",
+  "is_live": true,
+  "state": "live",
+  "deadline": "2026-11-27T18:30:00Z",
+  "generated_at": "2026-11-21T13:59:52.221994Z",
+  "avg_points": 563,
+  "our_points": 52.9,
+  "overall_rank": null,
+  "mini_league": null,
+  "insight": {
+    "text": "Live recommendation for the upcoming gameweek.",
+    "transfer_summary": "No hits taken",
+    "captain": "Haaland"
+  },
+  "captain_code": 223094,
+  "vice_captain_code": 201658,
+  "bench_order": [
+    {
+      "code": 586309,
+      "name": "Barry",
+      "team": "EVE",
+      "position": "FWD",
+      "price": 5.7,
+      "ev": 3.39,
+      "pk": true
+    },
+    {
+      "code": 215379,
+      "name": "Anderson",
+      "team": "MCI",
+      "position": "MID",
+      "price": 6.2,
+      "ev": 3.23,
+      "xi_ev": 2.91
+    },
+    {
+      "code": 599303,
+      "name": "Neave",
+      "team": "NEW",
+      "position": "FWD",
+      "price": 4.5,
+      "ev": 0.0,
+      "flag": {
+        "status": "u",
+        "news": "Has joined Wolves on loan for the rest of the season",
+        "chance": 0
+      }
+    },
+    {
+      "code": 465247,
+      "name": "Lammens",
+      "team": "MUN",
+      "position": "GKP",
+      "price": 4.8,
+      "ev": 3.35
+    }
+  ],
+  "pitch": {
+    "gk": [
+      {
+        "code": 154561,
+        "name": "Raya",
+        "team": "ARS",
+        "position": "GKP",
+        "price": 6.3,
+        "ev": 3.66
+      }
+    ],
+    "def": [
+      {
+        "code": 199798,
+        "name": "Konsa",
+        "team": "ARS",
+        "position": "DEF",
+        "price": 4.9,
+        "ev": 4.51
+      },
+      {
+        "code": 575476,
+        "name": "Murillo",
+        "team": "NFO",
+        "position": "DEF",
+        "price": 5.5,
+        "ev": 4.7
+      },
+      {
+        "code": 487676,
+        "name": "Hume",
+        "team": "SUN",
+        "position": "DEF",
+        "price": 4.2,
+        "ev": 3.62
+      },
+      {
+        "code": 226597,
+        "name": "Gabriel",
+        "team": "ARS",
+        "position": "DEF",
+        "price": 8.1,
+        "ev": 4.85
+      },
+      {
+        "code": 465730,
+        "name": "De Cuyper",
+        "team": "BHA",
+        "position": "DEF",
+        "price": 5.5,
+        "ev": 4.17
+      }
+    ],
+    "mid": [
+      {
+        "code": 201658,
+        "name": "Tavernier",
+        "team": "BOU",
+        "position": "MID",
+        "price": 6.7,
+        "ev": 4.47
+      },
+      {
+        "code": 446008,
+        "name": "Mbeumo",
+        "team": "MUN",
+        "position": "MID",
+        "price": 7.8,
+        "ev": 4.25
+      },
+      {
+        "code": 432714,
+        "name": "McAtee",
+        "team": "NFO",
+        "position": "MID",
+        "price": 5.5,
+        "ev": 3.4
+      },
+      {
+        "code": 222531,
+        "name": "Gibbs-White",
+        "team": "NFO",
+        "position": "MID",
+        "price": 7.8,
+        "ev": 4.01,
+        "xi_ev": 3.61,
+        "pk": true
+      }
+    ],
+    "fwd": [
+      {
+        "code": 223094,
+        "name": "Haaland",
+        "team": "MCI",
+        "position": "FWD",
+        "price": 15.8,
+        "ev": 5.61,
+        "pk": true
+      }
+    ]
+  }
+}

@@ -1,0 +1,95 @@
+{
+  "code": 481655,
+  "name": "Zubimendi",
+  "position": "MID",
+  "team": "ARS",
+  "price": 5.2,
+  "ev_points": 0.02,
+  "horizon_ev": 2.55,
+  "q10_points": 0.0,
+  "q90_points": 0.0,
+  "ev_minutes": 0.6,
+  "p_appearance": 0.013,
+  "p_60_plus": 0.004,
+  "p_clean_sheet": 0.369,
+  "model_version": "20261121T135857Z",
+  "flag": {
+    "status": "i",
+    "news": "Hamstring injury - Unknown return date",
+    "chance": 0
+  },
+  "recent": [
+    {
+      "gw": 10,
+      "opp": "HUL",
+      "home": true,
+      "minutes": 1,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 9,
+      "opp": "LIV",
+      "home": false,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 8,
+      "opp": "EVE",
+      "home": true,
+      "minutes": 10,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.01
+    },
+    {
+      "gw": 7,
+      "opp": "NFO",
+      "home": false,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 6,
+      "opp": "LEE",
+      "home": true,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 5,
+      "opp": "BHA",
+      "home": false,
+      "minutes": 30,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.13
+    }
+  ]
+}

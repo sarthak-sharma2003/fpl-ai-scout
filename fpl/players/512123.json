@@ -1,0 +1,95 @@
+{
+  "code": 512123,
+  "name": "Hadjam",
+  "position": "DEF",
+  "team": "BHA",
+  "price": 4.5,
+  "ev_points": 0.55,
+  "horizon_ev": 3.21,
+  "q10_points": 0.0,
+  "q90_points": 1.36,
+  "ev_minutes": 16.0,
+  "p_appearance": 0.333,
+  "p_60_plus": 0.101,
+  "p_clean_sheet": 0.285,
+  "model_version": "20261121T135857Z",
+  "flag": {
+    "status": "d",
+    "news": "Unspecified injury - 75% chance of playing",
+    "chance": 75
+  },
+  "recent": [
+    {
+      "gw": 10,
+      "opp": "BRE",
+      "home": true,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 9,
+      "opp": "MCI",
+      "home": false,
+      "minutes": 26,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 8,
+      "opp": "LIV",
+      "home": false,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 7,
+      "opp": "CRY",
+      "home": true,
+      "minutes": 9,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 6,
+      "opp": "SUN",
+      "home": false,
+      "minutes": 2,
+      "points": 7,
+      "goals": 1,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.15
+    },
+    {
+      "gw": 5,
+      "opp": "ARS",
+      "home": true,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    }
+  ]
+}

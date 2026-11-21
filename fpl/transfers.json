@@ -1,0 +1,304 @@
+{
+  "gw": 12,
+  "confidence": 38.9,
+  "bank": 13,
+  "free_transfers": 5,
+  "chip_advice": {
+    "chip": "bboost",
+    "gw": 12,
+    "ev": 17.5
+  },
+  "moves": [
+    {
+      "out": {
+        "code": 17761,
+        "name": "Tarkowski",
+        "team": "EVE",
+        "position": "DEF",
+        "price": 6.2,
+        "ev": 3.72
+      },
+      "in": {
+        "code": 226597,
+        "name": "Gabriel",
+        "team": "ARS",
+        "position": "DEF",
+        "price": 8.1,
+        "ev": 4.85
+      },
+      "compare": {
+        "position": "DEF",
+        "out_ev": 3.72,
+        "in_ev": 4.85
+      },
+      "net_ev": 1.13
+    },
+    {
+      "out": {
+        "code": 607464,
+        "name": "Kayode",
+        "team": "BRE",
+        "position": "DEF",
+        "price": 4.5,
+        "ev": 3.03
+      },
+      "in": {
+        "code": 575476,
+        "name": "Murillo",
+        "team": "NFO",
+        "position": "DEF",
+        "price": 5.5,
+        "ev": 4.7
+      },
+      "compare": {
+        "position": "DEF",
+        "out_ev": 3.03,
+        "in_ev": 4.7
+      },
+      "net_ev": 1.67
+    },
+    {
+      "out": {
+        "code": 466075,
+        "name": "Calafiori",
+        "team": "ARS",
+        "position": "DEF",
+        "price": 5.9,
+        "ev": 3.93,
+        "xi_ev": 3.53
+      },
+      "in": {
+        "code": 199798,
+        "name": "Konsa",
+        "team": "ARS",
+        "position": "DEF",
+        "price": 4.9,
+        "ev": 4.51
+      },
+      "compare": {
+        "position": "DEF",
+        "out_ev": 3.93,
+        "in_ev": 4.51
+      },
+      "net_ev": 0.58
+    },
+    {
+      "out": {
+        "code": 424876,
+        "name": "Szoboszlai",
+        "team": "LIV",
+        "position": "MID",
+        "price": 6.7,
+        "ev": 3.84,
+        "xi_ev": 2.69,
+        "pk": true
+      },
+      "in": {
+        "code": 446008,
+        "name": "Mbeumo",
+        "team": "MUN",
+        "position": "MID",
+        "price": 7.8,
+        "ev": 4.25
+      },
+      "compare": {
+        "position": "MID",
+        "out_ev": 3.84,
+        "in_ev": 4.25
+      },
+      "net_ev": 0.41
+    },
+    {
+      "out": {
+        "code": 223340,
+        "name": "Saka",
+        "team": "ARS",
+        "position": "MID",
+        "price": 9.4,
+        "ev": 0.06,
+        "xi_ev": 0.04,
+        "flag": {
+          "status": "i",
+          "news": "Thigh injury - Expected back 20 Dec",
+          "chance": 0
+        },
+        "pk": true
+      },
+      "in": {
+        "code": 201658,
+        "name": "Tavernier",
+        "team": "BOU",
+        "position": "MID",
+        "price": 6.7,
+        "ev": 4.47
+      },
+      "compare": {
+        "position": "MID",
+        "out_ev": 0.06,
+        "in_ev": 4.47
+      },
+      "net_ev": 4.4
+    }
+  ],
+  "alternatives": [
+    {
+      "out": {
+        "code": 223340,
+        "name": "Saka",
+        "team": "ARS",
+        "position": "MID",
+        "price": 9.4,
+        "ev": 0.06,
+        "xi_ev": 0.04,
+        "flag": {
+          "status": "i",
+          "news": "Thigh injury - Expected back 20 Dec",
+          "chance": 0
+        },
+        "pk": true
+      },
+      "in": {
+        "code": 244851,
+        "name": "Palmer",
+        "team": "CHE",
+        "position": "MID",
+        "price": 9.8,
+        "ev": 4.71,
+        "pk": true
+      },
+      "compare": {
+        "position": "MID",
+        "out_ev": 0.06,
+        "in_ev": 4.71
+      },
+      "net_ev": 4.65
+    },
+    {
+      "out": {
+        "code": 223340,
+        "name": "Saka",
+        "team": "ARS",
+        "position": "MID",
+        "price": 9.4,
+        "ev": 0.06,
+        "xi_ev": 0.04,
+        "flag": {
+          "status": "i",
+          "news": "Thigh injury - Expected back 20 Dec",
+          "chance": 0
+        },
+        "pk": true
+      },
+      "in": {
+        "code": 201658,
+        "name": "Tavernier",
+        "team": "BOU",
+        "position": "MID",
+        "price": 6.7,
+        "ev": 4.47
+      },
+      "compare": {
+        "position": "MID",
+        "out_ev": 0.06,
+        "in_ev": 4.47
+      },
+      "net_ev": 4.4
+    },
+    {
+      "out": {
+        "code": 223340,
+        "name": "Saka",
+        "team": "ARS",
+        "position": "MID",
+        "price": 9.4,
+        "ev": 0.06,
+        "xi_ev": 0.04,
+        "flag": {
+          "status": "i",
+          "news": "Thigh injury - Expected back 20 Dec",
+          "chance": 0
+        },
+        "pk": true
+      },
+      "in": {
+        "code": 446008,
+        "name": "Mbeumo",
+        "team": "MUN",
+        "position": "MID",
+        "price": 7.8,
+        "ev": 4.25
+      },
+      "compare": {
+        "position": "MID",
+        "out_ev": 0.06,
+        "in_ev": 4.25
+      },
+      "net_ev": 4.19
+    },
+    {
+      "out": {
+        "code": 223340,
+        "name": "Saka",
+        "team": "ARS",
+        "position": "MID",
+        "price": 9.4,
+        "ev": 0.06,
+        "xi_ev": 0.04,
+        "flag": {
+          "status": "i",
+          "news": "Thigh injury - Expected back 20 Dec",
+          "chance": 0
+        },
+        "pk": true
+      },
+      "in": {
+        "code": 484420,
+        "name": "E.Le F\u00e9e",
+        "team": "SUN",
+        "position": "MID",
+        "price": 5.7,
+        "ev": 4.16,
+        "pk": true
+      },
+      "compare": {
+        "position": "MID",
+        "out_ev": 0.06,
+        "in_ev": 4.16
+      },
+      "net_ev": 4.1
+    },
+    {
+      "out": {
+        "code": 223340,
+        "name": "Saka",
+        "team": "ARS",
+        "position": "MID",
+        "price": 9.4,
+        "ev": 0.06,
+        "xi_ev": 0.04,
+        "flag": {
+          "status": "i",
+          "news": "Thigh injury - Expected back 20 Dec",
+          "chance": 0
+        },
+        "pk": true
+      },
+      "in": {
+        "code": 496221,
+        "name": "Wharton",
+        "team": "CRY",
+        "position": "MID",
+        "price": 5.3,
+        "ev": 4.15
+      },
+      "compare": {
+        "position": "MID",
+        "out_ev": 0.06,
+        "in_ev": 4.15
+      },
+      "net_ev": 4.09
+    }
+  ],
+  "squad_source": "synced",
+  "rotations": []
+}

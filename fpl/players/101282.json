@@ -1,0 +1,90 @@
+{
+  "code": 101282,
+  "name": "Crooks",
+  "position": "MID",
+  "team": "HUL",
+  "price": 4.4,
+  "ev_points": 1.22,
+  "horizon_ev": 4.29,
+  "q10_points": 0.0,
+  "q90_points": 2.87,
+  "ev_minutes": 33.2,
+  "p_appearance": 0.555,
+  "p_60_plus": 0.276,
+  "p_clean_sheet": 0.364,
+  "model_version": "20261121T135857Z",
+  "recent": [
+    {
+      "gw": 10,
+      "opp": "ARS",
+      "home": false,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 9,
+      "opp": "IPS",
+      "home": true,
+      "minutes": 45,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.01
+    },
+    {
+      "gw": 8,
+      "opp": "BRE",
+      "home": true,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 7,
+      "opp": "FUL",
+      "home": false,
+      "minutes": 67,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 6,
+      "opp": "EVE",
+      "home": true,
+      "minutes": 64,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.01
+    },
+    {
+      "gw": 5,
+      "opp": "NEW",
+      "home": false,
+      "minutes": 45,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.12
+    }
+  ]
+}
