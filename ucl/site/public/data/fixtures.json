@@ -1,6 +1,6 @@
 {
  "schema": 1,
- "generatedAt": "2026-11-22T20:46:47.609957+00:00",
+ "generatedAt": "2026-11-23T03:39:04.172387+00:00",
  "season": "2026-27",
  "tour": 90,
  "matchday": 5,
@@ -17,20 +17,24 @@
  "subsAllowed": 2,
  "checklist": [
   "MD5 spans 2 days (2026-11-24, 2026-11-25) \u2014 up to 2 manual subs allowed.",
-  "Captain K. Mbapp\u00e9 (Tue). If he scores 8 or fewer, switch the armband to H. Kane before Wed's kick-offs \u2014 the switch is one-way.",
+  "Captain K. Mbapp\u00e9 (Tue). If he scores 7 or fewer, switch the armband to L. Yamal before Wed's kick-offs \u2014 the switch is one-way.",
   "After day 1, reassess: move the armband to an unstarted player if your captain blanked. Top-5000 do this 44.6% of the time; average 6.1%.",
   "Sub out anyone who did not play, before the next day kicks off.",
   "WARNING: any manual change \u2014 a sub, a captain switch, even reordering the bench \u2014 disables auto-subs for this whole matchday, and reverting does not restore them."
  ],
  "lineups": {
-  "sources": [],
+  "sources": [
+   "futbolfantasy",
+   "rotowire",
+   "sportsgambler"
+  ],
   "failed": [],
-  "players": 0,
-  "clubs": 0,
-  "matched": 0,
-  "listed": 0,
-  "matchRate": 0.0,
-  "note": "MD5: no club kicks off within 40h; not fetched"
+  "players": 118,
+  "clubs": 4,
+  "matched": 155,
+  "listed": 164,
+  "matchRate": 0.945,
+  "note": "MD5: 4 clubs kick off within 40h"
  },
  "matchdays": [
   {
