@@ -1,6 +1,6 @@
 {
  "schema": 1,
- "generatedAt": "2026-11-24T23:36:49.084927+00:00",
+ "generatedAt": "2026-11-25T16:33:28.904454+00:00",
  "season": "2026-27",
  "tour": 90,
  "matchday": 6,
@@ -22,7 +22,7 @@
  "subsAllowed": 2,
  "checklist": [
   "MD6 spans 2 days (2026-12-08, 2026-12-09) \u2014 up to 2 manual subs allowed.",
-  "Captain D. Malen (Tue). If he scores 6 or fewer, switch the armband to K. Mbapp\u00e9 before Wed's kick-offs \u2014 the switch is one-way.",
+  "Captain D. Malen (Tue). If he scores 7 or fewer, switch the armband to K. Mbapp\u00e9 before Wed's kick-offs \u2014 the switch is one-way.",
   "After day 1, reassess: move the armband to an unstarted player if your captain blanked. Top-5000 do this 44.6% of the time; average 6.1%.",
   "Sub out anyone who did not play, before the next day kicks off.",
   "WARNING: any manual change \u2014 a sub, a captain switch, even reordering the bench \u2014 disables auto-subs for this whole matchday, and reverting does not restore them."
@@ -37,7 +37,7 @@
   "matchRate": 0.0,
   "note": "MD6: no club kicks off within 40h; not fetched"
  },
- "survivalNote": "2000 simulations; 72 league matches and 0 drawn knockout matches still to play",
+ "survivalNote": "2000 simulations; 63 league matches and 0 drawn knockout matches still to play",
  "teams": [
   {
    "id": 52747,
@@ -47,12 +47,12 @@
    "eliminated": false,
    "elo": 1781,
    "pAlive": {
-    "top8": 0.958,
-    "playoff": 0.043,
-    "r16": 0.988,
-    "qf": 0.729,
-    "sf": 0.48,
-    "final": 0.307
+    "top8": 0.956,
+    "playoff": 0.044,
+    "r16": 0.991,
+    "qf": 0.713,
+    "sf": 0.488,
+    "final": 0.311
    }
   },
   {
@@ -61,14 +61,14 @@
    "name": "Arsenal",
    "pot": 1,
    "eliminated": false,
-   "elo": 1763,
+   "elo": 1757,
    "pAlive": {
-    "top8": 0.79,
-    "playoff": 0.209,
-    "r16": 0.946,
-    "qf": 0.646,
-    "sf": 0.416,
-    "final": 0.257
+    "top8": 0.684,
+    "playoff": 0.316,
+    "r16": 0.92,
+    "qf": 0.611,
+    "sf": 0.374,
+    "final": 0.242
    }
   },
   {
@@ -79,12 +79,12 @@
    "eliminated": false,
    "elo": 1741,
    "pAlive": {
-    "top8": 0.631,
-    "playoff": 0.366,
-    "r16": 0.903,
-    "qf": 0.591,
-    "sf": 0.371,
-    "final": 0.215
+    "top8": 0.61,
+    "playoff": 0.389,
+    "r16": 0.893,
+    "qf": 0.587,
+    "sf": 0.357,
+    "final": 0.222
    }
   },
   {
@@ -93,14 +93,14 @@
    "name": "Real Madrid",
    "pot": 1,
    "eliminated": false,
-   "elo": 1693,
+   "elo": 1705,
    "pAlive": {
-    "top8": 0.91,
-    "playoff": 0.09,
-    "r16": 0.973,
-    "qf": 0.627,
-    "sf": 0.367,
-    "final": 0.188
+    "top8": 0.989,
+    "playoff": 0.011,
+    "r16": 0.995,
+    "qf": 0.645,
+    "sf": 0.35,
+    "final": 0.189
    }
   },
   {
@@ -111,12 +111,12 @@
    "eliminated": false,
    "elo": 1681,
    "pAlive": {
-    "top8": 0.656,
-    "playoff": 0.342,
-    "r16": 0.878,
-    "qf": 0.53,
-    "sf": 0.286,
-    "final": 0.15
+    "top8": 0.636,
+    "playoff": 0.362,
+    "r16": 0.882,
+    "qf": 0.535,
+    "sf": 0.288,
+    "final": 0.141
    }
   },
   {
@@ -125,14 +125,14 @@
    "name": "Real Betis",
    "pot": 2,
    "eliminated": false,
-   "elo": 1638,
+   "elo": 1648,
    "pAlive": {
-    "top8": 0.405,
-    "playoff": 0.59,
-    "r16": 0.764,
-    "qf": 0.407,
-    "sf": 0.206,
-    "final": 0.097
+    "top8": 0.602,
+    "playoff": 0.399,
+    "r16": 0.872,
+    "qf": 0.472,
+    "sf": 0.248,
+    "final": 0.118
    }
   },
   {
@@ -143,12 +143,12 @@
    "eliminated": false,
    "elo": 1629,
    "pAlive": {
-    "top8": 0.541,
-    "playoff": 0.454,
-    "r16": 0.822,
-    "qf": 0.42,
-    "sf": 0.186,
-    "final": 0.085
+    "top8": 0.511,
+    "playoff": 0.484,
+    "r16": 0.811,
+    "qf": 0.446,
+    "sf": 0.224,
+    "final": 0.11
    }
   },
   {
@@ -157,14 +157,14 @@
    "name": "Aston Villa",
    "pot": 2,
    "eliminated": false,
-   "elo": 1629,
+   "elo": 1606,
    "pAlive": {
-    "top8": 0.495,
-    "playoff": 0.498,
-    "r16": 0.806,
-    "qf": 0.415,
-    "sf": 0.208,
-    "final": 0.102
+    "top8": 0.245,
+    "playoff": 0.746,
+    "r16": 0.674,
+    "qf": 0.331,
+    "sf": 0.159,
+    "final": 0.066
    }
   },
   {
@@ -173,14 +173,14 @@
    "name": "Man City",
    "pot": 1,
    "eliminated": false,
-   "elo": 1611,
+   "elo": 1604,
    "pAlive": {
-    "top8": 0.5,
-    "playoff": 0.494,
-    "r16": 0.781,
-    "qf": 0.406,
-    "sf": 0.188,
-    "final": 0.092
+    "top8": 0.365,
+    "playoff": 0.635,
+    "r16": 0.72,
+    "qf": 0.351,
+    "sf": 0.15,
+    "final": 0.057
    }
   },
   {
@@ -191,12 +191,12 @@
    "eliminated": false,
    "elo": 1602,
    "pAlive": {
-    "top8": 0.4,
-    "playoff": 0.591,
-    "r16": 0.741,
-    "qf": 0.38,
-    "sf": 0.168,
-    "final": 0.076
+    "top8": 0.404,
+    "playoff": 0.585,
+    "r16": 0.74,
+    "qf": 0.351,
+    "sf": 0.159,
+    "final": 0.074
    }
   },
   {
@@ -205,14 +205,14 @@
    "name": "B. Dortmund",
    "pot": 2,
    "eliminated": false,
-   "elo": 1592,
+   "elo": 1599,
    "pAlive": {
-    "top8": 0.356,
-    "playoff": 0.631,
-    "r16": 0.709,
-    "qf": 0.333,
-    "sf": 0.143,
-    "final": 0.059
+    "top8": 0.387,
+    "playoff": 0.613,
+    "r16": 0.73,
+    "qf": 0.346,
+    "sf": 0.162,
+    "final": 0.068
    }
   },
   {
@@ -223,12 +223,12 @@
    "eliminated": false,
    "elo": 1590,
    "pAlive": {
-    "top8": 0.15,
-    "playoff": 0.759,
-    "r16": 0.564,
-    "qf": 0.247,
-    "sf": 0.115,
-    "final": 0.046
+    "top8": 0.152,
+    "playoff": 0.757,
+    "r16": 0.559,
+    "qf": 0.253,
+    "sf": 0.119,
+    "final": 0.058
    }
   },
   {
@@ -239,12 +239,12 @@
    "eliminated": false,
    "elo": 1587,
    "pAlive": {
-    "top8": 0.029,
-    "playoff": 0.661,
-    "r16": 0.387,
-    "qf": 0.173,
-    "sf": 0.073,
-    "final": 0.032
+    "top8": 0.023,
+    "playoff": 0.674,
+    "r16": 0.377,
+    "qf": 0.158,
+    "sf": 0.064,
+    "final": 0.028
    }
   },
   {
@@ -255,12 +255,12 @@
    "eliminated": false,
    "elo": 1583,
    "pAlive": {
-    "top8": 0.024,
-    "playoff": 0.615,
-    "r16": 0.349,
-    "qf": 0.152,
-    "sf": 0.064,
-    "final": 0.026
+    "top8": 0.019,
+    "playoff": 0.608,
+    "r16": 0.342,
+    "qf": 0.136,
+    "sf": 0.058,
+    "final": 0.021
    }
   },
   {
@@ -271,12 +271,28 @@
    "eliminated": false,
    "elo": 1569,
    "pAlive": {
-    "top8": 0.436,
-    "playoff": 0.557,
-    "r16": 0.743,
-    "qf": 0.336,
-    "sf": 0.142,
-    "final": 0.061
+    "top8": 0.435,
+    "playoff": 0.555,
+    "r16": 0.736,
+    "qf": 0.344,
+    "sf": 0.151,
+    "final": 0.053
+   }
+  },
+  {
+   "id": 50067,
+   "short": "GAL",
+   "name": "Galatasaray",
+   "pot": 3,
+   "eliminated": false,
+   "elo": 1559,
+   "pAlive": {
+    "top8": 0.151,
+    "playoff": 0.815,
+    "r16": 0.575,
+    "qf": 0.225,
+    "sf": 0.096,
+    "final": 0.036
    }
   },
   {
@@ -285,14 +301,30 @@
    "name": "Bod\u00f8/Glimt",
    "pot": 3,
    "eliminated": false,
-   "elo": 1543,
+   "elo": 1556,
    "pAlive": {
-    "top8": 0.017,
-    "playoff": 0.577,
-    "r16": 0.279,
-    "qf": 0.102,
-    "sf": 0.044,
-    "final": 0.018
+    "top8": 0.041,
+    "playoff": 0.758,
+    "r16": 0.42,
+    "qf": 0.161,
+    "sf": 0.065,
+    "final": 0.022
+   }
+  },
+  {
+   "id": 79946,
+   "short": "COM",
+   "name": "Como",
+   "pot": 4,
+   "eliminated": false,
+   "elo": 1542,
+   "pAlive": {
+    "top8": 0.512,
+    "playoff": 0.487,
+    "r16": 0.768,
+    "qf": 0.335,
+    "sf": 0.137,
+    "final": 0.06
    }
   },
   {
@@ -304,43 +336,11 @@
    "elo": 1538,
    "pAlive": {
     "top8": 0.029,
-    "playoff": 0.642,
-    "r16": 0.338,
+    "playoff": 0.66,
+    "r16": 0.32,
     "qf": 0.122,
     "sf": 0.048,
-    "final": 0.019
-   }
-  },
-  {
-   "id": 50067,
-   "short": "GAL",
-   "name": "Galatasaray",
-   "pot": 3,
-   "eliminated": false,
-   "elo": 1537,
-   "pAlive": {
-    "top8": 0.052,
-    "playoff": 0.755,
-    "r16": 0.419,
-    "qf": 0.165,
-    "sf": 0.067,
-    "final": 0.026
-   }
-  },
-  {
-   "id": 79946,
-   "short": "COM",
-   "name": "Como",
-   "pot": 4,
-   "eliminated": false,
-   "elo": 1531,
-   "pAlive": {
-    "top8": 0.34,
-    "playoff": 0.654,
-    "r16": 0.667,
-    "qf": 0.271,
-    "sf": 0.114,
-    "final": 0.04
+    "final": 0.018
    }
   },
   {
@@ -349,30 +349,14 @@
    "name": "Porto",
    "pot": 2,
    "eliminated": false,
-   "elo": 1512,
+   "elo": 1533,
    "pAlive": {
-    "top8": 0.01,
-    "playoff": 0.453,
-    "r16": 0.209,
-    "qf": 0.076,
-    "sf": 0.023,
-    "final": 0.009
-   }
-  },
-  {
-   "id": 50062,
-   "short": "PSV",
-   "name": "PSV",
-   "pot": 2,
-   "eliminated": false,
-   "elo": 1509,
-   "pAlive": {
-    "top8": 0.014,
-    "playoff": 0.512,
-    "r16": 0.244,
-    "qf": 0.086,
-    "sf": 0.029,
-    "final": 0.012
+    "top8": 0.018,
+    "playoff": 0.737,
+    "r16": 0.364,
+    "qf": 0.136,
+    "sf": 0.052,
+    "final": 0.025
    }
   },
   {
@@ -383,12 +367,28 @@
    "eliminated": false,
    "elo": 1505,
    "pAlive": {
-    "top8": 0.054,
-    "playoff": 0.737,
-    "r16": 0.38,
-    "qf": 0.122,
-    "sf": 0.045,
+    "top8": 0.056,
+    "playoff": 0.73,
+    "r16": 0.371,
+    "qf": 0.137,
+    "sf": 0.051,
     "final": 0.015
+   }
+  },
+  {
+   "id": 50062,
+   "short": "PSV",
+   "name": "PSV",
+   "pot": 2,
+   "eliminated": false,
+   "elo": 1496,
+   "pAlive": {
+    "top8": 0.0,
+    "playoff": 0.322,
+    "r16": 0.127,
+    "qf": 0.043,
+    "sf": 0.019,
+    "final": 0.008
    }
   },
   {
@@ -399,12 +399,12 @@
    "eliminated": false,
    "elo": 1494,
    "pAlive": {
-    "top8": 0.126,
-    "playoff": 0.778,
-    "r16": 0.494,
-    "qf": 0.177,
-    "sf": 0.062,
-    "final": 0.019
+    "top8": 0.139,
+    "playoff": 0.755,
+    "r16": 0.441,
+    "qf": 0.153,
+    "sf": 0.05,
+    "final": 0.018
    }
   },
   {
@@ -416,11 +416,11 @@
    "elo": 1494,
    "pAlive": {
     "top8": 0.0,
-    "playoff": 0.128,
-    "r16": 0.05,
-    "qf": 0.018,
+    "playoff": 0.117,
+    "r16": 0.047,
+    "qf": 0.011,
     "sf": 0.005,
-    "final": 0.002
+    "final": 0.001
    }
   },
   {
@@ -432,59 +432,11 @@
    "elo": 1474,
    "pAlive": {
     "top8": 0.013,
-    "playoff": 0.526,
+    "playoff": 0.516,
     "r16": 0.225,
-    "qf": 0.07,
-    "sf": 0.021,
-    "final": 0.005
-   }
-  },
-  {
-   "id": 52749,
-   "short": "FEY",
-   "name": "Feyenoord",
-   "pot": 3,
-   "eliminated": false,
-   "elo": 1473,
-   "pAlive": {
-    "top8": 0.002,
-    "playoff": 0.369,
-    "r16": 0.157,
-    "qf": 0.046,
-    "sf": 0.015,
-    "final": 0.005
-   }
-  },
-  {
-   "id": 63405,
-   "short": "LASK",
-   "name": "LASK",
-   "pot": 4,
-   "eliminated": false,
-   "elo": 1467,
-   "pAlive": {
-    "top8": 0.042,
-    "playoff": 0.689,
-    "r16": 0.329,
-    "qf": 0.102,
-    "sf": 0.034,
-    "final": 0.011
-   }
-  },
-  {
-   "id": 50136,
-   "short": "NAP",
-   "name": "Napoli",
-   "pot": 3,
-   "eliminated": false,
-   "elo": 1466,
-   "pAlive": {
-    "top8": 0.004,
-    "playoff": 0.353,
-    "r16": 0.146,
-    "qf": 0.041,
-    "sf": 0.014,
-    "final": 0.006
+    "qf": 0.072,
+    "sf": 0.025,
+    "final": 0.008
    }
   },
   {
@@ -493,14 +445,46 @@
    "name": "Leipzig",
    "pot": 3,
    "eliminated": false,
+   "elo": 1473,
+   "pAlive": {
+    "top8": 0.005,
+    "playoff": 0.619,
+    "r16": 0.261,
+    "qf": 0.081,
+    "sf": 0.022,
+    "final": 0.004
+   }
+  },
+  {
+   "id": 50136,
+   "short": "NAP",
+   "name": "Napoli",
+   "pot": 3,
+   "eliminated": false,
+   "elo": 1472,
+   "pAlive": {
+    "top8": 0.0,
+    "playoff": 0.36,
+    "r16": 0.134,
+    "qf": 0.043,
+    "sf": 0.011,
+    "final": 0.003
+   }
+  },
+  {
+   "id": 63405,
+   "short": "LASK",
+   "name": "LASK",
+   "pot": 4,
+   "eliminated": false,
    "elo": 1454,
    "pAlive": {
-    "top8": 0.003,
-    "playoff": 0.363,
-    "r16": 0.138,
-    "qf": 0.042,
-    "sf": 0.011,
-    "final": 0.004
+    "top8": 0.006,
+    "playoff": 0.576,
+    "r16": 0.226,
+    "qf": 0.071,
+    "sf": 0.028,
+    "final": 0.009
    }
   },
   {
@@ -512,26 +496,26 @@
    "elo": 1452,
    "pAlive": {
     "top8": 0.009,
-    "playoff": 0.494,
-    "r16": 0.206,
-    "qf": 0.069,
-    "sf": 0.024,
-    "final": 0.008
+    "playoff": 0.487,
+    "r16": 0.195,
+    "qf": 0.059,
+    "sf": 0.017,
+    "final": 0.006
    }
   },
   {
-   "id": 52277,
-   "short": "LEN",
-   "name": "Lens",
-   "pot": 4,
+   "id": 52749,
+   "short": "FEY",
+   "name": "Feyenoord",
+   "pot": 3,
    "eliminated": false,
-   "elo": 1425,
+   "elo": 1452,
    "pAlive": {
     "top8": 0.0,
-    "playoff": 0.211,
-    "r16": 0.077,
-    "qf": 0.02,
-    "sf": 0.005,
+    "playoff": 0.147,
+    "r16": 0.053,
+    "qf": 0.01,
+    "sf": 0.002,
     "final": 0.001
    }
   },
@@ -543,12 +527,12 @@
    "eliminated": false,
    "elo": 1425,
    "pAlive": {
-    "top8": 0.002,
-    "playoff": 0.369,
-    "r16": 0.137,
-    "qf": 0.033,
-    "sf": 0.005,
-    "final": 0.001
+    "top8": 0.003,
+    "playoff": 0.343,
+    "r16": 0.116,
+    "qf": 0.03,
+    "sf": 0.011,
+    "final": 0.004
    }
   },
   {
@@ -557,14 +541,30 @@
    "name": "AEK Athens",
    "pot": 4,
    "eliminated": false,
-   "elo": 1421,
+   "elo": 1410,
    "pAlive": {
-    "top8": 0.003,
-    "playoff": 0.235,
-    "r16": 0.082,
-    "qf": 0.025,
-    "sf": 0.009,
-    "final": 0.004
+    "top8": 0.0,
+    "playoff": 0.095,
+    "r16": 0.023,
+    "qf": 0.009,
+    "sf": 0.004,
+    "final": 0.0
+   }
+  },
+  {
+   "id": 52277,
+   "short": "LEN",
+   "name": "Lens",
+   "pot": 4,
+   "eliminated": false,
+   "elo": 1406,
+   "pAlive": {
+    "top8": 0.0,
+    "playoff": 0.061,
+    "r16": 0.018,
+    "qf": 0.005,
+    "sf": 0.001,
+    "final": 0.001
    }
   },
   {
@@ -575,12 +575,12 @@
    "eliminated": false,
    "elo": 1406,
    "pAlive": {
-    "top8": 0.001,
-    "playoff": 0.178,
-    "r16": 0.051,
-    "qf": 0.015,
+    "top8": 0.0,
+    "playoff": 0.182,
+    "r16": 0.059,
+    "qf": 0.013,
     "sf": 0.004,
-    "final": 0.001
+    "final": 0.002
    }
   },
   {
@@ -592,11 +592,11 @@
    "elo": 1379,
    "pAlive": {
     "top8": 0.0,
-    "playoff": 0.052,
-    "r16": 0.017,
-    "qf": 0.003,
-    "sf": 0.003,
-    "final": 0.0
+    "playoff": 0.05,
+    "r16": 0.014,
+    "qf": 0.006,
+    "sf": 0.002,
+    "final": 0.001
    }
   },
   {
@@ -605,11 +605,11 @@
    "name": "S. Bratislava",
    "pot": 4,
    "eliminated": false,
-   "elo": 1340,
+   "elo": 1330,
    "pAlive": {
     "top8": 0.0,
-    "playoff": 0.022,
-    "r16": 0.002,
+    "playoff": 0.005,
+    "r16": 0.001,
     "qf": 0.0,
     "sf": 0.0,
     "final": 0.0
