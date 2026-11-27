@@ -92,10 +92,12 @@ def _infer_purchase_prices(
     con: duckdb.DuckDBPyConnection, entry_id: int, squad: set[int]
 ) -> dict[int, int]:
     """Purchase price = the price at the most recent transfer bringing each
-    player in, or (for players never transferred, e.g. from the initial draft)
-    their price at the time our_entry was first synced. Falls back to leaving a
-    code out of the dict if neither is known — callers should default to current
-    price in that case (no gain/loss assumed)."""
+    player in, or (for players never transferred, i.e. from the initial draft)
+    their season-start price. Without the latter a drafted player who had risen
+    was priced to sell at the full current price instead of keeping only half
+    the rise, and the GW12 plan came out £0.2m over budget. Falls back to
+    leaving a code out of the dict if neither is known — callers then default
+    to current price (no gain/loss assumed)."""
     prices: dict[int, int] = {}
     for code in squad:
         row = con.execute(
@@ -103,6 +105,13 @@ def _infer_purchase_prices(
             "ORDER BY gw DESC LIMIT 1",
             [code],
         ).fetchone()
+        if row is None:
+            row = con.execute(
+                "SELECT start_value FROM player_season "
+                "WHERE code = ? AND start_value IS NOT NULL "
+                "ORDER BY season DESC LIMIT 1",
+                [code],
+            ).fetchone()
         if row is not None:
             prices[code] = row[0]
     return prices

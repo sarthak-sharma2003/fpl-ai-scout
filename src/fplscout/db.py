@@ -65,6 +65,9 @@ CREATE TABLE IF NOT EXISTS player_season (
     -- ingest/live_gw.py for the live season only (NULL for vaastav-loaded
     -- seasons) — prices upcoming-GW synthetic feature rows (issue #5)
     value INTEGER,
+    -- price at the start of the season (now_cost - cost_change_start): what a
+    -- player kept from the initial draft was bought for (squad_state.py)
+    start_value INTEGER,
     PRIMARY KEY (season, element_id)
 );
 
@@ -515,6 +518,7 @@ def init_schema(con: duckdb.DuckDBPyConnection) -> None:
     ]:
         con.execute(f"ALTER TABLE players ADD COLUMN IF NOT EXISTS {name} {dtype}")
     con.execute("ALTER TABLE player_season ADD COLUMN IF NOT EXISTS value INTEGER")
+    con.execute("ALTER TABLE player_season ADD COLUMN IF NOT EXISTS start_value INTEGER")
     con.execute("ALTER TABLE our_entry ADD COLUMN IF NOT EXISTS event_transfers_cost INTEGER")
     con.execute("ALTER TABLE recommendations ADD COLUMN IF NOT EXISTS wildcard_gain DOUBLE")
 
