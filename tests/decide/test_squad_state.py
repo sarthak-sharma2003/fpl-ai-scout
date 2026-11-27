@@ -77,6 +77,20 @@ def test_purchase_price_inferred_from_transfer_history(con):
     assert loaded.purchase_prices.get(101) == 62
 
 
+def test_drafted_player_purchase_price_is_the_season_start_price(con):
+    """A player kept from the initial draft never appears in our_transfers.
+    Priced at the current price, a risen one looked like it sold for the full
+    rise and the plan went over budget."""
+    con.execute(
+        "INSERT INTO player_season (season, element_id, code, value, start_value) "
+        "VALUES (?, 1, 201, 62, 60)",
+        [SEASON],
+    )
+    save_state(con, SquadState(entry_id=1, name="Team", bank=0, free_transfers=1,
+                               squad={201}, last_synced_gw=3))
+    assert load_state(con, 1).purchase_prices.get(201) == 60
+
+
 def test_reconcile_no_discrepancy_when_matching():
     state = SquadState(entry_id=1, name="Team", bank=0, free_transfers=1, squad={1, 2, 3})
     assert reconcile(state, {1, 2, 3}) == []

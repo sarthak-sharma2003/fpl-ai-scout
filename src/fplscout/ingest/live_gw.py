@@ -180,6 +180,7 @@ def _sync_player_season(
                 "position": POSITION_MAP[e.element_type],
                 "web_name": e.web_name,
                 "value": e.now_cost,
+                "start_value": e.now_cost - e.cost_change_start,
             }
             for e in bootstrap.elements
             if e.element_type != ASSISTANT_MANAGER_ELEMENT_TYPE
