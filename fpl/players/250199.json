@@ -1,0 +1,95 @@
+{
+  "code": 250199,
+  "name": "Dominguez",
+  "position": "MID",
+  "team": "NFO",
+  "price": 4.8,
+  "ev_points": 0.01,
+  "horizon_ev": 0.22,
+  "q10_points": 0.0,
+  "q90_points": 0.0,
+  "ev_minutes": 0.4,
+  "p_appearance": 0.008,
+  "p_60_plus": 0.002,
+  "p_clean_sheet": 0.297,
+  "model_version": "20261128T150137Z",
+  "flag": {
+    "status": "i",
+    "news": "Muscular injury - Expected back 30 Dec",
+    "chance": 0
+  },
+  "recent": [
+    {
+      "gw": 12,
+      "opp": "CHE",
+      "home": true,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 11,
+      "opp": "BOU",
+      "home": false,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 10,
+      "opp": "MCI",
+      "home": true,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 9,
+      "opp": "BRE",
+      "home": false,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 8,
+      "opp": "IPS",
+      "home": false,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 7,
+      "opp": "ARS",
+      "home": true,
+      "minutes": 73,
+      "points": 3,
+      "goals": 0,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 0.01
+    }
+  ]
+}

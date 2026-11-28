@@ -1,0 +1,90 @@
+{
+  "code": 76357,
+  "name": "Cairney",
+  "position": "MID",
+  "team": "FUL",
+  "price": 4.9,
+  "ev_points": 0.97,
+  "horizon_ev": 4.09,
+  "q10_points": 0.0,
+  "q90_points": 1.81,
+  "ev_minutes": 25.6,
+  "p_appearance": 0.627,
+  "p_60_plus": 0.114,
+  "p_clean_sheet": 0.242,
+  "model_version": "20261128T150137Z",
+  "recent": [
+    {
+      "gw": 11,
+      "opp": "MCI",
+      "home": false,
+      "minutes": 7,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 10,
+      "opp": "NEW",
+      "home": true,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 9,
+      "opp": "AVL",
+      "home": false,
+      "minutes": 15,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.07
+    },
+    {
+      "gw": 8,
+      "opp": "COV",
+      "home": false,
+      "minutes": 9,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 7,
+      "opp": "HUL",
+      "home": true,
+      "minutes": 12,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.03
+    },
+    {
+      "gw": 6,
+      "opp": "IPS",
+      "home": false,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    }
+  ]
+}

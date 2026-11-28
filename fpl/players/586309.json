@@ -1,0 +1,91 @@
+{
+  "code": 586309,
+  "name": "Barry",
+  "position": "FWD",
+  "team": "EVE",
+  "price": 5.7,
+  "ev_points": 4.33,
+  "horizon_ev": 18.95,
+  "q10_points": 1.0,
+  "q90_points": 9.32,
+  "ev_minutes": 82.8,
+  "p_appearance": 0.973,
+  "p_60_plus": 0.893,
+  "p_clean_sheet": 0.219,
+  "model_version": "20261128T150137Z",
+  "pk": true,
+  "recent": [
+    {
+      "gw": 11,
+      "opp": "BRE",
+      "home": false,
+      "minutes": 68,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.12
+    },
+    {
+      "gw": 10,
+      "opp": "COV",
+      "home": true,
+      "minutes": 90,
+      "points": 16,
+      "goals": 2,
+      "assists": 1,
+      "cs": 0,
+      "bonus": 3,
+      "xgi": 1.02
+    },
+    {
+      "gw": 9,
+      "opp": "NEW",
+      "home": false,
+      "minutes": 79,
+      "points": 9,
+      "goals": 1,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 3,
+      "xgi": 1.5
+    },
+    {
+      "gw": 8,
+      "opp": "ARS",
+      "home": false,
+      "minutes": 90,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.39
+    },
+    {
+      "gw": 7,
+      "opp": "CHE",
+      "home": true,
+      "minutes": 90,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.3
+    },
+    {
+      "gw": 6,
+      "opp": "HUL",
+      "home": false,
+      "minutes": 85,
+      "points": 6,
+      "goals": 1,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.91
+    }
+  ]
+}

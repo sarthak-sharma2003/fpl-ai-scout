@@ -1,0 +1,90 @@
+{
+  "code": 200617,
+  "name": "James",
+  "position": "MID",
+  "team": "LEE",
+  "price": 4.9,
+  "ev_points": 0.74,
+  "horizon_ev": 3.58,
+  "q10_points": 0.0,
+  "q90_points": 1.76,
+  "ev_minutes": 23.1,
+  "p_appearance": 0.483,
+  "p_60_plus": 0.143,
+  "p_clean_sheet": 0.126,
+  "model_version": "20261128T150137Z",
+  "recent": [
+    {
+      "gw": 11,
+      "opp": "CHE",
+      "home": false,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 10,
+      "opp": "TOT",
+      "home": true,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 9,
+      "opp": "BOU",
+      "home": false,
+      "minutes": 64,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.03
+    },
+    {
+      "gw": 8,
+      "opp": "SUN",
+      "home": false,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 7,
+      "opp": "MUN",
+      "home": true,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 6,
+      "opp": "ARS",
+      "home": false,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    }
+  ]
+}

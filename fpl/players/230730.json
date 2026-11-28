@@ -1,0 +1,90 @@
+{
+  "code": 230730,
+  "name": "Thomas-Asante",
+  "position": "FWD",
+  "team": "COV",
+  "price": 5.0,
+  "ev_points": 2.61,
+  "horizon_ev": 9.98,
+  "q10_points": 1.0,
+  "q90_points": 6.45,
+  "ev_minutes": 43.3,
+  "p_appearance": 0.888,
+  "p_60_plus": 0.277,
+  "p_clean_sheet": 0.239,
+  "model_version": "20261128T150137Z",
+  "recent": [
+    {
+      "gw": 11,
+      "opp": "CRY",
+      "home": true,
+      "minutes": 20,
+      "points": 4,
+      "goals": 0,
+      "assists": 1,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.69
+    },
+    {
+      "gw": 10,
+      "opp": "EVE",
+      "home": false,
+      "minutes": 17,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.04
+    },
+    {
+      "gw": 9,
+      "opp": "SUN",
+      "home": true,
+      "minutes": 18,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.01
+    },
+    {
+      "gw": 8,
+      "opp": "FUL",
+      "home": true,
+      "minutes": 66,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 0.15
+    },
+    {
+      "gw": 7,
+      "opp": "TOT",
+      "home": false,
+      "minutes": 77,
+      "points": 5,
+      "goals": 0,
+      "assists": 1,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.09
+    },
+    {
+      "gw": 6,
+      "opp": "NEW",
+      "home": true,
+      "minutes": 90,
+      "points": 5,
+      "goals": 0,
+      "assists": 1,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.03
+    }
+  ]
+}

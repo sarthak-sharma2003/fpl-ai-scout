@@ -1,0 +1,90 @@
+{
+  "code": 244858,
+  "name": "Carvalho",
+  "position": "MID",
+  "team": "BRE",
+  "price": 5.0,
+  "ev_points": 1.22,
+  "horizon_ev": 5.72,
+  "q10_points": 0.0,
+  "q90_points": 1.61,
+  "ev_minutes": 27.7,
+  "p_appearance": 0.787,
+  "p_60_plus": 0.069,
+  "p_clean_sheet": 0.206,
+  "model_version": "20261128T150137Z",
+  "recent": [
+    {
+      "gw": 11,
+      "opp": "EVE",
+      "home": true,
+      "minutes": 9,
+      "points": 6,
+      "goals": 1,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.82
+    },
+    {
+      "gw": 10,
+      "opp": "BHA",
+      "home": false,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 9,
+      "opp": "NFO",
+      "home": true,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 8,
+      "opp": "HUL",
+      "home": false,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 7,
+      "opp": "LIV",
+      "home": true,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 6,
+      "opp": "AVL",
+      "home": false,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    }
+  ]
+}

@@ -1,0 +1,90 @@
+{
+  "code": 432720,
+  "name": "Trafford",
+  "position": "GKP",
+  "team": "LEE",
+  "price": 5.1,
+  "ev_points": 3.09,
+  "horizon_ev": 17.05,
+  "q10_points": 0.0,
+  "q90_points": 5.03,
+  "ev_minutes": 87.5,
+  "p_appearance": 0.976,
+  "p_60_plus": 0.97,
+  "p_clean_sheet": 0.126,
+  "model_version": "20261128T150137Z",
+  "recent": [
+    {
+      "gw": 11,
+      "opp": "CHE",
+      "home": false,
+      "minutes": 90,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 10,
+      "opp": "TOT",
+      "home": true,
+      "minutes": 90,
+      "points": 10,
+      "goals": 0,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 3,
+      "xgi": 0.0
+    },
+    {
+      "gw": 9,
+      "opp": "BOU",
+      "home": false,
+      "minutes": 90,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 8,
+      "opp": "SUN",
+      "home": false,
+      "minutes": 90,
+      "points": 10,
+      "goals": 0,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 3,
+      "xgi": 0.01
+    },
+    {
+      "gw": 7,
+      "opp": "MUN",
+      "home": true,
+      "minutes": 90,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 6,
+      "opp": "ARS",
+      "home": false,
+      "minutes": 90,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.01
+    }
+  ]
+}

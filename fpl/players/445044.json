@@ -1,0 +1,90 @@
+{
+  "code": 445044,
+  "name": "Kulusevski",
+  "position": "MID",
+  "team": "TOT",
+  "price": 6.5,
+  "ev_points": 1.07,
+  "horizon_ev": 4.26,
+  "q10_points": 0.0,
+  "q90_points": 3.29,
+  "ev_minutes": 25.7,
+  "p_appearance": 0.617,
+  "p_60_plus": 0.119,
+  "p_clean_sheet": 0.309,
+  "model_version": "20261128T150137Z",
+  "recent": [
+    {
+      "gw": 11,
+      "opp": "IPS",
+      "home": true,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 10,
+      "opp": "LEE",
+      "home": false,
+      "minutes": 25,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.02
+    },
+    {
+      "gw": 9,
+      "opp": "CRY",
+      "home": true,
+      "minutes": 13,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.04
+    },
+    {
+      "gw": 8,
+      "opp": "CHE",
+      "home": false,
+      "minutes": 1,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.02
+    },
+    {
+      "gw": 7,
+      "opp": "COV",
+      "home": true,
+      "minutes": 3,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 6,
+      "opp": "MUN",
+      "home": false,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    }
+  ]
+}

@@ -1,0 +1,95 @@
+{
+  "code": 88894,
+  "name": "Barkley",
+  "position": "MID",
+  "team": "AVL",
+  "price": 4.9,
+  "ev_points": 1.69,
+  "horizon_ev": 7.28,
+  "q10_points": 0.0,
+  "q90_points": 4.1,
+  "ev_minutes": 37.4,
+  "p_appearance": 0.841,
+  "p_60_plus": 0.204,
+  "p_clean_sheet": 0.371,
+  "model_version": "20261128T150137Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Galatasaray",
+    "days_ago": 3.9
+  },
+  "recent": [
+    {
+      "gw": 11,
+      "opp": "SUN",
+      "home": true,
+      "minutes": 17,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.06
+    },
+    {
+      "gw": 10,
+      "opp": "MUN",
+      "home": false,
+      "minutes": 19,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.1
+    },
+    {
+      "gw": 9,
+      "opp": "FUL",
+      "home": true,
+      "minutes": 11,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.02
+    },
+    {
+      "gw": 8,
+      "opp": "MCI",
+      "home": true,
+      "minutes": 24,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 7,
+      "opp": "NEW",
+      "home": false,
+      "minutes": 18,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.15
+    },
+    {
+      "gw": 6,
+      "opp": "BRE",
+      "home": true,
+      "minutes": 4,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.01
+    }
+  ]
+}

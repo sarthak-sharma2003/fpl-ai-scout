@@ -1,0 +1,90 @@
+{
+  "code": 456512,
+  "name": "Ndoye",
+  "position": "MID",
+  "team": "NFO",
+  "price": 5.5,
+  "ev_points": 1.94,
+  "horizon_ev": 8.46,
+  "q10_points": 0.0,
+  "q90_points": 4.43,
+  "ev_minutes": 43.8,
+  "p_appearance": 0.84,
+  "p_60_plus": 0.309,
+  "p_clean_sheet": 0.297,
+  "model_version": "20261128T150137Z",
+  "recent": [
+    {
+      "gw": 12,
+      "opp": "CHE",
+      "home": true,
+      "minutes": 18,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 11,
+      "opp": "BOU",
+      "home": false,
+      "minutes": 45,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.03
+    },
+    {
+      "gw": 10,
+      "opp": "MCI",
+      "home": true,
+      "minutes": 25,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.02
+    },
+    {
+      "gw": 9,
+      "opp": "BRE",
+      "home": false,
+      "minutes": 64,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.04
+    },
+    {
+      "gw": 8,
+      "opp": "IPS",
+      "home": false,
+      "minutes": 68,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.59
+    },
+    {
+      "gw": 7,
+      "opp": "ARS",
+      "home": true,
+      "minutes": 72,
+      "points": 3,
+      "goals": 0,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 0.13
+    }
+  ]
+}

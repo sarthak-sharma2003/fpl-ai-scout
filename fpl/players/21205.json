@@ -1,0 +1,95 @@
+{
+  "code": 21205,
+  "name": "Heaton",
+  "position": "GKP",
+  "team": "MUN",
+  "price": 4.0,
+  "ev_points": 0.07,
+  "horizon_ev": 0.18,
+  "q10_points": 0.0,
+  "q90_points": 0.7,
+  "ev_minutes": 2.1,
+  "p_appearance": 0.027,
+  "p_60_plus": 0.021,
+  "p_clean_sheet": 0.158,
+  "model_version": "20261128T150137Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Sporting CP",
+    "days_ago": 2.8
+  },
+  "recent": [
+    {
+      "gw": 11,
+      "opp": "LIV",
+      "home": false,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 10,
+      "opp": "AVL",
+      "home": true,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 9,
+      "opp": "CHE",
+      "home": false,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 8,
+      "opp": "BOU",
+      "home": true,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 7,
+      "opp": "LEE",
+      "home": false,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 6,
+      "opp": "TOT",
+      "home": true,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    }
+  ]
+}

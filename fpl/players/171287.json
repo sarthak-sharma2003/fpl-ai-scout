@@ -1,0 +1,95 @@
+{
+  "code": 171287,
+  "name": "Gomez",
+  "position": "DEF",
+  "team": "LIV",
+  "price": 4.9,
+  "ev_points": 0.74,
+  "horizon_ev": 2.83,
+  "q10_points": 0.0,
+  "q90_points": 1.49,
+  "ev_minutes": 17.2,
+  "p_appearance": 0.392,
+  "p_60_plus": 0.091,
+  "p_clean_sheet": 0.463,
+  "model_version": "20261128T150137Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Club Brugge",
+    "days_ago": 2.8
+  },
+  "recent": [
+    {
+      "gw": 11,
+      "opp": "MUN",
+      "home": true,
+      "minutes": 5,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 10,
+      "opp": "CRY",
+      "home": false,
+      "minutes": 1,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 9,
+      "opp": "ARS",
+      "home": true,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 8,
+      "opp": "BHA",
+      "home": true,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 7,
+      "opp": "BRE",
+      "home": false,
+      "minutes": 11,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 6,
+      "opp": "MCI",
+      "home": true,
+      "minutes": 2,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    }
+  ]
+}

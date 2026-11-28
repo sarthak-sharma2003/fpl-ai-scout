@@ -1,0 +1,90 @@
+{
+  "code": 513545,
+  "name": "M.Sangar\u00e9",
+  "position": "MID",
+  "team": "BRE",
+  "price": 5.3,
+  "ev_points": 1.77,
+  "horizon_ev": 8.72,
+  "q10_points": 0.0,
+  "q90_points": 3.69,
+  "ev_minutes": 45.3,
+  "p_appearance": 0.808,
+  "p_60_plus": 0.35,
+  "p_clean_sheet": 0.206,
+  "model_version": "20261128T150137Z",
+  "recent": [
+    {
+      "gw": 11,
+      "opp": "EVE",
+      "home": true,
+      "minutes": 8,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.03
+    },
+    {
+      "gw": 10,
+      "opp": "BHA",
+      "home": false,
+      "minutes": 58,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 9,
+      "opp": "NFO",
+      "home": true,
+      "minutes": 61,
+      "points": 3,
+      "goals": 0,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 0.08
+    },
+    {
+      "gw": 8,
+      "opp": "HUL",
+      "home": false,
+      "minutes": 90,
+      "points": 4,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.05
+    },
+    {
+      "gw": 7,
+      "opp": "LIV",
+      "home": true,
+      "minutes": 45,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.04
+    },
+    {
+      "gw": 6,
+      "opp": "AVL",
+      "home": false,
+      "minutes": 38,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.03
+    }
+  ]
+}

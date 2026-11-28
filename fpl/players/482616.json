@@ -1,0 +1,95 @@
+{
+  "code": 482616,
+  "name": "Barcola",
+  "position": "MID",
+  "team": "LIV",
+  "price": 8.1,
+  "ev_points": 4.44,
+  "horizon_ev": 19.54,
+  "q10_points": 1.0,
+  "q90_points": 9.37,
+  "ev_minutes": 72.9,
+  "p_appearance": 0.945,
+  "p_60_plus": 0.743,
+  "p_clean_sheet": 0.463,
+  "model_version": "20261128T150137Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Club Brugge",
+    "days_ago": 2.8
+  },
+  "recent": [
+    {
+      "gw": 11,
+      "opp": "MUN",
+      "home": true,
+      "minutes": 71,
+      "points": 5,
+      "goals": 0,
+      "assists": 1,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 1.3
+    },
+    {
+      "gw": 10,
+      "opp": "CRY",
+      "home": false,
+      "minutes": 68,
+      "points": 5,
+      "goals": 0,
+      "assists": 1,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 0.49
+    },
+    {
+      "gw": 9,
+      "opp": "ARS",
+      "home": true,
+      "minutes": 90,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.21
+    },
+    {
+      "gw": 8,
+      "opp": "BHA",
+      "home": true,
+      "minutes": 76,
+      "points": 6,
+      "goals": 0,
+      "assists": 1,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 0.44
+    },
+    {
+      "gw": 7,
+      "opp": "BRE",
+      "home": false,
+      "minutes": 90,
+      "points": 4,
+      "goals": 0,
+      "assists": 1,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.72
+    },
+    {
+      "gw": 6,
+      "opp": "MCI",
+      "home": true,
+      "minutes": 87,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.07
+    }
+  ]
+}

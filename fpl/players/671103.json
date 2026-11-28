@@ -1,0 +1,47 @@
+{
+  "code": 671103,
+  "name": "Ciss\u00e9",
+  "position": "DEF",
+  "team": "AVL",
+  "price": 4.5,
+  "ev_points": 0.16,
+  "horizon_ev": 0.7,
+  "q10_points": 0.0,
+  "q90_points": 0.47,
+  "ev_minutes": 3.9,
+  "p_appearance": 0.077,
+  "p_60_plus": 0.026,
+  "p_clean_sheet": 0.371,
+  "model_version": "20261128T150137Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Galatasaray",
+    "days_ago": 3.9
+  },
+  "recent": [
+    {
+      "gw": 11,
+      "opp": "SUN",
+      "home": true,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 10,
+      "opp": "MUN",
+      "home": false,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    }
+  ]
+}

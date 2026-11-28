@@ -1,0 +1,95 @@
+{
+  "code": 578153,
+  "name": "Khusanov",
+  "position": "DEF",
+  "team": "MCI",
+  "price": 5.3,
+  "ev_points": 3.3,
+  "horizon_ev": 15.06,
+  "q10_points": 0.0,
+  "q90_points": 7.66,
+  "ev_minutes": 79.3,
+  "p_appearance": 0.936,
+  "p_60_plus": 0.854,
+  "p_clean_sheet": 0.422,
+  "model_version": "20261128T150137Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Napoli",
+    "days_ago": 3.8
+  },
+  "recent": [
+    {
+      "gw": 11,
+      "opp": "FUL",
+      "home": true,
+      "minutes": 90,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.01
+    },
+    {
+      "gw": 10,
+      "opp": "NFO",
+      "home": false,
+      "minutes": 90,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.19
+    },
+    {
+      "gw": 9,
+      "opp": "BHA",
+      "home": true,
+      "minutes": 90,
+      "points": 4,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.08
+    },
+    {
+      "gw": 8,
+      "opp": "AVL",
+      "home": false,
+      "minutes": 90,
+      "points": 3,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.08
+    },
+    {
+      "gw": 7,
+      "opp": "IPS",
+      "home": true,
+      "minutes": 14,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 6,
+      "opp": "LIV",
+      "home": false,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    }
+  ]
+}

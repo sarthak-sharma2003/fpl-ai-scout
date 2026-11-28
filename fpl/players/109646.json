@@ -1,0 +1,95 @@
+{
+  "code": 109646,
+  "name": "Tosin",
+  "position": "DEF",
+  "team": "TOT",
+  "price": 4.3,
+  "ev_points": 0.32,
+  "horizon_ev": 1.41,
+  "q10_points": 0.0,
+  "q90_points": 0.64,
+  "ev_minutes": 9.7,
+  "p_appearance": 0.206,
+  "p_60_plus": 0.06,
+  "p_clean_sheet": 0.309,
+  "model_version": "20261128T150137Z",
+  "flag": {
+    "status": "d",
+    "news": "Calf injury - 75% chance of playing",
+    "chance": 75
+  },
+  "recent": [
+    {
+      "gw": 11,
+      "opp": "IPS",
+      "home": true,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 10,
+      "opp": "LEE",
+      "home": false,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 9,
+      "opp": "CRY",
+      "home": true,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 8,
+      "opp": "CHE",
+      "home": false,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 7,
+      "opp": "COV",
+      "home": true,
+      "minutes": 70,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.02
+    },
+    {
+      "gw": 6,
+      "opp": "MUN",
+      "home": false,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    }
+  ]
+}

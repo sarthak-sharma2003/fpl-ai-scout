@@ -1,0 +1,100 @@
+{
+  "code": 551499,
+  "name": "Munoz",
+  "position": "MID",
+  "team": "LIV",
+  "price": 6.5,
+  "ev_points": 1.6,
+  "horizon_ev": 9.18,
+  "q10_points": 0.0,
+  "q90_points": 3.73,
+  "ev_minutes": 27.4,
+  "p_appearance": 0.628,
+  "p_60_plus": 0.142,
+  "p_clean_sheet": 0.463,
+  "model_version": "20261128T150137Z",
+  "flag": {
+    "status": "d",
+    "news": "Knee injury - 75% chance of playing",
+    "chance": 75
+  },
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Club Brugge",
+    "days_ago": 2.8
+  },
+  "recent": [
+    {
+      "gw": 11,
+      "opp": "MUN",
+      "home": true,
+      "minutes": 18,
+      "points": 6,
+      "goals": 1,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.6
+    },
+    {
+      "gw": 10,
+      "opp": "CRY",
+      "home": false,
+      "minutes": 21,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.08
+    },
+    {
+      "gw": 9,
+      "opp": "ARS",
+      "home": true,
+      "minutes": 9,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.02
+    },
+    {
+      "gw": 8,
+      "opp": "BHA",
+      "home": true,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 7,
+      "opp": "BRE",
+      "home": false,
+      "minutes": 78,
+      "points": 9,
+      "goals": 1,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 2,
+      "xgi": 0.21
+    },
+    {
+      "gw": 6,
+      "opp": "MCI",
+      "home": true,
+      "minutes": 90,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.06
+    }
+  ]
+}

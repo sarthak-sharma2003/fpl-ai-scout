@@ -1,0 +1,90 @@
+{
+  "code": 106611,
+  "name": "Keane",
+  "position": "DEF",
+  "team": "EVE",
+  "price": 4.7,
+  "ev_points": 1.62,
+  "horizon_ev": 8.14,
+  "q10_points": 0.0,
+  "q90_points": 5.6,
+  "ev_minutes": 42.0,
+  "p_appearance": 0.701,
+  "p_60_plus": 0.35,
+  "p_clean_sheet": 0.219,
+  "model_version": "20261128T150137Z",
+  "recent": [
+    {
+      "gw": 11,
+      "opp": "BRE",
+      "home": false,
+      "minutes": 21,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 10,
+      "opp": "COV",
+      "home": true,
+      "minutes": 1,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 9,
+      "opp": "NEW",
+      "home": false,
+      "minutes": 8,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 8,
+      "opp": "ARS",
+      "home": false,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 7,
+      "opp": "CHE",
+      "home": true,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 6,
+      "opp": "HUL",
+      "home": false,
+      "minutes": 90,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.02
+    }
+  ]
+}

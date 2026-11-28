@@ -1,0 +1,90 @@
+{
+  "code": 247632,
+  "name": "Neto",
+  "position": "MID",
+  "team": "CHE",
+  "price": 6.6,
+  "ev_points": 4.41,
+  "horizon_ev": 18.89,
+  "q10_points": 1.0,
+  "q90_points": 9.66,
+  "ev_minutes": 78.7,
+  "p_appearance": 0.955,
+  "p_60_plus": 0.833,
+  "p_clean_sheet": 0.322,
+  "model_version": "20261128T150137Z",
+  "recent": [
+    {
+      "gw": 12,
+      "opp": "NFO",
+      "home": false,
+      "minutes": 90,
+      "points": 9,
+      "goals": 0,
+      "assists": 2,
+      "cs": 0,
+      "bonus": 2,
+      "xgi": 0.35
+    },
+    {
+      "gw": 11,
+      "opp": "LEE",
+      "home": true,
+      "minutes": 26,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.11
+    },
+    {
+      "gw": 10,
+      "opp": "SUN",
+      "home": false,
+      "minutes": 61,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.05
+    },
+    {
+      "gw": 9,
+      "opp": "MUN",
+      "home": true,
+      "minutes": 86,
+      "points": 3,
+      "goals": 0,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 0.47
+    },
+    {
+      "gw": 8,
+      "opp": "TOT",
+      "home": true,
+      "minutes": 87,
+      "points": 3,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.21
+    },
+    {
+      "gw": 7,
+      "opp": "EVE",
+      "home": false,
+      "minutes": 90,
+      "points": 15,
+      "goals": 2,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 3,
+      "xgi": 0.61
+    }
+  ]
+}

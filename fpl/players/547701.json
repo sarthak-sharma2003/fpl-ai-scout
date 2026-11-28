@@ -1,0 +1,90 @@
+{
+  "code": 547701,
+  "name": "Gray",
+  "position": "MID",
+  "team": "TOT",
+  "price": 4.9,
+  "ev_points": 2.1,
+  "horizon_ev": 9.62,
+  "q10_points": 0.0,
+  "q90_points": 5.2,
+  "ev_minutes": 57.6,
+  "p_appearance": 0.875,
+  "p_60_plus": 0.522,
+  "p_clean_sheet": 0.309,
+  "model_version": "20261128T150137Z",
+  "recent": [
+    {
+      "gw": 11,
+      "opp": "IPS",
+      "home": true,
+      "minutes": 1,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 10,
+      "opp": "LEE",
+      "home": false,
+      "minutes": 90,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.09
+    },
+    {
+      "gw": 9,
+      "opp": "CRY",
+      "home": true,
+      "minutes": 45,
+      "points": 5,
+      "goals": 1,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.2
+    },
+    {
+      "gw": 8,
+      "opp": "CHE",
+      "home": false,
+      "minutes": 90,
+      "points": 3,
+      "goals": 0,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 7,
+      "opp": "COV",
+      "home": true,
+      "minutes": 90,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.11
+    },
+    {
+      "gw": 6,
+      "opp": "MUN",
+      "home": false,
+      "minutes": 90,
+      "points": 3,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.04
+    }
+  ]
+}

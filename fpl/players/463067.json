@@ -1,0 +1,95 @@
+{
+  "code": 463067,
+  "name": "Georginio",
+  "position": "FWD",
+  "team": "BHA",
+  "price": 5.2,
+  "ev_points": 1.59,
+  "horizon_ev": 7.49,
+  "q10_points": 0.0,
+  "q90_points": 4.52,
+  "ev_minutes": 46.3,
+  "p_appearance": 0.879,
+  "p_60_plus": 0.332,
+  "p_clean_sheet": 0.234,
+  "model_version": "20261128T150137Z",
+  "european_fatigue": {
+    "competition": "UECL",
+    "opponent": "Universitatea Craiova",
+    "days_ago": 1.9
+  },
+  "recent": [
+    {
+      "gw": 11,
+      "opp": "HUL",
+      "home": false,
+      "minutes": 66,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 0.45
+    },
+    {
+      "gw": 10,
+      "opp": "BRE",
+      "home": true,
+      "minutes": 8,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 9,
+      "opp": "MCI",
+      "home": false,
+      "minutes": 6,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.12
+    },
+    {
+      "gw": 8,
+      "opp": "LIV",
+      "home": false,
+      "minutes": 15,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.24
+    },
+    {
+      "gw": 7,
+      "opp": "CRY",
+      "home": true,
+      "minutes": 19,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.04
+    },
+    {
+      "gw": 6,
+      "opp": "SUN",
+      "home": false,
+      "minutes": 2,
+      "points": 4,
+      "goals": 0,
+      "assists": 1,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.15
+    }
+  ]
+}

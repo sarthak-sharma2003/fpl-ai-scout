@@ -1,0 +1,90 @@
+{
+  "code": 114283,
+  "name": "Grealish",
+  "position": "MID",
+  "team": "EVE",
+  "price": 6.5,
+  "ev_points": 1.93,
+  "horizon_ev": 7.72,
+  "q10_points": 0.0,
+  "q90_points": 6.04,
+  "ev_minutes": 49.7,
+  "p_appearance": 0.787,
+  "p_60_plus": 0.434,
+  "p_clean_sheet": 0.219,
+  "model_version": "20261128T150137Z",
+  "recent": [
+    {
+      "gw": 11,
+      "opp": "BRE",
+      "home": false,
+      "minutes": 45,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 10,
+      "opp": "COV",
+      "home": true,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 9,
+      "opp": "NEW",
+      "home": false,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 8,
+      "opp": "ARS",
+      "home": false,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 7,
+      "opp": "CHE",
+      "home": true,
+      "minutes": 84,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.19
+    },
+    {
+      "gw": 6,
+      "opp": "HUL",
+      "home": false,
+      "minutes": 85,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.27
+    }
+  ]
+}

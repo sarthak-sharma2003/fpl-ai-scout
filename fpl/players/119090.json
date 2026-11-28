@@ -1,0 +1,95 @@
+{
+  "code": 119090,
+  "name": "Goretzka",
+  "position": "MID",
+  "team": "AVL",
+  "price": 5.9,
+  "ev_points": 2.49,
+  "horizon_ev": 11.75,
+  "q10_points": 1.0,
+  "q90_points": 6.01,
+  "ev_minutes": 65.4,
+  "p_appearance": 0.942,
+  "p_60_plus": 0.619,
+  "p_clean_sheet": 0.371,
+  "model_version": "20261128T150137Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Galatasaray",
+    "days_ago": 3.9
+  },
+  "recent": [
+    {
+      "gw": 11,
+      "opp": "SUN",
+      "home": true,
+      "minutes": 72,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 0.24
+    },
+    {
+      "gw": 10,
+      "opp": "MUN",
+      "home": false,
+      "minutes": 77,
+      "points": 7,
+      "goals": 1,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.4
+    },
+    {
+      "gw": 9,
+      "opp": "FUL",
+      "home": true,
+      "minutes": 65,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.13
+    },
+    {
+      "gw": 8,
+      "opp": "MCI",
+      "home": true,
+      "minutes": 8,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 7,
+      "opp": "NEW",
+      "home": false,
+      "minutes": 18,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.08
+    },
+    {
+      "gw": 6,
+      "opp": "BRE",
+      "home": true,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    }
+  ]
+}

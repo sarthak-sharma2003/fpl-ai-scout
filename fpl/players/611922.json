@@ -1,0 +1,95 @@
+{
+  "code": 611922,
+  "name": "Ngumoha",
+  "position": "MID",
+  "team": "LIV",
+  "price": 5.7,
+  "ev_points": 2.91,
+  "horizon_ev": 12.61,
+  "q10_points": 1.0,
+  "q90_points": 8.22,
+  "ev_minutes": 55.6,
+  "p_appearance": 0.93,
+  "p_60_plus": 0.462,
+  "p_clean_sheet": 0.463,
+  "model_version": "20261128T150137Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Club Brugge",
+    "days_ago": 2.8
+  },
+  "recent": [
+    {
+      "gw": 11,
+      "opp": "MUN",
+      "home": true,
+      "minutes": 77,
+      "points": 13,
+      "goals": 1,
+      "assists": 1,
+      "cs": 1,
+      "bonus": 2,
+      "xgi": 1.76
+    },
+    {
+      "gw": 10,
+      "opp": "CRY",
+      "home": false,
+      "minutes": 14,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.03
+    },
+    {
+      "gw": 9,
+      "opp": "ARS",
+      "home": true,
+      "minutes": 23,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.17
+    },
+    {
+      "gw": 8,
+      "opp": "BHA",
+      "home": true,
+      "minutes": 13,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 7,
+      "opp": "BRE",
+      "home": false,
+      "minutes": 38,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.1
+    },
+    {
+      "gw": 6,
+      "opp": "MCI",
+      "home": true,
+      "minutes": 15,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    }
+  ]
+}

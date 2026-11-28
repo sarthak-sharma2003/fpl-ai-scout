@@ -1,0 +1,95 @@
+{
+  "code": 647850,
+  "name": "Kostoulas",
+  "position": "FWD",
+  "team": "BHA",
+  "price": 5.7,
+  "ev_points": 2.12,
+  "horizon_ev": 12.32,
+  "q10_points": 1.0,
+  "q90_points": 6.16,
+  "ev_minutes": 58.8,
+  "p_appearance": 0.91,
+  "p_60_plus": 0.525,
+  "p_clean_sheet": 0.234,
+  "model_version": "20261128T150137Z",
+  "european_fatigue": {
+    "competition": "UECL",
+    "opponent": "Universitatea Craiova",
+    "days_ago": 1.9
+  },
+  "recent": [
+    {
+      "gw": 11,
+      "opp": "HUL",
+      "home": false,
+      "minutes": 23,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.31
+    },
+    {
+      "gw": 10,
+      "opp": "BRE",
+      "home": true,
+      "minutes": 81,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 0.29
+    },
+    {
+      "gw": 9,
+      "opp": "MCI",
+      "home": false,
+      "minutes": 71,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 0.02
+    },
+    {
+      "gw": 8,
+      "opp": "LIV",
+      "home": false,
+      "minutes": 90,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.55
+    },
+    {
+      "gw": 7,
+      "opp": "CRY",
+      "home": true,
+      "minutes": 70,
+      "points": 12,
+      "goals": 1,
+      "assists": 1,
+      "cs": 1,
+      "bonus": 3,
+      "xgi": 0.52
+    },
+    {
+      "gw": 6,
+      "opp": "SUN",
+      "home": false,
+      "minutes": 59,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.02
+    }
+  ]
+}

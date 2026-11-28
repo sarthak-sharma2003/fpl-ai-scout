@@ -1,0 +1,95 @@
+{
+  "code": 439509,
+  "name": "Tzolis",
+  "position": "MID",
+  "team": "ARS",
+  "price": 6.1,
+  "ev_points": 2.36,
+  "horizon_ev": 11.95,
+  "q10_points": 0.0,
+  "q90_points": 4.73,
+  "ev_minutes": 58.8,
+  "p_appearance": 0.894,
+  "p_60_plus": 0.533,
+  "p_clean_sheet": 0.381,
+  "model_version": "20261128T150137Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Borussia Dortmund",
+    "days_ago": 3.8
+  },
+  "recent": [
+    {
+      "gw": 11,
+      "opp": "NEW",
+      "home": false,
+      "minutes": 20,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.01
+    },
+    {
+      "gw": 10,
+      "opp": "HUL",
+      "home": true,
+      "minutes": 68,
+      "points": 3,
+      "goals": 0,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 0.28
+    },
+    {
+      "gw": 9,
+      "opp": "LIV",
+      "home": false,
+      "minutes": 83,
+      "points": 3,
+      "goals": 0,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 0.32
+    },
+    {
+      "gw": 8,
+      "opp": "EVE",
+      "home": true,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 7,
+      "opp": "NFO",
+      "home": false,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 6,
+      "opp": "LEE",
+      "home": true,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    }
+  ]
+}

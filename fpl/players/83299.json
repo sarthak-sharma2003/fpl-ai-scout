@@ -1,0 +1,95 @@
+{
+  "code": 83299,
+  "name": "Dunk",
+  "position": "DEF",
+  "team": "BHA",
+  "price": 4.5,
+  "ev_points": 3.26,
+  "horizon_ev": 16.56,
+  "q10_points": 0.0,
+  "q90_points": 5.96,
+  "ev_minutes": 82.6,
+  "p_appearance": 0.952,
+  "p_60_plus": 0.901,
+  "p_clean_sheet": 0.234,
+  "model_version": "20261128T150137Z",
+  "european_fatigue": {
+    "competition": "UECL",
+    "opponent": "Universitatea Craiova",
+    "days_ago": 1.9
+  },
+  "recent": [
+    {
+      "gw": 11,
+      "opp": "HUL",
+      "home": false,
+      "minutes": 90,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.06
+    },
+    {
+      "gw": 10,
+      "opp": "BRE",
+      "home": true,
+      "minutes": 90,
+      "points": 5,
+      "goals": 0,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 0.06
+    },
+    {
+      "gw": 9,
+      "opp": "MCI",
+      "home": false,
+      "minutes": 90,
+      "points": 6,
+      "goals": 0,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 8,
+      "opp": "LIV",
+      "home": false,
+      "minutes": 90,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.01
+    },
+    {
+      "gw": 7,
+      "opp": "CRY",
+      "home": true,
+      "minutes": 89,
+      "points": 6,
+      "goals": 0,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 0.01
+    },
+    {
+      "gw": 6,
+      "opp": "SUN",
+      "home": false,
+      "minutes": 30,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    }
+  ]
+}

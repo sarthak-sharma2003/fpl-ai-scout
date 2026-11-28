@@ -1,0 +1,95 @@
+{
+  "code": 208706,
+  "name": "Bruno G.",
+  "position": "MID",
+  "team": "ARS",
+  "price": 6.7,
+  "ev_points": 2.63,
+  "horizon_ev": 13.56,
+  "q10_points": 1.0,
+  "q90_points": 5.43,
+  "ev_minutes": 66.2,
+  "p_appearance": 0.949,
+  "p_60_plus": 0.629,
+  "p_clean_sheet": 0.381,
+  "model_version": "20261128T150137Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Borussia Dortmund",
+    "days_ago": 3.8
+  },
+  "recent": [
+    {
+      "gw": 11,
+      "opp": "NEW",
+      "home": false,
+      "minutes": 69,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.44
+    },
+    {
+      "gw": 10,
+      "opp": "HUL",
+      "home": true,
+      "minutes": 88,
+      "points": 3,
+      "goals": 0,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 0.17
+    },
+    {
+      "gw": 9,
+      "opp": "LIV",
+      "home": false,
+      "minutes": 61,
+      "points": 3,
+      "goals": 0,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 0.1
+    },
+    {
+      "gw": 8,
+      "opp": "EVE",
+      "home": true,
+      "minutes": 22,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.02
+    },
+    {
+      "gw": 7,
+      "opp": "NFO",
+      "home": false,
+      "minutes": 65,
+      "points": 3,
+      "goals": 0,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 0.02
+    },
+    {
+      "gw": 6,
+      "opp": "LEE",
+      "home": true,
+      "minutes": 27,
+      "points": 9,
+      "goals": 1,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 3,
+      "xgi": 0.17
+    }
+  ]
+}

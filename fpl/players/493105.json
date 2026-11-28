@@ -1,0 +1,95 @@
+{
+  "code": 493105,
+  "name": "Garnacho",
+  "position": "MID",
+  "team": "AVL",
+  "price": 5.6,
+  "ev_points": 0.71,
+  "horizon_ev": 3.25,
+  "q10_points": 0.0,
+  "q90_points": 1.03,
+  "ev_minutes": 14.3,
+  "p_appearance": 0.391,
+  "p_60_plus": 0.042,
+  "p_clean_sheet": 0.371,
+  "model_version": "20261128T150137Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Galatasaray",
+    "days_ago": 3.9
+  },
+  "recent": [
+    {
+      "gw": 11,
+      "opp": "SUN",
+      "home": true,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 10,
+      "opp": "MUN",
+      "home": false,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 9,
+      "opp": "FUL",
+      "home": true,
+      "minutes": 3,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.14
+    },
+    {
+      "gw": 8,
+      "opp": "MCI",
+      "home": true,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 7,
+      "opp": "NEW",
+      "home": false,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 6,
+      "opp": "BRE",
+      "home": true,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    }
+  ]
+}

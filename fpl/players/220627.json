@@ -1,0 +1,90 @@
+{
+  "code": 220627,
+  "name": "Justin",
+  "position": "DEF",
+  "team": "LEE",
+  "price": 4.6,
+  "ev_points": 2.37,
+  "horizon_ev": 15.85,
+  "q10_points": 0.0,
+  "q90_points": 4.22,
+  "ev_minutes": 82.4,
+  "p_appearance": 0.972,
+  "p_60_plus": 0.888,
+  "p_clean_sheet": 0.126,
+  "model_version": "20261128T150137Z",
+  "recent": [
+    {
+      "gw": 11,
+      "opp": "CHE",
+      "home": false,
+      "minutes": 90,
+      "points": 4,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.09
+    },
+    {
+      "gw": 10,
+      "opp": "TOT",
+      "home": true,
+      "minutes": 90,
+      "points": 9,
+      "goals": 0,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 1,
+      "xgi": 0.11
+    },
+    {
+      "gw": 9,
+      "opp": "BOU",
+      "home": false,
+      "minutes": 83,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.58
+    },
+    {
+      "gw": 8,
+      "opp": "SUN",
+      "home": false,
+      "minutes": 90,
+      "points": 6,
+      "goals": 0,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 0.05
+    },
+    {
+      "gw": 7,
+      "opp": "MUN",
+      "home": true,
+      "minutes": 90,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.09
+    },
+    {
+      "gw": 6,
+      "opp": "ARS",
+      "home": false,
+      "minutes": 78,
+      "points": 6,
+      "goals": 1,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.19
+    }
+  ]
+}

@@ -1,0 +1,95 @@
+{
+  "code": 171314,
+  "name": "R\u00faben",
+  "position": "DEF",
+  "team": "MCI",
+  "price": 5.5,
+  "ev_points": 3.85,
+  "horizon_ev": 17.87,
+  "q10_points": 0.0,
+  "q90_points": 7.48,
+  "ev_minutes": 84.1,
+  "p_appearance": 0.968,
+  "p_60_plus": 0.917,
+  "p_clean_sheet": 0.422,
+  "model_version": "20261128T150137Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Napoli",
+    "days_ago": 3.8
+  },
+  "recent": [
+    {
+      "gw": 11,
+      "opp": "FUL",
+      "home": true,
+      "minutes": 90,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.42
+    },
+    {
+      "gw": 10,
+      "opp": "NFO",
+      "home": false,
+      "minutes": 90,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.02
+    },
+    {
+      "gw": 9,
+      "opp": "BHA",
+      "home": true,
+      "minutes": 90,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.02
+    },
+    {
+      "gw": 8,
+      "opp": "AVL",
+      "home": false,
+      "minutes": 90,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.02
+    },
+    {
+      "gw": 7,
+      "opp": "IPS",
+      "home": true,
+      "minutes": 90,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.31
+    },
+    {
+      "gw": 6,
+      "opp": "LIV",
+      "home": false,
+      "minutes": 90,
+      "points": 6,
+      "goals": 0,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 0.01
+    }
+  ]
+}

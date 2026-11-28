@@ -1,0 +1,95 @@
+{
+  "code": 209400,
+  "name": "Kamada",
+  "position": "MID",
+  "team": "CRY",
+  "price": 5.0,
+  "ev_points": 2.89,
+  "horizon_ev": 14.14,
+  "q10_points": 1.0,
+  "q90_points": 5.34,
+  "ev_minutes": 82.1,
+  "p_appearance": 0.972,
+  "p_60_plus": 0.882,
+  "p_clean_sheet": 0.134,
+  "model_version": "20261128T150137Z",
+  "european_fatigue": {
+    "competition": "UEL",
+    "opponent": "Real Sociedad",
+    "days_ago": 1.8
+  },
+  "recent": [
+    {
+      "gw": 11,
+      "opp": "COV",
+      "home": false,
+      "minutes": 90,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.19
+    },
+    {
+      "gw": 10,
+      "opp": "LIV",
+      "home": true,
+      "minutes": 90,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.41
+    },
+    {
+      "gw": 9,
+      "opp": "TOT",
+      "home": false,
+      "minutes": 87,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.19
+    },
+    {
+      "gw": 8,
+      "opp": "NEW",
+      "home": true,
+      "minutes": 90,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.11
+    },
+    {
+      "gw": 7,
+      "opp": "BHA",
+      "home": false,
+      "minutes": 80,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.01
+    },
+    {
+      "gw": 6,
+      "opp": "NFO",
+      "home": true,
+      "minutes": 89,
+      "points": 8,
+      "goals": 1,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 1,
+      "xgi": 0.38
+    }
+  ]
+}

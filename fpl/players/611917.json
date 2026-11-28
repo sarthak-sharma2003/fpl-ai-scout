@@ -1,0 +1,90 @@
+{
+  "code": 611917,
+  "name": "Williams-Barnett",
+  "position": "MID",
+  "team": "TOT",
+  "price": 4.4,
+  "ev_points": 1.61,
+  "horizon_ev": 7.03,
+  "q10_points": 0.0,
+  "q90_points": 5.38,
+  "ev_minutes": 40.9,
+  "p_appearance": 0.864,
+  "p_60_plus": 0.25,
+  "p_clean_sheet": 0.309,
+  "model_version": "20261128T150137Z",
+  "recent": [
+    {
+      "gw": 11,
+      "opp": "IPS",
+      "home": true,
+      "minutes": 63,
+      "points": 13,
+      "goals": 1,
+      "assists": 1,
+      "cs": 1,
+      "bonus": 3,
+      "xgi": 0.83
+    },
+    {
+      "gw": 10,
+      "opp": "LEE",
+      "home": false,
+      "minutes": 7,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.08
+    },
+    {
+      "gw": 9,
+      "opp": "CRY",
+      "home": true,
+      "minutes": 2,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.34
+    },
+    {
+      "gw": 8,
+      "opp": "CHE",
+      "home": false,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 7,
+      "opp": "COV",
+      "home": true,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 6,
+      "opp": "MUN",
+      "home": false,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    }
+  ]
+}

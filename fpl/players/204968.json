@@ -1,0 +1,90 @@
+{
+  "code": 204968,
+  "name": "Yates",
+  "position": "MID",
+  "team": "NFO",
+  "price": 4.3,
+  "ev_points": 1.35,
+  "horizon_ev": 5.86,
+  "q10_points": 0.0,
+  "q90_points": 2.77,
+  "ev_minutes": 38.2,
+  "p_appearance": 0.769,
+  "p_60_plus": 0.252,
+  "p_clean_sheet": 0.297,
+  "model_version": "20261128T150137Z",
+  "recent": [
+    {
+      "gw": 12,
+      "opp": "CHE",
+      "home": true,
+      "minutes": 1,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 11,
+      "opp": "BOU",
+      "home": false,
+      "minutes": 45,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.01
+    },
+    {
+      "gw": 10,
+      "opp": "MCI",
+      "home": true,
+      "minutes": 78,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.02
+    },
+    {
+      "gw": 9,
+      "opp": "BRE",
+      "home": false,
+      "minutes": 45,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.29
+    },
+    {
+      "gw": 8,
+      "opp": "IPS",
+      "home": false,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 7,
+      "opp": "ARS",
+      "home": true,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    }
+  ]
+}

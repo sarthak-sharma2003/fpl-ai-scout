@@ -1,0 +1,95 @@
+{
+  "code": 638987,
+  "name": "Mbaye",
+  "position": "MID",
+  "team": "AVL",
+  "price": 6.0,
+  "ev_points": 1.73,
+  "horizon_ev": 8.1,
+  "q10_points": 0.0,
+  "q90_points": 3.61,
+  "ev_minutes": 38.5,
+  "p_appearance": 0.849,
+  "p_60_plus": 0.217,
+  "p_clean_sheet": 0.371,
+  "model_version": "20261128T150137Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Galatasaray",
+    "days_ago": 3.9
+  },
+  "recent": [
+    {
+      "gw": 11,
+      "opp": "SUN",
+      "home": true,
+      "minutes": 30,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.08
+    },
+    {
+      "gw": 10,
+      "opp": "MUN",
+      "home": false,
+      "minutes": 12,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.09
+    },
+    {
+      "gw": 9,
+      "opp": "FUL",
+      "home": true,
+      "minutes": 24,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.01
+    },
+    {
+      "gw": 8,
+      "opp": "MCI",
+      "home": true,
+      "minutes": 31,
+      "points": 4,
+      "goals": 0,
+      "assists": 1,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.04
+    },
+    {
+      "gw": 7,
+      "opp": "NEW",
+      "home": false,
+      "minutes": 18,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.33
+    },
+    {
+      "gw": 6,
+      "opp": "BRE",
+      "home": true,
+      "minutes": 26,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.11
+    }
+  ]
+}

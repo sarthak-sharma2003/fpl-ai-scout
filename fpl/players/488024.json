@@ -1,0 +1,100 @@
+{
+  "code": 488024,
+  "name": "Yeremy",
+  "position": "MID",
+  "team": "CRY",
+  "price": 5.5,
+  "ev_points": 0.06,
+  "horizon_ev": 10.96,
+  "q10_points": 0.0,
+  "q90_points": 0.0,
+  "ev_minutes": 1.8,
+  "p_appearance": 0.028,
+  "p_60_plus": 0.016,
+  "p_clean_sheet": 0.134,
+  "model_version": "20261128T150137Z",
+  "flag": {
+    "status": "s",
+    "news": "Suspended until 2 Dec",
+    "chance": 0
+  },
+  "european_fatigue": {
+    "competition": "UEL",
+    "opponent": "Real Sociedad",
+    "days_ago": 1.8
+  },
+  "recent": [
+    {
+      "gw": 11,
+      "opp": "COV",
+      "home": false,
+      "minutes": 78,
+      "points": 12,
+      "goals": 1,
+      "assists": 1,
+      "cs": 0,
+      "bonus": 3,
+      "xgi": 0.84
+    },
+    {
+      "gw": 10,
+      "opp": "LIV",
+      "home": true,
+      "minutes": 86,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.83
+    },
+    {
+      "gw": 9,
+      "opp": "TOT",
+      "home": false,
+      "minutes": 59,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 8,
+      "opp": "NEW",
+      "home": true,
+      "minutes": 90,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.3
+    },
+    {
+      "gw": 7,
+      "opp": "BHA",
+      "home": false,
+      "minutes": 60,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.05
+    },
+    {
+      "gw": 6,
+      "opp": "NFO",
+      "home": true,
+      "minutes": 82,
+      "points": 9,
+      "goals": 1,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 3,
+      "xgi": 0.52
+    }
+  ]
+}

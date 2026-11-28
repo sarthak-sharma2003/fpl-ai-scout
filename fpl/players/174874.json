@@ -1,0 +1,95 @@
+{
+  "code": 174874,
+  "name": "Andersen",
+  "position": "DEF",
+  "team": "FUL",
+  "price": 5.0,
+  "ev_points": 0.02,
+  "horizon_ev": 1.32,
+  "q10_points": 0.0,
+  "q90_points": 0.0,
+  "ev_minutes": 0.5,
+  "p_appearance": 0.01,
+  "p_60_plus": 0.003,
+  "p_clean_sheet": 0.242,
+  "model_version": "20261128T150137Z",
+  "flag": {
+    "status": "i",
+    "news": "Unspecified injury - Unknown return date",
+    "chance": 0
+  },
+  "recent": [
+    {
+      "gw": 11,
+      "opp": "MCI",
+      "home": false,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 10,
+      "opp": "NEW",
+      "home": true,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 9,
+      "opp": "AVL",
+      "home": false,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 8,
+      "opp": "COV",
+      "home": false,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 7,
+      "opp": "HUL",
+      "home": true,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 6,
+      "opp": "IPS",
+      "home": false,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    }
+  ]
+}

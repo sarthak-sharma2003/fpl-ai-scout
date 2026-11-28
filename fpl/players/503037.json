@@ -1,0 +1,90 @@
+{
+  "code": 503037,
+  "name": "Emegha",
+  "position": "FWD",
+  "team": "CHE",
+  "price": 4.9,
+  "ev_points": 3.42,
+  "horizon_ev": 15.35,
+  "q10_points": 1.0,
+  "q90_points": 10.21,
+  "ev_minutes": 66.1,
+  "p_appearance": 0.932,
+  "p_60_plus": 0.636,
+  "p_clean_sheet": 0.322,
+  "model_version": "20261128T150137Z",
+  "recent": [
+    {
+      "gw": 12,
+      "opp": "NFO",
+      "home": false,
+      "minutes": 45,
+      "points": 12,
+      "goals": 2,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 3,
+      "xgi": 0.82
+    },
+    {
+      "gw": 11,
+      "opp": "LEE",
+      "home": true,
+      "minutes": 63,
+      "points": 8,
+      "goals": 1,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 2,
+      "xgi": 0.06
+    },
+    {
+      "gw": 10,
+      "opp": "SUN",
+      "home": false,
+      "minutes": 3,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 9,
+      "opp": "MUN",
+      "home": true,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 8,
+      "opp": "TOT",
+      "home": true,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 7,
+      "opp": "EVE",
+      "home": false,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    }
+  ]
+}

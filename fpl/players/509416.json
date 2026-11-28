@@ -1,0 +1,95 @@
+{
+  "code": 509416,
+  "name": "Ayari",
+  "position": "MID",
+  "team": "BHA",
+  "price": 5.5,
+  "ev_points": 3.1,
+  "horizon_ev": 15.26,
+  "q10_points": 1.0,
+  "q90_points": 7.96,
+  "ev_minutes": 80.7,
+  "p_appearance": 0.976,
+  "p_60_plus": 0.857,
+  "p_clean_sheet": 0.234,
+  "model_version": "20261128T150137Z",
+  "european_fatigue": {
+    "competition": "UECL",
+    "opponent": "Universitatea Craiova",
+    "days_ago": 1.9
+  },
+  "recent": [
+    {
+      "gw": 11,
+      "opp": "HUL",
+      "home": false,
+      "minutes": 66,
+      "points": 3,
+      "goals": 0,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 0.57
+    },
+    {
+      "gw": 10,
+      "opp": "BRE",
+      "home": true,
+      "minutes": 77,
+      "points": 3,
+      "goals": 0,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 0.27
+    },
+    {
+      "gw": 9,
+      "opp": "MCI",
+      "home": false,
+      "minutes": 90,
+      "points": 10,
+      "goals": 1,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 2,
+      "xgi": 0.58
+    },
+    {
+      "gw": 8,
+      "opp": "LIV",
+      "home": false,
+      "minutes": 74,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.35
+    },
+    {
+      "gw": 7,
+      "opp": "CRY",
+      "home": true,
+      "minutes": 80,
+      "points": 13,
+      "goals": 1,
+      "assists": 1,
+      "cs": 1,
+      "bonus": 2,
+      "xgi": 0.33
+    },
+    {
+      "gw": 6,
+      "opp": "SUN",
+      "home": false,
+      "minutes": 87,
+      "points": 3,
+      "goals": 0,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 0.13
+    }
+  ]
+}

@@ -1,0 +1,95 @@
+{
+  "code": 661888,
+  "name": "Yirenkyi",
+  "position": "MID",
+  "team": "COV",
+  "price": 4.7,
+  "ev_points": 1.13,
+  "horizon_ev": 6.37,
+  "q10_points": 0.0,
+  "q90_points": 2.2,
+  "ev_minutes": 30.0,
+  "p_appearance": 0.54,
+  "p_60_plus": 0.231,
+  "p_clean_sheet": 0.239,
+  "model_version": "20261128T150137Z",
+  "flag": {
+    "status": "d",
+    "news": "Unspecified injury - 75% chance of playing",
+    "chance": 75
+  },
+  "recent": [
+    {
+      "gw": 11,
+      "opp": "CRY",
+      "home": true,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 10,
+      "opp": "EVE",
+      "home": false,
+      "minutes": 90,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.02
+    },
+    {
+      "gw": 9,
+      "opp": "SUN",
+      "home": true,
+      "minutes": 90,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.13
+    },
+    {
+      "gw": 8,
+      "opp": "FUL",
+      "home": true,
+      "minutes": 66,
+      "points": 3,
+      "goals": 0,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 7,
+      "opp": "TOT",
+      "home": false,
+      "minutes": 59,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.01
+    },
+    {
+      "gw": 6,
+      "opp": "NEW",
+      "home": true,
+      "minutes": 77,
+      "points": 4,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.01
+    }
+  ]
+}

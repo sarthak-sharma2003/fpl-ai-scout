@@ -1,0 +1,100 @@
+{
+  "code": 441266,
+  "name": "Gravenberch",
+  "position": "MID",
+  "team": "LIV",
+  "price": 5.8,
+  "ev_points": 0.27,
+  "horizon_ev": 2.89,
+  "q10_points": 0.0,
+  "q90_points": 0.27,
+  "ev_minutes": 5.9,
+  "p_appearance": 0.11,
+  "p_60_plus": 0.044,
+  "p_clean_sheet": 0.463,
+  "model_version": "20261128T150137Z",
+  "flag": {
+    "status": "d",
+    "news": "Foot injury - 25% chance of playing",
+    "chance": 25
+  },
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Club Brugge",
+    "days_ago": 2.8
+  },
+  "recent": [
+    {
+      "gw": 11,
+      "opp": "MUN",
+      "home": true,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 10,
+      "opp": "CRY",
+      "home": false,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 9,
+      "opp": "ARS",
+      "home": true,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 8,
+      "opp": "BHA",
+      "home": true,
+      "minutes": 90,
+      "points": 3,
+      "goals": 0,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 0.07
+    },
+    {
+      "gw": 7,
+      "opp": "BRE",
+      "home": false,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 6,
+      "opp": "MCI",
+      "home": true,
+      "minutes": 61,
+      "points": -1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.09
+    }
+  ]
+}

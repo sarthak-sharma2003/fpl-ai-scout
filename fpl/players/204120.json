@@ -1,0 +1,100 @@
+{
+  "code": 204120,
+  "name": "Boscagli",
+  "position": "DEF",
+  "team": "BHA",
+  "price": 4.5,
+  "ev_points": 1.46,
+  "horizon_ev": 11.44,
+  "q10_points": 0.0,
+  "q90_points": 5.25,
+  "ev_minutes": 47.6,
+  "p_appearance": 0.632,
+  "p_60_plus": 0.477,
+  "p_clean_sheet": 0.234,
+  "model_version": "20261128T150137Z",
+  "flag": {
+    "status": "d",
+    "news": "Illness - 75% chance of playing",
+    "chance": 75
+  },
+  "european_fatigue": {
+    "competition": "UECL",
+    "opponent": "Universitatea Craiova",
+    "days_ago": 1.9
+  },
+  "recent": [
+    {
+      "gw": 11,
+      "opp": "HUL",
+      "home": false,
+      "minutes": 66,
+      "points": 7,
+      "goals": 0,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 1,
+      "xgi": 0.35
+    },
+    {
+      "gw": 10,
+      "opp": "BRE",
+      "home": true,
+      "minutes": 90,
+      "points": 5,
+      "goals": 0,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 0.22
+    },
+    {
+      "gw": 9,
+      "opp": "MCI",
+      "home": false,
+      "minutes": 63,
+      "points": 6,
+      "goals": 0,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 8,
+      "opp": "LIV",
+      "home": false,
+      "minutes": 45,
+      "points": -1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.11
+    },
+    {
+      "gw": 7,
+      "opp": "CRY",
+      "home": true,
+      "minutes": 80,
+      "points": 10,
+      "goals": 0,
+      "assists": 1,
+      "cs": 1,
+      "bonus": 1,
+      "xgi": 0.15
+    },
+    {
+      "gw": 6,
+      "opp": "SUN",
+      "home": false,
+      "minutes": 67,
+      "points": 5,
+      "goals": 0,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 0.06
+    }
+  ]
+}

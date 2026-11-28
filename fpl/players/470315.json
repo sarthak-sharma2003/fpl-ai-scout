@@ -1,0 +1,90 @@
+{
+  "code": 470315,
+  "name": "Netz",
+  "position": "DEF",
+  "team": "NFO",
+  "price": 4.4,
+  "ev_points": 0.76,
+  "horizon_ev": 3.41,
+  "q10_points": 0.0,
+  "q90_points": 1.11,
+  "ev_minutes": 20.2,
+  "p_appearance": 0.418,
+  "p_60_plus": 0.127,
+  "p_clean_sheet": 0.297,
+  "model_version": "20261128T150137Z",
+  "recent": [
+    {
+      "gw": 12,
+      "opp": "CHE",
+      "home": true,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 11,
+      "opp": "BOU",
+      "home": false,
+      "minutes": 18,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 10,
+      "opp": "MCI",
+      "home": true,
+      "minutes": 25,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.01
+    },
+    {
+      "gw": 9,
+      "opp": "BRE",
+      "home": false,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 8,
+      "opp": "IPS",
+      "home": false,
+      "minutes": 6,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 7,
+      "opp": "ARS",
+      "home": true,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    }
+  ]
+}

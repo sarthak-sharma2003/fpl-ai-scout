@@ -1,0 +1,90 @@
+{
+  "code": 620109,
+  "name": "Palestra",
+  "position": "DEF",
+  "team": "CHE",
+  "price": 5.3,
+  "ev_points": 2.01,
+  "horizon_ev": 7.13,
+  "q10_points": 0.0,
+  "q90_points": 5.71,
+  "ev_minutes": 39.1,
+  "p_appearance": 0.669,
+  "p_60_plus": 0.316,
+  "p_clean_sheet": 0.322,
+  "model_version": "20261128T150137Z",
+  "recent": [
+    {
+      "gw": 12,
+      "opp": "NFO",
+      "home": false,
+      "minutes": 5,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 11,
+      "opp": "LEE",
+      "home": true,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 10,
+      "opp": "SUN",
+      "home": false,
+      "minutes": 61,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.14
+    },
+    {
+      "gw": 9,
+      "opp": "MUN",
+      "home": true,
+      "minutes": 73,
+      "points": 6,
+      "goals": 0,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 0.01
+    },
+    {
+      "gw": 8,
+      "opp": "TOT",
+      "home": true,
+      "minutes": 25,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 7,
+      "opp": "EVE",
+      "home": false,
+      "minutes": 1,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    }
+  ]
+}

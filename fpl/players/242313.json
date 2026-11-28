@@ -1,0 +1,95 @@
+{
+  "code": 242313,
+  "name": "Mingueza",
+  "position": "DEF",
+  "team": "CRY",
+  "price": 4.2,
+  "ev_points": 1.77,
+  "horizon_ev": 7.43,
+  "q10_points": 0.0,
+  "q90_points": 4.1,
+  "ev_minutes": 52.7,
+  "p_appearance": 0.727,
+  "p_60_plus": 0.515,
+  "p_clean_sheet": 0.134,
+  "model_version": "20261128T150137Z",
+  "european_fatigue": {
+    "competition": "UEL",
+    "opponent": "Real Sociedad",
+    "days_ago": 1.8
+  },
+  "recent": [
+    {
+      "gw": 11,
+      "opp": "COV",
+      "home": false,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 10,
+      "opp": "LIV",
+      "home": true,
+      "minutes": 86,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.11
+    },
+    {
+      "gw": 9,
+      "opp": "TOT",
+      "home": false,
+      "minutes": 59,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 8,
+      "opp": "NEW",
+      "home": true,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 7,
+      "opp": "BHA",
+      "home": false,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 6,
+      "opp": "NFO",
+      "home": true,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    }
+  ]
+}

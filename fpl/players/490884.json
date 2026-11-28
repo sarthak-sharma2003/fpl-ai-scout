@@ -1,0 +1,90 @@
+{
+  "code": 490884,
+  "name": "Cho",
+  "position": "MID",
+  "team": "HUL",
+  "price": 5.0,
+  "ev_points": 2.05,
+  "horizon_ev": 8.92,
+  "q10_points": 0.0,
+  "q90_points": 4.27,
+  "ev_minutes": 48.9,
+  "p_appearance": 0.862,
+  "p_60_plus": 0.384,
+  "p_clean_sheet": 0.454,
+  "model_version": "20261128T150137Z",
+  "recent": [
+    {
+      "gw": 11,
+      "opp": "BHA",
+      "home": true,
+      "minutes": 45,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.08
+    },
+    {
+      "gw": 10,
+      "opp": "ARS",
+      "home": false,
+      "minutes": 59,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.13
+    },
+    {
+      "gw": 9,
+      "opp": "IPS",
+      "home": true,
+      "minutes": 30,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.01
+    },
+    {
+      "gw": 8,
+      "opp": "BRE",
+      "home": true,
+      "minutes": 25,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.44
+    },
+    {
+      "gw": 7,
+      "opp": "FUL",
+      "home": false,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 6,
+      "opp": "EVE",
+      "home": true,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    }
+  ]
+}

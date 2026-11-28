@@ -1,0 +1,90 @@
+{
+  "code": 221466,
+  "name": "Senesi",
+  "position": "DEF",
+  "team": "TOT",
+  "price": 5.7,
+  "ev_points": 2.83,
+  "horizon_ev": 12.04,
+  "q10_points": 0.0,
+  "q90_points": 7.4,
+  "ev_minutes": 63.2,
+  "p_appearance": 0.818,
+  "p_60_plus": 0.644,
+  "p_clean_sheet": 0.309,
+  "model_version": "20261128T150137Z",
+  "recent": [
+    {
+      "gw": 11,
+      "opp": "IPS",
+      "home": true,
+      "minutes": 90,
+      "points": 8,
+      "goals": 0,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 0.05
+    },
+    {
+      "gw": 10,
+      "opp": "LEE",
+      "home": false,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 9,
+      "opp": "CRY",
+      "home": true,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 8,
+      "opp": "CHE",
+      "home": false,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 7,
+      "opp": "COV",
+      "home": true,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 6,
+      "opp": "MUN",
+      "home": false,
+      "minutes": 88,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.05
+    }
+  ]
+}

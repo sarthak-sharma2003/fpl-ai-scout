@@ -1,0 +1,95 @@
+{
+  "code": 450063,
+  "name": "Timber",
+  "position": "MID",
+  "team": "CRY",
+  "price": 5.0,
+  "ev_points": 2.23,
+  "horizon_ev": 9.92,
+  "q10_points": 0.0,
+  "q90_points": 4.22,
+  "ev_minutes": 62.2,
+  "p_appearance": 0.893,
+  "p_60_plus": 0.59,
+  "p_clean_sheet": 0.134,
+  "model_version": "20261128T150137Z",
+  "european_fatigue": {
+    "competition": "UEL",
+    "opponent": "Real Sociedad",
+    "days_ago": 1.8
+  },
+  "recent": [
+    {
+      "gw": 11,
+      "opp": "COV",
+      "home": false,
+      "minutes": 72,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.02
+    },
+    {
+      "gw": 10,
+      "opp": "LIV",
+      "home": true,
+      "minutes": 59,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.13
+    },
+    {
+      "gw": 9,
+      "opp": "TOT",
+      "home": false,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 8,
+      "opp": "NEW",
+      "home": true,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 7,
+      "opp": "BHA",
+      "home": false,
+      "minutes": 45,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 6,
+      "opp": "NFO",
+      "home": true,
+      "minutes": 90,
+      "points": 7,
+      "goals": 0,
+      "assists": 1,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.22
+    }
+  ]
+}

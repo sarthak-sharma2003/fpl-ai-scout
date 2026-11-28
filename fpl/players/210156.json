@@ -1,0 +1,95 @@
+{
+  "code": 210156,
+  "name": "Awoniyi",
+  "position": "FWD",
+  "team": "COV",
+  "price": 5.4,
+  "ev_points": 0.04,
+  "horizon_ev": 7.24,
+  "q10_points": 0.0,
+  "q90_points": 0.0,
+  "ev_minutes": 0.8,
+  "p_appearance": 0.016,
+  "p_60_plus": 0.005,
+  "p_clean_sheet": 0.239,
+  "model_version": "20261128T150137Z",
+  "flag": {
+    "status": "i",
+    "news": "Ankle injury - Unknown return date",
+    "chance": 0
+  },
+  "recent": [
+    {
+      "gw": 11,
+      "opp": "CRY",
+      "home": true,
+      "minutes": 45,
+      "points": 5,
+      "goals": 1,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.96
+    },
+    {
+      "gw": 10,
+      "opp": "EVE",
+      "home": false,
+      "minutes": 86,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.19
+    },
+    {
+      "gw": 9,
+      "opp": "SUN",
+      "home": true,
+      "minutes": 71,
+      "points": 9,
+      "goals": 1,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 3,
+      "xgi": 0.18
+    },
+    {
+      "gw": 8,
+      "opp": "FUL",
+      "home": true,
+      "minutes": 23,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 7,
+      "opp": "TOT",
+      "home": false,
+      "minutes": 30,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.28
+    },
+    {
+      "gw": 6,
+      "opp": "NEW",
+      "home": true,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    }
+  ]
+}

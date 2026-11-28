@@ -1,0 +1,90 @@
+{
+  "code": 435997,
+  "name": "Okafor",
+  "position": "MID",
+  "team": "LEE",
+  "price": 5.8,
+  "ev_points": 2.47,
+  "horizon_ev": 12.91,
+  "q10_points": 1.0,
+  "q90_points": 5.95,
+  "ev_minutes": 63.3,
+  "p_appearance": 0.945,
+  "p_60_plus": 0.582,
+  "p_clean_sheet": 0.126,
+  "model_version": "20261128T150137Z",
+  "recent": [
+    {
+      "gw": 11,
+      "opp": "CHE",
+      "home": false,
+      "minutes": 72,
+      "points": 15,
+      "goals": 2,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 3,
+      "xgi": 0.33
+    },
+    {
+      "gw": 10,
+      "opp": "TOT",
+      "home": true,
+      "minutes": 13,
+      "points": 5,
+      "goals": 1,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.53
+    },
+    {
+      "gw": 9,
+      "opp": "BOU",
+      "home": false,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 8,
+      "opp": "SUN",
+      "home": false,
+      "minutes": 25,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.22
+    },
+    {
+      "gw": 7,
+      "opp": "MUN",
+      "home": true,
+      "minutes": 73,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.03
+    },
+    {
+      "gw": 6,
+      "opp": "ARS",
+      "home": false,
+      "minutes": 70,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.07
+    }
+  ]
+}

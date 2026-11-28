@@ -1,0 +1,95 @@
+{
+  "code": 17761,
+  "name": "Tarkowski",
+  "position": "DEF",
+  "team": "EVE",
+  "price": 6.2,
+  "ev_points": 0.06,
+  "horizon_ev": 7.68,
+  "q10_points": 0.0,
+  "q90_points": 0.0,
+  "ev_minutes": 1.3,
+  "p_appearance": 0.019,
+  "p_60_plus": 0.013,
+  "p_clean_sheet": 0.219,
+  "model_version": "20261128T150137Z",
+  "flag": {
+    "status": "s",
+    "news": "Suspended until 13 Dec",
+    "chance": 0
+  },
+  "recent": [
+    {
+      "gw": 11,
+      "opp": "BRE",
+      "home": false,
+      "minutes": 39,
+      "points": -4,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 10,
+      "opp": "COV",
+      "home": true,
+      "minutes": 90,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 9,
+      "opp": "NEW",
+      "home": false,
+      "minutes": 90,
+      "points": 6,
+      "goals": 0,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 8,
+      "opp": "ARS",
+      "home": false,
+      "minutes": 90,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.01
+    },
+    {
+      "gw": 7,
+      "opp": "CHE",
+      "home": true,
+      "minutes": 90,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.05
+    },
+    {
+      "gw": 6,
+      "opp": "HUL",
+      "home": false,
+      "minutes": 90,
+      "points": 3,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.01
+    }
+  ]
+}

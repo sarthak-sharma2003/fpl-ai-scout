@@ -1,0 +1,90 @@
+{
+  "code": 247348,
+  "name": "Mu\u00f1oz",
+  "position": "DEF",
+  "team": "NFO",
+  "price": 5.2,
+  "ev_points": 2.87,
+  "horizon_ev": 12.07,
+  "q10_points": 0.0,
+  "q90_points": 5.45,
+  "ev_minutes": 68.8,
+  "p_appearance": 0.911,
+  "p_60_plus": 0.691,
+  "p_clean_sheet": 0.297,
+  "model_version": "20261128T150137Z",
+  "recent": [
+    {
+      "gw": 12,
+      "opp": "CHE",
+      "home": true,
+      "minutes": 90,
+      "points": 4,
+      "goals": 0,
+      "assists": 1,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.05
+    },
+    {
+      "gw": 11,
+      "opp": "BOU",
+      "home": false,
+      "minutes": 81,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.05
+    },
+    {
+      "gw": 10,
+      "opp": "MCI",
+      "home": true,
+      "minutes": 64,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.03
+    },
+    {
+      "gw": 9,
+      "opp": "BRE",
+      "home": false,
+      "minutes": 45,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.07
+    },
+    {
+      "gw": 8,
+      "opp": "IPS",
+      "home": false,
+      "minutes": 90,
+      "points": 7,
+      "goals": 0,
+      "assists": 1,
+      "cs": 0,
+      "bonus": 2,
+      "xgi": 0.24
+    },
+    {
+      "gw": 7,
+      "opp": "ARS",
+      "home": true,
+      "minutes": 90,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    }
+  ]
+}

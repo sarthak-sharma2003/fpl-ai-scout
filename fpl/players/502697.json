@@ -1,0 +1,90 @@
+{
+  "code": 502697,
+  "name": "Alcaraz",
+  "position": "MID",
+  "team": "EVE",
+  "price": 4.8,
+  "ev_points": 0.49,
+  "horizon_ev": 2.33,
+  "q10_points": 0.0,
+  "q90_points": 1.14,
+  "ev_minutes": 14.4,
+  "p_appearance": 0.386,
+  "p_60_plus": 0.047,
+  "p_clean_sheet": 0.219,
+  "model_version": "20261128T150137Z",
+  "recent": [
+    {
+      "gw": 11,
+      "opp": "BRE",
+      "home": false,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 10,
+      "opp": "COV",
+      "home": true,
+      "minutes": 1,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 9,
+      "opp": "NEW",
+      "home": false,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 8,
+      "opp": "ARS",
+      "home": false,
+      "minutes": 4,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.06
+    },
+    {
+      "gw": 7,
+      "opp": "CHE",
+      "home": true,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 6,
+      "opp": "HUL",
+      "home": false,
+      "minutes": 4,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.02
+    }
+  ]
+}

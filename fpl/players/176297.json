@@ -1,0 +1,100 @@
+{
+  "code": 176297,
+  "name": "Rashford",
+  "position": "MID",
+  "team": "MUN",
+  "price": 6.8,
+  "ev_points": 0.02,
+  "horizon_ev": 1.97,
+  "q10_points": 0.0,
+  "q90_points": 0.0,
+  "ev_minutes": 0.6,
+  "p_appearance": 0.013,
+  "p_60_plus": 0.004,
+  "p_clean_sheet": 0.158,
+  "model_version": "20261128T150137Z",
+  "flag": {
+    "status": "i",
+    "news": "Hip injury - Unknown return date",
+    "chance": 0
+  },
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Sporting CP",
+    "days_ago": 2.8
+  },
+  "recent": [
+    {
+      "gw": 11,
+      "opp": "LIV",
+      "home": false,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 10,
+      "opp": "AVL",
+      "home": true,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 9,
+      "opp": "CHE",
+      "home": false,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 8,
+      "opp": "BOU",
+      "home": true,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 7,
+      "opp": "LEE",
+      "home": false,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 6,
+      "opp": "TOT",
+      "home": true,
+      "minutes": 1,
+      "points": 1,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    }
+  ]
+}

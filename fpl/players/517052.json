@@ -1,0 +1,95 @@
+{
+  "code": 517052,
+  "name": "N.Jackson",
+  "position": "FWD",
+  "team": "AVL",
+  "price": 7.3,
+  "ev_points": 4.55,
+  "horizon_ev": 19.78,
+  "q10_points": 1.0,
+  "q90_points": 8.1,
+  "ev_minutes": 83.4,
+  "p_appearance": 0.974,
+  "p_60_plus": 0.904,
+  "p_clean_sheet": 0.371,
+  "model_version": "20261128T150137Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Galatasaray",
+    "days_ago": 3.9
+  },
+  "recent": [
+    {
+      "gw": 11,
+      "opp": "SUN",
+      "home": true,
+      "minutes": 72,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 0.33
+    },
+    {
+      "gw": 10,
+      "opp": "MUN",
+      "home": false,
+      "minutes": 85,
+      "points": 11,
+      "goals": 1,
+      "assists": 1,
+      "cs": 0,
+      "bonus": 2,
+      "xgi": 1.32
+    },
+    {
+      "gw": 9,
+      "opp": "FUL",
+      "home": true,
+      "minutes": 90,
+      "points": 9,
+      "goals": 1,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 3,
+      "xgi": 0.34
+    },
+    {
+      "gw": 8,
+      "opp": "MCI",
+      "home": true,
+      "minutes": 81,
+      "points": 13,
+      "goals": 2,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 3,
+      "xgi": 0.39
+    },
+    {
+      "gw": 7,
+      "opp": "NEW",
+      "home": false,
+      "minutes": 90,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 0.48
+    },
+    {
+      "gw": 6,
+      "opp": "BRE",
+      "home": true,
+      "minutes": 90,
+      "points": 9,
+      "goals": 1,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 3,
+      "xgi": 0.55
+    }
+  ]
+}

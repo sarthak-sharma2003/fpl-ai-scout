@@ -1,0 +1,91 @@
+{
+  "code": 177815,
+  "name": "Calvert-Lewin",
+  "position": "FWD",
+  "team": "LEE",
+  "price": 6.1,
+  "ev_points": 3.93,
+  "horizon_ev": 18.58,
+  "q10_points": 1.0,
+  "q90_points": 7.38,
+  "ev_minutes": 85.1,
+  "p_appearance": 0.981,
+  "p_60_plus": 0.929,
+  "p_clean_sheet": 0.126,
+  "model_version": "20261128T150137Z",
+  "pk": true,
+  "recent": [
+    {
+      "gw": 11,
+      "opp": "CHE",
+      "home": false,
+      "minutes": 90,
+      "points": 9,
+      "goals": 1,
+      "assists": 1,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 1.43
+    },
+    {
+      "gw": 10,
+      "opp": "TOT",
+      "home": true,
+      "minutes": 90,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 0.58
+    },
+    {
+      "gw": 9,
+      "opp": "BOU",
+      "home": false,
+      "minutes": 90,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.31
+    },
+    {
+      "gw": 8,
+      "opp": "SUN",
+      "home": false,
+      "minutes": 84,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 0.01
+    },
+    {
+      "gw": 7,
+      "opp": "MUN",
+      "home": true,
+      "minutes": 90,
+      "points": 9,
+      "goals": 1,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 3,
+      "xgi": 0.65
+    },
+    {
+      "gw": 6,
+      "opp": "ARS",
+      "home": false,
+      "minutes": 90,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    }
+  ]
+}

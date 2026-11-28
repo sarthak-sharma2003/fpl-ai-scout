@@ -1,0 +1,95 @@
+{
+  "code": 219168,
+  "name": "Isak",
+  "position": "FWD",
+  "team": "LIV",
+  "price": 9.4,
+  "ev_points": 4.45,
+  "horizon_ev": 20.29,
+  "q10_points": 1.0,
+  "q90_points": 7.97,
+  "ev_minutes": 82.5,
+  "p_appearance": 0.966,
+  "p_60_plus": 0.891,
+  "p_clean_sheet": 0.463,
+  "model_version": "20261128T150137Z",
+  "european_fatigue": {
+    "competition": "UCL",
+    "opponent": "Club Brugge",
+    "days_ago": 2.8
+  },
+  "recent": [
+    {
+      "gw": 11,
+      "opp": "MUN",
+      "home": true,
+      "minutes": 84,
+      "points": 5,
+      "goals": 0,
+      "assists": 1,
+      "cs": 1,
+      "bonus": 0,
+      "xgi": 1.36
+    },
+    {
+      "gw": 10,
+      "opp": "CRY",
+      "home": false,
+      "minutes": 90,
+      "points": 8,
+      "goals": 1,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 2,
+      "xgi": 0.55
+    },
+    {
+      "gw": 9,
+      "opp": "ARS",
+      "home": true,
+      "minutes": 90,
+      "points": 2,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.21
+    },
+    {
+      "gw": 8,
+      "opp": "BHA",
+      "home": true,
+      "minutes": 76,
+      "points": 9,
+      "goals": 1,
+      "assists": 0,
+      "cs": 1,
+      "bonus": 3,
+      "xgi": 0.43
+    },
+    {
+      "gw": 7,
+      "opp": "BRE",
+      "home": false,
+      "minutes": 78,
+      "points": 9,
+      "goals": 1,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 3,
+      "xgi": 0.35
+    },
+    {
+      "gw": 6,
+      "opp": "MCI",
+      "home": true,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    }
+  ]
+}

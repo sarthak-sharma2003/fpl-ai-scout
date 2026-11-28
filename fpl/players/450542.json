@@ -1,0 +1,100 @@
+{
+  "code": 450542,
+  "name": "J.Rak-Sakyi",
+  "position": "MID",
+  "team": "CRY",
+  "price": 4.9,
+  "ev_points": 0.0,
+  "horizon_ev": 0.0,
+  "q10_points": 0.0,
+  "q90_points": 0.0,
+  "ev_minutes": 0.0,
+  "p_appearance": 0.001,
+  "p_60_plus": 0.0,
+  "p_clean_sheet": 0.134,
+  "model_version": "20261128T150137Z",
+  "flag": {
+    "status": "u",
+    "news": "has joined  Kasimpasa on loan for the rest of the seaon.",
+    "chance": 0
+  },
+  "european_fatigue": {
+    "competition": "UEL",
+    "opponent": "Real Sociedad",
+    "days_ago": 1.8
+  },
+  "recent": [
+    {
+      "gw": 11,
+      "opp": "COV",
+      "home": false,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 10,
+      "opp": "LIV",
+      "home": true,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 9,
+      "opp": "TOT",
+      "home": false,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 8,
+      "opp": "NEW",
+      "home": true,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 7,
+      "opp": "BHA",
+      "home": false,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    },
+    {
+      "gw": 6,
+      "opp": "NFO",
+      "home": true,
+      "minutes": 0,
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "cs": 0,
+      "bonus": 0,
+      "xgi": 0.0
+    }
+  ]
+}
